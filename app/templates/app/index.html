@@ -1,0 +1,19 @@
+{% if customers_list %}
+    <h3>Active</h3>
+    <ul>
+    {% for customer in customers_list %}
+        {% if customer.completed == False %}
+        <li><a href="{% url 'app:detail' customer.id %}">{{ customer.first_name }} {{ customer.last_name }}</a></li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+
+    <h3>Inactive</h3>
+    <ul>
+    {% for customer in customers_list %}
+        {% if customer.completed == True %}
+        <li><a href="{% url 'app:detail' customer.id %}">{{ customer.first_name }} {{ customer.last_name }}</a></li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+{% endif %}
