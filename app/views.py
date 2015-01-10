@@ -23,4 +23,4 @@ class CustomerUpdate(UpdateView):
     model = Customer
     fields = ['first_name', 'last_name', 'email', 'service_description', 'price', 'completed', 'date_submitted']
     template_name = "app/edit.html"
-    success_url = "app/" # TODO find out how to insert pk
+    success_url = "/" # TODO find out how to insert pk
