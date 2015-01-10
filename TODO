@@ -1,0 +1,17 @@
+Rice Bikes App TODO list
+========================
+1. Fix url routing error where .com/1/1/3/ will route to detail page for pk=3.
+
+Reason: The routing doesn't currently check for stuff in front of the url
+
+2. Figure out how to do a cancel button in a form.
+
+Question: How to get the pk for a generic view class
+
+3. Integrate Bootstrap 3 to make site mobile-friendly and not like it is from ca. 1985.
+
+Question: How to integrate (crispy-whatever?)
+
+4. Set up email sending.
+
+Question: Send upon completed or as separate action?
