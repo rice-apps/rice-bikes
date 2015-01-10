@@ -1,7 +1,15 @@
-{%  if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<h2>Customer name: {{ customer.first_name }} {{ customer.last_name }}</h2>
 
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Save" />
+<p>Email: {{ customer.email }}</p>
+<p>Service Description: {{ customer.service_description }}</p>
+<p>Price: {{ customer.price }}</p>
+<p>Completed: {{ customer.completed }}</p>
+<p>Date Submitted: {{ customer.date_submitted }}</p>
+
+<form action="{% url 'app:edit' customer.id %}">
+    <input type="submit" value="Edit">
+</form>
+
+<form action="/app/">
+    <input type="submit" value="Back to all">
 </form>
