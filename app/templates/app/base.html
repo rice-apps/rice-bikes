@@ -8,6 +8,14 @@
   </head>
 
   <body>
+    <div>
+        {{ user }}
+        {% if user.is_anonymous %}
+        <a href="{% url 'app:login' %}">login</a>
+        {% else %}
+        <a href="{% url 'app:logout' %}">logout</a>
+        {% endif %}
+    </div>
     {% block content %}
     {% endblock %}
 
