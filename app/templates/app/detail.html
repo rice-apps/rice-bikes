@@ -1,3 +1,7 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+
 <h2>Customer name: {{ customer.first_name }} {{ customer.last_name }}</h2>
 
 <p>Email: {{ customer.email }}</p>
@@ -7,9 +11,8 @@
 <p>Date Submitted: {{ customer.date_submitted }}</p>
 
 <form action="{% url 'app:edit' customer.id %}">
-    <input type="submit" value="Edit">
+    <input class="btn btn-default" type="submit" value="Edit">
+    <a class="btn btn-default" href="{% url 'app:index' %}" role="button">Back to All</a>
 </form>
 
-<form action="/">
-    <input type="submit" value="Back to all">
-</form>
+{% endblock %}

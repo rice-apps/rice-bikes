@@ -1,3 +1,7 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+
 {% if customers_list %}
     <h3>Active</h3>
     <ul>
@@ -17,3 +21,5 @@
     {% endfor %}
     </ul>
 {% endif %}
+
+{% endblock %}
