@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from app.models import Customer
 from django.views.generic.edit import UpdateView
 from django.views.generic import DetailView
@@ -11,7 +11,16 @@ def index(request):
 
 
 def test(request):
-    return HttpResponse("You loaded the test page")
+    return HttpResponse("You've loaded the test page")
+
+
+def send_customer_email(request, customer_id):
+    customer = get_object_or_404(Customer, customer_id)
+    email = customer.email
+    subject_line = "Rice Bikes status update"
+    content = u"%s %s, your bike is available at Rice Bikes. Please come pick it up at your earliest convenience." \
+              % customer.first_name % customer.last_name
+    # TODO send email using send_email or whatever, I can't remember because I'm on a plane if anyone is looking at this
 
 
 class CustomerDetail(DetailView):
@@ -23,4 +32,6 @@ class CustomerUpdate(UpdateView):
     model = Customer
     fields = ['first_name', 'last_name', 'email', 'service_description', 'price', 'completed', 'date_submitted']
     template_name = "app/edit.html"
-    success_url = "/" # TODO find out how to insert pk
+
+    def get_success_url(self):
+        return  u"/%s" % self.kwargs['pk']
