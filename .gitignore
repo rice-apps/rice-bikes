@@ -1,5 +1,13 @@
+# Python compiled files
 *.py[co]
+__pycache__/
+
+# Pycharm IDE stuff
 .idea/
+
+# Django private stuff
 */settings.py
 db.sqlite3
-__pycache__/
+
+# Virtualenv files
+env/
