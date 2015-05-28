@@ -1,0 +1,26 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+
+{%  if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    {{ wizard.management_form }}
+    <table>
+    {% if wizard.form.forms %}
+        {{ wizard.form.management_form }}
+        {% for form in wizard.form.forms %}
+            {{ form }}
+        {% endfor %}
+    {% else %}
+        {{ wizard.form }}
+    {% endif %}
+    </table>
+{#    {{ wizard.form.frame_and_alignment }}#}
+{#    {{ wizard.form.as_p }}#}
+    <input type="submit" value="Save" />
+</form>
+
+
+{% endblock %}
