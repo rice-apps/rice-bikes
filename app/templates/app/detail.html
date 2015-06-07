@@ -2,20 +2,20 @@
 
 {% block content %}
 
-<h2>Customer name: {{ customer.first_name }} {{ customer.last_name }}</h2>
+<h2>Customer name: {{ transaction.first_name }} {{ transaction.last_name }}</h2>
 
-<p>Email: {{ customer.email }}</p>
-<p>Service Description: {{ customer.service_description }}</p>
-<p>Price: {{ customer.price }}</p>
-<p>Completed: {{ customer.completed }}</p>
-<p>Date Submitted: {{ customer.date_submitted }}</p>
+<p>Email: {{ transaction.email }}</p>
+<p>Service Description: {{ transaction.service_description }}</p>
+<p>Price: {{ transaction.price }}</p>
+<p>Completed: {{ transaction.completed }}</p>
+<p>Date Submitted: {{ transaction.date_submitted }}</p>
 
-{#<form action="{% url 'app:edit' customer.id %}">#}
+{#<form action="{% url 'app:edit' transaction.id %}">#}
 {#    <input class="btn btn-default" type="submit" value="Edit">#}
 {#    <a class="btn btn-default" href="{% url 'app:index' %}" role="button">Back to All</a>#}
 {#</form>#}
-<a class="btn btn-default" href="{% url 'app:mark_completed' customer.id %}" role="button">Mark as completed</a>
-<a class="btn btn-default" href="{% url 'app:edit' customer.id %}" role="button">Edit</a>
+<a class="btn btn-default" href="{% url 'app:mark_completed' transaction.id %}" role="button">Mark as completed</a>
+<a class="btn btn-default" href="{% url 'app:edit' transaction.id %}" role="button">Edit</a>
 <a class="btn btn-default" href="{% url 'app:index' %}" role="button">Back to All</a>
 
 {% endblock %}

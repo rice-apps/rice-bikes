@@ -1,36 +1,40 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
-from app.models import Customer
-from django.views.generic.edit import UpdateView
+from django.shortcuts import render, get_object_or_404, render_to_response
+from app.models import Transaction
+from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic import DetailView
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from formtools.wizard.views import SessionWizardView
+from django.contrib.auth import get_user_model
+from app.forms import CustomerForm, RepairsForm
 
+NEW_ORDER_TEMPLATES = {'0': 'app/create_customer.html', '1': 'app/new_repair.html'}
 
 def test(request):
     return HttpResponse("You've loaded the test page")
 
 @login_required
 def index(request):
-    customers_list = Customer.objects.filter(completed=False).order_by('date_submitted')
-    return render(request, 'app/index.html', {'customers_list': customers_list})
+    transactions_list = Transaction.objects.filter(completed=False).order_by('date_submitted')
+    return render(request, 'app/index.html', {'transactions_list': transactions_list})
 
 @login_required
-def mark_as_completed(request, customer_id):
-    customer = get_object_or_404(Customer, pk=customer_id)
-    customer.completed = True
-    customer.save()
-    send_completion_email(customer)
+def mark_as_completed(request, transaction_id):
+    transaction = get_object_or_404(Transaction, pk=transaction_id)
+    transaction.completed = True
+    transaction.save()
+    send_completion_email(transaction)
     return HttpResponseRedirect(reverse('app:index'))
 
 @login_required
-def send_completion_email(customer):
-    email = customer.email
+def send_completion_email(transaction):
+    email = transaction.email
     subject_line = "Rice Bikes status update"
     body = "%s %s, your bike is available at Rice Bikes. Please come pick it up at your earliest convenience." \
-           % (customer.first_name, customer.last_name)
+           % (transaction.first_name, transaction.last_name)
     print(email, subject_line[:5], body[:5])
     email = EmailMessage(subject_line, body, to=[email])
     email.send(fail_silently=False)
@@ -43,13 +47,13 @@ class LoggedInMixin(object):
         return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
 
-class CustomerDetail(LoggedInMixin, DetailView):
-    model = Customer
+class TransactionDetail(LoggedInMixin, DetailView):
+    model = Transaction
     template_name = "app/detail.html"
 
 
-class CustomerUpdate(UpdateView):
-    model = Customer
+class TransactionUpdate(UpdateView):
+    model = Transaction
     fields = ['first_name', 'last_name', 'email', 'service_description', 'price', 'completed', 'date_submitted']
     template_name = "app/edit.html"
 
@@ -61,4 +65,28 @@ class CustomerUpdate(UpdateView):
             url = self.get_success_url()
             return HttpResponseRedirect(url)
         else:
-            return super(CustomerUpdate, self).post(request, *args, **kwargs)
+            return super(TransactionUpdate, self).post(request, *args, **kwargs)
+
+def process(form_data):
+    new_transaction = Transaction(
+        first_name = form_data[0]['first_name'],
+        last_name = form_data[0]['last_name'],
+        email = form_data[0]['email'],
+        affiliation = form_data[0]['affiliation'],
+        price = form_data[1]['price'])
+    new_transaction.save()
+
+class TransactionWizard(SessionWizardView):
+    """
+    wizard view for creating a new transaction in two steps. 
+    """
+
+    def get_template_names(self):
+        return [NEW_ORDER_TEMPLATES[self.steps.current]]
+
+    def done(self, form_list, **kwargs):
+        # form_data is a list of dicts (one for each form in the wizard)
+        form_data = [form.cleaned_data for form in form_list]
+        process(form_data)
+        return render_to_response('app/confirm.html', {'form_data': form_data})
+
