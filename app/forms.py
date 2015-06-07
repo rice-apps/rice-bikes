@@ -28,3 +28,4 @@ class RepairsForm(Form):
         widget=forms.CheckboxSelectMultiple
     )
     price = forms.DecimalField()
+    service_description = forms.CharField(max_length=100)

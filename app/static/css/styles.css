@@ -5,3 +5,7 @@ body {
 #login-info {
     float:right;
 }
+
+.labels {
+    font-weight: bold;
+}

@@ -74,6 +74,10 @@ def process(form_data):
         email = form_data[0]['email'],
         affiliation = form_data[0]['affiliation'],
         price = form_data[1]['price'])
+    new_transaction.service_description = form_data[1]['service_description']
+    new_transaction.handlebars = "handlebar choice: " + form_data[1]['handlebar_choices'][0]
+    new_transaction.brakes = "brakes choice: " + form_data[1]['brakes_choices'][0]
+    new_transaction.frame = "frame choice: " + form_data[1]['frame_and_alignment'][0]
     new_transaction.save()
 
 class TransactionWizard(SessionWizardView):

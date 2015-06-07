@@ -4,11 +4,15 @@
 
 <h2>Customer name: {{ transaction.first_name }} {{ transaction.last_name }}</h2>
 
-<p>Email: {{ transaction.email }}</p>
-<p>Service Description: {{ transaction.service_description }}</p>
-<p>Price: {{ transaction.price }}</p>
-<p>Completed: {{ transaction.completed }}</p>
-<p>Date Submitted: {{ transaction.date_submitted }}</p>
+<p><span class='labels'>Email:</span> {{ transaction.email }}</p>
+<p><span class='labels'>Service Description:</span> {{ transaction.service_description }}</p>
+<p><span class='labels'>Price:</span> {{ transaction.price }}</p>
+<p><span class='labels'>Completed:</span> {{ transaction.completed }}</p>
+<p><span class='labels'>Date Submitted:</span> {{ transaction.date_submitted }}</p>
+<p><span class='labels'>Order details:</span> {{transaction.service_description}}<br>
+                  {{transaction.handlebars}}<br>
+                  {{transaction.brakes}}<br>
+                  {{transaction.frame}}</p>
 
 {#<form action="{% url 'app:edit' transaction.id %}">#}
 {#    <input class="btn btn-default" type="submit" value="Edit">#}
