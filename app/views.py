@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from formtools.wizard.views import SessionWizardView
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from app.forms import CustomerForm, RepairsForm, UserForm
 from django.template import RequestContext
 
@@ -120,6 +120,7 @@ def user_login(request):
 
 
 def user_logout(request):
+    logout(request)
     context = RequestContext(request)
     return render_to_response('registration/logout.html', {}, context)
 
