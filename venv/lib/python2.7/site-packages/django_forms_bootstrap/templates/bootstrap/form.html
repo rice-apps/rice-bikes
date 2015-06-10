@@ -1,0 +1,16 @@
+{% load bootstrap_tags %}
+
+{% if form.non_field_errors %}
+    <div class="bs-callout bs-callout-danger">
+        {% if form_error_title %}
+            <h4>{{ form_error_title }}</h4>
+        {% endif %}
+        {% for error in form.non_field_errors %}
+            {{ error }}<br />
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% for field in form %}
+    {% include "bootstrap/field.html" %}
+{% endfor %}

@@ -1,6 +1,7 @@
 from app.models import Transaction
 from django import forms
 from django.forms import ModelForm, Form
+from django.contrib.auth.models import User
 
 FRAME_AND_ALIGNMENT_CHOICES = [("derailleur", "Align Derailleur Hanger"), ("clean", "Basic Clean"),
                                ("basket", "Install Front Basket")]
@@ -29,3 +30,13 @@ class RepairsForm(Form):
     )
     price = forms.DecimalField()
     service_description = forms.CharField(max_length=100)
+
+class UserForm(ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password')
+
+
+

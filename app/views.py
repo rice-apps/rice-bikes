@@ -8,10 +8,11 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from formtools.wizard.views import SessionWizardView
-from django.contrib.auth import get_user_model
-from app.forms import CustomerForm, RepairsForm
+from django.contrib.auth import authenticate, login
+from app.forms import CustomerForm, RepairsForm, UserForm
+from django.template import RequestContext
 
-NEW_ORDER_TEMPLATES = {'0': 'app/create_customer.html', '1': 'app/new_repair.html'}
+NEW_ORDER_TEMPLATES = {'0': 'app/create_transaction.html', '1': 'app/create_transaction.html'}
 
 def test(request):
     return HttpResponse("You've loaded the test page")
@@ -93,4 +94,44 @@ class TransactionWizard(SessionWizardView):
         form_data = [form.cleaned_data for form in form_list]
         process(form_data)
         return render_to_response('app/confirm.html', {'form_data': form_data})
+
+
+def user_login(request):
+    context = RequestContext(request)
+
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+            if user.is_active:
+                print "Logging in to active account!"
+                login(request, user)
+                return HttpResponseRedirect('/')
+            else:
+                return HttpResponse("Your account is disabled.")
+        else:
+            print "Invalid login credentials: {0}, {1}".format(username, password)
+            return HttpResponse("Invalid login details supplied.")
+    else:
+        return render_to_response('registration/login.html', {}, context)
+
+
+def user_logout(request):
+    context = RequestContext(request)
+    return render_to_response('registration/logout.html', {}, context)
+
+
+
+
+
+
+
+
+
+
+
+
 
