@@ -20,17 +20,24 @@ def test(request):
 @login_required
 def index(request):
     transactions_list = Transaction.objects.filter(completed=False).order_by('date_submitted')
-    return render(request, 'app/index.html', {'transactions_list': transactions_list})
+    return render(request, 'app/index.html', {'transactions_list': transactions_list, 'complete': False})
 
 @login_required
-def mark_as_completed(request, transaction_id):
-    transaction = get_object_or_404(Transaction, pk=transaction_id)
+def history(request):
+    print "here in history!"
+    transactions_list = Transaction.objects.filter(completed=True).order_by('date_submitted')
+    return render(request, 'app/index.html', {'transactions_list': transactions_list, 'complete': True})
+
+
+@login_required
+def mark_as_completed(request, pk):
+    transaction = get_object_or_404(Transaction, pk=pk)
     transaction.completed = True
     transaction.save()
     send_completion_email(transaction)
     return HttpResponseRedirect(reverse('app:index'))
 
-@login_required
+
 def send_completion_email(transaction):
     email = transaction.email
     subject_line = "Rice Bikes status update"

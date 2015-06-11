@@ -2,7 +2,13 @@
 
 {% block content %}
 
+
+{% if complete %}
+<a href="/" class="btn btn-info" role="button" name='newCustomer'>View current transactions</a>
+{% else %}
 <a href="/new" class="btn btn-info" role="button" name='newCustomer'>Create new transaction</a>
+<a href="/history" class="btn btn-info" role="button" name='newCustomer'>View past transactions</a>
+{% endif %}
 
 {% if transactions_list %}
     <h3>Active Customers</h3>
@@ -17,7 +23,6 @@
 
     {% for transaction in transactions_list %}
         <tr>
-        {% if transaction.completed == False %}
             <td>{{ transaction.id }}</td>
             <td><a href="{% url 'app:detail' transaction.id %}">{{ transaction.first_name }} {{ transaction.last_name }}</a></td>
             <td>{{ transaction.email }}</td>
@@ -25,7 +30,6 @@
                 {{ transaction.service_description|slice:":75" }}
                 {% if transaction.service_description|length > 75  %}...{% endif %}
             </td>
-        {% endif %}
         </tr>
     {% endfor %}
     </table>
