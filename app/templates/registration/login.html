@@ -5,12 +5,14 @@
 
 <form id="login_form" method="post" action="/login/">
     {% csrf_token %}
+    <div class="form-group">
     Username: <input type="text" name="username" value="" size="50">
-    <br>
+    </div>
+    <div class="form-group">
     Password: <input type="password" name="password" value="" size="50">
-    <br>
+    </div>
 
-    <input type="submit" value="submit">
+    <button type="submit" class="btn btn-default">Submit</button>
 </form>
 
 {% endblock %}
