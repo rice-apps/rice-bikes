@@ -15,24 +15,17 @@ class CustomerForm(Form):
     affiliation = forms.CharField(max_length=100)
 
 
-class RepairsForm(Form):
-    frame_and_alignment = forms.MultipleChoiceField(
-        choices=FRAME_AND_ALIGNMENT_CHOICES,
-        widget=forms.CheckboxSelectMultiple,
-        required=False
-    )
-    handlebar_choices = forms.MultipleChoiceField(
-        choices=HANDLEBARS_CHOICES,
-        widget=forms.CheckboxSelectMultiple,
-        required=False
-    )
-    brakes_choices = forms.MultipleChoiceField(
-        choices=BRAKES_CHOICES,
-        widget=forms.CheckboxSelectMultiple,
-        required=False
-    )
+class RepairsForm(ModelForm):
+
+    handlebars = forms.BooleanField(required=False)
+    brakes = forms.BooleanField(required=False)
+    frame = forms.BooleanField(required=False)
     price = forms.DecimalField()
     service_description = forms.CharField(max_length=100)
+
+    class Meta:
+        model = Transaction
+        fields = ['handlebars', 'brakes', 'frame', 'price', 'service_description']
 
 class UserForm(ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())

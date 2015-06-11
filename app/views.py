@@ -24,7 +24,6 @@ def index(request):
 
 @login_required
 def history(request):
-    print "here in history!"
     transactions_list = Transaction.objects.filter(completed=True).order_by('date_submitted')
     return render(request, 'app/index.html', {'transactions_list': transactions_list, 'complete': True})
 
@@ -62,18 +61,23 @@ class TransactionDetail(LoggedInMixin, DetailView):
 
 class TransactionUpdate(UpdateView):
     model = Transaction
-    fields = ['first_name', 'last_name', 'email', 'service_description', 'price', 'completed', 'date_submitted']
+    # fields = ['first_name', 'last_name', 'email', 'service_description', 'price', 'completed', 'date_submitted']
     template_name = "app/edit.html"
+    form_class = RepairsForm
 
     def get_success_url(self):
         return u"/%s" % self.kwargs['pk']
 
     def post(self, request, *args, **kwargs):
+        print kwargs
         if "cancel" in request.POST:
             url = self.get_success_url()
             return HttpResponseRedirect(url)
         else:
             return super(TransactionUpdate, self).post(request, *args, **kwargs)
+
+
+
 
 def process(form_data):
     print form_data
@@ -84,10 +88,11 @@ def process(form_data):
         affiliation = form_data[0]['affiliation'],
         price = form_data[1]['price'])
     new_transaction.service_description = form_data[1]['service_description']
-    new_transaction.handlebars = ', '.join(map(str, form_data[1]['handlebar_choices']))
-    new_transaction.brakes = ', '.join(map(str, form_data[1]['brakes_choices']))
-    new_transaction.frame = ', '.join(map(str, form_data[1]['frame_and_alignment']))
+    new_transaction.handlebars = True
+    new_transaction.brakes = False
+    new_transaction.frame = 0
     # new_transaction = Transaction(form_data)
+    print new_transaction
     new_transaction.save()
 
 class TransactionWizard(SessionWizardView):
