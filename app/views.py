@@ -69,6 +69,7 @@ class TransactionUpdate(UpdateView):
             return super(TransactionUpdate, self).post(request, *args, **kwargs)
 
 def process(form_data):
+    print form_data
     new_transaction = Transaction(
         first_name = form_data[0]['first_name'],
         last_name = form_data[0]['last_name'],
@@ -76,9 +77,10 @@ def process(form_data):
         affiliation = form_data[0]['affiliation'],
         price = form_data[1]['price'])
     new_transaction.service_description = form_data[1]['service_description']
-    new_transaction.handlebars = "handlebar choice: " + form_data[1]['handlebar_choices'][0]
-    new_transaction.brakes = "brakes choice: " + form_data[1]['brakes_choices'][0]
-    new_transaction.frame = "frame choice: " + form_data[1]['frame_and_alignment'][0]
+    new_transaction.handlebars = ', '.join(map(str, form_data[1]['handlebar_choices']))
+    new_transaction.brakes = ', '.join(map(str, form_data[1]['brakes_choices']))
+    new_transaction.frame = ', '.join(map(str, form_data[1]['frame_and_alignment']))
+    # new_transaction = Transaction(form_data)
     new_transaction.save()
 
 class TransactionWizard(SessionWizardView):

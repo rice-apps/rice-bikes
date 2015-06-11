@@ -18,15 +18,18 @@ class CustomerForm(Form):
 class RepairsForm(Form):
     frame_and_alignment = forms.MultipleChoiceField(
         choices=FRAME_AND_ALIGNMENT_CHOICES,
-        widget=forms.CheckboxSelectMultiple
+        widget=forms.CheckboxSelectMultiple,
+        required=False
     )
     handlebar_choices = forms.MultipleChoiceField(
         choices=HANDLEBARS_CHOICES,
-        widget=forms.CheckboxSelectMultiple
+        widget=forms.CheckboxSelectMultiple,
+        required=False
     )
     brakes_choices = forms.MultipleChoiceField(
         choices=BRAKES_CHOICES,
-        widget=forms.CheckboxSelectMultiple
+        widget=forms.CheckboxSelectMultiple,
+        required=False
     )
     price = forms.DecimalField()
     service_description = forms.CharField(max_length=100)

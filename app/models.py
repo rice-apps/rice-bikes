@@ -19,9 +19,9 @@ class Transaction(models.Model):
     # RepairsForm
     service_description = models.CharField(max_length=500)
     price = models.IntegerField(default=0)
-    handlebars = models.CharField(max_length=100, default="")
-    brakes = models.CharField(max_length=100, default="")
-    frame = models.CharField(max_length=100, default="")
+    handlebars = models.CharField(max_length=100, blank=True)
+    brakes = models.CharField(max_length=100, blank=True)
+    frame = models.CharField(max_length=100, blank=True)
 
     # Auto-generated fields
     completed = models.BooleanField(default=False)
