@@ -1,0 +1,63 @@
+
+<html>
+  <head>
+    <link href="/app/static/css/bootstrap.min.css"
+          rel="stylesheet" media="screen">
+    <link href="/app/static/css/styles.css"
+          rel="stylesheet" media="screen">
+    <script src="/app/static/js/jquery-2.1.4.min.js"
+            type="text/javascript"
+            charset="utf-8" async defer></script>
+    <script src="/app/static/js/bootstrap.min.js"
+            type="text/javascript"
+            charset="utf-8" async defer></script>
+  </head>
+
+  <body>
+    <div id="login-info">
+
+
+        jonathan |
+        <a href="/logout/">Log Out</a>
+
+    </div>
+
+
+
+
+
+<form action="" method="post">
+    <input type='hidden' name='csrfmiddlewaretoken' value='0wbPQ2e470jHODwaoOszqoGBeg4uRbcz' />
+
+        <div class="fieldWrapper">
+
+            <label for="id_handlebars">Handlebars:</label> <input checked="checked" id="id_handlebars" name="handlebars" type="checkbox" value="0" />
+        </div>
+
+        <div class="fieldWrapper">
+
+            <label for="id_brakes">Brakes:</label> <input checked="checked" id="id_brakes" name="brakes" type="checkbox" value="2" />
+        </div>
+
+        <div class="fieldWrapper">
+
+            <label for="id_frame">Frame:</label> <input checked="checked" id="id_frame" name="frame" type="checkbox" value="1" />
+        </div>
+
+        <div class="fieldWrapper">
+
+            <label for="id_price">Price:</label> <input id="id_price" name="price" step="any" type="number" value="0" />
+        </div>
+
+        <div class="fieldWrapper">
+
+            <label for="id_service_description">Service description:</label> <input id="id_service_description" maxlength="100" name="service_description" type="text" value="Null" />
+        </div>
+
+    <button type="submit" class="btn btn-default">Save</button>
+    <button type="submit" name="cancel" class="btn btn-default">Cancel</button>
+</form>
+
+
+  </body>
+</html>

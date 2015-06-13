@@ -7,7 +7,12 @@
 {% load bootstrap_tags %}
 <form action="" method="post">
     {% csrf_token %}
-    {{ form | as_bootstrap }}
+    {% for field in form %}
+        <div class="fieldWrapper">
+            {{ field.errors }}
+            {{ field.label_tag }} {{ field }}
+        </div>
+    {% endfor %}
     <button type="submit" class="btn btn-default">Save</button>
     <button type="submit" name="cancel" class="btn btn-default">Cancel</button>
 </form>

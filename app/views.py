@@ -69,6 +69,7 @@ class TransactionUpdate(UpdateView):
         return u"/%s" % self.kwargs['pk']
 
     def post(self, request, *args, **kwargs):
+        # print request
         print kwargs
         if "cancel" in request.POST:
             url = self.get_success_url()
@@ -76,8 +77,17 @@ class TransactionUpdate(UpdateView):
         else:
             return super(TransactionUpdate, self).post(request, *args, **kwargs)
 
+    def get_initial(self):
+        boolMap = {0: False, 1: True}
+        handlebars = boolMap[int(self.get_queryset().filter(pk=self.kwargs['pk']).values('handlebars')[0]['handlebars'])]
+        brakes = boolMap[int(self.get_queryset().filter(pk=self.kwargs['pk']).values('brakes')[0]['brakes'])]
+        frame = boolMap[int(self.get_queryset().filter(pk=self.kwargs['pk']).values('frame')[0]['frame'])]
+
+        return {'handlebars': handlebars, 'brakes': brakes, 'frame': frame}
 
 
+def bla(request):
+        return render(request, 'app/bla.html', {})
 
 def process(form_data):
     print form_data
@@ -88,11 +98,12 @@ def process(form_data):
         affiliation = form_data[0]['affiliation'],
         price = form_data[1]['price'])
     new_transaction.service_description = form_data[1]['service_description']
-    new_transaction.handlebars = True
-    new_transaction.brakes = False
-    new_transaction.frame = 0
+    new_transaction.handlebars = form_data[1]['handlebars']
+    new_transaction.brakes = form_data[1]['brakes']
+    new_transaction.frame = form_data[1]['frame']
     # new_transaction = Transaction(form_data)
-    print new_transaction
+    print new_transaction.handlebars
+    print new_transaction.brakes
     new_transaction.save()
 
 class TransactionWizard(SessionWizardView):
