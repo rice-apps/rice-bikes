@@ -62,7 +62,7 @@ class TransactionDetail(LoggedInMixin, DetailView):
 class TransactionUpdate(UpdateView):
     model = Transaction
     # fields = ['first_name', 'last_name', 'email', 'service_description', 'price', 'completed', 'date_submitted']
-    template_name = "app/edit.html"
+    template_name = "app/myEdit.html"
     form_class = RepairsForm
 
     def get_success_url(self):
@@ -77,17 +77,14 @@ class TransactionUpdate(UpdateView):
         else:
             return super(TransactionUpdate, self).post(request, *args, **kwargs)
 
-    def get_initial(self):
-        boolMap = {0: False, 1: True}
-        handlebars = boolMap[int(self.get_queryset().filter(pk=self.kwargs['pk']).values('handlebars')[0]['handlebars'])]
-        brakes = boolMap[int(self.get_queryset().filter(pk=self.kwargs['pk']).values('brakes')[0]['brakes'])]
-        frame = boolMap[int(self.get_queryset().filter(pk=self.kwargs['pk']).values('frame')[0]['frame'])]
+    # def get_initial(self):
+    #     boolMap = {0: False, 1: True}
+    #     handlebars = boolMap[int(self.get_queryset().filter(pk=self.kwargs['pk']).values('handlebars')[0]['handlebars'])]
+    #     brakes = boolMap[int(self.get_queryset().filter(pk=self.kwargs['pk']).values('brakes')[0]['brakes'])]
+    #     frame = boolMap[int(self.get_queryset().filter(pk=self.kwargs['pk']).values('frame')[0]['frame'])]
+    #
+    #     return {'handlebars': handlebars, 'brakes': brakes, 'frame': frame}
 
-        return {'handlebars': handlebars, 'brakes': brakes, 'frame': frame}
-
-
-def bla(request):
-        return render(request, 'app/bla.html', {})
 
 def process(form_data):
     print form_data

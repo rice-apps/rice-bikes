@@ -29,3 +29,19 @@ class Transaction(models.Model):
 
     def __str__(self):
         return self.first_name + " " + self.last_name
+
+
+class Tasks(models.Model):
+    not_assigned = models.BooleanField(blank=True, default=False)
+    in_progress = models.BooleanField(blank=True, default=False)
+    done = models.BooleanField(blank=True, default=False)
+
+    def __str__(self):
+        if self.not_assigned:
+            return "Not Assigned"
+        elif self.in_progress:
+            return "In Progress"
+        elif self.done:
+            return "Done"
+        else:
+            return "ERROR!"

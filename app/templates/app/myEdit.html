@@ -1,0 +1,30 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+
+{%  if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{% load bootstrap_tags %}
+<form action="" method="post">
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="fieldWrapper">
+            {{ field.errors }}
+            {% if field.name != 'price' and field.name != 'service_description' %}
+                {% if field.value == '1' %}
+                    {{ field.label_tag }} {{ field }}
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endfor %}
+    {% for field in form %}
+        {% if field.name == 'price' or field.name == 'service_description' %}
+            {{ field.label_tag }} {{ field }}
+        {% endif %}
+    {% endfor %}
+
+    <button type="submit" class="btn btn-default">Save</button>
+    <button type="submit" name="cancel" class="btn btn-default">Cancel</button>
+</form>
+
+{% endblock %}

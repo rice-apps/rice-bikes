@@ -13,7 +13,6 @@ urlpatterns = patterns('',
     url(r'^(?P<pk>\d+)/$', views.TransactionDetail.as_view(), name='detail'),
     url(r'^login/$', views.user_login, name='login'),
     url(r'^logout/$', views.user_logout, name='logout'),
-    url(r'^bla/$', views.bla, name='bla'),
 )
 
 urlpatterns += staticfiles_urlpatterns()
