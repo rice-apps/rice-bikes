@@ -3,10 +3,18 @@ from django.core.exceptions import ValidationError
 from datetime import datetime
 import re
 
+from app.common.utils import ChoiceEnum
+
 def validate_email(email_string):
     possible_match = re.match(r'[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}', email_string)
     if possible_match is None:
         raise ValidationError(u'%s is not a valid email address' % email_string)
+
+
+class Status(ChoiceEnum):
+    NOT_ASSIGNED = 0
+    IN_PROGRESS = 1
+    COMPLETE = 2
 
 
 class Transaction(models.Model):
@@ -16,12 +24,13 @@ class Transaction(models.Model):
     affiliation = models.CharField(max_length=100, default="")
     email = models.CharField(max_length=100, validators=[validate_email])
 
-    # RepairsForm
     service_description = models.CharField(max_length=500)
     price = models.IntegerField(default=0)
-    handlebars = models.NullBooleanField(blank=True, default=False)
-    brakes = models.NullBooleanField(blank=True, default=False)
-    frame = models.NullBooleanField(blank=True, default=False)
+
+    # RepairsForm
+    handlebars = models.CharField(max_length=20, blank=True, null=True, choices=Status.choices())
+    brakes = models.CharField(max_length=20, blank=True, null=True, choices=Status.choices())
+    frame = models.CharField(max_length=20, blank=True, null=True, choices=Status.choices())
 
     # Auto-generated fields
     completed = models.BooleanField(default=False)
@@ -31,17 +40,11 @@ class Transaction(models.Model):
         return self.first_name + " " + self.last_name
 
 
-class Tasks(models.Model):
-    not_assigned = models.BooleanField(blank=True, default=False)
-    in_progress = models.BooleanField(blank=True, default=False)
-    done = models.BooleanField(blank=True, default=False)
 
-    def __str__(self):
-        if self.not_assigned:
-            return "Not Assigned"
-        elif self.in_progress:
-            return "In Progress"
-        elif self.done:
-            return "Done"
-        else:
-            return "ERROR!"
+
+
+# class Task(models.Model):
+#     status = models.CharField(max_length=1, choices=Status.choices())
+#
+#     def __str__(self):
+#         return "Status = " + str(self.status)

@@ -10,8 +10,9 @@
     {% for field in form %}
         <div class="fieldWrapper">
             {{ field.errors }}
+
             {% if field.name != 'price' and field.name != 'service_description' %}
-                {% if field.value == '1' %}
+                {% if field.value != 'NOT_ASSIGNED' %}
                     {{ field.label_tag }} {{ field }}
                 {% endif %}
             {% endif %}

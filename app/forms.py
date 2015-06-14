@@ -20,12 +20,19 @@ class RepairsForm(ModelForm):
     handlebars = forms.BooleanField(required=False)
     brakes = forms.BooleanField(required=False)
     frame = forms.BooleanField(required=False)
-    price = forms.DecimalField()
-    service_description = forms.CharField(max_length=100)
 
     class Meta:
         model = Transaction
-        fields = ['handlebars', 'brakes', 'frame', 'price', 'service_description']
+        fields = ['handlebars', 'brakes', 'frame']
+
+
+class RepairsFormSubmit(Form):
+    handlebars = forms.BooleanField(required=False)
+    brakes = forms.BooleanField(required=False)
+    frame = forms.BooleanField(required=False)
+    service_description = forms.CharField(max_length=100)
+    price = forms.CharField(max_length=10)
+
 
 class UserForm(ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())

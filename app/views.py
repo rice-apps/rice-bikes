@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
-from app.models import Transaction
+from app.models import Transaction, Status
 from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic import DetailView
 from django.core.mail import EmailMessage
@@ -89,15 +89,19 @@ class TransactionUpdate(UpdateView):
 def process(form_data):
     print form_data
     new_transaction = Transaction(
-        first_name = form_data[0]['first_name'],
-        last_name = form_data[0]['last_name'],
-        email = form_data[0]['email'],
-        affiliation = form_data[0]['affiliation'],
-        price = form_data[1]['price'])
+        first_name=form_data[0]['first_name'],
+        last_name=form_data[0]['last_name'],
+        email=form_data[0]['email'],
+        affiliation=form_data[0]['affiliation'],
+        price=form_data[1]['price'])
     new_transaction.service_description = form_data[1]['service_description']
-    new_transaction.handlebars = form_data[1]['handlebars']
-    new_transaction.brakes = form_data[1]['brakes']
-    new_transaction.frame = form_data[1]['frame']
+    choices = dict(Status.choices())
+    new_transaction.handlebars = choices['1'] if form_data[1]['handlebars'] else \
+        choices['0']
+    new_transaction.brakes = choices['1'] if form_data[1]['brakes'] else \
+        choices['0']
+    new_transaction.frame = choices['1'] if form_data[1]['frame'] else \
+        choices['0']
     # new_transaction = Transaction(form_data)
     print new_transaction.handlebars
     print new_transaction.brakes
@@ -114,9 +118,9 @@ class TransactionWizard(SessionWizardView):
     def done(self, form_list, **kwargs):
         # form_data is a list of dicts (one for each form in the wizard)
         form_data = [form.cleaned_data for form in form_list]
+        print form_data
         process(form_data)
         return render_to_response('app/confirm.html', {'form_data': form_data})
-
 
 def user_login(request):
     context = RequestContext(request)
