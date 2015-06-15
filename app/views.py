@@ -11,6 +11,7 @@ from formtools.wizard.views import SessionWizardView
 from django.contrib.auth import authenticate, login, logout
 from app.forms import CustomerForm, RepairsForm, UserForm
 from django.template import RequestContext
+from django import forms
 
 NEW_ORDER_TEMPLATES = {'0': 'app/create_transaction.html', '1': 'app/create_transaction.html'}
 
@@ -61,7 +62,7 @@ class TransactionDetail(LoggedInMixin, DetailView):
 
 class TransactionUpdate(UpdateView):
     model = Transaction
-    # fields = ['first_name', 'last_name', 'email', 'service_description', 'price', 'completed', 'date_submitted']
+    fields = ['brakes', 'frame', 'handlebars']
     template_name = "app/myEdit.html"
     form_class = RepairsForm
 
@@ -77,14 +78,18 @@ class TransactionUpdate(UpdateView):
         else:
             return super(TransactionUpdate, self).post(request, *args, **kwargs)
 
-    # def get_initial(self):
-    #     boolMap = {0: False, 1: True}
-    #     handlebars = boolMap[int(self.get_queryset().filter(pk=self.kwargs['pk']).values('handlebars')[0]['handlebars'])]
-    #     brakes = boolMap[int(self.get_queryset().filter(pk=self.kwargs['pk']).values('brakes')[0]['brakes'])]
-    #     frame = boolMap[int(self.get_queryset().filter(pk=self.kwargs['pk']).values('frame')[0]['frame'])]
-    #
-    #     return {'handlebars': handlebars, 'brakes': brakes, 'frame': frame}
 
+    # def get_initial(self):
+    #     initial = {}
+    #     for field in self.fields:
+    #         my_field = str(field)
+    #         model_info = str(self.get_queryset().filter(pk=self.kwargs['pk']).values()[0][str(my_field)])
+    #         if model_info == 'IN_PROGRESS':
+    #             field = 'IN_PROGRESS'
+    #         elif model_info == 'COMPLETE':
+    #             initial[my_field] = 'COMPLETE'
+    #         print field
+    #     return initial
 
 def process(form_data):
     print form_data
@@ -96,12 +101,14 @@ def process(form_data):
         price=form_data[1]['price'])
     new_transaction.service_description = form_data[1]['service_description']
     choices = dict(Status.choices())
-    new_transaction.handlebars = choices['1'] if form_data[1]['handlebars'] else \
-        choices['0']
-    new_transaction.brakes = choices['1'] if form_data[1]['brakes'] else \
-        choices['0']
-    new_transaction.frame = choices['1'] if form_data[1]['frame'] else \
-        choices['0']
+    NOT_ASSIGNED = str(Status.NOT_ASSIGNED.value)
+    IN_PROGRESS = str(Status.IN_PROGRESS.value)
+    new_transaction.handlebars = choices[IN_PROGRESS] if form_data[1]['handlebars'] else \
+        choices[NOT_ASSIGNED]
+    new_transaction.brakes = choices[IN_PROGRESS] if form_data[1]['brakes'] else \
+        choices[NOT_ASSIGNED]
+    new_transaction.frame = choices[IN_PROGRESS] if form_data[1]['frame'] else \
+        choices[NOT_ASSIGNED]
     # new_transaction = Transaction(form_data)
     print new_transaction.handlebars
     print new_transaction.brakes

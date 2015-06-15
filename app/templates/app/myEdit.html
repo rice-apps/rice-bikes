@@ -1,3 +1,5 @@
+
+
 {% extends "app/base.html" %}
 
 {% block content %}
@@ -5,15 +7,17 @@
 {%  if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 {% load bootstrap_tags %}
-<form action="" method="post">
+<form action="." method="post">
     {% csrf_token %}
     {% for field in form %}
         <div class="fieldWrapper">
             {{ field.errors }}
 
             {% if field.name != 'price' and field.name != 'service_description' %}
-                {% if field.value != 'NOT_ASSIGNED' %}
-                    {{ field.label_tag }} {{ field }}
+                {% if field.value == 'IN_PROGRESS' %}
+                    {{ field.label_tag}} <input id="id_{{field.name}}" name={{field.name}} type="checkbox" value="IN_PROGRESS" />
+                {% elif  field.value == 'COMPLETE' %}
+                    {{ field.label_tag}} <input id="id_{{field.name}}" name={{field.name}} type="checkbox" checked="checked" value="COMPLETE" />
                 {% endif %}
             {% endif %}
         </div>
@@ -23,6 +27,7 @@
             {{ field.label_tag }} {{ field }}
         {% endif %}
     {% endfor %}
+
 
     <button type="submit" class="btn btn-default">Save</button>
     <button type="submit" name="cancel" class="btn btn-default">Cancel</button>

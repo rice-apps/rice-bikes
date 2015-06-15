@@ -17,13 +17,54 @@ class CustomerForm(Form):
 
 class RepairsForm(ModelForm):
 
-    handlebars = forms.BooleanField(required=False)
-    brakes = forms.BooleanField(required=False)
-    frame = forms.BooleanField(required=False)
+    fields = ['handlebars', 'brakes', 'frame']
+    handlebars = forms.NullBooleanField()
+    brakes = forms.NullBooleanField()
+    frame = forms.NullBooleanField()
 
     class Meta:
         model = Transaction
         fields = ['handlebars', 'brakes', 'frame']
+
+    def save(self, commit=True, **kwargs):
+
+        print self.data
+        print self.cleaned_data
+        entry = super(RepairsForm, self).save(commit=False)
+        if commit:
+            for field in self.data:
+
+                print kwargs
+                # model_info = str(Transaction.objects.filter(pk=kwargs['pk']).values()[0][str(my_field)])
+
+
+                my_field = str(field)
+                print "my_field = " + my_field
+                if my_field not in self.fields:
+                    continue
+
+                val = str(self.data[field])
+                print "val = " + val
+
+                if val == 'IN_PROGRESS' or val == 'COMPLETE':
+                    setattr(entry, my_field, 'COMPLETE')
+
+
+            for field in self.fields:
+                my_field = str(field)
+                print "my_field = " + my_field
+
+                if my_field in self.data:
+                    continue
+
+                setattr(entry, my_field, 'IN_PROGRESS')
+
+                # model_info = str(Transaction.objects.filter(pk=kwargs['pk']).values()[0][str(my_field)])
+
+        entry.save()
+        return entry
+
+
 
 
 class RepairsFormSubmit(Form):

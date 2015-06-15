@@ -12,12 +12,12 @@ def validate_email(email_string):
 
 
 class Status(ChoiceEnum):
-    NOT_ASSIGNED = 0
-    IN_PROGRESS = 1
-    COMPLETE = 2
-
+    IN_PROGRESS = 0
+    COMPLETE = 1
+    NOT_ASSIGNED = 2
 
 class Transaction(models.Model):
+
     # CustomerForm
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -28,9 +28,9 @@ class Transaction(models.Model):
     price = models.IntegerField(default=0)
 
     # RepairsForm
-    handlebars = models.CharField(max_length=20, blank=True, null=True, choices=Status.choices())
-    brakes = models.CharField(max_length=20, blank=True, null=True, choices=Status.choices())
-    frame = models.CharField(max_length=20, blank=True, null=True, choices=Status.choices())
+    handlebars = models.CharField(max_length=1, blank=True)
+    brakes = models.CharField(max_length=1, blank=True)
+    frame = models.CharField(max_length=1, blank=True)
 
     # Auto-generated fields
     completed = models.BooleanField(default=False)
