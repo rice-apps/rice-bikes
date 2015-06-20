@@ -16,9 +16,12 @@
             {% if field.name != 'price' and field.name != 'service_description' %}
                 {% if field.value == 'IN_PROGRESS' %}
                     {{ field.label_tag}} <input id="id_{{field.name}}" name={{field.name}} type="checkbox" value="IN_PROGRESS" />
+                    <input type="hidden" name="{{field.name}}_ALL" value="0">
                 {% elif  field.value == 'COMPLETE' %}
                     {{ field.label_tag}} <input id="id_{{field.name}}" name={{field.name}} type="checkbox" checked="checked" value="COMPLETE" />
+                    <input type="hidden" name="{{field.name}}_ALL" value="0">
                 {% endif %}
+
             {% endif %}
         </div>
     {% endfor %}

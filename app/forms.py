@@ -32,36 +32,34 @@ class RepairsForm(ModelForm):
         print self.cleaned_data
         entry = super(RepairsForm, self).save(commit=False)
         if commit:
+
+            # save all non NOT_ASSIGNED fields
+            all_fields = []
+            checked_fields = []
+
             for field in self.data:
 
-                print kwargs
-                # model_info = str(Transaction.objects.filter(pk=kwargs['pk']).values()[0][str(my_field)])
-
-
-                my_field = str(field)
-                print "my_field = " + my_field
-                if my_field not in self.fields:
-                    continue
-
-                val = str(self.data[field])
-                print "val = " + val
-
-                if val == 'IN_PROGRESS' or val == 'COMPLETE':
-                    setattr(entry, my_field, 'COMPLETE')
-
-
-            for field in self.fields:
                 my_field = str(field)
                 print "my_field = " + my_field
 
-                if my_field in self.data:
+                if my_field not in self.fields and my_field[:-4] not in self.fields:
                     continue
 
+                if my_field[-4:] == "_ALL":
+                    all_fields.append(my_field)
+                else:
+                    checked_fields.append(my_field)
+
+            for my_field_all in all_fields:
+                my_field = my_field_all[:-4]
+                print "my_field in all = " + my_field
                 setattr(entry, my_field, 'IN_PROGRESS')
+                entry.save(update_fields=[my_field])
 
-                # model_info = str(Transaction.objects.filter(pk=kwargs['pk']).values()[0][str(my_field)])
+            for my_field in checked_fields:
+                setattr(entry, my_field, 'COMPLETE')
+                entry.save(update_fields=[my_field])
 
-        entry.save()
         return entry
 
 
