@@ -125,7 +125,7 @@ def process(form_data):
                 price=0,
                 transaction=new_transaction
             )
-        task.save()
+            task.save()
 
     if not form_data[0]['no_receipt']: # send receipt by default. the employee must check the box to not send.
         send_receipt_email(new_transaction)
