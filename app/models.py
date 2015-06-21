@@ -23,7 +23,6 @@ class Transaction(models.Model):
     last_name = models.CharField(max_length=100)
     affiliation = models.CharField(max_length=100, default="")
     email = models.CharField(max_length=100, validators=[validate_email])
-    receipt = models.BooleanField(default=True)
 
     service_description = models.CharField(max_length=500)
     price = models.IntegerField(default=0)

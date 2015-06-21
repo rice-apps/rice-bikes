@@ -13,8 +13,7 @@ class CustomerForm(Form):
     last_name = forms.CharField(max_length=100)
     email = forms.EmailField(max_length=100)
     affiliation = forms.CharField(max_length=100)
-    receipt = forms.BooleanField(required=False, label='No receipt')
-
+    no_receipt = forms.BooleanField(required=False)
 
 class RepairsForm(ModelForm):
 

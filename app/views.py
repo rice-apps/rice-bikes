@@ -101,7 +101,7 @@ class TransactionUpdate(UpdateView):
     #     return initial
 
 def process(form_data):
-    print form_data
+    # print form_data
     new_transaction = Transaction(
         first_name=form_data[0]['first_name'],
         last_name=form_data[0]['last_name'],
@@ -118,10 +118,8 @@ def process(form_data):
         choices[NOT_ASSIGNED]
     new_transaction.frame = choices[IN_PROGRESS] if form_data[1]['frame'] else \
         choices[NOT_ASSIGNED]
-    if not form_data[0]['receipt']: # send receipt by default. the employee must check the box to not send.
+    if not form_data[0]['no_receipt']: # send receipt by default. the employee must check the box to not send.
         send_receipt_email(new_transaction)
-    else:
-        new_transaction.receipt = False
     # new_transaction = Transaction(form_data)
     # print new_transaction.handlebars
     # print new_transaction.brakes
