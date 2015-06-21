@@ -7,10 +7,13 @@
 {% load bootstrap_tags %}
 <form action="" method="post">
     {% csrf_token %}
-    {% for field in form %}
+    {% for task in tasks %}
         <div class="fieldWrapper">
-            {{ field.errors }}
-            {{ field.label_tag }} {{ field }}
+            {% if not task.completed %}
+            <em><strong>{{ task.name }}</strong></em> <input id="id_{{task.name}}" name={{task.name}} type="checkbox"/>
+            {% else %}
+            <em><strong>{{ task.name }}</strong></em> <input id="id_{{task.name}}" name={{task.name}} checked="checked" type="checkbox"/>
+            {% endif %}
         </div>
     {% endfor %}
     <button type="submit" class="btn btn-default">Save</button>

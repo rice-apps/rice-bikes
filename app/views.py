@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
-from app.models import Transaction, Status
+from app.models import Transaction, Status, Task, AllTasks
 from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic import DetailView
 from django.core.mail import EmailMessage
@@ -68,37 +68,41 @@ class TransactionDetail(LoggedInMixin, DetailView):
     model = Transaction
     template_name = "app/detail.html"
 
+    def get_context_data(self, **kwargs):
+        context = super(TransactionDetail, self).get_context_data(**kwargs)
+        context['tasks'] = Transaction.objects.filter(pk=self.kwargs['pk']).first().task_set.all()
+        return context
 
-class TransactionUpdate(UpdateView):
-    model = Transaction
-    fields = ['brakes', 'frame', 'handlebars']
-    template_name = "app/myEdit.html"
-    form_class = RepairsForm
 
-    def get_success_url(self):
-        return u"/%s" % self.kwargs['pk']
+def update(request, *args, **kwargs):
+    # model = Transaction
+    # template_name = "app/edit.html"
 
-    def post(self, request, *args, **kwargs):
-        # print request
-        print kwargs
+    tasks = Transaction.objects.filter(pk=kwargs['pk']).first().task_set.all()
+
+    if request.method == 'POST':
+        url = u"/%s" % kwargs['pk']
         if "cancel" in request.POST:
-            url = self.get_success_url()
             return HttpResponseRedirect(url)
         else:
-            return super(TransactionUpdate, self).post(request, *args, **kwargs)
+            print request.POST
 
+            posted_strings = [str(key) for key in request.POST]
+            print posted_strings
 
-    # def get_initial(self):
-    #     initial = {}
-    #     for field in self.fields:
-    #         my_field = str(field)
-    #         model_info = str(self.get_queryset().filter(pk=self.kwargs['pk']).values()[0][str(my_field)])
-    #         if model_info == 'IN_PROGRESS':
-    #             field = 'IN_PROGRESS'
-    #         elif model_info == 'COMPLETE':
-    #             initial[my_field] = 'COMPLETE'
-    #         print field
-    #     return initial
+            for task in tasks:
+                print "task.name = " + task.name
+
+                if task.name in posted_strings:
+                    print task.name + " in posted_strings"
+                    task.completed = True
+                else:
+                    task.completed = False
+                task.save()
+            return HttpResponseRedirect(url)
+
+    return render_to_response("app/edit.html", {'tasks': tasks}, context_instance=RequestContext(request))
+
 
 def process(form_data):
     # print form_data
@@ -107,23 +111,28 @@ def process(form_data):
         last_name=form_data[0]['last_name'],
         email=form_data[0]['email'],
         affiliation=form_data[0]['affiliation'],
-        price=form_data[1]['price'])
-    new_transaction.service_description = form_data[1]['service_description']
-    choices = dict(Status.choices())
-    NOT_ASSIGNED = str(Status.NOT_ASSIGNED.value)
-    IN_PROGRESS = str(Status.IN_PROGRESS.value)
-    new_transaction.handlebars = choices[IN_PROGRESS] if form_data[1]['handlebars'] else \
-        choices[NOT_ASSIGNED]
-    new_transaction.brakes = choices[IN_PROGRESS] if form_data[1]['brakes'] else \
-        choices[NOT_ASSIGNED]
-    new_transaction.frame = choices[IN_PROGRESS] if form_data[1]['frame'] else \
-        choices[NOT_ASSIGNED]
+        price=form_data[1]['price'],
+        service_description=form_data[1]['service_description']
+    )
+    new_transaction.save()
+
+    all_tasks = AllTasks().get_tasks()
+    for name in all_tasks:
+        if form_data[1][name]:
+            task = Task(
+                name=name,
+                completed=False,
+                price=0,
+                transaction=new_transaction
+            )
+        task.save()
+
     if not form_data[0]['no_receipt']: # send receipt by default. the employee must check the box to not send.
         send_receipt_email(new_transaction)
     # new_transaction = Transaction(form_data)
     # print new_transaction.handlebars
     # print new_transaction.brakes
-    new_transaction.save()
+
 
 class TransactionWizard(SessionWizardView):
     """

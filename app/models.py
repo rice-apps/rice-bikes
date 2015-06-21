@@ -5,6 +5,7 @@ import re
 
 from app.common.utils import ChoiceEnum
 
+
 def validate_email(email_string):
     possible_match = re.match(r'[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}', email_string)
     if possible_match is None:
@@ -15,6 +16,7 @@ class Status(ChoiceEnum):
     IN_PROGRESS = 0
     COMPLETE = 1
     NOT_ASSIGNED = 2
+
 
 class Transaction(models.Model):
 
@@ -27,11 +29,6 @@ class Transaction(models.Model):
     service_description = models.CharField(max_length=500)
     price = models.IntegerField(default=0)
 
-    # RepairsForm
-    handlebars = models.CharField(max_length=1, blank=True)
-    brakes = models.CharField(max_length=1, blank=True)
-    frame = models.CharField(max_length=1, blank=True)
-
     # Auto-generated fields
     completed = models.BooleanField(default=False)
     date_submitted = models.DateTimeField(default=datetime.now, blank=True)
@@ -40,11 +37,20 @@ class Transaction(models.Model):
         return self.first_name + " " + self.last_name
 
 
+class Task(models.Model):
+    name = models.CharField(max_length=100)
+    completed = models.BooleanField(default=False)
+    price = models.IntegerField(default=0)
+    transaction = models.ForeignKey(Transaction)
+
+    def __str__(self):
+        return "Task " + str(self.name)
 
 
+class AllTasks():
 
-# class Task(models.Model):
-#     status = models.CharField(max_length=1, choices=Status.choices())
-#
-#     def __str__(self):
-#         return "Status = " + str(self.status)
+    def __init__(self):
+        self.allTasks = ['handlebars', 'brakes', 'frame']
+
+    def get_tasks(self):
+        return self.allTasks

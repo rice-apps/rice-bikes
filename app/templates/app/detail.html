@@ -30,19 +30,14 @@
         <td>Order Details</td>
         <td>{{ transaction.service_description }} </td>
     </tr>
-    <tr>
-        <td># Handlebars Needed</td>
-        <td>{{ transaction.handlebars }}</td>
-    </tr>
-    <tr>
-        <td># Brakes Needed</td>
-        <td>{{ transaction.brakes }}</td>
-    </tr>
-    <tr>
-        <td># Frames Needed</td>
-        <td>{{ transaction.frame }}</td>
-    </tr>
+    {% for task in tasks %}
+        <tr>
+            <td>{{ task.name }} </td>
+            <td>{{ task.completed }}</td>
+        </tr>
+    {% endfor %}
 </table>
+
 
 {% if not transaction.completed %}
 <a class="btn btn-default" href="{% url 'app:mark_completed' transaction.id %}" role="button">Mark as completed</a>

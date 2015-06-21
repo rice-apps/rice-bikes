@@ -3,10 +3,6 @@ from django import forms
 from django.forms import ModelForm, Form
 from django.contrib.auth.models import User
 
-FRAME_AND_ALIGNMENT_CHOICES = [("derailleur", "Align Derailleur Hanger"), ("clean", "Basic Clean"),
-                               ("basket", "Install Front Basket")]
-HANDLEBARS_CHOICES = [("grips", "Install Grips"), ("handlebars", "Install Handlebars")]
-BRAKES_CHOICES = [("rim-brake", "Adjust Rim Brake"), ("disk-brake", "Adjust Disc Brake")]
 
 class CustomerForm(Form):
     first_name = forms.CharField(max_length=100)
@@ -15,16 +11,11 @@ class CustomerForm(Form):
     affiliation = forms.CharField(max_length=100)
     no_receipt = forms.BooleanField(required=False)
 
+
 class RepairsForm(ModelForm):
 
-    fields = ['handlebars', 'brakes', 'frame']
-    handlebars = forms.NullBooleanField()
-    brakes = forms.NullBooleanField()
-    frame = forms.NullBooleanField()
-
-    class Meta:
-        model = Transaction
-        fields = ['handlebars', 'brakes', 'frame']
+    def clean(self):
+        return self.cleaned_data
 
     def save(self, commit=True, **kwargs):
 
@@ -61,8 +52,6 @@ class RepairsForm(ModelForm):
                 entry.save(update_fields=[my_field])
 
         return entry
-
-
 
 
 class RepairsFormSubmit(Form):
