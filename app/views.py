@@ -20,7 +20,7 @@ def test(request):
 
 @login_required
 def index(request):
-    transactions_list = Transaction.objects.filter(completed=False).order_by('date_submitted')
+    transactions_list = Transaction.objects.filter(completed=False).order_by('date_submitted').reverse
     return render(request, 'app/index.html', {'transactions_list': transactions_list, 'complete': False})
 
 @login_required
@@ -37,14 +37,23 @@ def mark_as_completed(request, pk):
     send_completion_email(transaction)
     return HttpResponseRedirect(reverse('app:index'))
 
+def send_receipt_email(transaction):
+    '''
+    Sends a form receipt to the customer's email address.
+    '''
+    email_address = transaction.email
+    subject_line = "Rice Bikes receipt"
+    body = "%s, this is your receipt for your order placed on %s. Here are the details:\n %s\nPrice: %s" \
+    % (transaction.first_name, transaction.date_submitted, transaction.service_description, transaction.price)
+    email = EmailMessage(subject_line, body, to=[email_address])
+    email.send(fail_silently=False)
 
 def send_completion_email(transaction):
-    email = transaction.email
+    email_address = transaction.email
     subject_line = "Rice Bikes status update"
-    body = "%s %s, your bike is available at Rice Bikes. Please come pick it up at your earliest convenience." \
-           % (transaction.first_name, transaction.last_name)
-    print(email, subject_line[:5], body[:5])
-    email = EmailMessage(subject_line, body, to=[email])
+    body = "%s, your bike is available at Rice Bikes. Please come pick it up at your earliest convenience." \
+           % (transaction.first_name)
+    email = EmailMessage(subject_line, body, to=[email_address])
     email.send(fail_silently=False)
 
 
@@ -109,23 +118,26 @@ def process(form_data):
         choices[NOT_ASSIGNED]
     new_transaction.frame = choices[IN_PROGRESS] if form_data[1]['frame'] else \
         choices[NOT_ASSIGNED]
+    if not form_data[0]['receipt']: # send receipt by default. the employee must check the box to not send.
+        send_receipt_email(new_transaction)
+    else:
+        new_transaction.receipt = False
     # new_transaction = Transaction(form_data)
-    print new_transaction.handlebars
-    print new_transaction.brakes
+    # print new_transaction.handlebars
+    # print new_transaction.brakes
     new_transaction.save()
 
 class TransactionWizard(SessionWizardView):
     """
-    wizard view for creating a new transaction in two steps. 
+    Wizard view for creating a new transaction in two steps. 
     """
-
     def get_template_names(self):
         return [NEW_ORDER_TEMPLATES[self.steps.current]]
 
     def done(self, form_list, **kwargs):
         # form_data is a list of dicts (one for each form in the wizard)
         form_data = [form.cleaned_data for form in form_list]
-        print form_data
+        # print form_data
         process(form_data)
         return render_to_response('app/confirm.html', {'form_data': form_data})
 

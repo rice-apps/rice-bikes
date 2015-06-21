@@ -1,11 +1,19 @@
-<!DOCTYPE html>
+{% extends "app/base.html" %}
+
+<!--I extended this template from base.html for the bootstrap button.
+    Since this will mostly be used on mobile, I didn't think the "success" title would be that important.
+    But I left it just in case we decide to change it later.-->
+
+<!-- <!DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
     <title>Success!</title>
-</head>
+</head> -->
+{% block content %}
 <body>
-You successfully added the transaction!
-<p><em>Want to Return to Transaction List?</em> Click <a href ="/">here.</a></p>
+You successfully added the transaction! <br><br>
+<a href="/" class="btn btn-info btn-lg" role="button" name='back_to_list'>Back to list</a>
 </body>
-</html>
+{% endblock %}
+<!-- </html> -->
