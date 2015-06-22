@@ -119,13 +119,14 @@ def process(form_data):
     new_transaction.save()
 
     all_tasks = TasksForm().fields.keys()
+    print "form_data[1] = "
     print form_data[1]
     for name in all_tasks:
         if name in form_data[1]:
             task = Task(
                 name=name,
                 completed=False,
-                price=form_data[1][name]['price'],
+                price=form_data[1]['price'],
                 transaction=new_transaction
             )
         task.save()
@@ -141,16 +142,21 @@ class TransactionWizard(SessionWizardView):
     def get_template_names(self):
         return [NEW_ORDER_TEMPLATES[self.steps.current]]
 
+    def get_context_data(self, form, **kwargs):
+        context = super(TransactionWizard, self).get_context_data(form=form, **kwargs)
+
+        if self.steps.current == '1':
+            info_dict = TasksForm.get_info_dict()
+            context.update({'info_dict': info_dict})
+
+        return context
+
     def done(self, form_list, **kwargs):
         # form_data is a list of dicts (one for each form in the wizard)
 
         form_data = list()
         form_data.append(form_list[0].cleaned_data)
         form_data.append({})
-
-        print "Form list 1 = "
-        print form_list[1].cleaned_data
-        print "end"
 
         info_dict = TasksForm.get_info_dict()
         for field in form_list[1].cleaned_data:
@@ -161,10 +167,6 @@ class TransactionWizard(SessionWizardView):
                     form_data[1][field] = info_dict[field]
                 else:
                     form_data[1][field] = form_list[1].cleaned_data[field]
-
-        print "After, form data = "
-        print form_data
-        print "end"
 
         process(form_data)
         return render_to_response('app/confirm.html', {'form_data': form_data})
