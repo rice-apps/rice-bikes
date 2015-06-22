@@ -12,12 +12,6 @@ def validate_email(email_string):
         raise ValidationError(u'%s is not a valid email address' % email_string)
 
 
-class Status(ChoiceEnum):
-    IN_PROGRESS = 0
-    COMPLETE = 1
-    NOT_ASSIGNED = 2
-
-
 class Transaction(models.Model):
 
     # CustomerForm

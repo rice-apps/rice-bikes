@@ -14,7 +14,10 @@
 {% if wizard.form.forms %}
     {{ wizard.form.management_form }}
     {% for form in wizard.form.forms %}
-        {{ form | as_bootstrap}}
+        {% for key, value in form %}
+            {{ value }}
+            {{ field }} {% if 'price' in value %} Woo {% endif %}
+        {% endfor %}
     {% endfor %}
 {% else %}
     {{ wizard.form | as_bootstrap}}

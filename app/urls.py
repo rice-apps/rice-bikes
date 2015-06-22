@@ -1,13 +1,13 @@
 from django.conf.urls import patterns, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from app.forms import CustomerForm, RepairsFormSubmit
+from app.forms import CustomerForm, RepairsForm
 
 from app import views
 
 urlpatterns = patterns('',
     url(r'^history/$', views.history, name='history'),
     url(r'^$', views.index, name='index'),
-    url(r'^new/$', views.TransactionWizard.as_view([CustomerForm, RepairsFormSubmit]), name="new"),
+    url(r'^new/$', views.TransactionWizard.as_view([CustomerForm, RepairsForm]), name="new"),
     url(r'^(?P<pk>\d+)/edit/$', views.update, name='edit'),
     url(r'^(?P<pk>\d+)/mark_completed/$', views.mark_as_completed, name='mark_completed'),
     url(r'^(?P<pk>\d+)/$', views.TransactionDetail.as_view(), name='detail'),

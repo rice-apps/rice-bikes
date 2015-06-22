@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
-from app.models import Transaction, Status, Task, AllTasks
+from app.models import Transaction, Task
 from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic import DetailView
 from django.core.mail import EmailMessage
@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth import authenticate, login, logout
-from app.forms import CustomerForm, RepairsForm, UserForm
+from app.forms import TasksForm, RepairsForm
 from django.template import RequestContext
 from django import forms
 
@@ -37,6 +37,7 @@ def mark_as_completed(request, pk):
     send_completion_email(transaction)
     return HttpResponseRedirect(reverse('app:index'))
 
+
 def send_receipt_email(transaction):
     '''
     Sends a form receipt to the customer's email address.
@@ -47,6 +48,7 @@ def send_receipt_email(transaction):
     % (transaction.first_name, transaction.date_submitted, transaction.service_description, transaction.price)
     email = EmailMessage(subject_line, body, to=[email_address])
     email.send(fail_silently=False)
+
 
 def send_completion_email(transaction):
     email_address = transaction.email
@@ -105,7 +107,7 @@ def update(request, *args, **kwargs):
 
 
 def process(form_data):
-    # print form_data
+    print form_data
     new_transaction = Transaction(
         first_name=form_data[0]['first_name'],
         last_name=form_data[0]['last_name'],
@@ -116,22 +118,20 @@ def process(form_data):
     )
     new_transaction.save()
 
-    all_tasks = AllTasks().get_tasks()
+    all_tasks = TasksForm().fields.keys()
+    print form_data[1]
     for name in all_tasks:
-        if form_data[1][name]:
+        if name in form_data[1]:
             task = Task(
                 name=name,
                 completed=False,
-                price=0,
+                price=form_data[1][name]['price'],
                 transaction=new_transaction
             )
         task.save()
 
     if not form_data[0]['no_receipt']: # send receipt by default. the employee must check the box to not send.
         send_receipt_email(new_transaction)
-    # new_transaction = Transaction(form_data)
-    # print new_transaction.handlebars
-    # print new_transaction.brakes
 
 
 class TransactionWizard(SessionWizardView):
@@ -143,10 +143,32 @@ class TransactionWizard(SessionWizardView):
 
     def done(self, form_list, **kwargs):
         # form_data is a list of dicts (one for each form in the wizard)
-        form_data = [form.cleaned_data for form in form_list]
-        # print form_data
+
+        form_data = list()
+        form_data.append(form_list[0].cleaned_data)
+        form_data.append({})
+
+        print "Form list 1 = "
+        print form_list[1].cleaned_data
+        print "end"
+
+        info_dict = TasksForm.get_info_dict()
+        for field in form_list[1].cleaned_data:
+            print form_list[1].cleaned_data[field]
+            if form_list[1].cleaned_data[field] != False:
+                print "IN"
+                if field in info_dict:
+                    form_data[1][field] = info_dict[field]
+                else:
+                    form_data[1][field] = form_list[1].cleaned_data[field]
+
+        print "After, form data = "
+        print form_data
+        print "end"
+
         process(form_data)
         return render_to_response('app/confirm.html', {'form_data': form_data})
+
 
 def user_login(request):
     context = RequestContext(request)

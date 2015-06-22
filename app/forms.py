@@ -12,52 +12,22 @@ class CustomerForm(Form):
     no_receipt = forms.BooleanField(required=False)
 
 
-class RepairsForm(ModelForm):
-
-    def clean(self):
-        return self.cleaned_data
-
-    def save(self, commit=True, **kwargs):
-
-        print self.data
-        print self.cleaned_data
-        entry = super(RepairsForm, self).save(commit=False)
-        if commit:
-
-            # save all non NOT_ASSIGNED fields
-            all_fields = []
-            checked_fields = []
-
-            for field in self.data:
-
-                my_field = str(field)
-                print "my_field = " + my_field
-
-                if my_field not in self.fields and my_field[:-4] not in self.fields:
-                    continue
-
-                if my_field[-4:] == "_ALL":
-                    all_fields.append(my_field)
-                else:
-                    checked_fields.append(my_field)
-
-            for my_field_all in all_fields:
-                my_field = my_field_all[:-4]
-                print "my_field in all = " + my_field
-                setattr(entry, my_field, 'IN_PROGRESS')
-                entry.save(update_fields=[my_field])
-
-            for my_field in checked_fields:
-                setattr(entry, my_field, 'COMPLETE')
-                entry.save(update_fields=[my_field])
-
-        return entry
-
-
-class RepairsFormSubmit(Form):
+class TasksForm(Form):
     handlebars = forms.BooleanField(required=False)
     brakes = forms.BooleanField(required=False)
     frame = forms.BooleanField(required=False)
+
+    @staticmethod
+    def get_info_dict():
+        info_dict = {
+            'handlebars': {'price': 5, 'category': 'Hard'},
+            'brakes': {'price': 3, 'category': 'Hard'},
+            'frame': {'price': 2, 'category': 'Easy'}
+        }
+        return info_dict
+
+
+class RepairsForm(TasksForm):
     service_description = forms.CharField(max_length=100)
     price = forms.CharField(max_length=10)
 
