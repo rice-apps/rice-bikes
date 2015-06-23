@@ -148,9 +148,10 @@ class TransactionWizard(SessionWizardView):
         context = super(TransactionWizard, self).get_context_data(form=form, **kwargs)
 
         if self.steps.current == '1':
-            info_dict = TasksForm.get_info_dict()
-            context.update({'info_dict': info_dict})
-
+            category_dict = TasksForm.get_category_dict()
+            non_task_fields = TasksForm.get_non_task_fields()
+            context.update({'category_dict': category_dict})
+            context.update({'non_task_fields': non_task_fields})
         return context
 
     def done(self, form_list, **kwargs):

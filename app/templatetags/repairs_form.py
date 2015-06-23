@@ -7,6 +7,7 @@ register = template.Library()
 def is_member(value, arg):
     print value
     print arg
+    print arg in value
     return arg in value
 
 @register.filter(name='get_price')

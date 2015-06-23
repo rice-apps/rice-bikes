@@ -16,12 +16,33 @@
 
 {% load repairs_form %}
 {{ wizard.management_form }}
-    {% for field in wizard.form %}
-    <div class="fieldWrapper">
-        {% if wizard.steps.step0 == 1 %} {% if info_dict|is_member:field.label %}  (${{ info_dict|get_price:field.label }}) {% endif %}
-        {% endif %} {{field | bootstrap}}
-    </div>
-    {% endfor %}
+    {% if wizard.steps.step0 == 1 %}
+        {% for category_pair in category_dict.iteritems %}
+            <h3> {{ category_pair.0 }} </h3>
+            {% for field in wizard.form %}
+            <div class="fieldWrapper">
+                {% if category_pair.1|is_member:field.label %}
+                (${{ category_pair.1|get_price:field.label }})
+                {{field | bootstrap}}
+                {% endif %}
+            </div>
+            {% endfor %}
+        {% endfor %}
+
+        {% for field in wizard.form %}
+            {% if non_task_fields|is_member:field.label %}
+                <div class="fieldWrapper">
+                    {{field | bootstrap}}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        {% for field in wizard.form %}
+            <div class="fieldWrapper">
+                {{field | bootstrap}}
+            </div>
+        {% endfor %}
+    {% endif %}
 
 </table>
 {% if wizard.steps.prev %}
