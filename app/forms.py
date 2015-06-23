@@ -1,31 +1,47 @@
+from app.models import Transaction
 from django import forms
 from django.forms import ModelForm, Form
+from django.contrib.auth.models import User
 
 FRAME_AND_ALIGNMENT_CHOICES = [("derailleur", "Align Derailleur Hanger"), ("clean", "Basic Clean"),
                                ("basket", "Install Front Basket")]
 HANDLEBARS_CHOICES = [("grips", "Install Grips"), ("handlebars", "Install Handlebars")]
 BRAKES_CHOICES = [("rim-brake", "Adjust Rim Brake"), ("disk-brake", "Adjust Disc Brake")]
 
-
 class CustomerForm(Form):
     first_name = forms.CharField(max_length=100)
     last_name = forms.CharField(max_length=100)
     email = forms.EmailField(max_length=100)
     affiliation = forms.CharField(max_length=100)
+    no_receipt = forms.BooleanField(required=False)
 
 
-class RepairsForm(Form):
-    frame_and_alignment = forms.MultipleChoiceField(
-        choices=FRAME_AND_ALIGNMENT_CHOICES,
-        widget=forms.CheckboxSelectMultiple
-    )
-    handlebar_choices = forms.MultipleChoiceField(
-        choices=HANDLEBARS_CHOICES,
-        widget=forms.CheckboxSelectMultiple
-    )
-    brakes_choices = forms.MultipleChoiceField(
-        choices=BRAKES_CHOICES,
-        widget=forms.CheckboxSelectMultiple
-    )
-    # handlebars = forms.MultipleChoiceField(choices=HANDLEBARS_CHOICES, widget=forms.CheckboxSelectMultiple)
-    # brakes = forms.MultipleChoiceField(choices=BRAKES_CHOICES, widget=forms.CheckboxSelectMultiple)
+class TasksForm(Form):
+    handlebars = forms.BooleanField(required=False)
+    brakes = forms.BooleanField(required=False)
+    frame = forms.BooleanField(required=False)
+
+    @staticmethod
+    def get_info_dict():
+        info_dict = {
+            'Handlebars': {'price': 55, 'category': 'Hard'},
+            'Brakes': {'price': 3, 'category': 'Hard'},
+            'Frame': {'price': 2, 'category': 'Easy'}
+        }
+        return info_dict
+
+
+class RepairsForm(TasksForm):
+    service_description = forms.CharField(max_length=100)
+    price = forms.CharField(max_length=10)
+
+
+class UserForm(ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password')
+
+
+

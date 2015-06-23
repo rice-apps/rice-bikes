@@ -1,11 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from datetime import datetime
 import re
 
-#########################################
-# Validation methods
-#########################################
+from app.common.utils import ChoiceEnum
 
 
 def validate_email(email_string):
@@ -33,30 +32,39 @@ class Employee(models.Model):
     user = models.OneToOneField(User)
 
 
-class Customer(models.Model):
+class Transaction(models.Model):
+
+    # CustomerForm
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100)
     affiliation = models.CharField(max_length=100, default="")
-    # phone = models.CharField(default="", max_length=100, validators=[validate_phone])
-    completed = models.BooleanField(default=False)  # This should represent a customer having picked up his or her bike
-    date_submitted = models.DateTimeField('date submitted')
+    email = models.CharField(max_length=100, validators=[validate_email])
+
+    service_description = models.CharField(max_length=500)
+    price = models.IntegerField(default=0)
+
+    # Auto-generated fields
+    completed = models.BooleanField(default=False)
+    date_submitted = models.DateTimeField(default=datetime.now, blank=True)
 
     def __str__(self):
         return self.first_name + " " + self.last_name
 
 
-class Service(models.Model):
-    type = models.CharField(max_length=500, default="None")
+class Task(models.Model):
+    name = models.CharField(max_length=100)
+    completed = models.BooleanField(default=False)
     price = models.IntegerField(default=0)
-    customer = models.ForeignKey(Customer)
-    fulfilled = models.BooleanField(default=False)
-    employee = models.ForeignKey(Employee, default=None)    # Represents the employee who performed this service
+    transaction = models.ForeignKey(Transaction)
+
+    def __str__(self):
+        return "Task " + str(self.name)
 
 
-class Part(models.Model):
-    type = models.CharField(max_length=500)
-    price = models.IntegerField(default=0)
-    customer = models.ForeignKey(Customer)
-    fulfilled = models.BooleanField(default=False)
-    # employee = models.ForeignKey(Employee)
+class AllTasks():
+
+    def __init__(self):
+        self.allTasks = ['handlebars', 'brakes', 'frame']
+
+    def get_tasks(self):
+        return self.allTasks

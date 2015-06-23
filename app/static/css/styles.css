@@ -1,3 +1,11 @@
 body {
     padding: 15px;
 }
+
+#login-info {
+    float:right;
+}
+
+.labels {
+    font-weight: bold;
+}

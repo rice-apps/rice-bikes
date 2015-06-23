@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register a Rice Bikes Account</title>
+
+</head>
+<body>
+    {% load bootstrap_tags %}
+    <strong>Register here!</strong><br><br>
+    <form id="user_form" method="post" action="/bikes/register/" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ user_form  | as_bootstrap}}
+
+        <input type="submit" name="submit" value="Register">
+    </form>
+
+</body>
+</html>

@@ -3,23 +3,29 @@
   <head>
     <link href="{% static 'css/bootstrap.min.css' %}"
           rel="stylesheet" media="screen">
-      <link href="{% static 'css/styles.css' %}"
+    <link href="{% static 'css/styles.css' %}"
           rel="stylesheet" media="screen">
+    <script src="{% static 'js/jquery-2.1.4.min.js' %}" 
+            type="text/javascript" 
+            charset="utf-8" async defer></script>
+    <script src="{% static 'js/bootstrap.min.js' %}" 
+            type="text/javascript" 
+            charset="utf-8" async defer></script>
   </head>
-
+    {% block head %}
+    {% endblock %}
   <body>
-    <div>
-        {{ user }}
+    <div id="login-info">
+
         {% if user.is_anonymous %}
-        <a href="{% url 'app:login' %}">login</a>
+        You are logged out.
+        <a href="{% url 'app:login' %}">Log In</a>
         {% else %}
-        <a href="{% url 'app:logout' %}">logout</a>
+        {{ user }} |
+        <a href="{% url 'app:logout' %}">Log Out</a>
         {% endif %}
     </div>
     {% block content %}
     {% endblock %}
-
-    <script src="{% static 'js/jquery-2.1.3.min.js' %}"
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
   </body>
 </html>

@@ -12,6 +12,7 @@ db.sqlite3
 # Virtualenv files
 env/
 py3env/
+venv/
 
 # Ignore my personal notes
 notes/
