@@ -20,7 +20,7 @@ class TasksForm(Form):
     @staticmethod
     def get_info_dict():
         info_dict = {
-            'Handlebars': {'price': 5, 'category': 'Hard'},
+            'Handlebars': {'price': 55, 'category': 'Hard'},
             'Brakes': {'price': 3, 'category': 'Hard'},
             'Frame': {'price': 2, 'category': 'Easy'}
         }

@@ -2,6 +2,9 @@
 {% load i18n %}
 
 {% block head %}
+<script src="/app/static/js/create_transaction.js"
+        type="text/javascript"
+        charset="utf-8" async defer></script>
 {{ wizard.form.media }}
 {% endblock %}
 
@@ -13,11 +16,10 @@
 
 {% load repairs_form %}
 {{ wizard.management_form }}
-
     {% for field in wizard.form %}
     <div class="fieldWrapper">
-        {% if wizard.steps.step0 == 1 %} {% if info_dict|is_member:field.label %}  (${{ info_dict|get_price:field.label }}) {% endif %} {% endif %}
-        {{field | bootstrap}}
+        {% if wizard.steps.step0 == 1 %} {% if info_dict|is_member:field.label %}  (${{ info_dict|get_price:field.label }}) {% endif %}
+        {% endif %} {{field | bootstrap}}
     </div>
     {% endfor %}
 

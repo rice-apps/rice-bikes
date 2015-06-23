@@ -121,6 +121,7 @@ def process(form_data):
     all_tasks = TasksForm().fields.keys()
     print "form_data[1] = "
     print form_data[1]
+
     for name in all_tasks:
         if name in form_data[1]:
             task = Task(
@@ -130,6 +131,7 @@ def process(form_data):
                 transaction=new_transaction
             )
             task.save()
+
 
     if not form_data[0]['no_receipt']: # send receipt by default. the employee must check the box to not send.
         send_receipt_email(new_transaction)
