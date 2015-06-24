@@ -13,9 +13,9 @@ class CustomerForm(Form):
 
 
 class TasksForm(Form):
-    handlebars = forms.BooleanField(required=False)
-    brakes = forms.BooleanField(required=False)
-    frame = forms.BooleanField(required=False)
+    Handlebars = forms.BooleanField(required=False)
+    Brakes = forms.BooleanField(required=False)
+    Frame = forms.BooleanField(required=False)
 
     @staticmethod
     def get_info_dict():

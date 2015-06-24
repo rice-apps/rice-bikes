@@ -127,11 +127,11 @@ def process(form_data):
             task = Task(
                 name=name,
                 completed=False,
-                price=form_data[1]['price'],
+                price=form_data[1][name]['price'],
+                category=form_data[1][name]['category'],
                 transaction=new_transaction
             )
             task.save()
-
 
     if not form_data[0]['no_receipt']: # send receipt by default. the employee must check the box to not send.
         send_receipt_email(new_transaction)
@@ -157,20 +157,27 @@ class TransactionWizard(SessionWizardView):
     def done(self, form_list, **kwargs):
         # form_data is a list of dicts (one for each form in the wizard)
 
+        print "At start of done, form_list = "
+        print form_list
+        print "end"
+
         form_data = list()
         form_data.append(form_list[0].cleaned_data)
         form_data.append({})
 
         info_dict = TasksForm.get_info_dict()
         for field in form_list[1].cleaned_data:
-            print form_list[1].cleaned_data[field]
             if form_list[1].cleaned_data[field] != False:
-                print "IN"
+                print field + " in form_list[1] of TransactionWizard"
                 if field in info_dict:
+                    print field + "in info_dict"
                     form_data[1][field] = info_dict[field]
                 else:
                     form_data[1][field] = form_list[1].cleaned_data[field]
 
+        print "In done, form_data[1] = "
+        print form_data[1]
+        print "end"
         process(form_data)
         return render_to_response('app/confirm.html', {'form_data': form_data})
 
