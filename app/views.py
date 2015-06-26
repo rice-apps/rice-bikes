@@ -25,8 +25,8 @@ def index(request):
 
 @login_required
 def history(request):
-    transactions_list = Transaction.objects.filter(completed=True).order_by('date_submitted')
-    return render(request, 'app/index.html', {'transactions_list': transactions_list, 'complete': True})
+    transactions_list = Transaction.objects.filter(completed=True).order_by('date_submitted').reverse
+    return render(request, 'app/history.html', {'transactions_list': transactions_list, 'complete': True})
 
 
 @login_required
@@ -74,6 +74,17 @@ class TransactionDetail(LoggedInMixin, DetailView):
         context = super(TransactionDetail, self).get_context_data(**kwargs)
         context['tasks'] = Transaction.objects.filter(pk=self.kwargs['pk']).first().task_set.all()
         return context
+
+
+class TransactionDetailComplete(LoggedInMixin, DetailView):
+    model = Transaction
+    template_name = "app/detail_complete.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(TransactionDetailComplete, self).get_context_data(**kwargs)
+        context['tasks'] = Transaction.objects.filter(pk=self.kwargs['pk']).first().task_set.all()
+        return context
+
 
 
 def update(request, *args, **kwargs):
