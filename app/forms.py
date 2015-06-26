@@ -17,9 +17,9 @@ class CustomerForm(Form):
 
 
 class TasksForm(Form):
-    handlebars = forms.BooleanField(required=False)
-    brakes = forms.BooleanField(required=False)
-    frame = forms.BooleanField(required=False)
+    Handlebars = forms.BooleanField(required=False)
+    Brakes = forms.BooleanField(required=False)
+    Frame = forms.BooleanField(required=False)
 
     @staticmethod
     def get_info_dict():
@@ -29,6 +29,26 @@ class TasksForm(Form):
             'Frame': {'price': 2, 'category': 'Easy'}
         }
         return info_dict
+
+    @staticmethod
+    def get_category_dict():
+        info_dict_hard = {
+            'Handlebars': {'price': 55},
+            'Brakes': {'price': 3}
+        }
+        info_dict_easy = {
+            'Frame': {'price': 2}
+        }
+        category_dict = {
+            'Hard': info_dict_hard,
+            'Easy': info_dict_easy
+        }
+        return category_dict
+
+    @staticmethod
+    def get_non_task_fields():
+        return ('Service description',
+                'Price')
 
 
 class RepairsForm(TasksForm):

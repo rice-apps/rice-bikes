@@ -1,21 +1,44 @@
 {% extends "app/base.html" %}
 
+{% block head %}
+<script src="/app/static/js/edit.js"
+        type="text/javascript"
+        charset="utf-8" async defer></script>
+{% endblock %}
+
+
+
 {% block content %}
 
 {%  if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 {% load bootstrap_tags %}
+{% load repairs_form %}
 <form action="" method="post">
     {% csrf_token %}
-    {% for task in tasks %}
-        <div class="fieldWrapper">
-            {% if not task.completed %}
-            <em><strong>{{ task.name }}</strong></em> <input id="id_{{task.name}}" name={{task.name}} type="checkbox"/>
-            {% else %}
-            <em><strong>{{ task.name }}</strong></em> <input id="id_{{task.name}}" name={{task.name}} checked="checked" type="checkbox"/>
-            {% endif %}
+
+    {% for category_pair in category_dict.iteritems %}
+        <div id = {{category_pair.0}}>
+            <h3>{{ category_pair.0 }}</h3>
         </div>
     {% endfor %}
+
+
+    <div id="task-container" style="display:none">
+    {% for task in tasks %}
+                    <div id="{{task.name}}" category="{{ info_dict|get_member:task.name|get_member:'category' }}">
+                        <div class="fieldWrapper">
+                            {% if not task.completed %}
+                            <em><strong>{{ task.name }}</strong></em> <input class="form-control" id="id_{{task.name}}" name={{task.name}} type="checkbox"/>
+                            {% else %}
+                            <em><strong>{{ task.name }}</strong></em> <input class="form-control" id="id_{{task.name}}" name={{task.name}} checked="checked" type="checkbox"/>
+                            {% endif %}
+                        </div>
+                    </div>
+    {% endfor %}
+    </div>
+
+
     <button type="submit" class="btn btn-default">Save</button>
     <button type="submit" name="cancel" class="btn btn-default">Cancel</button>
 </form>

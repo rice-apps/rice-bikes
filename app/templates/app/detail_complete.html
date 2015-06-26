@@ -38,8 +38,6 @@
     {% endfor %}
 </table>
 
-<a class="btn btn-default" href="{% url 'app:mark_completed' transaction.id %}" role="button">Mark as completed</a>
-<a class="btn btn-default" href="{% url 'app:edit' transaction.id %}" role="button">Edit</a>
-<a class="btn btn-default" href="{% url 'app:index' %}" role="button">Back to All</a>
+<a class="btn btn-default" href="{% url 'app:history' %}" role="button">Back to All</a>
 
 {% endblock %}

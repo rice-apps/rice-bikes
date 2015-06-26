@@ -30,8 +30,8 @@ def index(request):
 
 @login_required
 def history(request):
-    transactions_list = Transaction.objects.filter(completed=True).order_by('date_submitted')
-    return render(request, 'app/index.html', {'transactions_list': transactions_list, 'complete': True})
+    transactions_list = Transaction.objects.filter(completed=True).order_by('date_submitted').reverse
+    return render(request, 'app/history.html', {'transactions_list': transactions_list, 'complete': True})
 
 
 @login_required
@@ -83,6 +83,17 @@ class TransactionDetail(LoggedInMixin, DetailView):
         return context
 
 
+class TransactionDetailComplete(LoggedInMixin, DetailView):
+    model = Transaction
+    template_name = "app/detail_complete.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(TransactionDetailComplete, self).get_context_data(**kwargs)
+        context['tasks'] = Transaction.objects.filter(pk=self.kwargs['pk']).first().task_set.all()
+        return context
+
+
+
 def update(request, *args, **kwargs):
     # model = Transaction
     # template_name = "app/edit.html"
@@ -110,7 +121,10 @@ def update(request, *args, **kwargs):
                 task.save()
             return HttpResponseRedirect(url)
 
-    return render_to_response("app/edit.html", {'tasks': tasks}, context_instance=RequestContext(request))
+    category_dict = TasksForm.get_category_dict()
+    info_dict = TasksForm.get_info_dict()
+    return render_to_response("app/edit.html", {'tasks': tasks, 'category_dict': category_dict, 'info_dict': info_dict},
+                              context_instance=RequestContext(request))
 
 
 def process(form_data):
@@ -134,11 +148,11 @@ def process(form_data):
             task = Task(
                 name=name,
                 completed=False,
-                price=form_data[1]['price'],
+                price=form_data[1][name]['price'],
+                category=form_data[1][name]['category'],
                 transaction=new_transaction
             )
             task.save()
-
 
     if not form_data[0]['no_receipt']: # send receipt by default. the employee must check the box to not send.
         send_receipt_email(new_transaction)
@@ -155,13 +169,18 @@ class TransactionWizard(SessionWizardView):
         context = super(TransactionWizard, self).get_context_data(form=form, **kwargs)
 
         if self.steps.current == '1':
-            info_dict = TasksForm.get_info_dict()
-            context.update({'info_dict': info_dict})
-
+            category_dict = TasksForm.get_category_dict()
+            non_task_fields = TasksForm.get_non_task_fields()
+            context.update({'category_dict': category_dict})
+            context.update({'non_task_fields': non_task_fields})
         return context
 
     def done(self, form_list, **kwargs):
         # form_data is a list of dicts (one for each form in the wizard)
+
+        print "At start of done, form_list = "
+        print form_list
+        print "end"
 
         form_data = list()
         form_data.append(form_list[0].cleaned_data)
@@ -169,14 +188,17 @@ class TransactionWizard(SessionWizardView):
 
         info_dict = TasksForm.get_info_dict()
         for field in form_list[1].cleaned_data:
-            print form_list[1].cleaned_data[field]
             if form_list[1].cleaned_data[field] != False:
-                print "IN"
+                print field + " in form_list[1] of TransactionWizard"
                 if field in info_dict:
+                    print field + "in info_dict"
                     form_data[1][field] = info_dict[field]
                 else:
                     form_data[1][field] = form_list[1].cleaned_data[field]
 
+        print "In done, form_data[1] = "
+        print form_data[1]
+        print "end"
         process(form_data)
         return render_to_response('app/confirm.html', {'form_data': form_data})
 

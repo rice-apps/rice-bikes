@@ -14,14 +14,39 @@
 <table>
 {% load bootstrap %}
 
+<input type="hidden" value="boo">
+
 {% load repairs_form %}
 {{ wizard.management_form }}
-    {% for field in wizard.form %}
-    <div class="fieldWrapper">
-        {% if wizard.steps.step0 == 1 %} {% if info_dict|is_member:field.label %}  (${{ info_dict|get_price:field.label }}) {% endif %}
-        {% endif %} {{field | bootstrap}}
-    </div>
-    {% endfor %}
+    {% if wizard.steps.step0 == 1 %}
+        {% for category_pair in category_dict.iteritems %}
+            <h3> {{ category_pair.0 }} </h3>
+            {% for field_info_pair in category_pair.1.iteritems %}
+            <div class="fieldWrapper">
+                <div class="form-group">
+                    <label class="control-label  " for="id_1-{{ field_info_pair.0 }}">(${{ field_info_pair.1|get_member:'price'}})  {{ field_info_pair.0 }}</label>
+                    <div class=" ">
+                        <input class="form-control" id="id_1-{{ field_info_pair.0 }}" name="1-{{field_info_pair.0}}" type="checkbox" />
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% endfor %}
+
+        {% for field in wizard.form %}
+            {% if non_task_fields|is_member:field.label %}
+                <div class="fieldWrapper">
+                    {{field | bootstrap}}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        {% for field in wizard.form %}
+            <div class="fieldWrapper">
+                {{field | bootstrap}}
+            </div>
+        {% endfor %}
+    {% endif %}
 
 </table>
 {% if wizard.steps.prev %}

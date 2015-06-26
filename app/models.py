@@ -55,6 +55,7 @@ class Task(models.Model):
     name = models.CharField(max_length=100)
     completed = models.BooleanField(default=False)
     price = models.IntegerField(default=0)
+    category = models.CharField(max_length=100)
     transaction = models.ForeignKey(Transaction)
 
     def __str__(self):
@@ -64,7 +65,7 @@ class Task(models.Model):
 class AllTasks():
 
     def __init__(self):
-        self.allTasks = ['handlebars', 'brakes', 'frame']
+        self.allTasks = ['Handlebars', 'Brakes', 'Frame']
 
     def get_tasks(self):
         return self.allTasks
