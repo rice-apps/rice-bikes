@@ -1,7 +1,5 @@
 $(document).ready(function() {
     tasks = $("#task-container").children()
-    console.log(tasks);
-    console.log(tasks.length);
     for (i=0; i<tasks.length; i++){
         task = tasks[i]
         category = $(task).attr('category');
@@ -9,5 +7,4 @@ $(document).ready(function() {
         $("#" + category).append(new_div);
         $(task).remove();
     }
-
 });
