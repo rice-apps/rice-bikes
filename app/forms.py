@@ -49,7 +49,7 @@ class TasksForm(Form):
 
 class RepairsForm(TasksForm):
     service_description = forms.CharField(max_length=100)
-    price = forms.CharField(max_length=10)
+    price = forms.IntegerField()
 
 
 class UserForm(ModelForm):
