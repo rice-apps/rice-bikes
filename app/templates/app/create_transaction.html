@@ -33,6 +33,16 @@
             {% endfor %}
         {% endfor %}
 
+        <br>
+        <div class="fieldWrapper">
+            <select class="form-control">
+                <option value="customer_bike">Customer Bike</option>
+                <option value="rental_bike">Rental Bike</option>
+                <option value="refurbished_bike">Refurbished Bike</option>
+            </select>
+            <br>
+        </div>
+
         {% for field in wizard.form %}
             {% if non_task_fields|is_member:field.label %}
                 <div class="fieldWrapper">
@@ -48,7 +58,10 @@
         {% endfor %}
     {% endif %}
 
+
 </table>
+
+
 {% if wizard.steps.prev %}
 <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}" class="btn btn-default btn-lg">{% trans "first step" %}</button>
 <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}" class="btn btn-default btn-lg">{% trans "prev step" %}</button>

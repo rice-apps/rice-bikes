@@ -25,12 +25,31 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
+            name='RefurbishedBike',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('vin', models.IntegerField()),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='RentalBike',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('vin', models.IntegerField()),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
             name='Task',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=100)),
                 ('completed', models.BooleanField(default=False)),
-                ('price', models.IntegerField(default=0)),
                 ('category', models.CharField(max_length=100)),
             ],
             options={
@@ -49,6 +68,8 @@ class Migration(migrations.Migration):
                 ('price', models.IntegerField(default=0)),
                 ('completed', models.BooleanField(default=False)),
                 ('date_submitted', models.DateTimeField(default=datetime.datetime.now, blank=True)),
+                ('refurbished_bike', models.ForeignKey(blank=True, to='app.RefurbishedBike', null=True)),
+                ('rental_bike', models.ForeignKey(blank=True, to='app.RentalBike', null=True)),
             ],
             options={
             },

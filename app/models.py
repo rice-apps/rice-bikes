@@ -32,6 +32,14 @@ class Employee(models.Model):
     user = models.OneToOneField(User)
 
 
+class RentalBike(models.Model):
+    vin = models.IntegerField(null=False, blank=False)
+
+
+class RefurbishedBike(models.Model):
+    vin = models.IntegerField(null=False, blank=False)
+
+
 class Transaction(models.Model):
 
     # CustomerForm
@@ -42,6 +50,11 @@ class Transaction(models.Model):
 
     service_description = models.CharField(max_length=500)
     price = models.IntegerField(default=0)
+
+    # ForeignKeys to RentalBike and RefurbishedBike
+    rental_bike = models.ForeignKey(RentalBike, null=True, blank=True)
+    refurbished_bike = models.ForeignKey(RefurbishedBike, null=True, blank=True)
+
 
     # Auto-generated fields
     completed = models.BooleanField(default=False)
@@ -54,7 +67,6 @@ class Transaction(models.Model):
 class Task(models.Model):
     name = models.CharField(max_length=100)
     completed = models.BooleanField(default=False)
-    price = models.IntegerField(default=0)
     category = models.CharField(max_length=100)
     transaction = models.ForeignKey(Transaction)
 
@@ -62,10 +74,17 @@ class Task(models.Model):
         return "Task " + str(self.name)
 
 
-class AllTasks():
 
-    def __init__(self):
-        self.allTasks = ['Handlebars', 'Brakes', 'Frame']
 
-    def get_tasks(self):
-        return self.allTasks
+
+
+
+
+
+
+
+
+
+
+
+

@@ -44,12 +44,16 @@ class TasksForm(Form):
     @staticmethod
     def get_non_task_fields():
         return ('Service description',
-                'Price')
+                'Price',
+                'Rental vin',
+                'Refurbished vin')
 
 
 class RepairsForm(TasksForm):
     service_description = forms.CharField(max_length=100)
     price = forms.IntegerField()
+    rental_vin = forms.IntegerField(required=False)
+    refurbished_vin = forms.IntegerField(required=False)
 
 
 class UserForm(ModelForm):

@@ -1,42 +1,6 @@
-{% extends "app/base.html" %}
+{% extends "app/detail_base.html" %}
 
-{% block content %}
-
-<h2>Customer name: {{ transaction.first_name }} {{ transaction.last_name }}</h2>
-
-
-<table class="table table-striped">
-    <tr>
-        <td>Email</td>
-        <td>{{ transaction.email }}</td>
-    </tr>
-    <tr>
-        <td>Service Description</td>
-        <td>{{ transaction.service_description }} </td>
-    </tr>
-    <tr>
-        <td>Price</td>
-        <td>{{ transaction.price }} </td>
-    </tr>
-    <tr>
-        <td>Completed</td>
-        <td>{{ transaction.completed }}</td>
-    </tr>
-    <tr>
-        <td>Date Submitted</td>
-        <td>{{ transaction.date_submitted }}</td>
-    </tr>
-    <tr>
-        <td>Order Details</td>
-        <td>{{ transaction.service_description }} </td>
-    </tr>
-    {% for task in tasks %}
-        <tr>
-            <td>{{ task.name }} </td>
-            <td>{{ task.completed }}</td>
-        </tr>
-    {% endfor %}
-</table>
+{% block detail %}
 
 <a class="btn btn-default" href="{% url 'app:history' %}" role="button">Back to All</a>
 
