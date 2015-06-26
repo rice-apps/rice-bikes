@@ -103,7 +103,10 @@ def update(request, *args, **kwargs):
                 task.save()
             return HttpResponseRedirect(url)
 
-    return render_to_response("app/edit.html", {'tasks': tasks}, context_instance=RequestContext(request))
+    category_dict = TasksForm.get_category_dict()
+    info_dict = TasksForm.get_info_dict()
+    return render_to_response("app/edit.html", {'tasks': tasks, 'category_dict': category_dict, 'info_dict': info_dict},
+                              context_instance=RequestContext(request))
 
 
 def process(form_data):
