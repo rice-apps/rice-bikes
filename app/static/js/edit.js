@@ -5,6 +5,7 @@ $(document).ready(function() {
         category = $(task).attr('category');
         new_div = $(task).clone().prop('id', $(task).attr('id') + '_sorted');
         $("#" + category).append(new_div);
+        $("#" + category).show();
         $(task).remove();
     }
 });

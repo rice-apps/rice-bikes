@@ -3,10 +3,6 @@ from django import forms
 from django.forms import ModelForm, Form
 from django.contrib.auth.models import User
 
-FRAME_AND_ALIGNMENT_CHOICES = [("derailleur", "Align Derailleur Hanger"), ("clean", "Basic Clean"),
-                               ("basket", "Install Front Basket")]
-HANDLEBARS_CHOICES = [("grips", "Install Grips"), ("handlebars", "Install Handlebars")]
-BRAKES_CHOICES = [("rim-brake", "Adjust Rim Brake"), ("disk-brake", "Adjust Disc Brake")]
 
 class CustomerForm(Form):
     first_name = forms.CharField(max_length=100)

@@ -18,7 +18,7 @@
     {% csrf_token %}
 
     {% for category_pair in category_dict.iteritems %}
-        <div id = {{category_pair.0}}>
+        <div id = {{category_pair.0}} style="display:none">
             <h3>{{ category_pair.0 }}</h3>
         </div>
     {% endfor %}
