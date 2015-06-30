@@ -1,4 +1,4 @@
-from app.models import Transaction
+from app.models import Transaction, RentalBike, RefurbishedBike
 from django import forms
 from django.forms import ModelForm, Form
 from django.contrib.auth.models import User
@@ -179,12 +179,13 @@ class RepairsForm(TasksForm):
     refurbished_vin = forms.IntegerField(required=False)
 
 
-class UserForm(ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput())
-
+class RentalForm(ModelForm):
     class Meta:
-        model = User
-        fields = ('username', 'email', 'password')
+        model = RentalBike
 
+
+class RefurbishedForm(ModelForm):
+    class Meta:
+        model = RefurbishedBike
 
 

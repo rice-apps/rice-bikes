@@ -1,0 +1,12 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+    {% load bootstrap %}
+
+    <form actions="." method="post">
+        {% csrf_token %}
+        {{ form|bootstrap }}
+        <input type="submit" value="Submit">
+    </form>
+
+{% endblock %}

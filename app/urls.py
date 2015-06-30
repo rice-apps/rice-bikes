@@ -6,7 +6,8 @@ from app.forms import CustomerForm, RepairsForm
 
 from app import views
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^history/$', views.history, name='history'),
     url(r'^$', views.index, name='index'),
     url(r'^new/$', views.TransactionWizard.as_view([CustomerForm, RepairsForm]), name="new"),
@@ -18,6 +19,10 @@ urlpatterns = patterns('',
     url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^rental/$', views.rental, name='rental'),
     url(r'^refurbished/$', views.refurbished, name='refurbished'),
+    url(r'^(?P<pk>\d+)/rental_detail/$', views.RentalDetail.as_view(), name='rental_detail'),
+    url(r'^(?P<pk>\d+)/refurbished_detail/$', views.RefurbishedDetail.as_view(), name='refurbished_detail'),
+    url(r'^new_rental/$', views.new_rental, name='new_rental'),
+    url(r'^new_refurbished/$', views.new_refurbished, name='new_refurbished'),
 )
 
 urlpatterns += staticfiles_urlpatterns()

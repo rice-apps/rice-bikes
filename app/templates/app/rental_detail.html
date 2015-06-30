@@ -1,0 +1,23 @@
+{% extends "app/base.html" %}
+
+
+{% block content %}
+<h2>Rental VIN: {{ vin }}</h2>
+
+<table class="table table-striped">
+
+    {% for transaction in transactions %}
+        <tr>
+            <td>{{ transaction.id }}</td>
+            <td><a href="{% url 'app:detail' transaction.id %}">{{ transaction.first_name }} {{ transaction.last_name }}</a></td>
+            <td>{{ transaction.email }}</td>
+            <td>
+                {{ transaction.service_description|slice:":75" }}
+                {% if transaction.service_description|length > 75  %}...{% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+<a class="btn btn-default" href="{% url 'app:rental' %}" role="button">Back to All Rentals</a>
+
+{% endblock %}
