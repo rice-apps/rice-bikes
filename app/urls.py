@@ -16,6 +16,8 @@ urlpatterns = patterns('',
     url(r'^(?P<pk>\d+)/complete/$', views.TransactionDetailComplete.as_view(), name='detail_complete'),
     url(r'^login/$', views.user_login, name='login'),
     url(r'^logout/$', views.user_logout, name='logout'),
+    url(r'^rental/$', views.rental, name='rental'),
+    url(r'^refurbished/$', views.refurbished, name='refurbished'),
 )
 
 urlpatterns += staticfiles_urlpatterns()

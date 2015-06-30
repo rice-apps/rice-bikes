@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
-from app.models import Transaction, Task
+from app.models import Transaction, Task, RentalBike, RefurbishedBike
 from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic import DetailView
 from django.core.mail import EmailMessage
@@ -126,6 +126,18 @@ def update(request, *args, **kwargs):
                               context_instance=RequestContext(request))
 
 
+def rental(request):
+
+    rentals = RentalBike.objects.all()
+    return render(request, "app/rental.html", {'rentals': rentals})
+
+
+def refurbished(request):
+
+    refurbished_list = RefurbishedBike.objects.all()
+    return render(request, "app/rental.html", {'refurbished_list': refurbished_list})
+
+
 def process(form_data):
     print form_data
     new_transaction = Transaction(
@@ -134,14 +146,30 @@ def process(form_data):
         email=form_data[0]['email'],
         affiliation=form_data[0]['affiliation'],
         price=form_data[1]['price'],
-        service_description=form_data[1]['service_description']
+        service_description=form_data[1]['service_description'],
     )
+
+    # map transaction to rental/refurbished bike
+    if form_data[1]['rental_vin']:
+        rental_bike = RentalBike(
+            vin=form_data[1]['rental_vin']
+        )
+        rental_bike.save()
+        new_transaction.rental_bike = rental_bike
+    elif form_data[1]['refurbished_vin']:
+        refurbished_bike = RefurbishedBike(
+            vin=form_data[1]['refurbished_vin']
+        )
+        refurbished_bike.save()
+        new_transaction.refurbished_bike = refurbished_bike
+
     new_transaction.save()
 
     all_tasks = TasksForm().fields.keys()
     print "form_data[1] = "
     print form_data[1]
 
+    # map tasks to this transaction
     for name in all_tasks:
         if name in form_data[1]:
             task = Task(

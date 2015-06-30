@@ -33,11 +33,11 @@ class Employee(models.Model):
 
 
 class RentalBike(models.Model):
-    vin = models.IntegerField(null=False, blank=False)
+    vin = models.IntegerField(unique=True, null=False, blank=False)
 
 
 class RefurbishedBike(models.Model):
-    vin = models.IntegerField(null=False, blank=False)
+    vin = models.IntegerField(unique=True, null=False, blank=False)
 
 
 class Transaction(models.Model):
