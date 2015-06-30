@@ -42,6 +42,10 @@
         <td>{{ transaction.refurbished_bike.vin }} </td>
     </tr>
     {% endif %}
+    <tr>
+        <td><h4>Tasks:</h4></td>
+        <td></td>
+    </tr>
     {% for task in tasks %}
         <tr>
             <td>{{ task.name|place_whitespace }} </td>
