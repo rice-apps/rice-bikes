@@ -1,0 +1,27 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+
+<a class="btn btn-default" href="{% url 'app:index' %}" role="button">Back to Transactions</a>
+
+{% if rentals %}
+    <h3>Rental Bikes</h3>
+
+    <table class="table">
+    <thead>
+        <td>ID</td>
+        <td>VIN Number</td>
+    </thead>
+
+    {% for refurbished in refurbished_list %}
+        <tr>
+            <td>{{ rental.id }}</td>
+            <td><a href="#">{{ refurbished.vin}}</a></td>
+
+        </tr>
+    {% endfor %}
+    </table>
+
+{% endif %}
+
+{% endblock %}

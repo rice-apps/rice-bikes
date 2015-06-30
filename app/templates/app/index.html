@@ -2,10 +2,15 @@
 
 {% block content %}
 
-<a href="/new" class="btn btn-info" role="button" name='new_transaction'>Create new transaction</a>
-<br><br>
-<a href="/history" class="btn btn-info" role="button" name='past_transactions'>View past transactions</a>
-
+<div class="btn-group btn-group-justified" role="group" aria-label="...">
+    <a href="/new" class="btn btn-info" role="button" name='new_transaction'>Create new transaction</a>
+    <a href="/history" class="btn btn-info" role="button" name='past_transactions'>View past transactions</a>
+</div>
+<br>
+<div class="btn-group btn-group-justified" role="group" aria-label="...">
+    <a href="/rental" class="btn btn-info" role="button" name='rental'>Go to Rental Bikes</a>
+    <a href="/refurbished" class="btn btn-info" role="button" name='refurbished'>Go to Refurbished Bikes</a>
+</div>
 {% if transactions_list %}
     <h3>Active Customers</h3>
 

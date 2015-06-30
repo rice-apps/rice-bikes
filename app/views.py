@@ -127,6 +127,18 @@ def update(request, *args, **kwargs):
                               context_instance=RequestContext(request))
 
 
+def rental(request):
+
+    rentals = RentalBike.objects.all()
+    return render(request, "app/rental.html", {'rentals': rentals})
+
+
+def refurbished(request):
+
+    refurbished_list = RefurbishedBike.objects.all()
+    return render(request, "app/rental.html", {'refurbished_list': refurbished_list})
+
+
 def process(form_data):
     print form_data
     new_transaction = Transaction(
