@@ -30,6 +30,18 @@
         <td>Order Details</td>
         <td>{{ transaction.service_description }} </td>
     </tr>
+
+    {% if transaction.rental_bike %}
+    <tr>
+        <td>Rental VIN</td>
+        <td>{{ transaction.rental_bike.vin }} </td>
+    </tr>
+    {% elif transaction.refurbished_bike %}
+    <tr>
+        <td>Refurbished VIN</td>
+        <td>{{ transaction.refurbished_bike.vin }} </td>
+    </tr>
+    {% endif %}
     {% for task in tasks %}
         <tr>
             <td>{{ task.name }} </td>
