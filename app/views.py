@@ -1,4 +1,3 @@
-from django.contrib.formtools.wizard.views import SessionWizardView
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
 from app.models import Transaction, Task
