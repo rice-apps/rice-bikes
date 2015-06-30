@@ -13,12 +13,10 @@ $(document).ready(function() {
     $('input:checkbox').change(function() {
 
         // This is explicitly for prices with format ($<integer>)
-        raw_text = $(this).closest('.fieldWrapper').text();
+        raw_text = $(this).closest('.form-group').find('.control-label').text();
 
-        text = raw_text.split(/\s+/)[1];
+        text = raw_text.split(/\s+/)[0];
         task_price = parseInt(text.substring(2, text.length-1));
-
-        console.log($(this));
 
         is_checked = $(this).prop('checked');
 

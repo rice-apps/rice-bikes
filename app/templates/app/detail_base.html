@@ -4,7 +4,7 @@
 
 <h2>Customer name: {{ transaction.first_name }} {{ transaction.last_name }}</h2>
 
-
+{% load repairs_form %}
 <table class="table table-striped">
     <tr>
         <td>Email</td>
@@ -44,7 +44,7 @@
     {% endif %}
     {% for task in tasks %}
         <tr>
-            <td>{{ task.name }} </td>
+            <td>{{ task.name|place_whitespace }} </td>
             <td>{{ task.completed }}</td>
         </tr>
     {% endfor %}

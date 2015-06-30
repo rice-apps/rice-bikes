@@ -13,4 +13,12 @@ def get_price(value, arg):
 
 @register.filter(name='get_member')
 def get_member(value, arg):
-    return value[arg]
+    return value[arg.replace("_", " ")]
+
+@register.filter(name='join_whitespace')
+def join_whitespace(value):
+    return value.replace(" ", "_")
+
+@register.filter(name='place_whitespace')
+def place_whitespace(value):
+    return value.replace("_", " ")

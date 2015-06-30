@@ -269,18 +269,21 @@ class TransactionWizard(SessionWizardView):
         form_data.append({})
 
         info_dict = TasksForm.get_info_dict()
+
         for field in form_list[1].cleaned_data:
             print str(field)
             print "with value "
             print (form_list[1].cleaned_data[field])
             print "end"
             if not (isinstance(form_list[1].cleaned_data[field], bool) and not form_list[1].cleaned_data[field]):
-                print field + " in form_list[1] of TransactionWizard"
-                if field in info_dict:
+                if field.replace("_", " ") in info_dict:
                     print field + "in info_dict"
-                    form_data[1][field] = info_dict[field]
+                    form_data[1][field] = info_dict[field.replace("_", " ")]
                 else:
                     form_data[1][field] = form_list[1].cleaned_data[field]
+
+        print "In done, form_list[1].cleaned_data = "
+        form_list[1]
 
         process(form_data)
         return render_to_response('app/confirm.html', {'form_data': form_data})

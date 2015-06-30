@@ -24,9 +24,9 @@
             {% for field_info_pair in category_pair.1.iteritems %}
             <div class="fieldWrapper">
                 <div class="form-group">
-                    <label class="control-label  " for="id_1-{{ field_info_pair.0 }}">(${{ field_info_pair.1|get_member:'price'}})  {{ field_info_pair.0 }}</label>
+                    <label class="control-label  " for="id_1-{{ field_info_pair.0|join_whitespace }}">(${{ field_info_pair.1|get_member:'price'}})  {{ field_info_pair.0 }}</label>
                     <div class=" ">
-                        <input class="form-control" id="id_1-{{ field_info_pair.0 }}" name="1-{{field_info_pair.0}}" type="checkbox" />
+                        <input class="form-control" id="id_1-{{ field_info_pair.0|join_whitespace }}" name="1-{{field_info_pair.0|join_whitespace}}" type="checkbox" />
                     </div>
                 </div>
             </div>
