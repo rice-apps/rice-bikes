@@ -11,7 +11,7 @@ from django.contrib.auth import get_user_model
 from django.utils.decorators import method_decorator
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth import authenticate, login, logout
-from app.forms import TasksForm, RepairsForm
+from app.forms import TasksForm, RepairsForm, RentalForm, RefurbishedForm
 from django.template import RequestContext
 from django import forms
 
@@ -128,15 +128,80 @@ def update(request, *args, **kwargs):
 
 
 def rental(request):
-
     rentals = RentalBike.objects.all()
     return render(request, "app/rental.html", {'rentals': rentals})
 
 
 def refurbished(request):
-
     refurbished_list = RefurbishedBike.objects.all()
-    return render(request, "app/rental.html", {'refurbished_list': refurbished_list})
+    print refurbished_list
+    return render(request, "app/refurbished.html", {'refurbished_list': refurbished_list})
+
+
+class RentalDetail(LoggedInMixin, DetailView):
+    model = RentalBike
+    template_name = "app/rental_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(RentalDetail, self).get_context_data(**kwargs)
+        print "rental kwargs: " + str(self.kwargs)
+        context['vin'] = RentalBike.objects.filter(pk=self.kwargs['pk']).first().vin
+        context['transactions'] = RentalBike.objects.filter(pk=self.kwargs['pk']).first().transaction_set.all()
+        return context
+
+
+class RefurbishedDetail(LoggedInMixin, DetailView):
+    model = RefurbishedBike
+    template_name = "app/refurbished_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(RefurbishedDetail, self).get_context_data(**kwargs)
+        print "refurbished kwargs: " + str(self.kwargs)
+        context['vin'] = RefurbishedBike.objects.filter(pk=self.kwargs['pk']).first().vin
+        context['transactions'] = RefurbishedBike.objects.filter(pk=self.kwargs['pk']).first().transaction_set.all()
+        return context
+
+
+def process_rental(form_data):
+    rental_bike = RentalBike(
+        vin=form_data['vin']
+    )
+    rental_bike.save()
+
+
+def new_rental(request):
+    if request.method == 'POST':
+        form = RentalForm(request.POST)
+        if form.is_valid():
+            process_rental(form.cleaned_data)
+            return render_to_response('app/confirm_rental.html', {})
+    else:
+        form = RentalForm()
+
+    return render(request, 'app/new_rental.html', {
+        'form': form,
+    })
+
+
+def process_refurbished(form_data):
+    refurbished_bike = RefurbishedBike(
+        vin=form_data['vin']
+    )
+    refurbished_bike.save()
+
+
+def new_refurbished(request):
+    if request.method == 'POST':
+        form = RefurbishedForm(request.POST)
+        if form.is_valid():
+            process_refurbished(form.cleaned_data)
+            return render_to_response('app/confirm_refurbished.html', {})
+    else:
+        form = RefurbishedForm()
+
+    return render(request, 'app/new_refurbished.html', {
+        'form': form,
+    })
 
 
 def process(form_data):
@@ -152,16 +217,10 @@ def process(form_data):
 
     # map transaction to rental/refurbished bike
     if form_data[1]['rental_vin']:
-        rental_bike = RentalBike(
-            vin=form_data[1]['rental_vin']
-        )
-        rental_bike.save()
+        rental_bike = RentalBike.objects.filter(vin=form_data[1]['rental_vin']).first()
         new_transaction.rental_bike = rental_bike
     elif form_data[1]['refurbished_vin']:
-        refurbished_bike = RefurbishedBike(
-            vin=form_data[1]['refurbished_vin']
-        )
-        refurbished_bike.save()
+        refurbished_bike = RefurbishedBike.objects.filter(vin=form_data[1]['refurbished_vin']).first()
         new_transaction.refurbished_bike = refurbished_bike
 
     new_transaction.save()
@@ -254,13 +313,6 @@ def user_logout(request):
     logout(request)
     context = RequestContext(request)
     return render_to_response('registration/logout.html', {}, context)
-
-
-
-
-
-
-
 
 
 

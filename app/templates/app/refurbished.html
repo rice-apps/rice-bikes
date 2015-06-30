@@ -2,9 +2,10 @@
 
 {% block content %}
 
+<a href="{% url 'app:new_refurbished' %}" class="btn btn-default" role="button" name='new_refurbished'>Add Refurbished Bike</a>
 <a class="btn btn-default" href="{% url 'app:index' %}" role="button">Back to Transactions</a>
 
-{% if rentals %}
+{% if refurbished_list %}
     <h3>Rental Bikes</h3>
 
     <table class="table">
@@ -15,9 +16,8 @@
 
     {% for refurbished in refurbished_list %}
         <tr>
-            <td>{{ rental.id }}</td>
-            <td><a href="#">{{ refurbished.vin}}</a></td>
-
+            <td>{{ refurbished.id }}</td>
+            <td><a href="{% url 'app:refurbished_detail' refurbished.id %}">{{ refurbished.vin}}</a></td>
         </tr>
     {% endfor %}
     </table>

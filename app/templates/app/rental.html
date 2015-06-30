@@ -2,6 +2,7 @@
 
 {% block content %}
 
+<a href="{% url 'app:new_rental' %}" class="btn btn-default" role="button" name='new_rental'>Add Rental Bike</a>
 <a class="btn btn-default" href="{% url 'app:index' %}" role="button">Back to Transactions</a>
 
 {% if rentals %}
@@ -16,8 +17,7 @@
     {% for rental in rentals %}
         <tr>
             <td>{{ rental.id }}</td>
-            <td><a href="#">{{ rental.vin}}</a></td>
-
+            <td><a href="{% url 'app:rental_detail' rental.id %}">{{ rental.vin }}</a></td>
         </tr>
     {% endfor %}
     </table>
