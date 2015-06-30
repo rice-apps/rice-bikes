@@ -55,7 +55,6 @@ class Transaction(models.Model):
     rental_bike = models.ForeignKey(RentalBike, null=True, blank=True)
     refurbished_bike = models.ForeignKey(RefurbishedBike, null=True, blank=True)
 
-
     # Auto-generated fields
     completed = models.BooleanField(default=False)
     date_submitted = models.DateTimeField(default=datetime.now, blank=True)
