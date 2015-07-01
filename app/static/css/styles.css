@@ -9,3 +9,11 @@ body {
 .labels {
     font-weight: bold;
 }
+
+.bold {
+  font-weight: bold;
+}
+
+.legible {
+  font-size: 26px;
+}

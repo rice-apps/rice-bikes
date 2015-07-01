@@ -2,8 +2,8 @@
 
 {% block content %}
 
-<a href="{% url 'app:new_rental' %}" class="btn btn-default" role="button" name='new_rental'>Add Rental Bike</a>
-<a class="btn btn-default" href="{% url 'app:index' %}" role="button">Back to Transactions</a>
+<a href="{% url 'app:new_rental' %}" class="btn btn-default btn-xlarge" role="button" name='new_rental'>Add Rental Bike</a>
+<a class="btn btn-default btn-xlarge" href="{% url 'app:index' %}" role="button">Back to Transactions</a>
 
 {% if rentals %}
     <h3>Rental Bikes</h3>

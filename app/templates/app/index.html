@@ -3,13 +3,13 @@
 {% block content %}
 
 <div class="btn-group btn-group-justified" role="group" aria-label="...">
-    <a href="/new" class="btn btn-default" role="button" name='new_transaction'>Create new transaction</a>
-    <a href="/history" class="btn btn-default" role="button" name='past_transactions'>View past transactions</a>
+    <a href="/new" class="btn btn-default btn-xlarge" role="button" name='new_transaction'>New</a>
+    <a href="/history" class="btn btn-default btn-xlarge" role="button" name='past_transactions'>History</a>
 </div>
 <br>
 <div class="btn-group btn-group-justified" role="group" aria-label="...">
-    <a href="/rental" class="btn btn-default" role="button" name='rental'>Go to Rental Bikes</a>
-    <a href="/refurbished" class="btn btn-default" role="button" name='refurbished'>Go to Refurbished Bikes</a>
+    <a href="/rental" class="btn btn-default btn-xlarge" role="button" name='rental'>Rental</a>
+    <a href="/refurbished" class="btn btn-default btn-xlarge" role="button" name='refurbished'>Refurbished</a>
 </div>
 {% if transactions_list %}
     <h3>Active Customers</h3>
@@ -23,7 +23,7 @@
     </thead>
 
     {% for transaction in transactions_list %}
-        <tr>
+        <tr class="legible">
             <td>{{ transaction.id }}</td>
             <td><a href="{% url 'app:detail' transaction.id %}">{{ transaction.first_name }} {{ transaction.last_name }}</a></td>
             <td>{{ transaction.email }}</td>
