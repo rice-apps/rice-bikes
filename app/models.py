@@ -4,8 +4,6 @@ from django.core.exceptions import ValidationError
 from datetime import datetime
 import re
 
-from app.common.utils import ChoiceEnum
-
 
 def validate_email(email_string):
     """
@@ -73,8 +71,16 @@ class Task(models.Model):
         return "Task " + str(self.name)
 
 
+class RevenueUpdate(models.Model):
+    amount = models.IntegerField()
+    employee = models.CharField(max_length=100)
+    completed_transaction = models.ForeignKey(Transaction)
+    description = models.CharField(max_length=100)
+    is_transaction = models.BooleanField(default=False)
 
 
+class TotalRevenue(models.Model):
+    total_revenue = models.IntegerField()
 
 
 
