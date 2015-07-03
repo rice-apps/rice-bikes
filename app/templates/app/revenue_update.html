@@ -1,0 +1,28 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+    {% load bootstrap %}
+
+    <form actions="." method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            {% if field.name != "employee" and field.name != "completed_transaction" %}
+                {{ field|bootstrap }}
+            {% endif %}
+        {% endfor %}
+        <div class="form-group">
+            <div class=" ">
+                <input class=" form-control" type="hidden" name="employee" id="id_employee">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class=" ">
+                <input class=" form-control" type="hidden" name="completed_transaction" id="id_completed_transaction">
+            </div>
+        </div>
+
+
+        <input type="submit" value="Submit">
+    </form>
+
+{% endblock %}

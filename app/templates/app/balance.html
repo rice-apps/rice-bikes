@@ -1,0 +1,35 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+
+<a href="{% url 'app:revenue_update'%}" class="btn btn-default btn-xlarge" role="button" name='new_payment'>Make Balance Update</a>
+<a class="btn btn-default btn-xlarge" href="{% url 'app:index' %}" role="button">Back to Transactions</a>
+
+{% if revenue_updates %}
+    <h3>Balance History</h3>
+
+    <table class="table">
+    <thead>
+        <td>Transaction ID</td>
+        <td>Amount</td>
+        <td>Employee</td>
+        <td>Description</td>
+    </thead>
+
+    {% for update in revenue_updates %}
+        <tr>
+            {% if update.completed_transaction != None %}
+                <td><a href="{% url 'app:detail_complete' update.completed_transaction.id %}">{{ update.completed_transaction.id }}</a></td>
+            {% else %}
+                <td><a href="#">-</a></td>
+            {% endif %}
+            <td>${{ update.amount }}</td>
+            <td>{{ update.employee }}</td>
+            <td>{{ update.description }} </td>
+        </tr>
+    {% endfor %}
+    </table>
+
+{% endif %}
+
+{% endblock %}

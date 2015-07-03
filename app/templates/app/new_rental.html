@@ -5,6 +5,7 @@
 
     <form actions="." method="post">
         {% csrf_token %}
+
         {{ form|bootstrap }}
         <input type="submit" value="Submit">
     </form>

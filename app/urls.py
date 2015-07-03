@@ -23,6 +23,8 @@ urlpatterns = patterns(
     url(r'^(?P<pk>\d+)/refurbished_detail/$', views.RefurbishedDetail.as_view(), name='refurbished_detail'),
     url(r'^new_rental/$', views.new_rental, name='new_rental'),
     url(r'^new_refurbished/$', views.new_refurbished, name='new_refurbished'),
+    url(r'^balance/$', views.balance, name='balance'),
+    url(r'^revenue_update/$', views.revenue_update, name='revenue_update'),
 )
 
 urlpatterns += staticfiles_urlpatterns()

@@ -1,4 +1,4 @@
-from app.models import Transaction, RentalBike, RefurbishedBike
+from app.models import Transaction, RentalBike, RefurbishedBike, RevenueUpdate
 from django import forms
 from django.forms import ModelForm, Form
 from django.contrib.auth.models import User
@@ -235,3 +235,8 @@ class RentalForm(ModelForm):
 class RefurbishedForm(ModelForm):
     class Meta:
         model = RefurbishedBike
+
+
+class RevenueForm(ModelForm):
+    class Meta:
+        model = RevenueUpdate

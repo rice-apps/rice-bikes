@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
-from app.models import Transaction, Task, RentalBike, RefurbishedBike
+from app.models import Transaction, Task, RentalBike, RefurbishedBike, \
+    RevenueUpdate, TotalRevenue
 from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic import DetailView
 from django.core.mail import EmailMessage
@@ -10,7 +11,7 @@ from django.contrib.auth import get_user_model
 from django.utils.decorators import method_decorator
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth import authenticate, login, logout
-from app.forms import TasksForm, RepairsForm, RentalForm, RefurbishedForm
+from app.forms import TasksForm, RepairsForm, RentalForm, RefurbishedForm, RevenueForm
 from django.template import RequestContext
 from django import forms
 
@@ -36,10 +37,24 @@ def history(request):
 
 @login_required
 def mark_as_completed(request, pk):
+    # save completed transaction
     transaction = get_object_or_404(Transaction, pk=pk)
     transaction.completed = True
     transaction.save()
+
+    # send email
     send_completion_email(transaction)
+
+    # save revenue update
+
+    revenue_update = RevenueUpdate(
+        amount=transaction.price,
+        employee=request.user.get_username(),
+        completed_transaction=transaction,
+        description=transaction.service_description,
+    )
+    revenue_update.save()
+
     return HttpResponseRedirect(reverse('app:index'))
 
 
@@ -315,6 +330,29 @@ def user_logout(request):
     logout(request)
     context = RequestContext(request)
     return render_to_response('registration/logout.html', {}, context)
+
+
+def balance(request):
+    revenue_updates = RevenueUpdate.objects.all()
+    # print revenue_updates.first().description
+    return render(request, 'app/balance.html', {'revenue_updates': revenue_updates})
+
+
+def process_revenue_update(form_data):
+    pass
+
+def revenue_update(request):
+    if request.method == 'POST':
+        form = RevenueForm(request.POST)
+        if form.is_valid():
+            process_revenue_update(form.cleaned_data)
+            return render_to_response('app/confirm_revenue.html', {})
+    else:
+        form = RevenueForm()
+
+    return render(request, 'app/revenue_update.html', {
+        'form': form,
+    })
 
 
 
