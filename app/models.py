@@ -76,6 +76,13 @@ class RevenueUpdate(models.Model):
     employee = models.CharField(max_length=100, blank=True)
     completed_transaction = models.ForeignKey(Transaction, blank=True, null=True)
     description = models.CharField(max_length=100)
+    new_total_revenue = models.IntegerField(blank=True)
+
+    #Auto-generated fields
+    date_submitted = models.DateTimeField(default=datetime.now, blank=True)
+
+    def __str__(self):
+        return str(self.description)
 
 
 class TotalRevenue(models.Model):

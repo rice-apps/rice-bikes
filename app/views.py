@@ -47,11 +47,16 @@ def mark_as_completed(request, pk):
 
     # save revenue update
 
+    total_revenue = TotalRevenue.objects.first()
+    total_revenue.total_revenue += transaction.price
+    total_revenue.save()
+
     revenue_update = RevenueUpdate(
         amount=transaction.price,
         employee=request.user.get_username(),
         completed_transaction=transaction,
         description=transaction.service_description,
+        new_total_revenue=total_revenue.total_revenue,
     )
     revenue_update.save()
 
@@ -333,19 +338,31 @@ def user_logout(request):
 
 
 def balance(request):
-    revenue_updates = RevenueUpdate.objects.all()
-    # print revenue_updates.first().description
+    revenue_updates = RevenueUpdate.objects.all().order_by('date_submitted').reverse()
     return render(request, 'app/balance.html', {'revenue_updates': revenue_updates})
 
 
-def process_revenue_update(form_data):
-    pass
+def process_revenue_update(form_data, request):
+
+    total_revenue = TotalRevenue.objects.first()
+    total_revenue.total_revenue += form_data['amount']
+    total_revenue.save()
+
+    revenue_update = RevenueUpdate(
+        amount=form_data['amount'],
+        employee=request.user.get_username(),
+        completed_transaction=None,
+        description=form_data['description'],
+        new_total_revenue=total_revenue.total_revenue,
+    )
+    revenue_update.save()
+
 
 def revenue_update(request):
     if request.method == 'POST':
         form = RevenueForm(request.POST)
         if form.is_valid():
-            process_revenue_update(form.cleaned_data)
+            process_revenue_update(form.cleaned_data, request)
             return render_to_response('app/confirm_revenue.html', {})
     else:
         form = RevenueForm()

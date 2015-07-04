@@ -14,6 +14,7 @@
         <td>Amount</td>
         <td>Employee</td>
         <td>Description</td>
+        <td>Total Revenue</td>
     </thead>
 
     {% for update in revenue_updates %}
@@ -23,9 +24,17 @@
             {% else %}
                 <td><a href="#">-</a></td>
             {% endif %}
-            <td>${{ update.amount }}</td>
+
+            <td> {% if update.amount < 0 %}
+                    <font color='cranberry'>${{ update.amount }}</font>
+                {% else %}
+                    {{ update.amount }}
+                {% endif %}
+            </td>
             <td>{{ update.employee }}</td>
             <td>{{ update.description }} </td>
+
+            <td>${{ update.new_total_revenue }}</td>
         </tr>
     {% endfor %}
     </table>
