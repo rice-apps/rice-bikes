@@ -47,6 +47,11 @@ def mark_as_completed(request, pk):
 
     # save revenue update
 
+    if TotalRevenue.objects.count() == 0:
+        total_revenue = TotalRevenue(
+            total_revenue=0
+        )
+        total_revenue.save()
     total_revenue = TotalRevenue.objects.first()
     total_revenue.total_revenue += transaction.price
     total_revenue.save()
@@ -344,6 +349,11 @@ def balance(request):
 
 def process_revenue_update(form_data, request):
 
+    if TotalRevenue.objects.count() == 0:
+        total_revenue = TotalRevenue(
+            total_revenue=0
+        )
+        total_revenue.save()
     total_revenue = TotalRevenue.objects.first()
     total_revenue.total_revenue += form_data['amount']
     total_revenue.save()
