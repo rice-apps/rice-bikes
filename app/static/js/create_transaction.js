@@ -10,6 +10,7 @@ $(document).ready(function() {
         $(vin_field_list[i]).closest('.fieldWrapper').hide();
     }
 
+   // checkbox click event
     $('input:checkbox').change(function() {
 
         // This is explicitly for prices with format ($<integer>)
@@ -28,6 +29,7 @@ $(document).ready(function() {
         }
     });
 
+    // selection event
     $('select').change(function() {
         selection = $('select').prop('value');
         rental_bike = $("[id*="+'rental_vin'+"]").closest('.fieldWrapper');
@@ -44,5 +46,9 @@ $(document).ready(function() {
             $(refurbished_bike).show();
             $(rental_bike).hide();
         }
+    })
+
+    $('.category').click(function() {
+        $("." + $(this).attr('category')).toggle()
     })
 });

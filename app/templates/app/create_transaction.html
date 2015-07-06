@@ -18,17 +18,25 @@
 {{ wizard.management_form }}
     {% if wizard.steps.step0 == 1 %}
         {% for category_pair in category_dict.iteritems %}
-            <h3> {{ category_pair.0 }} </h3>
-            {% for field_info_pair in category_pair.1.iteritems %}
-            <div class="fieldWrapper">
-                <div class="form-group">
-                    <label class="control-label  " for="id_1-{{ field_info_pair.0|join_whitespace }}">(${{ field_info_pair.1|get_member:'price'}})  {{ field_info_pair.0 }}</label>
-                    <div class=" ">
-                        <input class="form-control" id="id_1-{{ field_info_pair.0|join_whitespace }}" name="1-{{field_info_pair.0|join_whitespace}}" type="checkbox" />
+
+                <div class="category" category="{{category_pair.0|join_whitespace}}">
+                    <div class="btn-group btn-group-justified">
+                        <a class="btn btn-default btn-xlarge" role="button" name='new_transaction'>{{ category_pair.0 }}</a>
                     </div>
                 </div>
-            </div>
+            <div class="{{ category_pair.0|join_whitespace }}" style="display:none">
+            {% for field_info_pair in category_pair.1.iteritems %}
+
+                <div class="fieldWrapper">
+                    <div class="form-group">
+                        <label class="control-label  " for="id_1-{{ field_info_pair.0|join_whitespace }}">(${{ field_info_pair.1|get_member:'price'}})  {{ field_info_pair.0 }}</label>
+                        <div class=" ">
+                            <input class="form-control" id="id_1-{{ field_info_pair.0|join_whitespace }}" name="1-{{field_info_pair.0|join_whitespace}}" type="checkbox" />
+                        </div>
+                    </div>
+                </div>
             {% endfor %}
+            </div>
         {% endfor %}
 
         <br>
