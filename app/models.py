@@ -46,7 +46,7 @@ class Transaction(models.Model):
     affiliation = models.CharField(max_length=100, default="")
     email = models.CharField(max_length=100, validators=[validate_email])
 
-    service_description = models.CharField(max_length=500)
+    service_description = models.CharField(max_length=500, null=True, blank=True)
     price = models.IntegerField(default=0)
 
     # ForeignKeys to RentalBike and RefurbishedBike

@@ -18,7 +18,6 @@
 {{ wizard.management_form }}
     {% if wizard.steps.step0 == 1 %}
         {% for category_pair in category_dict.iteritems %}
-
                 <div class="category" category="{{category_pair.0|join_whitespace}}">
                     <div class="btn-group btn-group-justified">
                         <a class="btn btn-default btn-xlarge" role="button" name='new_transaction'>{{ category_pair.0 }}</a>

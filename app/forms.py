@@ -221,7 +221,7 @@ class TasksForm(Form):
 
 
 class RepairsForm(TasksForm):
-    service_description = forms.CharField(max_length=100)
+    service_description = forms.CharField(max_length=100, required=False)
     price = forms.IntegerField()
     rental_vin = forms.IntegerField(required=False)
     refurbished_vin = forms.IntegerField(required=False)
