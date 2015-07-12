@@ -226,6 +226,12 @@ class RepairsForm(TasksForm):
     refurbished_vin = forms.IntegerField(required=False)
 
 
+class TransactionForm(ModelForm):
+    class Meta:
+        model = Transaction
+        fields = ('service_description', 'price', 'amount_paid',)
+
+
 class RentalForm(ModelForm):
     class Meta:
         model = RentalBike

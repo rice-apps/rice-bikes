@@ -11,7 +11,7 @@ from django.contrib.auth import get_user_model
 from django.utils.decorators import method_decorator
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth import authenticate, login, logout
-from app.forms import TasksForm, RepairsForm, RentalForm, RefurbishedForm, RevenueForm
+from app.forms import TasksForm, RepairsForm, RentalForm, RefurbishedForm, RevenueForm, TransactionForm
 from django.template import RequestContext
 from django import forms
 
@@ -118,11 +118,25 @@ class TransactionDetailComplete(LoggedInMixin, DetailView):
         return context
 
 
+def process_transaction_edit(form_data, transaction):
+
+    print "oh boi!"
+
+    print form_data
+
+    transaction.service_description = form_data['service_description']
+    transaction.amount_paid = form_data['amount_paid']
+    transaction.price = form_data['price']
+    transaction.save()
+    print "yes"
+
+
 def update(request, *args, **kwargs):
     # model = Transaction
     # template_name = "app/edit.html"
 
-    tasks = Transaction.objects.filter(pk=kwargs['pk']).first().task_set.all()
+    transaction = Transaction.objects.filter(pk=kwargs['pk']).first()
+    tasks = transaction.task_set.all()
 
     if request.method == 'POST':
         url = u"/%s" % kwargs['pk']
@@ -133,6 +147,10 @@ def update(request, *args, **kwargs):
 
             posted_strings = [str(key) for key in request.POST]
             print posted_strings
+
+            form = TransactionForm(request.POST)
+            if form.is_valid():
+                process_transaction_edit(form.cleaned_data, transaction)
 
             for task in tasks:
                 print "task.name = " + task.name
@@ -147,7 +165,11 @@ def update(request, *args, **kwargs):
 
     category_dict = TasksForm.get_category_dict()
     info_dict = TasksForm.get_info_dict()
-    return render_to_response("app/edit.html", {'tasks': tasks, 'category_dict': category_dict, 'info_dict': info_dict},
+
+    transaction_form = TransactionForm(instance=transaction)
+
+    return render_to_response("app/edit.html", {'tasks': tasks, 'category_dict': category_dict, 'info_dict': info_dict,
+                                                'transaction_form': transaction_form},
                               context_instance=RequestContext(request))
 
 
