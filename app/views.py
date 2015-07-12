@@ -68,23 +68,23 @@ def mark_as_completed(request, pk):
     return HttpResponseRedirect(reverse('app:index'))
 
 
-def send_receipt_email(transaction):
-    """
-    Sends a form receipt to the customer's email address.
-    """
-    email_address = transaction.email
-    subject_line = "Rice Bikes receipt"
-    body = "%s, this is your receipt for your order placed on %s. Here are the details:\n %s\nPrice: %s" \
-    % (transaction.first_name, transaction.date_submitted, transaction.service_description, transaction.price)
-    email = EmailMessage(subject_line, body, to=[email_address])
-    email.send(fail_silently=False)
-
-
 def send_completion_email(transaction):
     email_address = transaction.email
-    subject_line = "Rice Bikes status update"
-    body = "%s, your bike is available at Rice Bikes. Please come pick it up at your earliest convenience." \
-           % (transaction.first_name)
+    subject_line = "[Rice Bikes] Ready For Pickup"
+    tasks = [str(task.name) for task in transaction.task_set.all()]
+    task_string = "\n".join(tasks)
+    body = "%s,\n\n" \
+           " Your bike is ready for pickup! The following repairs were completed:\n" \
+           "%s\n\n" \
+           "Total: $%d\n\n" \
+           "Please pick up your bicycle during our regular business hours (Monday -" \
+           "Friday, 2-5pm) within the next 2 business days to avoid a $5 per day storage" \
+           " fee. At this time we only accept cash or check payments, but there is an ATM" \
+           " machine around the corner from our shop. We hope to see you soon." \
+           "\n\n" \
+           "-The Rice Bikes Team" \
+           % (transaction.first_name, task_string, transaction.price)
+
     email = EmailMessage(subject_line, body, to=[email_address])
     email.send(fail_silently=False)
 
@@ -263,9 +263,6 @@ def process(form_data):
                 transaction=new_transaction
             )
             task.save()
-
-    if not form_data[0]['no_receipt']: # send receipt by default. the employee must check the box to not send.
-        send_receipt_email(new_transaction)
 
 
 class TransactionWizard(SessionWizardView):
