@@ -45,26 +45,6 @@ def mark_as_completed(request, pk):
     # send email
     send_completion_email(transaction)
 
-    # save revenue update
-
-    if TotalRevenue.objects.count() == 0:
-        total_revenue = TotalRevenue(
-            total_revenue=0
-        )
-        total_revenue.save()
-    total_revenue = TotalRevenue.objects.first()
-    total_revenue.total_revenue += transaction.price
-    total_revenue.save()
-
-    revenue_update = RevenueUpdate(
-        amount=transaction.price,
-        employee=request.user.get_username(),
-        completed_transaction=transaction,
-        description=transaction.service_description,
-        new_total_revenue=total_revenue.total_revenue,
-    )
-    revenue_update.save()
-
     return HttpResponseRedirect(reverse('app:index'))
 
 
@@ -118,16 +98,38 @@ class TransactionDetailComplete(LoggedInMixin, DetailView):
         return context
 
 
-def process_transaction_edit(form_data, transaction):
+def process_transaction_edit(form_data, transaction, request):
 
     print "oh boi!"
 
     print form_data
 
+    payment_difference = form_data['amount_paid'] - transaction.amount_paid
+
+    if payment_difference != 0:
+        # make revenue update
+        if TotalRevenue.objects.count() == 0:
+            total_revenue = TotalRevenue(
+                total_revenue=0
+            )
+            total_revenue.save()
+        total_revenue = TotalRevenue.objects.first()
+        total_revenue.total_revenue += payment_difference
+        total_revenue.save()
+
+        revenue_update = RevenueUpdate(
+            amount=payment_difference,
+            employee=request.user.get_username(),
+            transaction=transaction,
+            new_total_revenue=total_revenue.total_revenue,
+        )
+        revenue_update.save()
+
     transaction.service_description = form_data['service_description']
     transaction.amount_paid = form_data['amount_paid']
     transaction.price = form_data['price']
     transaction.save()
+
     print "yes"
 
 
@@ -150,7 +152,7 @@ def update(request, *args, **kwargs):
 
             form = TransactionForm(request.POST)
             if form.is_valid():
-                process_transaction_edit(form.cleaned_data, transaction)
+                process_transaction_edit(form.cleaned_data, transaction, request)
 
             for task in tasks:
                 print "task.name = " + task.name

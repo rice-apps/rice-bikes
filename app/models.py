@@ -75,8 +75,7 @@ class Task(models.Model):
 class RevenueUpdate(models.Model):
     amount = models.IntegerField()
     employee = models.CharField(max_length=100, blank=True)
-    completed_transaction = models.ForeignKey(Transaction, blank=True, null=True)
-    description = models.CharField(max_length=100)
+    transaction = models.ForeignKey(Transaction, blank=True, null=True)
     new_total_revenue = models.IntegerField(blank=True)
 
     #Auto-generated fields

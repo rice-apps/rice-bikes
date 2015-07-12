@@ -13,14 +13,14 @@
         <td>Transaction ID</td>
         <td>Amount</td>
         <td>Employee</td>
-        <td>Description</td>
+        <td>Customer</td>
         <td>Total Revenue</td>
     </thead>
 
     {% for update in revenue_updates %}
         <tr>
-            {% if update.completed_transaction != None %}
-                <td><a href="{% url 'app:detail_complete' update.completed_transaction.id %}">{{ update.completed_transaction.id }}</a></td>
+            {% if update.transaction != None %}
+                <td><a href="{% url 'app:detail_complete' update.transaction.id %}">{{ update.transaction.id }}</a></td>
             {% else %}
                 <td><a href="#">-</a></td>
             {% endif %}
@@ -32,7 +32,7 @@
                 {% endif %}
             </td>
             <td>{{ update.employee }}</td>
-            <td>{{ update.description }} </td>
+            <td>{{ update.transaction.first_name }} </td>
 
             <td>${{ update.new_total_revenue }}</td>
         </tr>
