@@ -9,7 +9,7 @@
     {% for transaction in transactions %}
         <tr>
             <td>{{ transaction.id }}</td>
-            <td><a href="{% url 'app:detail' transaction.id 'rental_detail' %}">{{ transaction.first_name }} {{ transaction.last_name }}</a></td>
+            <td><a href="{% url 'app:detail' transaction.id 'rental' %}">{{ transaction.first_name }} {{ transaction.last_name }}</a></td>
             <td>{{ transaction.email }}</td>
             <td>
                 {{ transaction.service_description|slice:":75" }}
