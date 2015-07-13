@@ -235,11 +235,13 @@ class TransactionForm(ModelForm):
 class RentalForm(ModelForm):
     class Meta:
         model = RentalBike
+        fields = ('vin',)
 
 
 class RefurbishedForm(ModelForm):
     class Meta:
         model = RefurbishedBike
+        fields = ('vin',)
 
 
 class RevenueForm(ModelForm):

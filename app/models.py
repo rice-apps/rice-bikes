@@ -32,10 +32,12 @@ class Employee(models.Model):
 
 class RentalBike(models.Model):
     vin = models.IntegerField(unique=True, null=False, blank=False)
+    date_submitted = models.DateTimeField(default=datetime.now, blank=True)
 
 
 class RefurbishedBike(models.Model):
     vin = models.IntegerField(unique=True, null=False, blank=False)
+    date_submitted = models.DateTimeField(default=datetime.now, blank=True)
 
 
 class Transaction(models.Model):

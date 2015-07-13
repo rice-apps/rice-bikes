@@ -85,6 +85,7 @@ class TransactionDetail(LoggedInMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(TransactionDetail, self).get_context_data(**kwargs)
         context['tasks'] = Transaction.objects.filter(pk=self.kwargs['pk']).first().task_set.all()
+        context['parent_url'] = self.kwargs['parent_url']
         return context
 
 
@@ -95,14 +96,11 @@ class TransactionDetailComplete(LoggedInMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(TransactionDetailComplete, self).get_context_data(**kwargs)
         context['tasks'] = Transaction.objects.filter(pk=self.kwargs['pk']).first().task_set.all()
+        context['parent_url'] = self.kwargs['parent_url']
         return context
 
 
 def process_transaction_edit(form_data, transaction, request):
-
-    print "oh boi!"
-
-    print form_data
 
     payment_difference = form_data['amount_paid'] - transaction.amount_paid
 
@@ -130,8 +128,6 @@ def process_transaction_edit(form_data, transaction, request):
     transaction.price = form_data['price']
     transaction.save()
 
-    print "yes"
-
 
 def update(request, *args, **kwargs):
     # model = Transaction
@@ -141,7 +137,7 @@ def update(request, *args, **kwargs):
     tasks = transaction.task_set.all()
 
     if request.method == 'POST':
-        url = u"/%s" % kwargs['pk']
+        url = u"/%s/%s" % (kwargs['pk'], kwargs['parent_url'])
         if "cancel" in request.POST:
             return HttpResponseRedirect(url)
         else:
@@ -176,13 +172,12 @@ def update(request, *args, **kwargs):
 
 
 def rental(request):
-    rentals = RentalBike.objects.all()
+    rentals = RentalBike.objects.all().order_by('date_submitted').reverse
     return render(request, "app/rental.html", {'rentals': rentals})
 
 
 def refurbished(request):
-    refurbished_list = RefurbishedBike.objects.all()
-    print refurbished_list
+    refurbished_list = RefurbishedBike.objects.all().order_by('date_submitted').reverse
     return render(request, "app/refurbished.html", {'refurbished_list': refurbished_list})
 
 
@@ -266,6 +261,11 @@ def process(form_data):
     # map transaction to rental/refurbished bike
     if form_data[1]['rental_vin']:
         rental_bike = RentalBike.objects.filter(vin=form_data[1]['rental_vin']).first()
+        if rental_bike is None:
+            rental_bike = RentalBike(
+                vin=form_data[1]['rental_vin'],
+            )
+            rental_bike.save()
         new_transaction.rental_bike = rental_bike
     elif form_data[1]['refurbished_vin']:
         refurbished_bike = RefurbishedBike.objects.filter(vin=form_data[1]['refurbished_vin']).first()

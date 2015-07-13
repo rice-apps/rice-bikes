@@ -20,7 +20,7 @@
     {% for update in revenue_updates %}
         <tr>
             {% if update.transaction != None %}
-                <td><a href="{% url 'app:detail_complete' update.transaction.id %}">{{ update.transaction.id }}</a></td>
+                <td><a href="{% url 'app:detail_complete' update.transaction.id 'balance' %}">{{ update.transaction.id }}</a></td>
             {% else %}
                 <td><a href="#">-</a></td>
             {% endif %}

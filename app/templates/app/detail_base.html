@@ -1,4 +1,5 @@
 {% extends "app/base.html" %}
+{% load staticfiles %}
 
 {% block content %}
 
@@ -53,6 +54,9 @@
         </tr>
     {% endfor %}
 </table>
+
+<a class="btn btn-default" href="{% url 'app:'|add:parent_url  %}" id="back" role="button">Back</a>
+<a class="btn btn-default" href="{% url 'app:edit' transaction.id parent_url %}" role="button">Edit</a>
 
 {% endblock %}
 
