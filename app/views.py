@@ -137,7 +137,7 @@ def update(request, *args, **kwargs):
     tasks = transaction.task_set.all()
 
     if request.method == 'POST':
-        url = u"/%s/%s" % (kwargs['pk'], kwargs['parent_url'])
+        url = u"/%s/%s/detail" % (kwargs['pk'], kwargs['parent_url'])
         if "cancel" in request.POST:
             return HttpResponseRedirect(url)
         else:
