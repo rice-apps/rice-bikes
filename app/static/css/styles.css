@@ -6,6 +6,12 @@ body {
     float:right;
 }
 
+.buttonpic {
+  width: 25px;
+  height: 25px;
+  align-self: center;
+}
+
 .labels {
     font-weight: bold;
 }
@@ -17,4 +23,3 @@ body {
 .legible {
   font-size: 26px;
 }
-
