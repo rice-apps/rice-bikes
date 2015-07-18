@@ -274,6 +274,11 @@ def process(form_data):
         new_transaction.rental_bike = rental_bike
     elif form_data[1]['refurbished_vin']:
         refurbished_bike = RefurbishedBike.objects.filter(vin=form_data[1]['refurbished_vin']).first()
+        if refurbished_bike is None:
+            refurbished_bike = RefurbishedBike(
+                vin=form_data[1]['refurbished_vin'],
+            )
+            refurbished_bike.save()
         new_transaction.refurbished_bike = refurbished_bike
 
     new_transaction.save()
