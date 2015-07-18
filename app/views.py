@@ -14,6 +14,7 @@ from django.contrib.auth import authenticate, login, logout
 from app.forms import TasksForm, RepairsForm, RentalForm, RefurbishedForm, RevenueForm, TransactionForm
 from django.template import RequestContext
 from django import forms
+import csv
 
 NEW_ORDER_TEMPLATES = {'0': 'app/create_transaction.html', '1': 'app/create_transaction.html'}
 
@@ -102,7 +103,10 @@ class TransactionDetailComplete(LoggedInMixin, DetailView):
 
 def process_transaction_edit(form_data, transaction, request):
 
-    payment_difference = form_data['amount_paid'] - transaction.amount_paid
+    if transaction is None:
+        payment_difference = form_data['amount']
+    else:
+        payment_difference = form_data['amount_paid'] - transaction.amount_paid
 
     if payment_difference != 0:
         # make revenue update
@@ -123,10 +127,11 @@ def process_transaction_edit(form_data, transaction, request):
         )
         revenue_update.save()
 
-    transaction.service_description = form_data['service_description']
-    transaction.amount_paid = form_data['amount_paid']
-    transaction.price = form_data['price']
-    transaction.save()
+    if transaction:
+        transaction.service_description = form_data['service_description']
+        transaction.amount_paid = form_data['amount_paid']
+        transaction.price = form_data['price']
+        transaction.save()
 
 
 def update(request, *args, **kwargs):
@@ -365,35 +370,39 @@ def user_logout(request):
 
 def balance(request):
     revenue_updates = RevenueUpdate.objects.all().order_by('date_submitted').reverse()
+
+    if request.method == 'POST':
+        if 'export' in request.POST:
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="balance_history.csv"'
+
+            writer = csv.writer(response)
+            for update in revenue_updates:
+                update_list = []
+                if update.transaction:
+                    update_list.append(update.transaction.id)
+                else:
+                    update_list.append(None)
+                update_list.append(update.amount)
+                update_list.append(update.employee)
+                if update.transaction:
+                    update_list.append(update.transaction.first_name + " "
+                                       + update.transaction.last_name)
+                else:
+                    update_list.append(None)
+                update_list.append(update.new_total_revenue)
+                update_list.append(update.date_submitted.date())
+                writer.writerow(update_list)
+            return response
+
     return render(request, 'app/balance.html', {'revenue_updates': revenue_updates})
-
-
-def process_revenue_update(form_data, request):
-
-    if TotalRevenue.objects.count() == 0:
-        total_revenue = TotalRevenue(
-            total_revenue=0
-        )
-        total_revenue.save()
-    total_revenue = TotalRevenue.objects.first()
-    total_revenue.total_revenue += form_data['amount']
-    total_revenue.save()
-
-    revenue_update = RevenueUpdate(
-        amount=form_data['amount'],
-        employee=request.user.get_username(),
-        completed_transaction=None,
-        description=form_data['description'],
-        new_total_revenue=total_revenue.total_revenue,
-    )
-    revenue_update.save()
 
 
 def revenue_update(request):
     if request.method == 'POST':
         form = RevenueForm(request.POST)
         if form.is_valid():
-            process_revenue_update(form.cleaned_data, request)
+            process_transaction_edit(form.cleaned_data, None, request)
             return render_to_response('app/confirm_revenue.html', {})
     else:
         form = RevenueForm()

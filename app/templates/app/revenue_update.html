@@ -5,16 +5,7 @@
 
     <form actions="." method="post">
         {% csrf_token %}
-        {% for field in form %}
-            {% with name=field.name %}
-                {% if name == "amount" or name == "description" %}
-                    {{ field|bootstrap }}
-                {% endif %}
-            {% endwith %}
-        {% endfor %}
-
-
-
+        {{ form.amount|bootstrap }}
         <input type="submit" value="Submit">
     </form>
 

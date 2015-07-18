@@ -2,8 +2,16 @@
 
 {% block content %}
 
-<a href="{% url 'app:revenue_update'%}" class="btn btn-default btn-xlarge" role="button" name='new_payment'>Make Balance Update</a>
-<a class="btn btn-default btn-xlarge" href="{% url 'app:index' %}" role="button">Back to Transactions</a>
+<br>
+<form class="form-inline" action="." method="post">
+    {% csrf_token %}
+    <a class="btn btn-default btn-xlarge" href="{% url 'app:revenue_update'%}"  role="button" name='new_payment'>Update Balance</a>
+    <a class="btn btn-default btn-xlarge" href="{% url 'app:index' %}" role="button">Transactions</a>
+    <input class="btn btn-default btn-xlarge" type="submit" value='Export' name="export">
+
+</form>
+
+
 
 {% if revenue_updates %}
     <h3>Balance History</h3>
@@ -15,6 +23,7 @@
         <td>Employee</td>
         <td>Customer</td>
         <td>Total Revenue</td>
+        <td>Date</td>
     </thead>
 
     {% for update in revenue_updates %}
@@ -22,7 +31,7 @@
             {% if update.transaction != None %}
                 <td><a href="{% url 'app:detail_complete' update.transaction.id 'balance' %}">{{ update.transaction.id }}</a></td>
             {% else %}
-                <td><a href="#">-</a></td>
+                <td><a href="javascript:return false;">-</a></td>
             {% endif %}
 
             <td> {% if update.amount < 0 %}
@@ -32,9 +41,10 @@
                 {% endif %}
             </td>
             <td>{{ update.employee }}</td>
-            <td>{{ update.transaction.first_name }} </td>
+            <td>{{ update.transaction.first_name }} {{ update.transaction.last_name }}</td>
 
             <td>${{ update.new_total_revenue }}</td>
+            <td>{{ update.date_submitted|date:"M d, Y" }}</td>
         </tr>
     {% endfor %}
     </table>
