@@ -14,11 +14,18 @@
     <form action="" method="post">
         {{ wizard.management_form }}
         {% csrf_token %}
-        {% for field in wizard.form %}
-            <div class="fieldWrapper">
-                {{field | bootstrap}}
+
+        <div class="fieldWrapper" id="original_fields">
+            <div class="controls form-inline">
+                {% for field in wizard.form %}
+                    {{field | bootstrap}}
+                {% endfor %}
             </div>
-        {% endfor %}
-        <input type="Submit" value="Submit" class="btn btn-default btn-lg"/>
+        </div>
+        <div id="buttons"class="controls form-inline">
+            <br>
+            <input id="add_form" value="Add Category" class="btn btn-default btn-lg"/>
+            <input type="Submit" value="Submit" class="btn btn-default btn-lg"/>
+        </div>
     </form>
 {% endblock %}
