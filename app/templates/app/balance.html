@@ -1,10 +1,9 @@
 {% extends "app/base.html" %}
 
 {% block content %}
-
+<center>
 <a href="{% url 'app:revenue_update'%}" class="btn btn-default btn-xlarge" role="button" name='new_payment'>Make Balance Update</a>
-<a class="btn btn-default btn-xlarge" href="{% url 'app:index' %}" role="button">Back to Transactions</a>
-
+</center>
 {% if revenue_updates %}
     <h3>Balance History</h3>
 

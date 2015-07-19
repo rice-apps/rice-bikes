@@ -30,9 +30,15 @@
         {% endif %}
     </div>
     <div class="btn-group btn-group-justified" role="group" aria-label="...">
+      {% if transactions_list %}
         <a href="/new" class="btn btn-default btn-xlarge" role="button" name='new_transaction'>
           <img class="buttonpic" src="/app/static/img/add.png" alt="New transaction"/>
         </a>
+      {% else %}
+        <a href="/" class="btn btn-default btn-xlarge" role="button" name='home'>
+          <img class="buttonpic" src="/app/static/img/home.png" alt="Home"/>
+        </a>
+      {% endif %}
         <a href="/history" class="btn btn-default btn-xlarge" role="button" name='past_transactions'>
           <img class="buttonpic" src="/app/static/img/clock.png"/>
         </a>

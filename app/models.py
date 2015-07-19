@@ -89,15 +89,3 @@ class RevenueUpdate(models.Model):
 
 class TotalRevenue(models.Model):
     total_revenue = models.IntegerField()
-
-
-
-
-
-
-
-
-
-
-
-
