@@ -305,13 +305,14 @@ def process(form_data):
     print "form_data[2] = "
     print form_data[2]
 
-    part_category = PartCategory(
-        category=form_data[2]['category'],
-        price=form_data[2]['price'],
-        description=form_data[2]['description'],
-        transaction=new_transaction,
-    )
-    part_category.save()
+    for form in form_data[2]:
+        part_category = PartCategory(
+            category=form['category'],
+            price=form['price'],
+            description=form['description'],
+            transaction=new_transaction,
+        )
+        part_category.save()
 
 
 class TransactionWizard(SessionWizardView):
@@ -331,32 +332,53 @@ class TransactionWizard(SessionWizardView):
             context.update({'non_task_fields': non_task_fields})
         return context
 
-    def done(self, form_list, **kwargs):
+    def done(self, form_input_list, **kwargs):
         # form_data is a list of dicts (one for each form in the wizard)
 
-        form_data = list()
-        form_data.append(form_list[0].cleaned_data)
-        form_data.append({})
+        forms_to_process = list()
+        forms_to_process.append(form_input_list[0].cleaned_data)
+        forms_to_process.append({})
 
         info_dict = TasksForm.get_info_dict()
 
-        for field in form_list[1].cleaned_data:
+        for field in form_input_list[1].cleaned_data:
             print str(field)
-            print (form_list[1].cleaned_data[field])
-            if not (isinstance(form_list[1].cleaned_data[field], bool) and not form_list[1].cleaned_data[field]):
+            print (form_input_list[1].cleaned_data[field])
+            if not (isinstance(form_input_list[1].cleaned_data[field], bool) and not form_input_list[1].cleaned_data[field]):
                 if field.replace("_", " ") in info_dict:
-                    form_data[1][field] = info_dict[field.replace("_", " ")]
+                    forms_to_process[1][field] = info_dict[field.replace("_", " ")]
                 else:
-                    form_data[1][field] = form_list[1].cleaned_data[field]
+                    forms_to_process[1][field] = form_input_list[1].cleaned_data[field]
 
-        print "form_list[2] ="
-        print form_list[2].cleaned_data
+        print "form_input_list[2] ="
+        print form_input_list[2].data
         print "end"
 
-        form_data.append(form_list[2].cleaned_data)
+        # build the forms by iterating over the MultiValueDict
+        fields = PartCategory._meta.get_all_field_names()
+        fields = [el for el in fields if 'id' not in el and 'transaction' not in el]
 
-        process(form_data)
-        return render_to_response('app/confirm.html', {'form_data': form_data})
+        # third element in forms_to_process is a list of form dicts
+        form_list = []
+        forms_to_process.append(form_list)
+        form_2_data = form_input_list[2].data
+        s = '2-category'
+        num_forms = len(form_2_data.getlist(s))
+        print num_forms
+
+        print 'fields = ' + str(fields)
+
+        for i in xrange(num_forms):
+            form = {}
+            form_list.append(form)
+            for field in fields:
+                s = '2-' + field
+                form[field] = form_2_data.getlist(s)[i]
+
+        print forms_to_process[2]
+
+        process(forms_to_process)
+        return render_to_response('app/confirm.html', {'forms_to_process': forms_to_process})
 
 
 def user_login(request):

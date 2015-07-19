@@ -59,8 +59,7 @@
     {% endfor %}
     {% for part_category in part_categories %}
         <tr>
-            <td>{{ part_category.get_category_display }}</td>
-            <td>{{ part_category.price }} </td>
+            <td>{{ part_category.get_category_display }} - ${{ part_category.price }}</td>
             <td>{{ part_category.description }}</td>
         </tr>
     {% endfor %}

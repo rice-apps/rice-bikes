@@ -1,7 +1,11 @@
 {% extends "app/base.html" %}
 {% load bootstrap %}
+{% load staticfiles %}
+
 
 {% block head %}
+<script src="{% static 'js/create_trans_parts.js' %}" type="text/javascript" charset="utf-8" async defer>
+</script>
 {{ wizard.form.media }}
 {% endblock %}
 
