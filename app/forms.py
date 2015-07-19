@@ -1,17 +1,13 @@
-from app.models import Transaction, RentalBike, RefurbishedBike, RevenueUpdate
+from app.models import Transaction, RentalBike, RefurbishedBike, RevenueUpdate, PartCategory
 from django import forms
 from django.forms import ModelForm, Form
 from django.contrib.auth.models import User
 
 
-class CustomerForm(Form):
-    first_name = forms.CharField(max_length=100)
-    last_name = forms.CharField(max_length=100)
-    email = forms.EmailField(max_length=100)
-    affiliation = forms.ChoiceField(choices=[(0, "Undergraduate"),
-                                             (1, "Graduate"), (2, "Faculty"),
-                                             (3, "Staff"), (4, "Non-Affiliate"),
-                                             (5, "Employee")])
+class CustomerForm(ModelForm):
+    class Meta:
+        model = Transaction
+        fields = ("first_name", "last_name", "email", "affiliation",)
 
 
 class TasksForm(Form):
@@ -250,3 +246,15 @@ class RefurbishedForm(ModelForm):
 class RevenueForm(ModelForm):
     class Meta:
         model = RevenueUpdate
+
+
+class PartCategoryForm(ModelForm):
+    class Meta:
+        model = PartCategory
+        exclude = ['transaction']
+
+
+
+
+
+

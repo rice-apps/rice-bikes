@@ -45,7 +45,13 @@ class Transaction(models.Model):
     # CustomerForm
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    affiliation = models.CharField(max_length=100, default="")
+    AFFILIATION_CHOICES = (
+        ('0', "Undergraduate"),
+        ('1', "Graduate"), ('2', "Faculty"),
+        ('3', "Staff"), ('4', "Non-Affiliate"),
+        ('5', "Employee")
+    )
+    affiliation = models.CharField(max_length=100, choices=AFFILIATION_CHOICES, default="")
     email = models.CharField(max_length=100, validators=[validate_email])
 
     service_description = models.CharField(max_length=500, null=True, blank=True)
@@ -91,8 +97,25 @@ class TotalRevenue(models.Model):
     total_revenue = models.IntegerField()
 
 
+class PartCategory(models.Model):
 
+    CATEGORY_CHOICES = (
+        ('0', 'Headset'),
+        ('1', 'Bottom bracket'),
+        ('2', 'Frame and alignment'),
+        ('3', 'Brakes'),
+        ('4', 'Handlebars'),
+        ('5', 'Stem'),
+        ('6', 'Wheels'),
+        ('7', 'Shifters and derailleurs'),
+        ('8', 'Saddle and seatpost'),
+        ('9', 'Drive train'),
+    )
+    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
+    price = models.IntegerField()
+    description = models.CharField(max_length=200, blank=True, null=True)
 
+    transaction = models.ForeignKey(Transaction, blank=True)
 
 
 

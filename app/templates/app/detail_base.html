@@ -12,6 +12,10 @@
         <td>{{ transaction.email }}</td>
     </tr>
     <tr>
+        <td>Affiliation</td>
+        <td>{{ transaction.get_affiliation_display }}</td>
+    </tr>
+    <tr>
         <td>Service Description</td>
         <td>{{ transaction.service_description }} </td>
     </tr>
@@ -51,6 +55,13 @@
         <tr>
             <td>{{ task.name|place_whitespace }} </td>
             <td>{{ task.completed }}</td>
+        </tr>
+    {% endfor %}
+    {% for part_category in part_categories %}
+        <tr>
+            <td>{{ part_category.get_category_display }}</td>
+            <td>{{ part_category.price }} </td>
+            <td>{{ part_category.description }}</td>
         </tr>
     {% endfor %}
 </table>

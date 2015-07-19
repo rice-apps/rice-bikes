@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
 from app.models import Transaction, Task, RentalBike, RefurbishedBike, \
-    RevenueUpdate, TotalRevenue
+    RevenueUpdate, TotalRevenue, PartCategory
 from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic import DetailView
 from django.core.mail import EmailMessage
@@ -16,7 +16,8 @@ from django.template import RequestContext
 from django import forms
 import csv
 
-NEW_ORDER_TEMPLATES = {'0': 'app/create_transaction.html', '1': 'app/create_transaction.html'}
+NEW_ORDER_TEMPLATES = {'0': 'app/create_transaction.html', '1': 'app/create_transaction.html',
+                       '2': 'app/create_trans_parts.html'}
 
 
 def test(request):
@@ -86,6 +87,7 @@ class TransactionDetail(LoggedInMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(TransactionDetail, self).get_context_data(**kwargs)
         context['tasks'] = Transaction.objects.filter(pk=self.kwargs['pk']).first().task_set.all()
+        context['part_categories'] = Transaction.objects.filter(pk=self.kwargs['pk']).first().partcategory_set.all()
         context['parent_url'] = self.kwargs['parent_url']
         return context
 
@@ -253,6 +255,7 @@ def new_refurbished(request):
 
 
 def process(form_data):
+    print "PROCESSING create-transaction forms"
     print form_data
     new_transaction = Transaction(
         first_name=form_data[0]['first_name'],
@@ -298,6 +301,18 @@ def process(form_data):
             )
             task.save()
 
+    # map parts to this transaction
+    print "form_data[2] = "
+    print form_data[2]
+
+    part_category = PartCategory(
+        category=form_data[2]['category'],
+        price=form_data[2]['price'],
+        description=form_data[2]['description'],
+        transaction=new_transaction,
+    )
+    part_category.save()
+
 
 class TransactionWizard(SessionWizardView):
     """
@@ -327,18 +342,18 @@ class TransactionWizard(SessionWizardView):
 
         for field in form_list[1].cleaned_data:
             print str(field)
-            print "with value "
             print (form_list[1].cleaned_data[field])
-            print "end"
             if not (isinstance(form_list[1].cleaned_data[field], bool) and not form_list[1].cleaned_data[field]):
                 if field.replace("_", " ") in info_dict:
-                    print field + "in info_dict"
                     form_data[1][field] = info_dict[field.replace("_", " ")]
                 else:
                     form_data[1][field] = form_list[1].cleaned_data[field]
 
-        print "In done, form_list[1].cleaned_data = "
-        form_list[1]
+        print "form_list[2] ="
+        print form_list[2].cleaned_data
+        print "end"
+
+        form_data.append(form_list[2].cleaned_data)
 
         process(form_data)
         return render_to_response('app/confirm.html', {'form_data': form_data})

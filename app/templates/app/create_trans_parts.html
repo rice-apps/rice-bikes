@@ -1,0 +1,20 @@
+{% extends "app/base.html" %}
+{% load bootstrap %}
+
+{% block head %}
+{{ wizard.form.media }}
+{% endblock %}
+
+{% block content %}
+
+    <form action="" method="post">
+        {{ wizard.management_form }}
+        {% csrf_token %}
+        {% for field in wizard.form %}
+            <div class="fieldWrapper">
+                {{field | bootstrap}}
+            </div>
+        {% endfor %}
+        <input type="Submit" value="Submit" class="btn btn-default btn-lg"/>
+    </form>
+{% endblock %}
