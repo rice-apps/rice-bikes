@@ -27,7 +27,7 @@ def test(request):
 @login_required
 def index(request):
     transactions_list = Transaction.objects.filter(completed=False).order_by('date_submitted').reverse
-    return render(request, 'app/index.html', {'transactions_list': transactions_list, 'complete': False})
+    return render(request, 'app/index.html', {'transactions_list': transactions_list, 'complete': False, 'home':True})
 
 @login_required
 def history(request):
@@ -291,7 +291,7 @@ def process(form_data):
 
 class TransactionWizard(SessionWizardView):
     """
-    Wizard view for creating a new transaction in two steps. 
+    Wizard view for creating a new transaction in two steps.
     """
     def get_template_names(self):
         return [NEW_ORDER_TEMPLATES[self.steps.current]]
@@ -401,9 +401,3 @@ def revenue_update(request):
     return render(request, 'app/revenue_update.html', {
         'form': form,
     })
-
-
-
-
-
-

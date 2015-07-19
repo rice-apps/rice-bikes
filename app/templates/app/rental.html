@@ -1,9 +1,9 @@
 {% extends "app/base.html" %}
 
 {% block content %}
-
+<center>
 <a href="{% url 'app:new_rental' %}" class="btn btn-default btn-xlarge" role="button" name='new_rental'>Add Rental Bike</a>
-<a class="btn btn-default btn-xlarge" href="{% url 'app:index' %}" role="button">Back to Transactions</a>
+</center>
 
 {% if rentals %}
     <h3>Rental Bikes</h3>
