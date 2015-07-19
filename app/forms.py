@@ -8,10 +8,12 @@ class CustomerForm(Form):
     first_name = forms.CharField(max_length=100)
     last_name = forms.CharField(max_length=100)
     email = forms.EmailField(max_length=100)
-    affiliation = forms.ChoiceField(choices=[(0, "Undergraduate"),
-                                             (1, "Graduate"), (2, "Faculty"),
-                                             (3, "Staff"), (4, "Non-Affiliate"),
-                                             (5, "Employee")])
+    affiliation = forms.ChoiceField(choices=[("Undergraduate", "Undergraduate"),
+                                             ("Graduate", "Graduate"),
+                                             ("Faculty", "Faculty"),
+                                             ("Staff", "Staff"),
+                                             ("Non-Affiliate", "Non-Affiliate"),
+                                             ("Employee", "Employee")])
 
 
 class TasksForm(Form):
