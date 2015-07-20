@@ -111,8 +111,8 @@ class PartCategory(models.Model):
         ('8', 'Saddle and seatpost'),
         ('9', 'Drive train'),
     )
-    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
-    price = models.IntegerField()
+    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES, blank=True, null=True)
+    price = models.IntegerField(default='0', blank=True, null=True)
     description = models.CharField(max_length=200, blank=True, null=True)
 
     transaction = models.ForeignKey(Transaction, blank=True)

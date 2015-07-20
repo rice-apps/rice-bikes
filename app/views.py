@@ -99,6 +99,7 @@ class TransactionDetailComplete(LoggedInMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(TransactionDetailComplete, self).get_context_data(**kwargs)
         context['tasks'] = Transaction.objects.filter(pk=self.kwargs['pk']).first().task_set.all()
+        context['part_categories'] = Transaction.objects.filter(pk=self.kwargs['pk']).first().partcategory_set.all()
         context['parent_url'] = self.kwargs['parent_url']
         return context
 
@@ -142,6 +143,7 @@ def update(request, *args, **kwargs):
 
     transaction = Transaction.objects.filter(pk=kwargs['pk']).first()
     tasks = transaction.task_set.all()
+    part_categories = transaction.partcategory_set.all()
 
     if request.method == 'POST':
         url = u"/%s/%s/detail" % (kwargs['pk'], kwargs['parent_url'])
@@ -173,7 +175,8 @@ def update(request, *args, **kwargs):
 
     transaction_form = TransactionForm(instance=transaction)
 
-    return render_to_response("app/edit.html", {'tasks': tasks, 'category_dict': category_dict, 'info_dict': info_dict,
+    return render_to_response("app/edit.html", {'part_categories': part_categories, 'tasks': tasks,
+                                                'category_dict': category_dict, 'info_dict': info_dict,
                                                 'transaction_form': transaction_form},
                               context_instance=RequestContext(request))
 
@@ -302,9 +305,6 @@ def process(form_data):
             task.save()
 
     # map parts to this transaction
-    print "form_data[2] = "
-    print form_data[2]
-
     for form in form_data[2]:
         part_category = PartCategory(
             category=form['category'],
@@ -354,13 +354,18 @@ class TransactionWizard(SessionWizardView):
         print form_input_list[2].data
         print "end"
 
+        form_list = []
+        forms_to_process.append(form_list)
+
+        if 'skip' in form_input_list[2].data:
+            process(forms_to_process)
+            return render_to_response('app/confirm.html', {'forms_to_process': forms_to_process})
+
         # build the forms by iterating over the MultiValueDict
         fields = PartCategory._meta.get_all_field_names()
         fields = [el for el in fields if 'id' not in el and 'transaction' not in el]
 
         # third element in forms_to_process is a list of form dicts
-        form_list = []
-        forms_to_process.append(form_list)
         form_2_data = form_input_list[2].data
         s = '2-category'
         num_forms = len(form_2_data.getlist(s))
