@@ -2,7 +2,7 @@ $(document).ready(function() {
 
     // Initial behavior //
 
-    $('#id_1-price').val(0); // set price to 0
+    $('#id_1-cost').val(0); // set price to 0
 
     //hide vin text fields
     vin_field_list = $("[id*="+'vin'+"]");
