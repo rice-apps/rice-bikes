@@ -11,7 +11,8 @@ from django.contrib.auth import get_user_model
 from django.utils.decorators import method_decorator
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth import authenticate, login, logout
-from app.forms import TasksForm, RepairsForm, RentalForm, RefurbishedForm, RevenueForm, TransactionForm
+from app.forms import TasksForm, RentalForm, RefurbishedForm, \
+    RevenueForm, TransactionForm, PartCategoryForm
 from django.template import RequestContext
 from django import forms
 import csv
@@ -65,7 +66,7 @@ def send_completion_email(transaction):
            " machine around the corner from our shop. We hope to see you soon." \
            "\n\n" \
            "-The Rice Bikes Team" \
-           % (transaction.first_name, task_string, transaction.price)
+           % (transaction.first_name, task_string, transaction.cost)
 
     email = EmailMessage(subject_line, body, to=[email_address])
     email.send(fail_silently=False)
@@ -133,8 +134,49 @@ def process_transaction_edit(form_data, transaction, request):
     if transaction:
         transaction.service_description = form_data['service_description']
         transaction.amount_paid = form_data['amount_paid']
-        transaction.price = form_data['price']
+        transaction.cost = form_data['cost']
         transaction.save()
+
+
+def process_part_category_forms(form_list, form_input_data, string_prefix):
+    """ Processes form data for multiple PartCategoryForms, putting the
+    resulting list of dictionaries into form_list."""
+
+    # build the forms by iterating over the MultiValueDict
+    fields = PartCategory._meta.get_all_field_names()
+    fields = [el for el in fields if 'id' not in el and 'transaction' not in el]
+
+    s = string_prefix + 'category'
+    num_forms = len(form_input_data.getlist(s))
+    print num_forms
+
+    print 'fields = ' + str(fields)
+
+    for i in xrange(num_forms):
+        form = {}
+        form_list.append(form)
+        for field in fields:
+            s = string_prefix + field
+            form[field] = form_input_data.getlist(s)[i]
+
+
+def process_part_categories_edit(form_data):
+    print "In Process Part Categories Edit!"
+    print form_data
+    form_list = []
+    process_part_category_forms(form_list, form_data, '')
+    print "form_list = "
+    print form_list
+
+    for i in xrange(len(form_list)):
+        form = form_list[i]
+        id = form_data.getlist('id')[i]
+        print "id = " + str(id)
+        part_category = PartCategory.objects.filter(pk=id).first()
+        part_category.category = form['category']
+        part_category.price = form['price']
+        part_category.description = form['description']
+        part_category.save()
 
 
 def update(request, *args, **kwargs):
@@ -159,6 +201,10 @@ def update(request, *args, **kwargs):
             if form.is_valid():
                 process_transaction_edit(form.cleaned_data, transaction, request)
 
+            form = PartCategoryForm(request.POST)
+            if form.is_valid():
+                process_part_categories_edit(form.data)
+
             for task in tasks:
                 print "task.name = " + task.name
 
@@ -175,7 +221,13 @@ def update(request, *args, **kwargs):
 
     transaction_form = TransactionForm(instance=transaction)
 
-    return render_to_response("app/edit.html", {'part_categories': part_categories, 'tasks': tasks,
+    part_category_form_list = []
+    for part_category in part_categories:
+        part_category_form = PartCategoryForm(instance=part_category)
+        print dir(part_category_form)
+        part_category_form_list.append(part_category_form)
+
+    return render_to_response("app/edit.html", {'part_category_form_list': part_category_form_list, 'tasks': tasks,
                                                 'category_dict': category_dict, 'info_dict': info_dict,
                                                 'transaction_form': transaction_form},
                               context_instance=RequestContext(request))
@@ -265,7 +317,7 @@ def process(form_data):
         last_name=form_data[0]['last_name'],
         email=form_data[0]['email'],
         affiliation=form_data[0]['affiliation'],
-        price=form_data[1]['price'],
+        cost=form_data[1]['cost'],
         service_description=form_data[1]['service_description'],
     )
 
@@ -332,13 +384,14 @@ class TransactionWizard(SessionWizardView):
             context.update({'non_task_fields': non_task_fields})
         return context
 
+    '''Returns form_data, a list with one element for each form in the wizard'''
     def done(self, form_input_list, **kwargs):
-        # form_data is a list of dicts (one for each form in the wizard)
-
+        # Process the customer form
         forms_to_process = list()
         forms_to_process.append(form_input_list[0].cleaned_data)
-        forms_to_process.append({})
 
+        # Process the task form
+        forms_to_process.append({})
         info_dict = TasksForm.get_info_dict()
 
         for field in form_input_list[1].cleaned_data:
@@ -350,35 +403,20 @@ class TransactionWizard(SessionWizardView):
                 else:
                     forms_to_process[1][field] = form_input_list[1].cleaned_data[field]
 
+        # Process the PartyCategoryForm's. The third element in forms_to_process is a list of form dictionaries
         print "form_input_list[2] ="
         print form_input_list[2].data
         print "end"
 
         form_list = []
         forms_to_process.append(form_list)
+        form_2_data = form_input_list[2].data
 
         if 'skip' in form_input_list[2].data:
             process(forms_to_process)
             return render_to_response('app/confirm.html', {'forms_to_process': forms_to_process})
 
-        # build the forms by iterating over the MultiValueDict
-        fields = PartCategory._meta.get_all_field_names()
-        fields = [el for el in fields if 'id' not in el and 'transaction' not in el]
-
-        # third element in forms_to_process is a list of form dicts
-        form_2_data = form_input_list[2].data
-        s = '2-category'
-        num_forms = len(form_2_data.getlist(s))
-        print num_forms
-
-        print 'fields = ' + str(fields)
-
-        for i in xrange(num_forms):
-            form = {}
-            form_list.append(form)
-            for field in fields:
-                s = '2-' + field
-                form[field] = form_2_data.getlist(s)[i]
+        process_part_category_forms(form_list, form_2_data, '2-')
 
         print forms_to_process[2]
 

@@ -55,7 +55,7 @@ class Transaction(models.Model):
     email = models.CharField(max_length=100, validators=[validate_email])
 
     service_description = models.CharField(max_length=500, null=True, blank=True)
-    price = models.IntegerField(default=0)
+    cost = models.IntegerField(default=0)
     amount_paid = models.IntegerField(default=0)
 
     # ForeignKeys to RentalBike and RefurbishedBike

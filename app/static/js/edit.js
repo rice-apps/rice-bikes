@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    tasks = $("#task-container").children()
+    tasks = $("#task_container").children()
     for (i=0; i<tasks.length; i++){
         task = tasks[i]
         category = $(task).attr('category');

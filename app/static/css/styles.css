@@ -23,3 +23,7 @@ body {
 .legible {
   font-size: 26px;
 }
+
+.input-group > .form-control {
+    width: 100%
+}
