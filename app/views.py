@@ -412,11 +412,8 @@ class TransactionWizard(SessionWizardView):
         forms_to_process.append(form_list)
         form_2_data = form_input_list[2].data
 
-        if 'skip' in form_input_list[2].data:
-            process(forms_to_process)
-            return render_to_response('app/confirm.html', {'forms_to_process': forms_to_process})
-
-        process_part_category_forms(form_list, form_2_data, '2-')
+        if 'skip' not in form_input_list[2].data:
+            process_part_category_forms(form_list, form_2_data, '2-')
 
         print forms_to_process[2]
 
