@@ -227,6 +227,10 @@ def update(request, *args, **kwargs):
         print dir(part_category_form)
         part_category_form_list.append(part_category_form)
 
+    print "EY BOI! LOOK AT THE tasks!"
+    print tasks
+    print "end"
+
     return render_to_response("app/edit.html", {'part_category_form_list': part_category_form_list, 'tasks': tasks,
                                                 'category_dict': category_dict, 'info_dict': info_dict,
                                                 'transaction_form': transaction_form},
@@ -391,6 +395,10 @@ class TransactionWizard(SessionWizardView):
         forms_to_process.append(form_input_list[0].cleaned_data)
 
         # Process the task form
+        print "form_input_list[1] ="
+        print form_input_list[1].data
+        print "end"
+
         forms_to_process.append({})
         info_dict = TasksForm.get_info_dict()
 
