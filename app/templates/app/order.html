@@ -5,10 +5,36 @@
 <br>
 <form class="form-inline" action="." method="post">
     {% csrf_token %}
-    <a class="btn btn-default btn-xlarge" href="#"  role="button" name='new_payment'>Make Order</a>
+    <a class="btn btn-default btn-xlarge" href="{% url 'app:make_order' %}"  role="button" name='new_payment'>Make Order</a>
     <a class="btn btn-default btn-xlarge" href="{% url 'app:index' %}" role="button">Transactions</a>
     <input class="btn btn-default btn-xlarge" type="submit" value='Export' name="export">
 
 </form>
+
+{% if orders %}
+    <h3>Order History</h3>
+
+    <!--was_ordered is shown by red/green for true/false-->
+    <table class="table">
+        <thead>
+            <td>Part</td>
+            <td>Category</td>
+            <td>Price</td>
+            <td>Date</td>
+        </thead>
+
+        {% for order in orders %}
+            <tr>
+                <td> {{ order.name }} </td>
+                <td> {{ order.category }} </td>
+                <td> {{ order.price }} </td>
+                <td> {{ order.date_submitted|date:"M d, Y" }} </td>
+            </tr>
+        {% endfor %}
+
+    </table>
+
+{% endif %}
+
 
 {% endblock %}

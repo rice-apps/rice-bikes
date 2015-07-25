@@ -1,12 +1,14 @@
 from django.contrib import admin
 from app.models import Transaction, Task, RentalBike,\
-    RefurbishedBike, RevenueUpdate, TotalRevenue
+    RefurbishedBike, RevenueUpdate, TotalRevenue, PartCategory, PartOrder
 
 admin.site.register(Transaction)
 admin.site.register(Task)
 admin.site.register(RentalBike)
 admin.site.register(RefurbishedBike)
 admin.site.register(RevenueUpdate)
+admin.site.register(PartCategory)
+admin.site.register(PartOrder)
 
 
 class TotalRevenueAdmin(admin.ModelAdmin):

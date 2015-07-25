@@ -119,11 +119,12 @@ class PartCategory(models.Model):
     transaction = models.ForeignKey(Transaction, blank=True)
 
 
-class Part(models.Model):
+class PartOrder(models.Model):
     name = models.CharField(max_length=50, blank=True, null=True)
-    was_ordered = models.BooleanField(default=False)
     category = models.CharField(max_length=100, choices=CATEGORY_CHOICES, blank=True, null=True)
+    was_ordered = models.BooleanField(default=False)
     price = models.IntegerField(default='0', blank=True, null=True)
     description = models.CharField(max_length=200, blank=True, null=True)
 
-
+    # Auto-generated fields
+    date_submitted = models.DateTimeField(default=datetime.now, blank=True)

@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
 from app.models import Transaction, Task, RentalBike, RefurbishedBike, \
-    RevenueUpdate, TotalRevenue, PartCategory
+    RevenueUpdate, TotalRevenue, PartCategory, PartOrder
 from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic import DetailView
 from django.core.mail import EmailMessage
@@ -12,7 +12,7 @@ from django.utils.decorators import method_decorator
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth import authenticate, login, logout
 from app.forms import TasksForm, RentalForm, RefurbishedForm, \
-    RevenueForm, TransactionForm, PartCategoryForm
+    RevenueForm, TransactionForm, PartCategoryForm, PartOrderForm
 from django.template import RequestContext
 from django import forms
 import csv
@@ -161,23 +161,17 @@ def process_part_category_forms(form_list, form_input_data, string_prefix):
 
 
 def process_part_categories_edit(form_data):
-    print "In Process Part Categories Edit!"
-    print form_data
     form_list = []
     process_part_category_forms(form_list, form_data, '')
-    print "form_list = "
-    print form_list
 
     for i in xrange(len(form_list)):
         form = form_list[i]
         id = form_data.getlist('id')[i]
-        print "id = " + str(id)
         part_category = PartCategory.objects.filter(pk=id).first()
         part_category.category = form['category']
         part_category.price = form['price']
         part_category.description = form['description']
-        print "form[was_used] = " + form['was_used']
-        if (form['was_used'] == 'True'):
+        if form['was_used'] == 'True':
             part_category.was_used = True
         else:
             part_category.was_used = False
@@ -508,7 +502,37 @@ def revenue_update(request):
 
 
 def order(request):
-    return render(request, 'app/order.html', {})
+    orders = PartOrder.objects.all().order_by('date_submitted').reverse()
+    print orders
+    return render(request, 'app/order.html', {'orders': orders})
+
+
+def process_order(form_data):
+    part_order = PartOrder(
+        name=form_data['name'],
+        category=form_data['category'],
+        was_ordered=form_data['was_ordered'],
+        price=form_data['price'],
+        description=form_data['description'],
+    )
+    part_order.save()
+
+
+def make_order(request):
+    if request.method == 'POST':
+        form = PartOrderForm(request.POST)
+        if form.is_valid():
+            process_order(form.cleaned_data)
+            return render_to_response('app/confirm_order.html', {})
+
+    else:
+        form = PartOrderForm()
+
+    return render(request, 'app/make_order.html', {'form': form})
+
+
+
+
 
 
 

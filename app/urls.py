@@ -25,6 +25,7 @@ urlpatterns = patterns(
     url(r'^balance/$', views.balance, name='balance'),
     url(r'^revenue_update/$', views.revenue_update, name='revenue_update'),
     url(r'^order/$', views.order, name='order'),
+    url(r'^make_order/$', views.make_order, name='make_order'),
 )
 
 urlpatterns += staticfiles_urlpatterns()

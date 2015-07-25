@@ -57,17 +57,17 @@
     <h3><b>Categories:</b></h3>
     <table class="table table-striped">
         <thead>
-            <td class="col-sm-4"><b>Category<b/></td>
-            <td class="col-sm-2"><b>Price</b></td>
-            <td class="col-sm-2"><b>Description</b></td>
-            <td class="col-sm-2"><b>Was Installed</b></td>
+            <td class="col-sm-3"><b>Category<b/></td>
+            <td class="col-sm-1"><b>Price</b></td>
+            <td class="col-sm-1"><b>Was Installed</b></td>
+            <td class="col-sm-1"><b>Description</b></td>
         </thead>
     {% for part_category in part_categories %}
         <tr>
             <td>{{ part_category.get_category_display }}</td>
             <td> ${{ part_category.price }} </td>
-            <td>{{ part_category.description }}</td>
             <td> {{ part_category.was_used }} </td>
+            <td>{{ part_category.description }}</td>
         </tr>
     {% endfor %}
     </table>
