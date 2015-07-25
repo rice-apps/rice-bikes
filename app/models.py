@@ -97,30 +97,33 @@ class TotalRevenue(models.Model):
     total_revenue = models.IntegerField()
 
 
-class PartCategory(models.Model):
+CATEGORY_CHOICES = (
+    ('0', 'Headset'),
+    ('1', 'Bottom bracket'),
+    ('2', 'Frame and alignment'),
+    ('3', 'Brakes'),
+    ('4', 'Handlebars'),
+    ('5', 'Stem'),
+    ('6', 'Wheels'),
+    ('7', 'Shifters and derailleurs'),
+    ('8', 'Saddle and seatpost'),
+    ('9', 'Drive train'),
+)
 
-    CATEGORY_CHOICES = (
-        ('0', 'Headset'),
-        ('1', 'Bottom bracket'),
-        ('2', 'Frame and alignment'),
-        ('3', 'Brakes'),
-        ('4', 'Handlebars'),
-        ('5', 'Stem'),
-        ('6', 'Wheels'),
-        ('7', 'Shifters and derailleurs'),
-        ('8', 'Saddle and seatpost'),
-        ('9', 'Drive train'),
-    )
+
+class PartCategory(models.Model):
     category = models.CharField(max_length=100, choices=CATEGORY_CHOICES, blank=True, null=True)
     price = models.IntegerField(default='0', blank=True, null=True)
     description = models.CharField(max_length=200, blank=True, null=True)
-
+    was_used = models.BooleanField(default=False)
     transaction = models.ForeignKey(Transaction, blank=True)
 
 
-
-
-
-
+class Part(models.Model):
+    name = models.CharField(max_length=50, blank=True, null=True)
+    was_ordered = models.BooleanField(default=False)
+    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES, blank=True, null=True)
+    price = models.IntegerField(default='0', blank=True, null=True)
+    description = models.CharField(max_length=200, blank=True, null=True)
 
 

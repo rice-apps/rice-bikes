@@ -176,6 +176,11 @@ def process_part_categories_edit(form_data):
         part_category.category = form['category']
         part_category.price = form['price']
         part_category.description = form['description']
+        print "form[was_used] = " + form['was_used']
+        if (form['was_used'] == 'True'):
+            part_category.was_used = True
+        else:
+            part_category.was_used = False
         part_category.save()
 
 
@@ -502,6 +507,8 @@ def revenue_update(request):
     })
 
 
+def order(request):
+    return render(request, 'app/order.html', {})
 
 
 

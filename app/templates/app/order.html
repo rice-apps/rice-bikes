@@ -1,0 +1,14 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+
+<br>
+<form class="form-inline" action="." method="post">
+    {% csrf_token %}
+    <a class="btn btn-default btn-xlarge" href="#"  role="button" name='new_payment'>Make Order</a>
+    <a class="btn btn-default btn-xlarge" href="{% url 'app:index' %}" role="button">Transactions</a>
+    <input class="btn btn-default btn-xlarge" type="submit" value='Export' name="export">
+
+</form>
+
+{% endblock %}
