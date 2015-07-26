@@ -2,8 +2,10 @@
 
 {% block content %}
 
+<center>
 <a href="{% url 'app:new_refurbished' %}" class="btn btn-default btn-xlarge" role="button" name='new_refurbished'>Add Bike</a>
 <a class="btn btn-default btn-xlarge" href="{% url 'app:index' %}" role="button">Transactions</a>
+</center>
 
 {% if refurbished_list %}
     <h3>Refurbished Bikes</h3>

@@ -14,7 +14,7 @@
             type="text/javascript"
             charset="utf-8" async defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1,
-                              maximum-scale=1, user-scalable=0"/> <!--320-->
+                              maximum-scale=1, user-scalable=0"/>
   </head>
     {% block head %}
     {% endblock %}
@@ -29,6 +29,23 @@
         <a href="{% url 'app:logout' %}" class="btn">Log Out</a><br><br>
         {% endif %}
     </div>
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+      {% if home %}
+        <a href="/new" class="btn btn-default btn-xlarge" role="button" name='new_transaction'>
+          <img class="buttonpic" src="/app/static/img/add.png" alt="New transaction"/>
+        </a>
+      {% else %}
+        <a href="/" class="btn btn-default btn-xlarge" role="button" name='home'>
+          <img class="buttonpic" src="/app/static/img/home.png" alt="Home"/>
+        </a>
+      {% endif %}
+        <a href="/history" class="btn btn-default btn-xlarge" role="button" name='past_transactions'>
+          <img class="buttonpic" src="/app/static/img/clock.png"/>
+        </a>
+        <a href="/balance" class="btn btn-default btn-xlarge" role="button" name='balance'>
+          <img class="buttonpic" src="/app/static/img/money.png"/>
+        </a>
+    </div><br>
     {% block content %}
     {% endblock %}
     {% block detail %}

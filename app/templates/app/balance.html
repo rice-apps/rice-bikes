@@ -5,12 +5,13 @@
 <br>
 <form class="form-inline" action="." method="post">
     {% csrf_token %}
-    <a class="btn btn-default btn-xlarge" href="{% url 'app:revenue_update'%}"  role="button" name='new_payment'>Update Balance</a>
-    <a class="btn btn-default btn-xlarge" href="{% url 'app:index' %}" role="button">Transactions</a>
-    <input class="btn btn-default btn-xlarge" type="submit" value='Export' name="export">
+    <center>
+        <a class="btn btn-default btn-xlarge" href="{% url 'app:revenue_update'%}"  role="button" name='new_payment'>Update Balance</a>
+        <a class="btn btn-default btn-xlarge" href="{% url 'app:index' %}" role="button">Transactions</a>
+        <input class="btn btn-default btn-xlarge" type="submit" value='Export' name="export">
+    </center>
 
 </form>
-
 
 
 {% if revenue_updates %}

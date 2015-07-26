@@ -96,7 +96,6 @@ class RevenueUpdate(models.Model):
 class TotalRevenue(models.Model):
     total_revenue = models.IntegerField()
 
-
 CATEGORY_CHOICES = (
     ('0', 'Headset'),
     ('1', 'Bottom bracket'),
