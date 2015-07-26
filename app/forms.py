@@ -4,12 +4,6 @@ from django.forms import ModelForm, Form
 from django.contrib.auth.models import User
 
 
-class CustomerForm(ModelForm):
-    class Meta:
-        model = Transaction
-        fields = ("first_name", "last_name", "email", "affiliation",)
-
-
 class TasksForm(Form):
     Adjust_derailleur = forms.BooleanField(required=False)
     Install_shifter_cable = forms.BooleanField(required=False)
@@ -221,8 +215,24 @@ class TasksForm(Form):
 class RepairsForm(TasksForm):
     service_description = forms.CharField(max_length=100, required=False)
     cost = forms.IntegerField()
+    # rental_vin = forms.IntegerField(required=False)
+    # refurbished_vin = forms.IntegerField(required=False)
+
+
+class CustomerForm(ModelForm):
     rental_vin = forms.IntegerField(required=False)
     refurbished_vin = forms.IntegerField(required=False)
+
+    class Meta:
+        model = Transaction
+        fields = ("first_name", "last_name", "email", "affiliation")
+
+    def save(self, commit=True):
+        # do something with self.cleaned_data['rental_vin']
+        return super(CustomerForm, self).save(commit=commit)
+
+    def clean(self):
+        return self.cleaned_data
 
 
 class TransactionForm(ModelForm):

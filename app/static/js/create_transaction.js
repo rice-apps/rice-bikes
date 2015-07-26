@@ -30,8 +30,8 @@ $(document).ready(function() {
     });
 
     // selection event
-    $('select').change(function() {
-        selection = $('select').prop('value');
+    $('#bike_type').change(function() {
+        selection = $(this).prop('value');
         rental_bike = $("[id*="+'rental_vin'+"]").closest('.fieldWrapper');
         refurbished_bike = $("[id*="+'refurbished_vin'+"]").closest('.fieldWrapper');
         if (selection == 'customer_bike'){
@@ -42,7 +42,7 @@ $(document).ready(function() {
             $(rental_bike).show();
             $(refurbished_bike).hide();
         }
-        else{
+        else if (selection == 'refurbished_bike') {
             $(refurbished_bike).show();
             $(rental_bike).hide();
         }

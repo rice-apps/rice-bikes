@@ -39,14 +39,6 @@
         {% endfor %}
 
         <br>
-        <div class="fieldWrapper">
-            <select class="form-control">
-                <option value="customer_bike">Customer Bike</option>
-                <option value="rental_bike">Rental Bike</option>
-                <option value="refurbished_bike">Refurbished Bike</option>
-            </select>
-            <br>
-        </div>
 
         {% for field in wizard.form %}
             {% if non_task_fields|is_member:field.label %}
@@ -58,9 +50,26 @@
     {% else %}
         {% for field in wizard.form %}
             <div class="fieldWrapper">
-                {{field | bootstrap}}
+                {% if field.name != 'rental_vin' and field.name != 'refurbished_vin' %}
+                    {{field | bootstrap}}
+                {% endif %}
             </div>
         {% endfor %}
+        <div class="fieldWrapper">
+            <label class="control-label  " for="bike_type">Bike Type</label>
+            <select id="bike_type" class="form-control">
+                <option value="customer_bike">Customer Bike</option>
+                <option value="rental_bike">Rental Bike</option>
+                <option value="refurbished_bike">Refurbished Bike</option>
+            </select>
+            <br>
+        </div>
+        <div class="fieldWrapper">
+                {{wizard.form.rental_vin | bootstrap}}
+        </div>
+        <div class="fieldWrapper">
+                {{wizard.form.refurbished_vin | bootstrap}}
+        </div>
     {% endif %}
 
 

@@ -325,19 +325,21 @@ def process(form_data):
     )
 
     # map transaction to rental/refurbished bike
-    if form_data[1]['rental_vin']:
-        rental_bike = RentalBike.objects.filter(vin=form_data[1]['rental_vin']).first()
+    rental_vin = form_data[0]['rental_vin']
+    refurbished_vin = form_data[0]['refurbished_vin']
+    if rental_vin:
+        rental_bike = RentalBike.objects.filter(vin=rental_vin).first()
         if rental_bike is None:
             rental_bike = RentalBike(
-                vin=form_data[1]['rental_vin'],
+                vin=rental_vin,
             )
             rental_bike.save()
         new_transaction.rental_bike = rental_bike
-    elif form_data[1]['refurbished_vin']:
-        refurbished_bike = RefurbishedBike.objects.filter(vin=form_data[1]['refurbished_vin']).first()
+    elif refurbished_vin:
+        refurbished_bike = RefurbishedBike.objects.filter(vin=refurbished_vin).first()
         if refurbished_bike is None:
             refurbished_bike = RefurbishedBike(
-                vin=form_data[1]['refurbished_vin'],
+                vin=refurbished_vin,
             )
             refurbished_bike.save()
         new_transaction.refurbished_bike = refurbished_bike
@@ -585,9 +587,6 @@ def make_order(request):
 def used_parts(request):
     used_parts = PartCategory.objects.all().order_by('date_submitted').reverse()
 
-    print "HEY. BRO."
-    print 'export_used' in request.POST
-    print request.method
     if request.method == 'POST':
         print request.POST
         if 'export_used' in request.POST:
