@@ -24,8 +24,9 @@ urlpatterns = patterns(
     url(r'^new_refurbished/$', views.new_refurbished, name='new_refurbished'),
     url(r'^balance/$', views.balance, name='balance'),
     url(r'^revenue_update/$', views.revenue_update, name='revenue_update'),
-    url(r'^order/$', views.order, name='order'),
+    url(r'^orders/$', views.order, name='orders'),
     url(r'^make_order/$', views.make_order, name='make_order'),
+    url(r'^installed_parts', views.used_parts, name='used_parts'),
 )
 
 urlpatterns += staticfiles_urlpatterns()

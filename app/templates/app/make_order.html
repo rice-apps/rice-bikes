@@ -7,7 +7,7 @@
         {% csrf_token %}
         {{ form|bootstrap }}
         <input type="submit" value="Submit" class="btn btn-default btn-lg">
-        <a class="btn btn-default btn-lg" name="Cancel" role="button" href="{% url 'app:order' %}">Cancel</a>
+        <a class="btn btn-default btn-lg" name="Cancel" role="button" href="{% url 'app:orders' %}">Cancel</a>
     </form>
 
 {% endblock %}

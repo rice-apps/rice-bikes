@@ -457,32 +457,80 @@ def user_logout(request):
     return render_to_response('registration/logout.html', {}, context)
 
 
+def make_revenue_export_file(table_rows, filename):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="%s"' % filename
+
+    writer = csv.writer(response)
+    for update in table_rows:
+        update_list = []
+        if update.transaction:
+            update_list.append(update.transaction.id)
+        else:
+            update_list.append(None)
+        update_list.append(update.amount)
+        update_list.append(update.employee)
+        if update.transaction:
+            update_list.append(update.transaction.first_name + " "
+                               + update.transaction.last_name)
+        else:
+            update_list.append(None)
+        update_list.append(update.new_total_revenue)
+        update_list.append(update.date_submitted.date())
+        writer.writerow(update_list)
+    return response
+
+
+def make_order_export_file(table_rows, filename):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="%s"' % filename
+
+    writer = csv.writer(response)
+    for update in table_rows:
+        update_list = list()
+        update_list.append(update.name)
+        update_list.append(update.category)
+        update_list.append(update.was_ordered)
+        update_list.append(update.price)
+        update_list.append(update.description)
+        update_list.append(update.date_submitted.date())
+        writer.writerow(update_list)
+    return response
+
+
+def make_used_parts_export_file(table_rows, filename):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="%s"' % filename
+
+
+    print "Hey man!"
+    choices = PartCategory._meta.get_field('category').choices
+
+    writer = csv.writer(response)
+    for update in table_rows:
+        update_list = list()
+        if update.category:
+            update_list.append(choices[int(update.category)][1])
+        else:
+            update_list.append(None)
+        update_list.append(update.was_used)
+        update_list.append(update.price)
+        update_list.append(update.description)
+        update_list.append(update.date_submitted.date())
+        if update.transaction:
+            update_list.append(update.transaction.id)
+        else:
+            update_list.append(None)
+        writer.writerow(update_list)
+    return response
+
+
 def balance(request):
     revenue_updates = RevenueUpdate.objects.all().order_by('date_submitted').reverse()
 
     if request.method == 'POST':
         if 'export' in request.POST:
-            response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename="balance_history.csv"'
-
-            writer = csv.writer(response)
-            for update in revenue_updates:
-                update_list = []
-                if update.transaction:
-                    update_list.append(update.transaction.id)
-                else:
-                    update_list.append(None)
-                update_list.append(update.amount)
-                update_list.append(update.employee)
-                if update.transaction:
-                    update_list.append(update.transaction.first_name + " "
-                                       + update.transaction.last_name)
-                else:
-                    update_list.append(None)
-                update_list.append(update.new_total_revenue)
-                update_list.append(update.date_submitted.date())
-                writer.writerow(update_list)
-            return response
+            return make_revenue_export_file(revenue_updates, 'balance_history.csv')
 
     return render(request, 'app/balance.html', {'revenue_updates': revenue_updates})
 
@@ -503,7 +551,10 @@ def revenue_update(request):
 
 def order(request):
     orders = PartOrder.objects.all().order_by('date_submitted').reverse()
-    print orders
+
+    if request.method == 'POST':
+        if 'export_orders' in request.POST:
+            return make_order_export_file(orders, 'order_history.csv')
     return render(request, 'app/order.html', {'orders': orders})
 
 
@@ -531,6 +582,18 @@ def make_order(request):
     return render(request, 'app/make_order.html', {'form': form})
 
 
+def used_parts(request):
+    used_parts = PartCategory.objects.all().order_by('date_submitted').reverse()
+
+    print "HEY. BRO."
+    print 'export_used' in request.POST
+    print request.method
+    if request.method == 'POST':
+        print request.POST
+        if 'export_used' in request.POST:
+            return make_used_parts_export_file(used_parts, 'used_parts_history.csv')
+
+    return render(request, 'app/used_parts.html', {'used_parts': used_parts})
 
 
 

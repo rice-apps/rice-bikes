@@ -1,0 +1,47 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+
+<br>
+<form class="form-inline" method="post">
+    {% csrf_token %}
+    <a class="btn btn-default btn-xlarge" href="{% url 'app:orders' %}" role="button">Orders</a>
+    <a class="btn btn-default btn-xlarge" href="{% url 'app:index' %}" role="button">Transactions</a>
+    <input class="btn btn-default btn-xlarge" type="submit" value='Export' name="export_used">
+</form>
+
+{% if used_parts %}
+    <h3>Order History</h3>
+
+    <!--was_ordered is shown by red/green for true/false-->
+    <table class="table">
+        <thead>
+            <td>Category</td>
+            <td>Price</td>
+            <td>Was Installed</td>
+            <td>Description</td>
+            <td>Transaction ID</td>
+            <td>Date</td>
+        </thead>
+
+        {% for part_category in used_parts %}
+            <tr>
+                <td> {{ part_category.get_category_display }} </td>
+                <td> {{ part_category.price }} </td>
+                <td> {{ part_category.was_used }} </td>
+                <td> {{ part_category.description }} </td>
+                {% if part_category.transaction %}
+                    <td> {{ part_category.transaction.id }} </td>
+                {% else %}
+                    <td> - </td>
+                {% endif %}
+                <td> {{ part_category.date_submitted|date:"M d, Y" }} </td>
+            </tr>
+        {% endfor %}
+
+    </table>
+
+{% endif %}
+
+
+{% endblock %}

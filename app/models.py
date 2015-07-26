@@ -118,6 +118,9 @@ class PartCategory(models.Model):
     was_used = models.BooleanField(default=False)
     transaction = models.ForeignKey(Transaction, blank=True)
 
+    # Auto-generated fields
+    date_submitted = models.DateTimeField(default=datetime.now, blank=True)
+
 
 class PartOrder(models.Model):
     name = models.CharField(max_length=50, blank=True, null=True)
