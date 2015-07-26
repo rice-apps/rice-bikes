@@ -22,12 +22,24 @@ $(document).ready(function() {
         is_checked = $(this).prop('checked');
 
         if(is_checked) {
-            $('#id_1-price').val(parseInt($('#id_1-price').val()) + task_price);
+            $('#id_1-cost').val(parseInt($('#id_1-cost').val()) + task_price);
         }
         else{
-            $('#id_1-price').val(parseInt($('#id_1-price').val()) - task_price);
+            $('#id_1-cost').val(parseInt($('#id_1-cost').val()) - task_price);
         }
     });
+
+    var fill_fields = function(){
+        $('*[id*="first_name"]').prop('value','NOT');
+        $('*[id*="last_name"]').prop('value','APPLICABLE');
+        $('*[id*="email"]').prop('value','NOT@APPLICABLE.com');
+    }
+
+    var empty_fields = function(){
+        $('*[id*="first_name"]').prop('value','');
+        $('*[id*="last_name"]').prop('value','');
+        $('*[id*="email"]').prop('value','');
+    }
 
     // selection event
     $('#bike_type').change(function() {
@@ -37,18 +49,22 @@ $(document).ready(function() {
         if (selection == 'customer_bike'){
             $(rental_bike).hide();
             $(refurbished_bike).hide();
+            empty_fields();
         }
         else if (selection == 'rental_bike'){
             $(rental_bike).show();
             $(refurbished_bike).hide();
+            empty_fields();
         }
         else if (selection == 'refurbished_bike') {
             $(refurbished_bike).show();
             $(rental_bike).hide();
+            fill_fields();
         }
     })
 
     $('.category').click(function() {
         $("." + $(this).attr('category')).toggle()
     })
+
 });

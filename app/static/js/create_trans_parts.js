@@ -11,4 +11,7 @@ $(document).ready(function() {
 
         form_num += 1;
     });
+
+    categories = $('#original_fields').children();
+
 });

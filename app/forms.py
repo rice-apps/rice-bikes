@@ -261,7 +261,7 @@ class RevenueForm(ModelForm):
 class PartCategoryForm(ModelForm):
     class Meta:
         model = PartCategory
-        exclude = ['transaction']
+        exclude = ['transaction', 'date_submitted', ]
 
 
 class PartOrderForm(ModelForm):

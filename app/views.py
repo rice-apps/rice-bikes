@@ -144,7 +144,8 @@ def process_part_category_forms(form_list, form_input_data, string_prefix):
 
     # build the forms by iterating over the MultiValueDict
     fields = PartCategory._meta.get_all_field_names()
-    fields = [el for el in fields if 'id' not in el and 'transaction' not in el]
+    non_saved_fields = ['id', 'date_submitted', 'transaction', 'transaction_id']
+    fields = [el for el in fields if el not in non_saved_fields]
 
     s = string_prefix + 'category'
     num_forms = len(form_input_data.getlist(s))
@@ -357,16 +358,21 @@ def process(form_data):
                 name=name,
                 completed=False,
                 category=form_data[1][name]['category'],
-                transaction=new_transaction
+                transaction=new_transaction,
             )
             task.save()
 
     # map parts to this transaction
     for form in form_data[2]:
+        if (form['was_used'] == 'True'):
+            was_used = True
+        else:
+            was_used = False
         part_category = PartCategory(
             category=form['category'],
             price=form['price'],
             description=form['description'],
+            was_used=was_used,
             transaction=new_transaction,
         )
         part_category.save()

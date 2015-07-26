@@ -48,13 +48,6 @@
             {% endif %}
         {% endfor %}
     {% else %}
-        {% for field in wizard.form %}
-            <div class="fieldWrapper">
-                {% if field.name != 'rental_vin' and field.name != 'refurbished_vin' %}
-                    {{field | bootstrap}}
-                {% endif %}
-            </div>
-        {% endfor %}
         <div class="fieldWrapper">
             <label class="control-label  " for="bike_type">Bike Type</label>
             <select id="bike_type" class="form-control">
@@ -70,6 +63,14 @@
         <div class="fieldWrapper">
                 {{wizard.form.refurbished_vin | bootstrap}}
         </div>
+        {% for field in wizard.form %}
+            <div class="fieldWrapper">
+                {% if field.name != 'rental_vin' and field.name != 'refurbished_vin' %}
+                    {{field | bootstrap}}
+                {% endif %}
+            </div>
+        {% endfor %}
+
     {% endif %}
 
 

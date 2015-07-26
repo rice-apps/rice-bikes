@@ -18,7 +18,17 @@
         <div class="fieldWrapper" id="original_fields">
             <div class="controls form-inline">
                 {% for field in wizard.form %}
-                    {{field | bootstrap}}
+                    {% if field.name == 'was_used' %}
+                        <label class="control-label  " for="was_used_show">Was Installed</label>
+                        {% if field.value == True %}
+                            <input class="form-control" id="was_used_show" type="checkbox" value="True" name="2-was_used" checked="checked">
+                        {% else %}
+                            <input class="form-control" id="was_used_show" type="checkbox" value="True" name="2-was_used">
+                        {% endif %}
+                        <input id="was_used_hidden" type="hidden" value="False" name="2-was_used">
+                    {% else %}
+                        {{ field | bootstrap}}
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>
