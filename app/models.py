@@ -130,3 +130,9 @@ class PartOrder(models.Model):
 
     # Auto-generated fields
     date_submitted = models.DateTimeField(default=datetime.now, blank=True)
+
+
+class MenuItem(models.Model):
+    task = models.CharField(max_length=100)
+    category = models.CharField(max_length=100)
+    price = models.IntegerField(default='0')

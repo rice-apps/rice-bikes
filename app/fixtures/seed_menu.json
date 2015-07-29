@@ -1,0 +1,461 @@
+[
+    {
+        "fields": {
+            "category": "Drivetrain",
+            "price": 5,
+            "task": "Replace pedals"
+        },
+        "model": "app.MenuItem",
+        "pk": 0
+    },
+    {
+        "fields": {
+            "category": "Brakes",
+            "price": 12,
+            "task": "Install brake or lever"
+        },
+        "model": "app.MenuItem",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "category": "Drivetrain",
+            "price": 7,
+            "task": "Install freewheel"
+        },
+        "model": "app.MenuItem",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "category": "Frame and alignment",
+            "price": 5,
+            "task": "Basic clean"
+        },
+        "model": "app.MenuItem",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "category": "Headset",
+            "price": 9,
+            "task": "Adjust bearings"
+        },
+        "model": "app.MenuItem",
+        "pk": 4
+    },
+    {
+        "fields": {
+            "category": "Drivetrain",
+            "price": 9,
+            "task": "Replace chain"
+        },
+        "model": "app.MenuItem",
+        "pk": 5
+    },
+    {
+        "fields": {
+            "category": "Wheels",
+            "price": 7,
+            "task": "Replace or install one tire"
+        },
+        "model": "app.MenuItem",
+        "pk": 6
+    },
+    {
+        "fields": {
+            "category": "Brakes",
+            "price": 8,
+            "task": "Adjust rim brake"
+        },
+        "model": "app.MenuItem",
+        "pk": 7
+    },
+    {
+        "fields": {
+            "category": "Wheels",
+            "price": 16,
+            "task": "Front hub overhaul"
+        },
+        "model": "app.MenuItem",
+        "pk": 8
+    },
+    {
+        "fields": {
+            "category": "Drivetrain",
+            "price": 7,
+            "task": "Replace crankset"
+        },
+        "model": "app.MenuItem",
+        "pk": 9
+    },
+    {
+        "fields": {
+            "category": "Drivetrain",
+            "price": 3,
+            "task": "Clean and lube train"
+        },
+        "model": "app.MenuItem",
+        "pk": 10
+    },
+    {
+        "fields": {
+            "category": "Shifters derailleurs",
+            "price": 11,
+            "task": "Install shifter"
+        },
+        "model": "app.MenuItem",
+        "pk": 11
+    },
+    {
+        "fields": {
+            "category": "Wheels",
+            "price": 6,
+            "task": "Adjust bearings rw"
+        },
+        "model": "app.MenuItem",
+        "pk": 12
+    },
+    {
+        "fields": {
+            "category": "Stem",
+            "price": 5,
+            "task": "Install threadless"
+        },
+        "model": "app.MenuItem",
+        "pk": 13
+    },
+    {
+        "fields": {
+            "category": "Frame and alignment",
+            "price": 7,
+            "task": "Install front basket"
+        },
+        "model": "app.MenuItem",
+        "pk": 14
+    },
+    {
+        "fields": {
+            "category": "Stem",
+            "price": 5,
+            "task": "Install threaded"
+        },
+        "model": "app.MenuItem",
+        "pk": 15
+    },
+    {
+        "fields": {
+            "category": "Saddle seatpost",
+            "price": 7,
+            "task": "Install seatpost and saddle"
+        },
+        "model": "app.MenuItem",
+        "pk": 16
+    },
+    {
+        "fields": {
+            "category": "Saddle seatpost",
+            "price": 3,
+            "task": "Seat adjust"
+        },
+        "model": "app.MenuItem",
+        "pk": 17
+    },
+    {
+        "fields": {
+            "category": "Shifters derailleurs",
+            "price": 14,
+            "task": "Install shifter cable"
+        },
+        "model": "app.MenuItem",
+        "pk": 18
+    },
+    {
+        "fields": {
+            "category": "Headset",
+            "price": 11,
+            "task": "Bearing overhaul"
+        },
+        "model": "app.MenuItem",
+        "pk": 19
+    },
+    {
+        "fields": {
+            "category": "Frame and alignment",
+            "price": 7,
+            "task": "Align derailleur hanger"
+        },
+        "model": "app.MenuItem",
+        "pk": 20
+    },
+    {
+        "fields": {
+            "category": "Bottom bracket",
+            "price": 5,
+            "task": "Adjust bearings bb"
+        },
+        "model": "app.MenuItem",
+        "pk": 21
+    },
+    {
+        "fields": {
+            "category": "Bottom bracket",
+            "price": 12,
+            "task": "Install cup and spindle bb"
+        },
+        "model": "app.MenuItem",
+        "pk": 22
+    },
+    {
+        "fields": {
+            "category": "Brakes",
+            "price": 9,
+            "task": "Adjust disk brake"
+        },
+        "model": "app.MenuItem",
+        "pk": 23
+    },
+    {
+        "fields": {
+            "category": "Frame and alignment",
+            "price": 12,
+            "task": "Install rear rack"
+        },
+        "model": "app.MenuItem",
+        "pk": 24
+    },
+    {
+        "fields": {
+            "category": "Wheels",
+            "price": 14,
+            "task": "Wheel true"
+        },
+        "model": "app.MenuItem",
+        "pk": 25
+    },
+    {
+        "fields": {
+            "category": "Bottom bracket",
+            "price": 10,
+            "task": "Install cartridge bb"
+        },
+        "model": "app.MenuItem",
+        "pk": 26
+    },
+    {
+        "fields": {
+            "category": "Headset",
+            "price": 5,
+            "task": "Adjust bearings fh bb hs"
+        },
+        "model": "app.MenuItem",
+        "pk": 27
+    },
+    {
+        "fields": {
+            "category": "Brakes",
+            "price": 14,
+            "task": "Install brake cable"
+        },
+        "model": "app.MenuItem",
+        "pk": 28
+    },
+    {
+        "fields": {
+            "category": "Wheels",
+            "price": 5,
+            "task": "Adjust bearings fw"
+        },
+        "model": "app.MenuItem",
+        "pk": 29
+    },
+    {
+        "fields": {
+            "category": "Handlebars",
+            "price": 9,
+            "task": "Wrap handlebars"
+        },
+        "model": "app.MenuItem",
+        "pk": 30
+    },
+    {
+        "fields": {
+            "category": "Wheels",
+            "price": 7,
+            "task": "Replace one tube"
+        },
+        "model": "app.MenuItem",
+        "pk": 31
+    },
+    {
+        "fields": {
+            "category": "Wheels",
+            "price": 12,
+            "task": "Install wheel"
+        },
+        "model": "app.MenuItem",
+        "pk": 32
+    },
+    {
+        "fields": {
+            "category": "Saddle seatpost",
+            "price": 3,
+            "task": "Install seatpost without saddle"
+        },
+        "model": "app.MenuItem",
+        "pk": 33
+    },
+    {
+        "fields": {
+            "category": "Wheels",
+            "price": 20,
+            "task": "Coaster hub overhaul"
+        },
+        "model": "app.MenuItem",
+        "pk": 34
+    },
+    {
+        "fields": {
+            "category": "Shifters derailleurs",
+            "price": 11,
+            "task": "Install derailleur"
+        },
+        "model": "app.MenuItem",
+        "pk": 35
+    },
+    {
+        "fields": {
+            "category": "Wheels",
+            "price": 18,
+            "task": "Rear hub overhaul"
+        },
+        "model": "app.MenuItem",
+        "pk": 36
+    },
+    {
+        "fields": {
+            "category": "Bottom bracket",
+            "price": 16,
+            "task": "Overhaul cup and spindle"
+        },
+        "model": "app.MenuItem",
+        "pk": 37
+    },
+    {
+        "fields": {
+            "category": "Handlebars",
+            "price": 3,
+            "task": "Install grips"
+        },
+        "model": "app.MenuItem",
+        "pk": 38
+    },
+    {
+        "fields": {
+            "category": "Bottom bracket",
+            "price": 10,
+            "task": "Install one piece bb"
+        },
+        "model": "app.MenuItem",
+        "pk": 39
+    },
+    {
+        "fields": {
+            "category": "Saddle seatpost",
+            "price": 5,
+            "task": "Install saddle"
+        },
+        "model": "app.MenuItem",
+        "pk": 40
+    },
+    {
+        "fields": {
+            "category": "Wheels",
+            "price": 3,
+            "task": "Wheel adjust"
+        },
+        "model": "app.MenuItem",
+        "pk": 41
+    },
+    {
+        "fields": {
+            "category": "Shifters derailleurs",
+            "price": 7,
+            "task": "Adjust derailleur"
+        },
+        "model": "app.MenuItem",
+        "pk": 42
+    },
+    {
+        "fields": {
+            "category": "Wheels",
+            "price": 14,
+            "task": "Replace two tubes"
+        },
+        "model": "app.MenuItem",
+        "pk": 43
+    },
+    {
+        "fields": {
+            "category": "Bottom bracket",
+            "price": 17,
+            "task": "Overhaul one piece bb"
+        },
+        "model": "app.MenuItem",
+        "pk": 44
+    },
+    {
+        "fields": {
+            "category": "Drivetrain",
+            "price": 3,
+            "task": "Clean gears"
+        },
+        "model": "app.MenuItem",
+        "pk": 45
+    },
+    {
+        "fields": {
+            "category": "Wheels",
+            "price": 14,
+            "task": "Replace or install two tires"
+        },
+        "model": "app.MenuItem",
+        "pk": 46
+    },
+    {
+        "fields": {
+            "category": "Drivetrain",
+            "price": 9,
+            "task": "Install cassette"
+        },
+        "model": "app.MenuItem",
+        "pk": 47
+    },
+    {
+        "fields": {
+            "category": "Frame and alignment",
+            "price": 15,
+            "task": "Major clean"
+        },
+        "model": "app.MenuItem",
+        "pk": 48
+    },
+    {
+        "fields": {
+            "category": "Handlebars",
+            "price": 5,
+            "task": "Install handlebars"
+        },
+        "model": "app.MenuItem",
+        "pk": 49
+    },
+    {
+        "fields": {
+            "category": "Frame and alignment",
+            "price": 25,
+            "task": "Bike build"
+        },
+        "model": "app.MenuItem",
+        "pk": 50
+    }
+]

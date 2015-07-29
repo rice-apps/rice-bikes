@@ -510,8 +510,6 @@ def make_used_parts_export_file(table_rows, filename):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="%s"' % filename
 
-
-    print "Hey man!"
     choices = PartCategory._meta.get_field('category').choices
 
     writer = csv.writer(response)
