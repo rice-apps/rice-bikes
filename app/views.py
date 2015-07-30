@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
 from app.models import Transaction, Task, RentalBike, RefurbishedBike, \
-    RevenueUpdate, TotalRevenue, PartCategory, PartOrder
+    RevenueUpdate, TotalRevenue, PartCategory, PartOrder, MenuItem
 from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic import DetailView
 from django.core.mail import EmailMessage
@@ -389,10 +389,18 @@ class TransactionWizard(SessionWizardView):
         context = super(TransactionWizard, self).get_context_data(form=form, **kwargs)
 
         if self.steps.current == '1':
-            category_dict = TasksForm.get_category_dict()
             non_task_fields = TasksForm.get_non_task_fields()
-            context.update({'category_dict': category_dict})
             context.update({'non_task_fields': non_task_fields})
+
+            category_tuples = MenuItem.objects.values_list('category').distinct()
+            items_by_category = dict()
+            for category_tuple in category_tuples:
+                category = category_tuple[0]
+                items_by_category[category] = MenuItem.objects.filter(category=category)
+
+            print "ey!"
+            print items_by_category
+            context.update({'items_by_category': items_by_category})
         return context
 
     '''Returns form_data, a list with one element for each form in the wizard'''
@@ -510,6 +518,8 @@ def make_used_parts_export_file(table_rows, filename):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="%s"' % filename
 
+
+    print "Hey man!"
     choices = PartCategory._meta.get_field('category').choices
 
     writer = csv.writer(response)

@@ -136,3 +136,6 @@ class MenuItem(models.Model):
     task = models.CharField(max_length=100)
     category = models.CharField(max_length=100)
     price = models.IntegerField(default='0')
+
+    def __str__(self):
+        return str(self.category) + ": " + str(self.task)
