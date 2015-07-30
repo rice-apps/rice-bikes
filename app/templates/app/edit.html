@@ -64,17 +64,17 @@
 
     <div id="task_container" style="display:none">
     {% for task in tasks %}
-                    <div id="{{task.name|join_whitespace}}" category="{{ info_dict|get_member:task.name|get_member:'category'|join_whitespace }}">
-                        <div class="fieldWrapper">
-                            {% if not task.completed %}
-                            <em><strong>{{ task.name|place_whitespace }}</strong></em>
-                            <input class="form-control" id="id_{{task.name}}" name={{task.name}} type="checkbox"/>
-                            {% else %}
-                            <em><strong>{{ task.name|place_whitespace }}</strong></em>
-                            <input class="form-control" id="id_{{task.name}}" name={{task.name}} checked="checked" type="checkbox"/>
-                            {% endif %}
-                        </div>
-                    </div>
+            <div id="{{task.name|join_whitespace}}" category="{{ info_dict|get_member:task.name|get_member:'category'|join_whitespace }}">
+                <div class="fieldWrapper">
+                    {% if not task.completed %}
+                    <em><strong>{{ task.name|place_whitespace }}</strong></em>
+                    <input class="form-control" id="id_{{task.name| join_whitespace}}" name={{task.name| join_whitespace}} type="checkbox"/>
+                    {% else %}
+                    <em><strong>{{ task.name|place_whitespace }}</strong></em>
+                    <input class="form-control" id="id_{{task.name| join_whitespace}}" name={{task.name| join_whitespace}} checked="checked" type="checkbox"/>
+                    {% endif %}
+                </div>
+            </div>
     {% endfor %}
     </div>
 

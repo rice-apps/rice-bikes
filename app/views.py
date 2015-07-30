@@ -206,9 +206,7 @@ def update(request, *args, **kwargs):
                 process_part_categories_edit(form.data)
 
             for task in tasks:
-                print "task.name = " + task.name
-
-                if task.name in posted_strings:
+                if task.name.replace(" ", "_") in posted_strings:
                     print task.name + " in posted_strings"
                     task.completed = True
                 else:
@@ -321,8 +319,8 @@ def process(form_data):
         last_name=form_data[0]['last_name'],
         email=form_data[0]['email'],
         affiliation=form_data[0]['affiliation'],
-        cost=form_data[1]['cost'],
-        service_description=form_data[1]['service_description'],
+        cost=form_data[0]['cost'],
+        service_description=form_data[0]['service_description'],
     )
 
     # map transaction to rental/refurbished bike
@@ -347,20 +345,18 @@ def process(form_data):
 
     new_transaction.save()
 
-    all_tasks = TasksForm().fields.keys()
     print "form_data[1] = "
     print form_data[1]
 
     # map tasks to this transaction
-    for name in all_tasks:
-        if name in form_data[1]:
-            task = Task(
-                name=name,
-                completed=False,
-                category=form_data[1][name]['category'],
-                transaction=new_transaction,
-            )
-            task.save()
+    for menu_item in form_data[1]:
+        task = Task(
+            name=menu_item.task,
+            completed=False,
+            category=menu_item.category,
+            transaction=new_transaction,
+        )
+        task.save()
 
     # map parts to this transaction
     for form in form_data[2]:
@@ -398,8 +394,6 @@ class TransactionWizard(SessionWizardView):
                 category = category_tuple[0]
                 items_by_category[category] = MenuItem.objects.filter(category=category)
 
-            print "ey!"
-            print items_by_category
             context.update({'items_by_category': items_by_category})
         return context
 
@@ -414,17 +408,22 @@ class TransactionWizard(SessionWizardView):
         print form_input_list[1].data
         print "end"
 
-        forms_to_process.append({})
-        info_dict = TasksForm.get_info_dict()
+        forms_to_process.append([])
+        all_tasks = MenuItem.objects.values_list('task', flat=True)
 
         for field in form_input_list[1].cleaned_data:
             print str(field)
             print (form_input_list[1].cleaned_data[field])
-            if not (isinstance(form_input_list[1].cleaned_data[field], bool) and not form_input_list[1].cleaned_data[field]):
-                if field.replace("_", " ") in info_dict:
-                    forms_to_process[1][field] = info_dict[field.replace("_", " ")]
+            # if not (field value == false)    .e.g. can be true or any string including the empty string
+            if not (
+                    (isinstance(form_input_list[1].cleaned_data[field], bool)) and
+                    (not form_input_list[1].cleaned_data[field])
+            ):
+                print "in here yeah!"
+                if field.replace("_", " ") in all_tasks:
+                    forms_to_process[1].append(MenuItem.objects.filter(task=field.replace("_", " ")).first())
                 else:
-                    forms_to_process[1][field] = form_input_list[1].cleaned_data[field]
+                    forms_to_process[0][field] = form_input_list[1].cleaned_data[field]  # move into 0 index
 
         # Process the PartyCategoryForm's. The third element in forms_to_process is a list of form dictionaries
         print "form_input_list[2] ="
