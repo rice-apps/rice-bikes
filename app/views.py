@@ -11,7 +11,7 @@ from django.contrib.auth import get_user_model
 from django.utils.decorators import method_decorator
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth import authenticate, login, logout
-from app.forms import TasksForm, RentalForm, RefurbishedForm, \
+from app.forms import RentalForm, RefurbishedForm, \
     RevenueForm, TransactionForm, PartCategoryForm, PartOrderForm
 from django.template import RequestContext
 from django import forms
@@ -54,7 +54,7 @@ def mark_as_completed(request, pk):
 def send_completion_email(transaction):
     email_address = transaction.email
     subject_line = "[Rice Bikes] Ready For Pickup"
-    tasks = [str(task.name) for task in transaction.task_set.all()]
+    tasks = [str(task.menu_item.name) for task in transaction.task_set.all()]
     task_string = "\n".join(tasks)
     body = "%s,\n\n" \
            " Your bike is ready for pickup! The following repairs were completed:\n" \
@@ -148,6 +148,7 @@ def process_part_category_forms(form_list, form_input_data, string_prefix):
     fields = [el for el in fields if el not in non_saved_fields]
 
     s = string_prefix + 'category'
+    print form_input_data
     num_forms = len(form_input_data.getlist(s))
     print num_forms
 
@@ -159,6 +160,16 @@ def process_part_category_forms(form_list, form_input_data, string_prefix):
         for field in fields:
             s = string_prefix + field
             form[field] = form_input_data.getlist(s)[i]
+
+
+def get_items_by_category():
+    category_tuples = MenuItem.objects.values_list('category').distinct()
+    items_by_category = dict()
+    for category_tuple in category_tuples:
+        category = category_tuple[0]
+        items_by_category[category] = MenuItem.objects.filter(category=category)
+
+    return items_by_category
 
 
 def process_part_categories_edit(form_data):
@@ -206,16 +217,18 @@ def update(request, *args, **kwargs):
                 process_part_categories_edit(form.data)
 
             for task in tasks:
-                if task.name.replace(" ", "_") in posted_strings:
-                    print task.name + " in posted_strings"
+                task_name = task.menu_item.name
+                if task_name.replace(" ", "_") in posted_strings:
+                    print task_name + " in posted_strings"
                     task.completed = True
                 else:
                     task.completed = False
                 task.save()
             return HttpResponseRedirect(url)
 
-    category_dict = TasksForm.get_category_dict()
-    info_dict = TasksForm.get_info_dict()
+    # get list of all unique categories
+    category_tuples = MenuItem.objects.values_list('category').distinct()
+    categories = [tup[0] for tup in category_tuples]
 
     transaction_form = TransactionForm(instance=transaction)
 
@@ -230,7 +243,7 @@ def update(request, *args, **kwargs):
     print "end"
 
     return render_to_response("app/edit.html", {'part_category_form_list': part_category_form_list, 'tasks': tasks,
-                                                'category_dict': category_dict, 'info_dict': info_dict,
+                                                'categories': categories,
                                                 'transaction_form': transaction_form},
                               context_instance=RequestContext(request))
 
@@ -351,10 +364,9 @@ def process(form_data):
     # map tasks to this transaction
     for menu_item in form_data[1]:
         task = Task(
-            name=menu_item.task,
             completed=False,
-            category=menu_item.category,
             transaction=new_transaction,
+            menu_item=menu_item,
         )
         task.save()
 
@@ -374,9 +386,21 @@ def process(form_data):
         part_category.save()
 
 
+def process_tasks(form_data):
+    # gets all checkbox fields and returns this as the checked task fields
+
+    task_list = list()
+    for field in form_data:
+        if form_data[field] == 'on':
+            print "Got a checked task field: " + str(field)
+            task_list.append(field[2:].replace("_", " "))
+
+    return task_list
+
+
 class TransactionWizard(SessionWizardView):
     """
-    Wizard view for creating a new transaction in two steps.
+    Wizard view for creating a new transaction in three steps.
     """
     def get_template_names(self):
         return [NEW_ORDER_TEMPLATES[self.steps.current]]
@@ -385,15 +409,7 @@ class TransactionWizard(SessionWizardView):
         context = super(TransactionWizard, self).get_context_data(form=form, **kwargs)
 
         if self.steps.current == '1':
-            non_task_fields = TasksForm.get_non_task_fields()
-            context.update({'non_task_fields': non_task_fields})
-
-            category_tuples = MenuItem.objects.values_list('category').distinct()
-            items_by_category = dict()
-            for category_tuple in category_tuples:
-                category = category_tuple[0]
-                items_by_category[category] = MenuItem.objects.filter(category=category)
-
+            items_by_category = get_items_by_category()
             context.update({'items_by_category': items_by_category})
         return context
 
@@ -408,22 +424,21 @@ class TransactionWizard(SessionWizardView):
         print form_input_list[1].data
         print "end"
 
+        task_list = process_tasks(form_input_list[1].data)
+
+        print "task_list ="
+        print task_list
+        print "end"
+
         forms_to_process.append([])
-        all_tasks = MenuItem.objects.values_list('task', flat=True)
 
         for field in form_input_list[1].cleaned_data:
             print str(field)
             print (form_input_list[1].cleaned_data[field])
-            # if not (field value == false)    .e.g. can be true or any string including the empty string
-            if not (
-                    (isinstance(form_input_list[1].cleaned_data[field], bool)) and
-                    (not form_input_list[1].cleaned_data[field])
-            ):
-                print "in here yeah!"
-                if field.replace("_", " ") in all_tasks:
-                    forms_to_process[1].append(MenuItem.objects.filter(task=field.replace("_", " ")).first())
-                else:
-                    forms_to_process[0][field] = form_input_list[1].cleaned_data[field]  # move into 0 index
+            forms_to_process[0][field] = form_input_list[1].cleaned_data[field]  # move into 0 index
+
+        for field in task_list:
+            forms_to_process[1] = MenuItem.objects.filter(name=field)
 
         # Process the PartyCategoryForm's. The third element in forms_to_process is a list of form dictionaries
         print "form_input_list[2] ="

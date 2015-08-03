@@ -38,13 +38,13 @@ info_dict = {
             'Adjust disk brake': {'price': 9, 'category': 'Brakes'},
             'Install brake or lever': {'price': 12, 'category': 'Brakes'},
             'Install brake cable': {'price': 14, 'category': 'Brakes'},
-            'Clean and lube train': {'price': 3, 'category': 'Drivetrain'},
-            'Replace pedals': {'price': 5, 'category': 'Drivetrain'},
-            'Clean gears': {'price': 3, 'category': 'Drivetrain'},
-            'Replace chain': {'price': 9, 'category': 'Drivetrain'},
-            'Install freewheel': {'price': 7, 'category': 'Drivetrain'},
-            'Replace crankset': {'price': 7, 'category': 'Drivetrain'},
-            'Install cassette': {'price': 9, 'category': 'Drivetrain'},
+            'Clean and lube train': {'price': 3, 'category': 'Drive Train'},
+            'Replace pedals': {'price': 5, 'category': 'Drive Train'},
+            'Clean gears': {'price': 3, 'category': 'Drive Train'},
+            'Replace chain': {'price': 9, 'category': 'Drive Train'},
+            'Install freewheel': {'price': 7, 'category': 'Drive Train'},
+            'Replace crankset': {'price': 7, 'category': 'Drive Train'},
+            'Install cassette': {'price': 9, 'category': 'Drive Train'},
             'Install threadless': {'price': 5, 'category': 'Stem'},
             'Install threaded': {'price': 5, 'category': 'Stem'},
             'Adjust bearings fh bb hs': {'price': 5, 'category': 'Headset'},
@@ -63,7 +63,7 @@ for key in info_dict:
     item["pk"] = pk
 
     fields = dict()
-    fields["task"] = key
+    fields["name"] = key
     fields["category"] = info_dict[key]["category"]
     fields["price"] = info_dict[key]["price"]
 

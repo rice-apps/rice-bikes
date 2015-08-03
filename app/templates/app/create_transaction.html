@@ -28,9 +28,9 @@
 
                     <div class="fieldWrapper">
                         <div class="form-group">
-                            <label class="control-label  " for="id_1-{{ item.task|join_whitespace }}">(${{ item.price }})  {{ item.task }}</label>
+                            <label class="control-label  " for="id_1-{{ item.name|join_whitespace }}">(${{ item.price }})  {{ item.name }}</label>
                             <div class=" ">
-                                <input class="form-control" id="id_1-{{ item.task|join_whitespace }}" name="1-{{item.task|join_whitespace}}" type="checkbox" />
+                                <input class="form-control" id="id_1-{{ item.name|join_whitespace }}" name="1-{{item.name|join_whitespace}}" type="checkbox" />
                             </div>
                         </div>
                     </div>
@@ -41,11 +41,9 @@
         <br>
 
         {% for field in wizard.form %}
-            {% if non_task_fields|is_member:field.label %}
-                <div class="fieldWrapper">
-                    {{field | bootstrap}}
-                </div>
-            {% endif %}
+            <div class="fieldWrapper">
+                {{field | bootstrap}}
+            </div>
         {% endfor %}
     {% else %}
         <div class="fieldWrapper">

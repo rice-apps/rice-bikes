@@ -79,12 +79,12 @@
             <td class="col-sm-1"><b>Task</b></td>
             <td class="col-sm-1"><b>Completion Status</b></td>
         </thead>
-    {% for task in tasks %}
-        <tr>
-            <td>{{ task.name|place_whitespace }} </td>
-            <td>{{ task.completed }}</td>
-        </tr>
-    {% endfor %}
+        {% for task in tasks %}
+            <tr>
+                <td>{{ task.menu_item.name|place_whitespace }} </td>
+                <td>{{ task.completed }}</td>
+            </tr>
+        {% endfor %}
 </table>
 
 <a class="btn btn-default" href="{% url 'app:'|add:parent_url  %}" id="back" role="button">Back</a>

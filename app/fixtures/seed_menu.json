@@ -1,9 +1,9 @@
 [
     {
         "fields": {
-            "category": "Drivetrain",
-            "price": 5,
-            "task": "Replace pedals"
+            "category": "Drive Train",
+            "name": "Replace pedals",
+            "price": 5
         },
         "model": "app.MenuItem",
         "pk": 0
@@ -11,17 +11,17 @@
     {
         "fields": {
             "category": "Brakes",
-            "price": 12,
-            "task": "Install brake or lever"
+            "name": "Install brake or lever",
+            "price": 12
         },
         "model": "app.MenuItem",
         "pk": 1
     },
     {
         "fields": {
-            "category": "Drivetrain",
-            "price": 7,
-            "task": "Install freewheel"
+            "category": "Drive Train",
+            "name": "Install freewheel",
+            "price": 7
         },
         "model": "app.MenuItem",
         "pk": 2
@@ -29,8 +29,8 @@
     {
         "fields": {
             "category": "Frame and alignment",
-            "price": 5,
-            "task": "Basic clean"
+            "name": "Basic clean",
+            "price": 5
         },
         "model": "app.MenuItem",
         "pk": 3
@@ -38,17 +38,17 @@
     {
         "fields": {
             "category": "Headset",
-            "price": 9,
-            "task": "Adjust bearings"
+            "name": "Adjust bearings",
+            "price": 9
         },
         "model": "app.MenuItem",
         "pk": 4
     },
     {
         "fields": {
-            "category": "Drivetrain",
-            "price": 9,
-            "task": "Replace chain"
+            "category": "Drive Train",
+            "name": "Replace chain",
+            "price": 9
         },
         "model": "app.MenuItem",
         "pk": 5
@@ -56,8 +56,8 @@
     {
         "fields": {
             "category": "Wheels",
-            "price": 7,
-            "task": "Replace or install one tire"
+            "name": "Replace or install one tire",
+            "price": 7
         },
         "model": "app.MenuItem",
         "pk": 6
@@ -65,8 +65,8 @@
     {
         "fields": {
             "category": "Brakes",
-            "price": 8,
-            "task": "Adjust rim brake"
+            "name": "Adjust rim brake",
+            "price": 8
         },
         "model": "app.MenuItem",
         "pk": 7
@@ -74,26 +74,26 @@
     {
         "fields": {
             "category": "Wheels",
-            "price": 16,
-            "task": "Front hub overhaul"
+            "name": "Front hub overhaul",
+            "price": 16
         },
         "model": "app.MenuItem",
         "pk": 8
     },
     {
         "fields": {
-            "category": "Drivetrain",
-            "price": 7,
-            "task": "Replace crankset"
+            "category": "Drive Train",
+            "name": "Replace crankset",
+            "price": 7
         },
         "model": "app.MenuItem",
         "pk": 9
     },
     {
         "fields": {
-            "category": "Drivetrain",
-            "price": 3,
-            "task": "Clean and lube train"
+            "category": "Drive Train",
+            "name": "Clean and lube train",
+            "price": 3
         },
         "model": "app.MenuItem",
         "pk": 10
@@ -101,8 +101,8 @@
     {
         "fields": {
             "category": "Shifters derailleurs",
-            "price": 11,
-            "task": "Install shifter"
+            "name": "Install shifter",
+            "price": 11
         },
         "model": "app.MenuItem",
         "pk": 11
@@ -110,8 +110,8 @@
     {
         "fields": {
             "category": "Wheels",
-            "price": 6,
-            "task": "Adjust bearings rw"
+            "name": "Adjust bearings rw",
+            "price": 6
         },
         "model": "app.MenuItem",
         "pk": 12
@@ -119,8 +119,8 @@
     {
         "fields": {
             "category": "Stem",
-            "price": 5,
-            "task": "Install threadless"
+            "name": "Install threadless",
+            "price": 5
         },
         "model": "app.MenuItem",
         "pk": 13
@@ -128,8 +128,8 @@
     {
         "fields": {
             "category": "Frame and alignment",
-            "price": 7,
-            "task": "Install front basket"
+            "name": "Install front basket",
+            "price": 7
         },
         "model": "app.MenuItem",
         "pk": 14
@@ -137,8 +137,8 @@
     {
         "fields": {
             "category": "Stem",
-            "price": 5,
-            "task": "Install threaded"
+            "name": "Install threaded",
+            "price": 5
         },
         "model": "app.MenuItem",
         "pk": 15
@@ -146,8 +146,8 @@
     {
         "fields": {
             "category": "Saddle seatpost",
-            "price": 7,
-            "task": "Install seatpost and saddle"
+            "name": "Install seatpost and saddle",
+            "price": 7
         },
         "model": "app.MenuItem",
         "pk": 16
@@ -155,8 +155,8 @@
     {
         "fields": {
             "category": "Saddle seatpost",
-            "price": 3,
-            "task": "Seat adjust"
+            "name": "Seat adjust",
+            "price": 3
         },
         "model": "app.MenuItem",
         "pk": 17
@@ -164,8 +164,8 @@
     {
         "fields": {
             "category": "Shifters derailleurs",
-            "price": 14,
-            "task": "Install shifter cable"
+            "name": "Install shifter cable",
+            "price": 14
         },
         "model": "app.MenuItem",
         "pk": 18
@@ -173,8 +173,8 @@
     {
         "fields": {
             "category": "Headset",
-            "price": 11,
-            "task": "Bearing overhaul"
+            "name": "Bearing overhaul",
+            "price": 11
         },
         "model": "app.MenuItem",
         "pk": 19
@@ -182,8 +182,8 @@
     {
         "fields": {
             "category": "Frame and alignment",
-            "price": 7,
-            "task": "Align derailleur hanger"
+            "name": "Align derailleur hanger",
+            "price": 7
         },
         "model": "app.MenuItem",
         "pk": 20
@@ -191,8 +191,8 @@
     {
         "fields": {
             "category": "Bottom bracket",
-            "price": 5,
-            "task": "Adjust bearings bb"
+            "name": "Adjust bearings bb",
+            "price": 5
         },
         "model": "app.MenuItem",
         "pk": 21
@@ -200,8 +200,8 @@
     {
         "fields": {
             "category": "Bottom bracket",
-            "price": 12,
-            "task": "Install cup and spindle bb"
+            "name": "Install cup and spindle bb",
+            "price": 12
         },
         "model": "app.MenuItem",
         "pk": 22
@@ -209,8 +209,8 @@
     {
         "fields": {
             "category": "Brakes",
-            "price": 9,
-            "task": "Adjust disk brake"
+            "name": "Adjust disk brake",
+            "price": 9
         },
         "model": "app.MenuItem",
         "pk": 23
@@ -218,8 +218,8 @@
     {
         "fields": {
             "category": "Frame and alignment",
-            "price": 12,
-            "task": "Install rear rack"
+            "name": "Install rear rack",
+            "price": 12
         },
         "model": "app.MenuItem",
         "pk": 24
@@ -227,8 +227,8 @@
     {
         "fields": {
             "category": "Wheels",
-            "price": 14,
-            "task": "Wheel true"
+            "name": "Wheel true",
+            "price": 14
         },
         "model": "app.MenuItem",
         "pk": 25
@@ -236,8 +236,8 @@
     {
         "fields": {
             "category": "Bottom bracket",
-            "price": 10,
-            "task": "Install cartridge bb"
+            "name": "Install cartridge bb",
+            "price": 10
         },
         "model": "app.MenuItem",
         "pk": 26
@@ -245,8 +245,8 @@
     {
         "fields": {
             "category": "Headset",
-            "price": 5,
-            "task": "Adjust bearings fh bb hs"
+            "name": "Adjust bearings fh bb hs",
+            "price": 5
         },
         "model": "app.MenuItem",
         "pk": 27
@@ -254,8 +254,8 @@
     {
         "fields": {
             "category": "Brakes",
-            "price": 14,
-            "task": "Install brake cable"
+            "name": "Install brake cable",
+            "price": 14
         },
         "model": "app.MenuItem",
         "pk": 28
@@ -263,8 +263,8 @@
     {
         "fields": {
             "category": "Wheels",
-            "price": 5,
-            "task": "Adjust bearings fw"
+            "name": "Adjust bearings fw",
+            "price": 5
         },
         "model": "app.MenuItem",
         "pk": 29
@@ -272,8 +272,8 @@
     {
         "fields": {
             "category": "Handlebars",
-            "price": 9,
-            "task": "Wrap handlebars"
+            "name": "Wrap handlebars",
+            "price": 9
         },
         "model": "app.MenuItem",
         "pk": 30
@@ -281,8 +281,8 @@
     {
         "fields": {
             "category": "Wheels",
-            "price": 7,
-            "task": "Replace one tube"
+            "name": "Replace one tube",
+            "price": 7
         },
         "model": "app.MenuItem",
         "pk": 31
@@ -290,8 +290,8 @@
     {
         "fields": {
             "category": "Wheels",
-            "price": 12,
-            "task": "Install wheel"
+            "name": "Install wheel",
+            "price": 12
         },
         "model": "app.MenuItem",
         "pk": 32
@@ -299,8 +299,8 @@
     {
         "fields": {
             "category": "Saddle seatpost",
-            "price": 3,
-            "task": "Install seatpost without saddle"
+            "name": "Install seatpost without saddle",
+            "price": 3
         },
         "model": "app.MenuItem",
         "pk": 33
@@ -308,8 +308,8 @@
     {
         "fields": {
             "category": "Wheels",
-            "price": 20,
-            "task": "Coaster hub overhaul"
+            "name": "Coaster hub overhaul",
+            "price": 20
         },
         "model": "app.MenuItem",
         "pk": 34
@@ -317,8 +317,8 @@
     {
         "fields": {
             "category": "Shifters derailleurs",
-            "price": 11,
-            "task": "Install derailleur"
+            "name": "Install derailleur",
+            "price": 11
         },
         "model": "app.MenuItem",
         "pk": 35
@@ -326,8 +326,8 @@
     {
         "fields": {
             "category": "Wheels",
-            "price": 18,
-            "task": "Rear hub overhaul"
+            "name": "Rear hub overhaul",
+            "price": 18
         },
         "model": "app.MenuItem",
         "pk": 36
@@ -335,8 +335,8 @@
     {
         "fields": {
             "category": "Bottom bracket",
-            "price": 16,
-            "task": "Overhaul cup and spindle"
+            "name": "Overhaul cup and spindle",
+            "price": 16
         },
         "model": "app.MenuItem",
         "pk": 37
@@ -344,8 +344,8 @@
     {
         "fields": {
             "category": "Handlebars",
-            "price": 3,
-            "task": "Install grips"
+            "name": "Install grips",
+            "price": 3
         },
         "model": "app.MenuItem",
         "pk": 38
@@ -353,8 +353,8 @@
     {
         "fields": {
             "category": "Bottom bracket",
-            "price": 10,
-            "task": "Install one piece bb"
+            "name": "Install one piece bb",
+            "price": 10
         },
         "model": "app.MenuItem",
         "pk": 39
@@ -362,8 +362,8 @@
     {
         "fields": {
             "category": "Saddle seatpost",
-            "price": 5,
-            "task": "Install saddle"
+            "name": "Install saddle",
+            "price": 5
         },
         "model": "app.MenuItem",
         "pk": 40
@@ -371,8 +371,8 @@
     {
         "fields": {
             "category": "Wheels",
-            "price": 3,
-            "task": "Wheel adjust"
+            "name": "Wheel adjust",
+            "price": 3
         },
         "model": "app.MenuItem",
         "pk": 41
@@ -380,8 +380,8 @@
     {
         "fields": {
             "category": "Shifters derailleurs",
-            "price": 7,
-            "task": "Adjust derailleur"
+            "name": "Adjust derailleur",
+            "price": 7
         },
         "model": "app.MenuItem",
         "pk": 42
@@ -389,8 +389,8 @@
     {
         "fields": {
             "category": "Wheels",
-            "price": 14,
-            "task": "Replace two tubes"
+            "name": "Replace two tubes",
+            "price": 14
         },
         "model": "app.MenuItem",
         "pk": 43
@@ -398,17 +398,17 @@
     {
         "fields": {
             "category": "Bottom bracket",
-            "price": 17,
-            "task": "Overhaul one piece bb"
+            "name": "Overhaul one piece bb",
+            "price": 17
         },
         "model": "app.MenuItem",
         "pk": 44
     },
     {
         "fields": {
-            "category": "Drivetrain",
-            "price": 3,
-            "task": "Clean gears"
+            "category": "Drive Train",
+            "name": "Clean gears",
+            "price": 3
         },
         "model": "app.MenuItem",
         "pk": 45
@@ -416,17 +416,17 @@
     {
         "fields": {
             "category": "Wheels",
-            "price": 14,
-            "task": "Replace or install two tires"
+            "name": "Replace or install two tires",
+            "price": 14
         },
         "model": "app.MenuItem",
         "pk": 46
     },
     {
         "fields": {
-            "category": "Drivetrain",
-            "price": 9,
-            "task": "Install cassette"
+            "category": "Drive Train",
+            "name": "Install cassette",
+            "price": 9
         },
         "model": "app.MenuItem",
         "pk": 47
@@ -434,8 +434,8 @@
     {
         "fields": {
             "category": "Frame and alignment",
-            "price": 15,
-            "task": "Major clean"
+            "name": "Major clean",
+            "price": 15
         },
         "model": "app.MenuItem",
         "pk": 48
@@ -443,8 +443,8 @@
     {
         "fields": {
             "category": "Handlebars",
-            "price": 5,
-            "task": "Install handlebars"
+            "name": "Install handlebars",
+            "price": 5
         },
         "model": "app.MenuItem",
         "pk": 49
@@ -452,8 +452,8 @@
     {
         "fields": {
             "category": "Frame and alignment",
-            "price": 25,
-            "task": "Bike build"
+            "name": "Bike build",
+            "price": 25
         },
         "model": "app.MenuItem",
         "pk": 50

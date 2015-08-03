@@ -55,23 +55,23 @@
 
     <h1>Tasks</h1>
 
-    {% for category_pair in category_dict.iteritems %}
-        <div id = {{category_pair.0|join_whitespace}} style="display:none">
-            <h3>{{ category_pair.0 }}</h3>
+    {% for category in categories %}
+        <div id = {{category|join_whitespace}} style="display:none">
+            <h3>{{ category }}</h3>
         </div>
     {% endfor %}
 
 
     <div id="task_container" style="display:none">
     {% for task in tasks %}
-            <div id="{{task.name|join_whitespace}}" category="{{ info_dict|get_member:task.name|get_member:'category'|join_whitespace }}">
+            <div id="{{task.menu_item.name|join_whitespace}}" category="{{ task.menu_item.category|join_whitespace }}">
                 <div class="fieldWrapper">
                     {% if not task.completed %}
-                    <em><strong>{{ task.name|place_whitespace }}</strong></em>
-                    <input class="form-control" id="id_{{task.name| join_whitespace}}" name={{task.name| join_whitespace}} type="checkbox"/>
+                    <em><strong>{{ task.menu_item.name|place_whitespace }}</strong></em>
+                    <input class="form-control" id="id_{{task.menu_item.name| join_whitespace}}" name={{task.menu_item.name| join_whitespace}} type="checkbox"/>
                     {% else %}
-                    <em><strong>{{ task.name|place_whitespace }}</strong></em>
-                    <input class="form-control" id="id_{{task.name| join_whitespace}}" name={{task.name| join_whitespace}} checked="checked" type="checkbox"/>
+                    <em><strong>{{ task.menu_item.name|place_whitespace }}</strong></em>
+                    <input class="form-control" id="id_{{task.menu_item.name| join_whitespace}}" name={{task.menu_item.name| join_whitespace}} checked="checked" type="checkbox"/>
                     {% endif %}
                 </div>
             </div>

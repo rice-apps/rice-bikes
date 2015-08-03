@@ -70,14 +70,22 @@ class Transaction(models.Model):
         return self.first_name + " " + self.last_name
 
 
-class Task(models.Model):
+class MenuItem(models.Model):
     name = models.CharField(max_length=100)
-    completed = models.BooleanField(default=False)
     category = models.CharField(max_length=100)
-    transaction = models.ForeignKey(Transaction)
+    price = models.IntegerField(default='0')
 
     def __str__(self):
-        return "Task " + str(self.name)
+        return str(self.category) + ": " + str(self.name)
+
+
+class Task(models.Model):
+    completed = models.BooleanField(default=False)
+    transaction = models.ForeignKey(Transaction)
+    menu_item = models.ForeignKey(MenuItem)
+
+    def __str__(self):
+        return "Task " + str(self.menu_item.name)
 
 
 class RevenueUpdate(models.Model):
@@ -130,12 +138,3 @@ class PartOrder(models.Model):
 
     # Auto-generated fields
     date_submitted = models.DateTimeField(default=datetime.now, blank=True)
-
-
-class MenuItem(models.Model):
-    task = models.CharField(max_length=100)
-    category = models.CharField(max_length=100)
-    price = models.IntegerField(default='0')
-
-    def __str__(self):
-        return str(self.category) + ": " + str(self.task)
