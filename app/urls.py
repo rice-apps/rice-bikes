@@ -8,7 +8,7 @@ urlpatterns = patterns(
     '',
     url(r'^history/$', views.history, name='history'),
     url(r'^$', views.index, name='index'),
-    url(r'^new/$', views.TransactionWizard.as_view([CustomerForm, RepairsForm, PartCategoryForm]), name="new"),
+    url(r'^new/$', views.create_transaction, name="new"),
     url(r'^(?P<pk>\d+)/rental_detail/$', views.RentalDetail.as_view(), name='rental_detail'),
     url(r'^(?P<pk>\d+)/refurbished_detail/$', views.RefurbishedDetail.as_view(), name='refurbished_detail'),
     url(r'^(?P<pk>\d+)/(?P<parent_url>\w+)/edit/$', views.update, name='edit'),

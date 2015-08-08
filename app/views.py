@@ -12,7 +12,7 @@ from django.utils.decorators import method_decorator
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth import authenticate, login, logout
 from app.forms import RentalForm, RefurbishedForm, \
-    RevenueForm, TransactionForm, PartCategoryForm, PartOrderForm
+    RevenueForm, TransactionForm, PartCategoryForm, PartOrderForm, CustomerForm
 from django.template import RequestContext
 from django import forms
 import csv
@@ -396,6 +396,31 @@ def process_tasks(form_data):
             task_list.append(field[2:].replace("_", " "))
 
     return task_list
+
+
+def process_transaction(form_data):
+    new_transaction = Transaction(
+        first_name=form_data['first_name'],
+        last_name=form_data['last_name'],
+        email=form_data['email'],
+        affiliation=form_data['affiliation'],
+        cost=0,
+    )
+    new_transaction.save()
+
+
+def create_transaction(request):
+    if request.method == 'POST':
+        form = CustomerForm(request.POST)
+        if form.is_valid():
+            process_transaction(form.cleaned_data)
+            return render_to_response('app/confirm.html', {"text": "You successfully created the new transaction!"})
+    else:
+        form = CustomerForm()
+
+    return render(request, 'app/create_transaction.html', {
+        'form': form,
+    })
 
 
 class TransactionWizard(SessionWizardView):
