@@ -12,7 +12,7 @@ from django.utils.decorators import method_decorator
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth import authenticate, login, logout
 from app.forms import RentalForm, RefurbishedForm, \
-    RevenueForm, TransactionForm, PartCategoryForm, PartOrderForm, CustomerForm
+    RevenueForm, TaskForm, PartCategoryForm, PartOrderForm, CustomerForm
 from django.template import RequestContext
 from django import forms
 import csv
@@ -208,7 +208,7 @@ def update(request, *args, **kwargs):
             posted_strings = [str(key) for key in request.POST]
             print posted_strings
 
-            form = TransactionForm(request.POST)
+            form = TaskForm(request.POST)
             if form.is_valid():
                 process_transaction_edit(form.cleaned_data, transaction, request)
 
@@ -230,7 +230,7 @@ def update(request, *args, **kwargs):
     category_tuples = MenuItem.objects.values_list('category').distinct()
     categories = [tup[0] for tup in category_tuples]
 
-    transaction_form = TransactionForm(instance=transaction)
+    transaction_form = TaskForm(instance=transaction)
 
     part_category_form_list = []
     for part_category in part_categories:
@@ -386,18 +386,6 @@ def process(form_data):
         part_category.save()
 
 
-def process_tasks(form_data):
-    # gets all checkbox fields and returns this as the checked task fields
-
-    task_list = list()
-    for field in form_data:
-        if form_data[field] == 'on':
-            print "Got a checked task field: " + str(field)
-            task_list.append(field[2:].replace("_", " "))
-
-    return task_list
-
-
 def process_transaction(form_data):
     new_transaction = Transaction(
         first_name=form_data['first_name'],
@@ -420,6 +408,73 @@ def create_transaction(request):
 
     return render(request, 'app/create_transaction.html', {
         'form': form,
+    })
+
+
+def get_tasks(form_data):
+    task_list = list()
+    for field in form_data:
+        if form_data[field] == 'on':
+            print "Got a checked task field: " + str(field)
+            task_list.append(field[2:].replace("_", " "))
+
+    return task_list
+
+
+def process_tasks(form_data, transaction):
+    # gets all checkbox fields and returns this as the checked task fields
+    task_list = get_tasks(form_data)
+
+    menu_items = list()
+    for field in task_list:
+        menu_items.append(MenuItem.objects.filter(name=field).first())
+
+
+    print "B transaction = "
+    print transaction
+    print "end"
+
+    # Delete all tasks in the Transaction's task_set
+    transaction.task_set.all().delete()
+
+    # Create tasks mapping to the selected menu items, and map them to the Transaction
+    for task_name in task_list:
+        task = Task(
+            completed=False,
+            transaction=transaction,
+            menu_item=MenuItem.objects.filter(name=task_name).first(),
+        )
+        task.save()
+
+
+def process_task_form(form_data, transaction):
+    for key, value in form_data.iteritems():
+        transaction.__setattr__(key, value)
+
+    transaction.save()
+
+
+def assign_tasks(request, **kwargs):
+
+    transaction = Transaction.objects.filter(id=kwargs['pk']).first()
+
+    if request.method == 'POST':
+        form = TaskForm(request.POST)
+
+        # save tasks assigned to the transaction
+        process_tasks(form.data, transaction)
+
+        if form.is_valid():
+            # save fields assigned to the transaction
+            process_task_form(form.cleaned_data, transaction)
+            return render_to_response('app/confirm.html', {"text": "You successfully assigned tasks!"})
+    else:
+        form = TaskForm()
+
+    items_by_category = get_items_by_category()
+    return render(request, 'app/assign_tasks.html', {
+        'form': form,
+        'items_by_category': items_by_category,
     })
 
 

@@ -1,8 +1,6 @@
 $(document).ready(function() {
 
-    // Initial behavior //
-
-    $('#id_1-cost').val(0); // set price to 0
+    // INITIAL BEHAVIOR
 
     //hide vin text fields
     vin_field_list = $("[id*="+'vin'+"]");
@@ -10,24 +8,8 @@ $(document).ready(function() {
         $(vin_field_list[i]).closest('.fieldWrapper').hide();
     }
 
-   // checkbox click event
-    $('input:checkbox').change(function() {
 
-        // This is explicitly for prices with format ($<integer>)
-        raw_text = $(this).closest('.form-group').find('.control-label').text();
-
-        text = raw_text.split(/\s+/)[0];
-        task_price = parseInt(text.substring(2, text.length-1));
-
-        is_checked = $(this).prop('checked');
-
-        if(is_checked) {
-            $('#id_1-cost').val(parseInt($('#id_1-cost').val()) + task_price);
-        }
-        else{
-            $('#id_1-cost').val(parseInt($('#id_1-cost').val()) - task_price);
-        }
-    });
+    // EVENT HANDLERS AND HELPER FXNS
 
     var fill_fields = function(){
         $('*[id*="first_name"]').prop('value','NOT');
@@ -63,8 +45,6 @@ $(document).ready(function() {
         }
     })
 
-    $('.category').click(function() {
-        $("." + $(this).attr('category')).toggle()
-    })
+
 
 });

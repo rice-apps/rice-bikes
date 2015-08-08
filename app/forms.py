@@ -26,7 +26,7 @@ class CustomerForm(ModelForm):
         return self.cleaned_data
 
 
-class TransactionForm(ModelForm):
+class TaskForm(ModelForm):
     class Meta:
         model = Transaction
         fields = ('service_description', 'cost', 'amount_paid',)

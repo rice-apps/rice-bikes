@@ -1,6 +1,5 @@
 from django.conf.urls import patterns, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from app.forms import CustomerForm, RepairsForm, PartCategoryForm
 
 from app import views
 
@@ -9,6 +8,7 @@ urlpatterns = patterns(
     url(r'^history/$', views.history, name='history'),
     url(r'^$', views.index, name='index'),
     url(r'^new/$', views.create_transaction, name="new"),
+    url(r'^(?P<pk>\d+)/assign_tasks/$', views.assign_tasks, name="assign_tasks"),
     url(r'^(?P<pk>\d+)/rental_detail/$', views.RentalDetail.as_view(), name='rental_detail'),
     url(r'^(?P<pk>\d+)/refurbished_detail/$', views.RefurbishedDetail.as_view(), name='refurbished_detail'),
     url(r'^(?P<pk>\d+)/(?P<parent_url>\w+)/edit/$', views.update, name='edit'),
