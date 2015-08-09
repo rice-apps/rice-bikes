@@ -55,6 +55,18 @@ class PartCategoryForm(ModelForm):
         exclude = ['transaction', 'date_submitted', ]
 
 
+class DisabledPartCategoryForm(PartCategoryForm):
+    class Meta:
+        model = PartCategory
+        exclude = ['transaction', 'date_submitted', ]
+        widgets = {
+            'category': forms.Select(attrs={'disabled': 'True'}),
+            'price': forms.NumberInput(attrs={'disabled': 'True'}),
+            'description': forms.TextInput(attrs={'disabled': 'True'}),
+            'was_used': forms.CheckboxInput(attrs={'disabled': 'True'}),
+        }
+
+
 class PartOrderForm(ModelForm):
     class Meta:
         model = PartOrder

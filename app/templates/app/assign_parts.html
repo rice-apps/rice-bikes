@@ -14,32 +14,69 @@
     <form action="" method="post">
         {% csrf_token %}
 
-        <div id="all_part_categories">
-        {% for form in forms %}
-            <div class="fieldWrapper" id="original_fields_{{forloop.counter0}}">
-                <div class="controls form-inline">
-                    {% for field in form %}
-                        {% if field.name == 'was_used' %}
-                            <label class="control-label  " for="was_used_show">Was Installed</label>
-
-                            <input class="form-control" id="was_used_show" type="checkbox" value="True" name="was_used"
-                                   {% if field.value == True %} checked="checked" {% endif %}>
-
-                            <input id="was_used_hidden" type="hidden" value="False" name="was_used">
-                        {% else %}
-                            {{ field | bootstrap}}
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-        {% endfor %}
-        </div>
-
         <div id="buttons" class="controls form-inline">
             <br>
             <input id="add_form" value="Add Category" class="btn btn-default btn-lg"/>
             <input type="submit" value="Submit" class="btn btn-default btn-lg"/>
             <input type="submit" name="cancel" value="Cancel" class="btn btn-default btn-lg"/>
         </div>
+
+        <div id="all_part_categories">
+        {% for form_pair in old_form_pairs %}
+            <!--Disabled for greyed out look. Doesn't submit-->
+            <div class="old_form_disabled{{forloop.counter0}}">
+                <div class="fieldWrapper">
+                    <div class="controls form-inline">
+                        {% for field in form_pair.0 %}
+                            {% if field.name == 'was_used' %}
+                                <label class="control-label">Was Installed</label>
+                                <input class="form-control was_used_show" type="checkbox" value="True" name="was_used"
+                                       {% if field.value == True %} checked="checked" {% endif %} disabled="true">
+                                <input class="form-control was_used_hidden" type="hidden" value="False" name="was_used">
+                            {% else %}
+                                {{ field | bootstrap }}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <!--Hidden. This gets submitted.-->
+            <div class="old_form_hidden{{forloop.counter0}}" style="display:none">
+                <div class="fieldWrapper">
+                    <div class="controls form-inline">
+                    {% for field in form_pair.1 %}
+                        {% if field.name == 'was_used' %}
+                            <label class="control-label">Was Installed</label>
+                            <input class="form-control was_used_show" type="checkbox" value="True" name="was_used"
+                                   {% if field.value == True %} checked="checked" {% endif %}>
+                            <input class="form-control was_used_hidden" type="hidden" value="False" name="was_used">
+                        {% else %}
+                            {{ field | bootstrap }}
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+
     </form>
+
+    <div class id="new_form" >
+        <div class="fieldWrapper">
+                <div class="controls form-inline">
+                    {% for field in new_form %}
+                        {% if field.name == 'was_used' %}
+                            <label class="control-label">Was Installed</label>
+                            <input class="form-control was_used_show" type="checkbox" value="True" name="was_used"
+                                   {% if field.value == True %} checked="checked" {% endif %}>
+                            <input class="form-control was_used_hidden" type="hidden" value="False" name="was_used">
+                        {% else %}
+                            {{ field | bootstrap }}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+        </div>
+    </div>
+
 {% endblock %}

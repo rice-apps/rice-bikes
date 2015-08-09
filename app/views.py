@@ -12,7 +12,7 @@ from django.utils.decorators import method_decorator
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth import authenticate, login, logout
 from app.forms import RentalForm, RefurbishedForm, \
-    RevenueForm, TaskForm, PartCategoryForm, PartOrderForm, CustomerForm
+    RevenueForm, TaskForm, PartCategoryForm, PartOrderForm, CustomerForm, DisabledPartCategoryForm
 from django.template import RequestContext
 from django import forms
 import csv
@@ -164,8 +164,10 @@ def process_part_category_forms(form_input_data, transaction):
 
         for field in fields:
             value = form_input_data.getlist(field)[i]
-            if value == "False":
+            if field == "was_used" and value == "False":
                 value = False
+            if field == "price" and value == "":
+                value = 0
             setattr(new_part_category, field, value)
             print "field = " + str(field)
             print "value = " + str(getattr(new_part_category, field))
@@ -502,7 +504,7 @@ def assign_parts(request, **kwargs):
         if 'cancel' in request.POST:
             return HttpResponseRedirect(url)
 
-        form = PartCategoryForm(request.POST)
+        form = DisabledPartCategoryForm(request.POST)
 
         print "Part Category Form data"
         print form.data
@@ -518,12 +520,17 @@ def assign_parts(request, **kwargs):
         })
     else:
         if transaction.partcategory_set.all():
-            forms = [PartCategoryForm(instance=part_category) for part_category in transaction.partcategory_set.all()]
+            old_form_pairs = [(DisabledPartCategoryForm(instance=part_category),
+                                PartCategoryForm(instance=part_category))
+                               for part_category in transaction.partcategory_set.all()]
+            new_form = PartCategoryForm()
         else:
-            forms = [PartCategoryForm()]
+            old_form_pairs = []
+            new_form = PartCategoryForm()
 
     return render(request, 'app/assign_parts.html', {
-        'forms': forms,
+        'old_form_pairs': old_form_pairs,
+        'new_form': new_form,
     })
 
 
