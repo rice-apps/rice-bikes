@@ -24,39 +24,43 @@
         <div id="all_part_categories">
         {% for form_pair in old_form_pairs %}
             <!--Disabled for greyed out look. Doesn't submit-->
-            <div class="old_form_disabled{{forloop.counter0}}">
-                <div class="fieldWrapper">
-                    <div class="controls form-inline">
-                        {% for field in form_pair.0 %}
+            <div class="form_pair">
+                <div class="old_form_disabled{{forloop.counter0}}">
+                    <div class="fieldWrapper">
+                        <div class="controls form-inline">
+                            {% for field in form_pair.0 %}
+                                {% if field.name == 'was_used' %}
+                                    <label class="control-label">Was Installed</label>
+                                    <input class="form-control was_used_show" type="checkbox" value="True" name="was_used"
+                                           {% if field.value == True %} checked="checked" {% endif %} disabled="true">
+                                    <input class="form-control was_used_hidden" type="hidden" value="False" name="was_used">
+                                {% else %}
+                                    {{ field | bootstrap }}
+                                {% endif %}
+                            {% endfor %}
+                            <button class="remove_form btn btn-default btn-lg" type="button">Remove</button>
+                        </div>
+                    </div>
+                </div>
+                <!--Hidden. This gets submitted.-->
+                <div class="old_form_hidden{{forloop.counter0}}" style="display:none">
+                    <div class="fieldWrapper">
+                        <div class="controls form-inline">
+                        {% for field in form_pair.1 %}
                             {% if field.name == 'was_used' %}
                                 <label class="control-label">Was Installed</label>
                                 <input class="form-control was_used_show" type="checkbox" value="True" name="was_used"
-                                       {% if field.value == True %} checked="checked" {% endif %} disabled="true">
+                                       {% if field.value == True %} checked="checked" {% endif %}>
                                 <input class="form-control was_used_hidden" type="hidden" value="False" name="was_used">
                             {% else %}
                                 {{ field | bootstrap }}
                             {% endif %}
                         {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
-            <!--Hidden. This gets submitted.-->
-            <div class="old_form_hidden{{forloop.counter0}}" style="display:none">
-                <div class="fieldWrapper">
-                    <div class="controls form-inline">
-                    {% for field in form_pair.1 %}
-                        {% if field.name == 'was_used' %}
-                            <label class="control-label">Was Installed</label>
-                            <input class="form-control was_used_show" type="checkbox" value="True" name="was_used"
-                                   {% if field.value == True %} checked="checked" {% endif %}>
-                            <input class="form-control was_used_hidden" type="hidden" value="False" name="was_used">
-                        {% else %}
-                            {{ field | bootstrap }}
-                        {% endif %}
-                    {% endfor %}
-                    </div>
-                </div>
-            </div>
+
         {% endfor %}
         </div>
 
