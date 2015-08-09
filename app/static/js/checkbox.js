@@ -9,7 +9,7 @@ $(document).ready(function() {
             if (was_used_show.prop('checked')) {
                 console.log(i + 'was checked!');
                 was_used_hidden = $(category_div).find("[id^='was_used_hidden']");
-                was_used_hidden.prop('disabled',true);
+                was_used_hidden.prop('disabled', true);
             }
         }
     });

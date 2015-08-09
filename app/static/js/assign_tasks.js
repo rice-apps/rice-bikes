@@ -4,8 +4,6 @@ $(document).ready(function() {
     // INITIAL BEHAVIOR
 
     cost_el = $('*[id*="cost"]');
-    cost_el.val(0); // set price to 0
-
 
     // EVENT HANDLERS AND HELPER FXNS
 

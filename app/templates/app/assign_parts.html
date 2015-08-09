@@ -1,0 +1,45 @@
+{% extends "app/base.html" %}
+{% load bootstrap %}
+{% load staticfiles %}
+
+
+{% block head %}
+<script src="{% static 'js/assign_parts.js' %}" type="text/javascript" charset="utf-8" async defer></script>
+<script src="{% static 'js/checkbox.js' %}" type="text/javascript" charset="utf-8" async defer></script>
+
+{% endblock %}
+
+{% block content %}
+
+    <form action="" method="post">
+        {% csrf_token %}
+
+        <div id="all_part_categories">
+        {% for form in forms %}
+            <div class="fieldWrapper" id="original_fields_{{forloop.counter0}}">
+                <div class="controls form-inline">
+                    {% for field in form %}
+                        {% if field.name == 'was_used' %}
+                            <label class="control-label  " for="was_used_show">Was Installed</label>
+
+                            <input class="form-control" id="was_used_show" type="checkbox" value="True" name="was_used"
+                                   {% if field.value == True %} checked="checked" {% endif %}>
+
+                            <input id="was_used_hidden" type="hidden" value="False" name="was_used">
+                        {% else %}
+                            {{ field | bootstrap}}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+
+        <div id="buttons" class="controls form-inline">
+            <br>
+            <input id="add_form" value="Add Category" class="btn btn-default btn-lg"/>
+            <input type="submit" value="Submit" class="btn btn-default btn-lg"/>
+            <input type="submit" name="cancel" value="Cancel" class="btn btn-default btn-lg"/>
+        </div>
+    </form>
+{% endblock %}

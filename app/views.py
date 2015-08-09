@@ -138,7 +138,7 @@ def process_transaction_edit(form_data, transaction, request):
         transaction.save()
 
 
-def process_part_category_forms(form_list, form_input_data, string_prefix):
+def process_part_category_forms(form_input_data, transaction):
     """ Processes form data for multiple PartCategoryForms, putting the
     resulting list of dictionaries into form_list."""
 
@@ -147,19 +147,32 @@ def process_part_category_forms(form_list, form_input_data, string_prefix):
     non_saved_fields = ['id', 'date_submitted', 'transaction', 'transaction_id']
     fields = [el for el in fields if el not in non_saved_fields]
 
-    s = string_prefix + 'category'
+    s = 'category'
     print form_input_data
     num_forms = len(form_input_data.getlist(s))
     print num_forms
 
     print 'fields = ' + str(fields)
 
+    # delete old PartCategories
+    transaction.partcategory_set.all().delete()
+
+    # save new PartCategories
     for i in xrange(num_forms):
-        form = {}
-        form_list.append(form)
+        new_part_category = PartCategory()
+        print "NEW PART CATEGORY: "
+
         for field in fields:
-            s = string_prefix + field
-            form[field] = form_input_data.getlist(s)[i]
+            value = form_input_data.getlist(field)[i]
+            if value == "False":
+                value = False
+            setattr(new_part_category, field, value)
+            print "field = " + str(field)
+            print "value = " + str(getattr(new_part_category, field))
+        print "END"
+
+        new_part_category.transaction = transaction
+        new_part_category.save()
 
 
 def get_items_by_category():
@@ -167,27 +180,9 @@ def get_items_by_category():
     items_by_category = dict()
     for category_tuple in category_tuples:
         category = category_tuple[0]
-        items_by_category[category] = MenuItem.objects.filter(category=category)
+        items_by_category[category] = list(MenuItem.objects.filter(category=category))
 
     return items_by_category
-
-
-def process_part_categories_edit(form_data):
-    form_list = []
-    process_part_category_forms(form_list, form_data, '')
-
-    for i in xrange(len(form_list)):
-        form = form_list[i]
-        id = form_data.getlist('id')[i]
-        part_category = PartCategory.objects.filter(pk=id).first()
-        part_category.category = form['category']
-        part_category.price = form['price']
-        part_category.description = form['description']
-        if form['was_used'] == 'True':
-            part_category.was_used = True
-        else:
-            part_category.was_used = False
-        part_category.save()
 
 
 def update(request, *args, **kwargs):
@@ -214,7 +209,7 @@ def update(request, *args, **kwargs):
 
             form = PartCategoryForm(request.POST)
             if form.is_valid():
-                process_part_categories_edit(form.data)
+                process_part_category_forms(form.data, transaction)
 
             for task in tasks:
                 task_name = task.menu_item.name
@@ -429,22 +424,22 @@ def process_tasks(form_data, transaction):
     for field in task_list:
         menu_items.append(MenuItem.objects.filter(name=field).first())
 
+    task_set_names = [task.menu_item.name for task in list(transaction.task_set.all())]
 
-    print "B transaction = "
-    print transaction
-    print "end"
-
-    # Delete all tasks in the Transaction's task_set
-    transaction.task_set.all().delete()
-
-    # Create tasks mapping to the selected menu items, and map them to the Transaction
+    # add new tasks
     for task_name in task_list:
-        task = Task(
-            completed=False,
-            transaction=transaction,
-            menu_item=MenuItem.objects.filter(name=task_name).first(),
-        )
-        task.save()
+        if task_name not in task_set_names:
+            task = Task(
+                completed=False,
+                transaction=transaction,
+                menu_item=MenuItem.objects.filter(name=task_name).first(),
+            )
+            task.save()
+
+    # delete removed tasks
+    for task in transaction.task_set.all():
+        if task.menu_item.name not in task_list:
+            task.delete()
 
 
 def process_task_form(form_data, transaction):
@@ -459,6 +454,11 @@ def assign_tasks(request, **kwargs):
     transaction = Transaction.objects.filter(id=kwargs['pk']).first()
 
     if request.method == 'POST':
+
+        url = u"/%s/%s/detail" % (kwargs['pk'], kwargs['parent_url'])
+        if "cancel" in request.POST:
+            return HttpResponseRedirect(url)
+
         form = TaskForm(request.POST)
 
         # save tasks assigned to the transaction
@@ -467,14 +467,63 @@ def assign_tasks(request, **kwargs):
         if form.is_valid():
             # save fields assigned to the transaction
             process_task_form(form.cleaned_data, transaction)
-            return render_to_response('app/confirm.html', {"text": "You successfully assigned tasks!"})
+            return render_to_response('app/confirm.html',
+                                      {"text": "You successfully assigned tasks!",
+                                       "absolute_url": url,
+                                       },
+                                      )
+
     else:
-        form = TaskForm()
+        form = TaskForm(instance=transaction)
 
     items_by_category = get_items_by_category()
+
+    # modify items_by_category to map to list of tuples with an assigned-bool
+    task_set_names = [task.menu_item.name for task in transaction.task_set.all()]
+    for items in items_by_category.values():
+        for i in xrange(len(items)):
+            if items[i].name in task_set_names:
+                items[i] = (items[i], True)
+            else:
+                items[i] = (items[i], False)
+
     return render(request, 'app/assign_tasks.html', {
         'form': form,
         'items_by_category': items_by_category,
+    })
+
+
+def assign_parts(request, **kwargs):
+    transaction = Transaction.objects.filter(id=kwargs['pk']).first()
+
+    if request.method == 'POST':
+        url = u"/%s/%s/detail" % (kwargs['pk'], kwargs['parent_url'])
+
+        if 'cancel' in request.POST:
+            return HttpResponseRedirect(url)
+
+        form = PartCategoryForm(request.POST)
+
+        print "Part Category Form data"
+        print form.data
+        print "end"
+
+        process_part_category_forms(form.data, transaction)
+
+        # if form.is_valid():
+        #     process_transaction(form.cleaned_data)
+        return render_to_response('app/confirm.html', {
+            "text": "You successfully created the new transaction!",
+            "absolute_url": url,
+        })
+    else:
+        if transaction.partcategory_set.all():
+            forms = [PartCategoryForm(instance=part_category) for part_category in transaction.partcategory_set.all()]
+        else:
+            forms = [PartCategoryForm()]
+
+    return render(request, 'app/assign_parts.html', {
+        'forms': forms,
     })
 
 
