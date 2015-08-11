@@ -21,7 +21,7 @@
     {% for transaction in transactions_list %}
         <tr class="legible">
             <td>{{ transaction.id }}</td>
-            <td><a href="{% url 'app:detail' transaction.id 'index' %}">{{ transaction.first_name }} {{ transaction.last_name }}</a></td>
+            <td><a href="{% url 'app:detail_1' 'index' transaction.id %}">{{ transaction.first_name }} {{ transaction.last_name }}</a></td>
             <td>{{ transaction.email }}</td>
             <td>
                 {{ transaction.service_description|slice:":75" }}

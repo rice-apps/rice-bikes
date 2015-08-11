@@ -87,8 +87,8 @@
         {% endfor %}
 </table>
 
-<a class="btn btn-default" href="{% url 'app:'|add:parent_url  %}" id="back" role="button">Back</a>
-<a class="btn btn-default" href="{% url 'app:edit' transaction.id parent_url %}" role="button">Edit</a>
+<a class="btn btn-default" href="{% url 'app:'|add:parent_url %}" id="back" role="button">Back</a>
+<a class="btn btn-default" href="{% url 'app:edit_1' parent_url transaction.id %}" role="button">Edit</a>
 
 {% endblock %}
 

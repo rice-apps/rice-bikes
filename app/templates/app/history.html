@@ -17,7 +17,8 @@
     {% for transaction in transactions_list %}
         <tr>
             <td>{{ transaction.id }}</td>
-            <td><a href="{% url 'app:detail_complete' transaction.id 'history' %}">{{ transaction.first_name }} {{ transaction.last_name }}</a></td>
+            <td><a href="{% url 'app:detail_1' 'history' transaction.id %}">
+                {{ transaction.first_name }} {{ transaction.last_name }}</a></td>
             <td>{{ transaction.email }}</td>
             <td>
                 {{ transaction.service_description|slice:":75" }}

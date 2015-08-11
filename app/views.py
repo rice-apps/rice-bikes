@@ -48,7 +48,7 @@ def mark_as_completed(request, pk):
     # send email
     send_completion_email(transaction)
 
-    return HttpResponseRedirect(reverse('app:index'))
+    return HttpResponseRedirect(reverse('app:index')) # want to go back to parent_url, not always index
 
 
 def send_completion_email(transaction):
@@ -81,28 +81,24 @@ class LoggedInMixin(object):
         return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
 
-class TransactionDetail(LoggedInMixin, DetailView):
-    model = Transaction
-    template_name = "app/detail.html"
+def detail(request, **kwargs):
 
-    def get_context_data(self, **kwargs):
-        context = super(TransactionDetail, self).get_context_data(**kwargs)
-        context['tasks'] = Transaction.objects.filter(pk=self.kwargs['pk']).first().task_set.all()
-        context['part_categories'] = Transaction.objects.filter(pk=self.kwargs['pk']).first().partcategory_set.all()
-        context['parent_url'] = self.kwargs['parent_url']
-        return context
+    transaction = Transaction.objects.filter(pk=kwargs['pk']).first()
+    tasks = transaction.task_set.all()
+    part_categories = transaction.partcategory_set.all()
+    parent_url = kwargs['parent_url']
 
+    if parent_url == 'history':
+        detail_page = 'detail_complete.html'
+    else:
+        detail_page = 'detail.html'
 
-class TransactionDetailComplete(LoggedInMixin, DetailView):
-    model = Transaction
-    template_name = "app/detail_complete.html"
+    return render_to_response("app/" + detail_page, {
+        'transaction':transaction,
+        'part_categories': part_categories,
+        'parent_url': parent_url,
+        })
 
-    def get_context_data(self, **kwargs):
-        context = super(TransactionDetailComplete, self).get_context_data(**kwargs)
-        context['tasks'] = Transaction.objects.filter(pk=self.kwargs['pk']).first().task_set.all()
-        context['part_categories'] = Transaction.objects.filter(pk=self.kwargs['pk']).first().partcategory_set.all()
-        context['parent_url'] = self.kwargs['parent_url']
-        return context
 
 
 def process_transaction_edit(form_data, transaction, request):
@@ -187,16 +183,17 @@ def get_items_by_category():
     return items_by_category
 
 
-def update(request, *args, **kwargs):
+def update(request, **kwargs):
     # model = Transaction
     # template_name = "app/edit.html"
 
-    transaction = Transaction.objects.filter(pk=kwargs['pk']).first()
+    transaction = Transaction.objects.filter(pk=kwargs['trans_pk']).first()
     tasks = transaction.task_set.all()
     part_categories = transaction.partcategory_set.all()
 
     if request.method == 'POST':
-        url = u"/%s/%s/detail" % (kwargs['pk'], kwargs['parent_url'])
+        print kwargs
+        url = u"/%s/%s/detail" % (kwargs['parent_url'], kwargs['trans_pk'])
         if "cancel" in request.POST:
             return HttpResponseRedirect(url)
         else:
@@ -264,6 +261,7 @@ class RentalDetail(LoggedInMixin, DetailView):
         print "rental kwargs: " + str(self.kwargs)
         context['vin'] = RentalBike.objects.filter(pk=self.kwargs['pk']).first().vin
         context['transactions'] = RentalBike.objects.filter(pk=self.kwargs['pk']).first().transaction_set.all()
+        context['pk'] = self.kwargs['pk']
         return context
 
 
@@ -391,8 +389,28 @@ def process_transaction(form_data):
         affiliation=form_data['affiliation'],
         cost=0,
     )
-    new_transaction.save()
 
+    # map transaction to rental/refurbished bike
+    rental_vin = form_data['rental_vin']
+    refurbished_vin = form_data['refurbished_vin']
+    if rental_vin:
+        rental_bike = RentalBike.objects.filter(vin=rental_vin).first()
+        if rental_bike is None:
+            rental_bike = RentalBike(
+                vin=rental_vin,
+            )
+            rental_bike.save()
+        new_transaction.rental_bike = rental_bike
+    elif refurbished_vin:
+        refurbished_bike = RefurbishedBike.objects.filter(vin=refurbished_vin).first()
+        if refurbished_bike is None:
+            refurbished_bike = RefurbishedBike(
+                vin=refurbished_vin,
+            )
+            refurbished_bike.save()
+        new_transaction.refurbished_bike = refurbished_bike
+
+    new_transaction.save()
 
 def create_transaction(request):
     if request.method == 'POST':
