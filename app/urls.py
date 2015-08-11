@@ -24,31 +24,44 @@ urlpatterns = patterns(
     url(r'^installed_parts', views.used_parts, name='used_parts'),
 
     # sub-urls of detail
-    url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/edit/$', views.update, name='edit_1'),
-    url(r'^(?P<parent_url>\w+)/(?P<bike_pk>\d+)/(?P<trans_pk>\d+)/edit/$', views.update, name='edit_2'),
+    # edit
+    url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/edit/$', views.update,
+        {'num_parent_args': 1},
+        name='edit_1'),
+    url(r'^(?P<bike_pk>\d+)/(?P<parent_url>\w+)/(?P<trans_pk>\d+)/edit/$', views.update,
+        {'num_parent_args': 2},
+        name='edit_2'),
 
-    """
-    EDIT THESE MOTHER MOTHERS TO THE RIGHT REGEX/VIEW/NAME
-    # sub-urls of detail
-    url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/edit/$', views.update, name='edit_1'),
-    url(r'^(?P<parent_url>\w+)/(?P<bike_pk>\d+)/(?P<trans_pk>\d+)/edit/$', views.update, name='edit_2'),
+    # mark_as_completed
+    url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/mark_as_completed/$', views.update,
+        {'num_parent_args': 1},
+        name='mark_as_completed_1'),
+    url(r'^(?P<bike_pk>\d+)/(?P<parent_url>\w+)/(?P<trans_pk>\d+)/mark_as_completed/$', views.update,
+        {'num_parent_args': 2},
+        name='mark_as_completed_2'),
 
-        # sub-urls of detail
-    url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/edit/$', views.update, name='edit_1'),
-    url(r'^(?P<parent_url>\w+)/(?P<bike_pk>\d+)/(?P<trans_pk>\d+)/edit/$', views.update, name='edit_2'),
+    # assign_tasks
+    url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_tasks/$', views.update,
+        {'num_parent_args': 1},
+        name='assign_tasks_1'),
+    url(r'^(?P<bike_pk>\d+)/(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_tasks/$', views.update,
+        {'num_parent_args': 2},
+        name='assign_tasks_2'),
 
-        # sub-urls of detail
-    url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/edit/$', views.update, name='edit_1'),
-    url(r'^(?P<parent_url>\w+)/(?P<bike_pk>\d+)/(?P<trans_pk>\d+)/edit/$', views.update, name='edit_2'),
+    # assign_parts
+    url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_parts/$', views.update,
+        {'num_parent_args': 1},
+        name='assign_parts_1'),
+    url(r'^(?P<bike_pk>\d+)/(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_parts/$', views.update,
+        {'num_parent_args': 2},
+        name='assign_parts_2'),
 
-    """
 
     # detail paths
-    url(r'^(?P<parent_url>\w+)/(?P<pk>\d+)/detail/$', views.detail,
+    url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/detail/$', views.detail, {'num_parent_args': 1},
         name='detail_1'),
-    url(r'^rental_detail/(?P<rental_pk>\d+)/(?P<trans_pk>\d+)/detail/$', views.detail,
-        {'parent_url': 'rental_detail'},
-        name='rental_detail_trans_detail'),
+    url(r'^(?P<bike_pk>\d+)/(?P<parent_url>\w+)/(?P<trans_pk>\d+)/detail/$', views.detail, {'num_parent_args': 2},
+        name='detail_2'),
 
 
 )

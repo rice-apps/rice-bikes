@@ -2,9 +2,28 @@
 
 {% block detail %}
 
-<a class="btn btn-default" href="{% url 'app:'|add:parent_url|add:'_trans_mark_completed' transaction.id %}" role="button">Mark as completed</a>
-<a class="btn btn-default" href="{% url 'app:'|add:parent_url|add:'_trans_assign_tasks' transaction.id %}" role="button">Assign Tasks</a>
-<a class="btn btn-default" href="{% url 'app:'|add:parent_url|add:'_trans_assign_parts' transaction.id %}" role="button">Assign Parts</a>
+{% if num_parent_args == 1 %}
+<a class="btn btn-default"
+   href="{% url 'app:mark_as_completed_1' parent_url transaction.id %}"
+   role="button">Mark as completed</a>
+<a class="btn btn-default"
+   href="{% url 'app:assign_tasks_1' parent_url transaction.id %}"
+   role="button">Assign Tasks</a>
+<a class="btn btn-default"
+   href="{% url 'app:assign_parts_1' parent_url transaction.id %}"
+   role="button">Assign Parts</a>
+
+{% elif num_parent_args == 2 %}
+<a class="btn btn-default"
+   href="{% url 'app:mark_as_completed_2' bike_pk parent_url transaction.id %}"
+   role="button">Mark as completed</a>
+<a class="btn btn-default"
+   href="{% url 'app:assign_tasks_2' bike_pk parent_url transaction.id %}"
+   role="button">Assign Tasks</a>
+<a class="btn btn-default"
+   href="{% url 'app:assign_parts_2' bike_pk parent_url transaction.id %}"
+   role="button">Assign Parts</a>
+{% endif %}
 
 
 {% endblock %}

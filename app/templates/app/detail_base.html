@@ -68,7 +68,7 @@
             <td> ${{ part_category.price }} </td>
             <td> {{ part_category.was_used }} </td>
             <td>{{ part_category.description }}</td>
-        </tr>
+        </tr>=
     {% endfor %}
     </table>
 
@@ -87,8 +87,22 @@
         {% endfor %}
 </table>
 
-<a class="btn btn-default" href="{% url 'app:'|add:parent_url %}" id="back" role="button">Back</a>
-<a class="btn btn-default" href="{% url 'app:edit_1' parent_url transaction.id %}" role="button">Edit</a>
+{% if num_parent_args == 1 %}
+    <a class="btn btn-default"
+       href="{% url 'app:'|add:parent_url %}"
+       role="button">Back</a>
+    <a class="btn btn-default"
+       href="{% url 'app:edit_1' parent_url transaction.id %}"
+       role="button">Edit</a>
+{%  elif num_parent_args == 2 %}
+    <a class="btn btn-default"
+       href="{% url 'app:'|add:parent_url bike_pk %}"
+       role="button">Back</a>
+    <a class="btn btn-default"
+       href="{% url 'app:edit_2' bike_pk parent_url transaction.id %}"
+       role="button">Edit</a>
+{% endif %}
+
 
 {% endblock %}
 

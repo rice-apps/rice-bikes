@@ -83,10 +83,14 @@ class LoggedInMixin(object):
 
 def detail(request, **kwargs):
 
-    transaction = Transaction.objects.filter(pk=kwargs['pk']).first()
+    transaction = Transaction.objects.filter(pk=kwargs['trans_pk']).first()
     tasks = transaction.task_set.all()
     part_categories = transaction.partcategory_set.all()
     parent_url = kwargs['parent_url']
+    num_parent_args = kwargs['num_parent_args']
+    bike_pk = None
+    if 'bike_pk' in kwargs:
+        bike_pk = kwargs['bike_pk']
 
     if parent_url == 'history':
         detail_page = 'detail_complete.html'
@@ -97,6 +101,9 @@ def detail(request, **kwargs):
         'transaction':transaction,
         'part_categories': part_categories,
         'parent_url': parent_url,
+        'tasks': tasks,
+        'num_parent_args': num_parent_args,
+        'bike_pk': bike_pk,
         })
 
 
@@ -192,8 +199,11 @@ def update(request, **kwargs):
     part_categories = transaction.partcategory_set.all()
 
     if request.method == 'POST':
-        print kwargs
-        url = u"/%s/%s/detail" % (kwargs['parent_url'], kwargs['trans_pk'])
+        num_parent_args = kwargs['num_parent_args']
+        if num_parent_args == 1:
+            url = u"/%s/%s/detail" % (kwargs['parent_url'], kwargs['trans_pk'])
+        else:
+            url = u"/%s/%s/%s/detail" % (kwargs['bike_pk'], kwargs['parent_url'], kwargs['trans_pk'])
         if "cancel" in request.POST:
             return HttpResponseRedirect(url)
         else:
