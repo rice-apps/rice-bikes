@@ -39,8 +39,11 @@ def history(request):
 
 
 @login_required
-def mark_as_completed(request, pk):
+def mark_as_completed(request, **kwargs):
     # save completed transaction
+    pk = kwargs['trans_pk']
+    num_parent_args = kwargs['num_parent_args']
+
     transaction = get_object_or_404(Transaction, pk=pk)
     transaction.completed = True
     transaction.save()
@@ -48,7 +51,9 @@ def mark_as_completed(request, pk):
     # send email
     send_completion_email(transaction)
 
-    return HttpResponseRedirect(reverse('app:index')) # want to go back to parent_url, not always index
+    url = get_url(num_parent_args, kwargs)
+
+    return HttpResponseRedirect(url)  # want to go back to parent_url, not always index
 
 
 def send_completion_email(transaction):
@@ -190,6 +195,15 @@ def get_items_by_category():
     return items_by_category
 
 
+def get_url(num_parent_args, kwargs):
+    if num_parent_args == 1:
+        url = u"/%s/%s/detail" % (kwargs['parent_url'], kwargs['trans_pk'])
+    else:
+        url = u"/%s/%s/%s/detail" % (kwargs['bike_pk'], kwargs['parent_url'], kwargs['trans_pk'])
+
+    return url
+
+
 def update(request, **kwargs):
     # model = Transaction
     # template_name = "app/edit.html"
@@ -200,10 +214,7 @@ def update(request, **kwargs):
 
     if request.method == 'POST':
         num_parent_args = kwargs['num_parent_args']
-        if num_parent_args == 1:
-            url = u"/%s/%s/detail" % (kwargs['parent_url'], kwargs['trans_pk'])
-        else:
-            url = u"/%s/%s/%s/detail" % (kwargs['bike_pk'], kwargs['parent_url'], kwargs['trans_pk'])
+        url = get_url(num_parent_args, kwargs)
         if "cancel" in request.POST:
             return HttpResponseRedirect(url)
         else:
@@ -271,7 +282,7 @@ class RentalDetail(LoggedInMixin, DetailView):
         print "rental kwargs: " + str(self.kwargs)
         context['vin'] = RentalBike.objects.filter(pk=self.kwargs['pk']).first().vin
         context['transactions'] = RentalBike.objects.filter(pk=self.kwargs['pk']).first().transaction_set.all()
-        context['pk'] = self.kwargs['pk']
+        context['bike_pk'] = self.kwargs['pk']
         return context
 
 
@@ -284,6 +295,7 @@ class RefurbishedDetail(LoggedInMixin, DetailView):
         print "refurbished kwargs: " + str(self.kwargs)
         context['vin'] = RefurbishedBike.objects.filter(pk=self.kwargs['pk']).first().vin
         context['transactions'] = RefurbishedBike.objects.filter(pk=self.kwargs['pk']).first().transaction_set.all()
+        context['bike_pk'] = self.kwargs['pk']
         return context
 
 
@@ -485,7 +497,12 @@ def assign_tasks(request, **kwargs):
 
     if request.method == 'POST':
 
-        url = u"/%s/%s/detail" % (kwargs['pk'], kwargs['parent_url'])
+        num_parent_args = kwargs['num_parent_args']
+        parent_url = kwargs['parent_url']
+        bike_pk = kwargs['bike_pk']
+
+        url = get_url(num_parent_args, kwargs)
+
         if "cancel" in request.POST:
             return HttpResponseRedirect(url)
 
@@ -499,7 +516,8 @@ def assign_tasks(request, **kwargs):
             process_task_form(form.cleaned_data, transaction)
             return render_to_response('app/confirm.html',
                                       {"text": "You successfully assigned tasks!",
-                                       "absolute_url": url,
+                                       "parent_url": parent_url,
+                                       "bike_pk": bike_pk,
                                        },
                                       )
 
@@ -527,7 +545,8 @@ def assign_parts(request, **kwargs):
     transaction = Transaction.objects.filter(id=kwargs['pk']).first()
 
     if request.method == 'POST':
-        url = u"/%s/%s/detail" % (kwargs['pk'], kwargs['parent_url'])
+        num_parent_args = kwargs['num_parent_args']
+        url = get_url(num_parent_args, kwargs)
 
         if 'cancel' in request.POST:
             return HttpResponseRedirect(url)

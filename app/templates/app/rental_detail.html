@@ -10,7 +10,7 @@
         <tr>
             <td>{{ transaction.id }}</td>
 
-            <td><a href="{% url 'app:detail_2' pk 'rental_detail' transaction.id %}">{{ transaction.first_name }}
+            <td><a href="{% url 'app:detail_2' bike_pk 'rental_detail' transaction.id %}">{{ transaction.first_name }}
                 {{ transaction.last_name }}</a>
             </td>
 

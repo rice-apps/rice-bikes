@@ -33,10 +33,10 @@ urlpatterns = patterns(
         name='edit_2'),
 
     # mark_as_completed
-    url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/mark_as_completed/$', views.update,
+    url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/mark_as_completed/$', views.mark_as_completed,
         {'num_parent_args': 1},
         name='mark_as_completed_1'),
-    url(r'^(?P<bike_pk>\d+)/(?P<parent_url>\w+)/(?P<trans_pk>\d+)/mark_as_completed/$', views.update,
+    url(r'^(?P<bike_pk>\d+)/(?P<parent_url>\w+)/(?P<trans_pk>\d+)/mark_as_completed/$', views.mark_as_completed,
         {'num_parent_args': 2},
         name='mark_as_completed_2'),
 
