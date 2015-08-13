@@ -97,7 +97,7 @@ def detail(request, **kwargs):
     if 'bike_pk' in kwargs:
         bike_pk = kwargs['bike_pk']
 
-    if parent_url == 'history':
+    if transaction.completed:
         detail_page = 'detail_complete.html'
     else:
         detail_page = 'detail.html'
