@@ -563,7 +563,7 @@ def assign_parts(request, **kwargs):
         # if form.is_valid():
         #     process_transaction(form.cleaned_data)
         return render_to_response('app/confirm.html', {
-            "text": "You successfully created the new transaction!",
+            "text": "You successfully assigned categories!",
             "absolute_url": url,
         })
     else:

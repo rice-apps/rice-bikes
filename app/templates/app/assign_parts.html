@@ -20,66 +20,98 @@
             <input type="submit" value="Submit" class="btn btn-default btn-lg"/>
             <input type="submit" name="cancel" value="Cancel" class="btn btn-default btn-lg"/>
         </div>
+        <br>
 
         <div id="all_part_categories">
         {% for form_pair in old_form_pairs %}
             <!--Disabled for greyed out look. Doesn't submit-->
-            <div class="form_pair">
+            <div class="form_pair panel panel-success">
                 <div class="old_form_disabled{{forloop.counter0}}">
-                    <div class="fieldWrapper">
+                    <div class="panel-body parts-panel">
                         <div class="controls form-inline">
                             {% for field in form_pair.0 %}
-                                {% if field.name == 'was_used' %}
-                                    <label class="control-label">Was Installed</label>
-                                    <input class="form-control was_used_show" type="checkbox" value="True" name="was_used"
-                                           {% if field.value == True %} checked="checked" {% endif %} disabled="true">
-                                    <input class="form-control was_used_hidden" type="hidden" value="False" name="was_used">
-                                {% else %}
-                                    {{ field | bootstrap }}
+                                {% if field.name == 'category' or field.name == 'price' %}
+                                     <div class="form-group col-xs-6">
+                                        {{ field | bootstrap }}
+                                     </div>
                                 {% endif %}
                             {% endfor %}
-                            <button class="remove_form btn btn-default btn-lg" type="button">Remove</button>
+                        </div>
+
+
+                        <div class="controls form-inline">
+                            {% for field in form_pair.0 %}
+                                {% if field.name == 'was_used' or field.name == 'description' %}
+                                 <div class="form-group col-xs-5">
+                                    {% if field.name == 'was_used' %}
+                                        <label class="control-label">Installed</label>
+                                        <input class="form-control was_used_show" type="checkbox" value="True" name="was_used"
+                                               {% if field.value == True %} checked="checked" {% endif %} disabled="disabled">
+                                        <input class="form-control was_used_hidden" type="hidden" value="False" name="was_used" disabled="disabled">
+                                        {% else %}
+                                            {{ field | bootstrap }}
+                                    {% endif %}
+                                 </div>
+                                {% endif %}
+                            {% endfor %}
+
+                            <button class="remove_form btn btn-tight btn-default form-group col-xs-2" type="button">
+                                <font color="#CC0000" size="5"><b>X</b></font>
+                            </button>
                         </div>
                     </div>
                 </div>
+
+
                 <!--Hidden. This gets submitted.-->
                 <div class="old_form_hidden{{forloop.counter0}}" style="display:none">
                     <div class="fieldWrapper">
-                        <div class="controls form-inline">
                         {% for field in form_pair.1 %}
-                            {% if field.name == 'was_used' %}
-                                <label class="control-label">Was Installed</label>
+                            {% if field.name == 'was_used' or field.name == 'description' %}
+                                {% if field.name == 'was_used' %}
+                                <label class="control-label">Installed</label>
                                 <input class="form-control was_used_show" type="checkbox" value="True" name="was_used"
                                        {% if field.value == True %} checked="checked" {% endif %}>
                                 <input class="form-control was_used_hidden" type="hidden" value="False" name="was_used">
+                                {% else %}
+                                    {{ field | bootstrap }}
+                                {% endif %}
                             {% else %}
                                 {{ field | bootstrap }}
                             {% endif %}
                         {% endfor %}
-                        </div>
                     </div>
                 </div>
             </div>
 
         {% endfor %}
         </div>
-
     </form>
 
     <div class id="new_form" >
-        <div class="fieldWrapper">
+        <div class="panel panel-success">
+            <div class="panel-body new-part-panel">
                 <div class="controls form-inline">
                     {% for field in new_form %}
-                        {% if field.name == 'was_used' %}
-                            <label class="control-label">Was Installed</label>
-                            <input class="form-control was_used_show" type="checkbox" value="True" name="was_used"
-                                   {% if field.value == True %} checked="checked" {% endif %}>
-                            <input class="form-control was_used_hidden" type="hidden" value="False" name="was_used">
+                        {% if field.name == 'was_used' or field.name == 'description' %}
+                            <div class="form-group col-xs-6">
+                                {% if field.name == 'was_used' %}
+                                <label class="control-label">Installed</label>
+                                <input class="form-control was_used_show" type="checkbox" value="True" name="was_used"
+                                       {% if field.value == True %} checked="checked" {% endif %}>
+                                <input class="form-control was_used_hidden" type="hidden" value="False" name="was_used">
+                                {% else %}
+                                    {{ field | bootstrap }}
+                                {% endif %}
+                            </div>
                         {% else %}
-                            {{ field | bootstrap }}
+                            <div class="form-group col-xs-6">
+                                {{ field | bootstrap }}
+                            </div>
                         {% endif %}
                     {% endfor %}
                 </div>
+            </div>
         </div>
     </div>
 

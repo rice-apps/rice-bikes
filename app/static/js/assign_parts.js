@@ -9,6 +9,8 @@ $(document).ready(function() {
         fields_disabled = $('#new_form').clone(true).prop('id', "new_form_disabled_" + form_num);
         fields_hidden =  $('#new_form').clone(true).prop('id', "new_form_hidden_" + form_num).prop('hidden', true);
 
+        fields_disabled.find('.panel-body').removeClass('new-part-panel').addClass('parts-panel');
+        fields_hidden.find('.panel-body').removeClass('new-part-panel').addClass('parts-panel');
 
         category_val = $("#new_form").find("#id_category").val();
         fields_disabled.find("#id_category").val(category_val);

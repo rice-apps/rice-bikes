@@ -38,12 +38,27 @@
     padding-left: 5px;
 }
 
+.btn.btn-tight{
+    padding-right: 2px;
+    padding-left: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
 .table.trans-table tr{
     font-size: 16px;
 }
 
 #btn-balance-add.btn {
     padding: 0px 0px;
+}
+
+.panel-body.parts-panel {
+    background:#666699;
+}
+
+.panel-body.new-part-panel {
+    background:#FFCC99;
 }
 
 @media
