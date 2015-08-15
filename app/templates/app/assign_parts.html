@@ -14,12 +14,7 @@
     <form action="" method="post">
         {% csrf_token %}
 
-        <div id="buttons" class="controls form-inline">
-            <br>
-            <input id="add_form" value="Add Category" class="btn btn-default btn-lg"/>
-            <input type="submit" value="Submit" class="btn btn-default btn-lg"/>
-            <input type="submit" name="cancel" value="Cancel" class="btn btn-default btn-lg"/>
-        </div>
+
         <br>
 
         <div id="all_part_categories">
@@ -85,6 +80,18 @@
             </div>
 
         {% endfor %}
+        </div>
+
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+            <div class="btn-group" role="group">
+                <button id="add_form" class="btn btn-default btn-lg" type="button">Add Category</button>
+            </div>
+            <div class="btn-group" role="group">
+                <button type="submit" class="btn btn-default btn-lg">Submit</button>
+            </div>
+            <div class="btn-group" role="group">
+                <button type="submit" name="cancel" class="btn btn-default btn-lg">Cancel</button>
+            </div>
         </div>
     </form>
 
