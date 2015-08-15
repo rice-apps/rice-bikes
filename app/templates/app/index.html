@@ -23,7 +23,6 @@
             <td><a href="{% url 'app:detail_1' 'index' transaction.id %}">{{ transaction.first_name }} {{ transaction.last_name }}</a></td>
             <td>
                 {{ transaction.service_description|slice:":75" }}
-                {% if transaction.service_description|length > 75  %}...{% endif %}
             </td>
         </tr>
     {% endfor %}

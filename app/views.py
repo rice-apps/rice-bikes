@@ -502,8 +502,6 @@ def assign_tasks(request, **kwargs):
     if request.method == 'POST':
 
         num_parent_args = kwargs['num_parent_args']
-        parent_url = kwargs['parent_url']
-        bike_pk = kwargs['bike_pk']
 
         url = get_url(num_parent_args, kwargs)
 
@@ -520,8 +518,7 @@ def assign_tasks(request, **kwargs):
             process_task_form(form.cleaned_data, transaction)
             return render_to_response('app/confirm.html',
                                       {"text": "You successfully assigned tasks!",
-                                       "parent_url": parent_url,
-                                       "bike_pk": bike_pk,
+                                       "absolute_url": url,
                                        },
                                       )
 
