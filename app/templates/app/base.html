@@ -29,23 +29,26 @@
         <a href="{% url 'app:logout' %}" class="btn">Log Out</a><br><br>
         {% endif %}
     </div>
+    <div class="topbar">
+        <img class="buttonpic" src="/app/static/img/RiceBikesLogo.png" alt="Logo"/>
+    </div>
     <div class="btn-group btn-group-justified" role="group" aria-label="...">
       {% if home %}
-        <a href="/new" class="btn btn-default btn-xlarge" role="button" name='new_transaction'>
+        <a href="/new" class="btn btn-default btn-lg" role="button" name='new_transaction'>
           <img class="buttonpic" src="/app/static/img/add.png" alt="New transaction"/>
         </a>
       {% else %}
-        <a href="/" class="btn btn-default btn-xlarge" role="button" name='home'>
+        <a href="/" class="btn btn-default btn-lg" role="button" name='home'>
           <img class="buttonpic" src="/app/static/img/home.png" alt="Home"/>
         </a>
       {% endif %}
-        <a href="/history" class="btn btn-default btn-xlarge" role="button" name='past_transactions'>
+        <a href="/history" class="btn btn-default btn-lg" role="button" name='past_transactions'>
           <img class="buttonpic" src="/app/static/img/clock.png"/>
         </a>
-        <a href="/balance" class="btn btn-default btn-xlarge" role="button" name='balance'>
+        <a href="/balance" class="btn btn-default btn-lg" role="button" name='balance'>
           <img class="buttonpic" src="/app/static/img/money.png"/>
         </a>
-    </div><br>
+    </div>
     {% block content %}
     {% endblock %}
     {% block detail %}

@@ -1,20 +1,19 @@
 {% extends "app/base.html" %}
 
 {% block content %}
-
+<br>
 <div class="btn-group btn-group-justified" role="group" aria-label="...">
-    <a href="/rental" class="btn btn-default btn-xlarge" role="button" name='rental'>Rental</a>
-    <a href="/refurbished" class="btn btn-default btn-xlarge" role="button" name='refurbished'>Refurbished</a>
-    <a href="/orders" class="btn btn-default btn-xlarge" role="button" name="orders">Orders</a>
+    <a href="/rental" class="btn btn-default btn-lg btn-skinny" role="button" name='rental'>Rental</a>
+    <a href="/refurbished" class="btn btn-default btn-lg btn-skinny" role="button" name='refurbished'>Refurb</a>
+    <a href="/orders" class="btn btn-default btn-lg btn-skinny" role="button" name="orders">Orders</a>
 </div>
 {% if transactions_list %}
     <h3>Active Customers</h3>
 
-    <table class="table">
+    <table class="table trans_table">
     <thead>
         <td>ID</td>
         <td>Name</td>
-        <td>Email</td>
         <td>Service Description</td>
     </thead>
 
@@ -22,7 +21,6 @@
         <tr class="legible">
             <td>{{ transaction.id }}</td>
             <td><a href="{% url 'app:detail_1' 'index' transaction.id %}">{{ transaction.first_name }} {{ transaction.last_name }}</a></td>
-            <td>{{ transaction.email }}</td>
             <td>
                 {{ transaction.service_description|slice:":75" }}
                 {% if transaction.service_description|length > 75  %}...{% endif %}
