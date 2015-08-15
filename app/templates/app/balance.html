@@ -3,13 +3,17 @@
 {% block content %}
 
 <br>
-<form class="form-inline" action="." method="post">
+<form action="." method="post" role="form">
     {% csrf_token %}
-    <center>
-        <a class="btn btn-default btn-xlarge" href="{% url 'app:revenue_update'%}"  role="button" name='new_payment'>Update Balance</a>
-        <a class="btn btn-default btn-xlarge" href="{% url 'app:index' %}" role="button">Transactions</a>
-        <input class="btn btn-default btn-xlarge" type="submit" value='Export' name="export">
-    </center>
+
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+            <a id='btn-balance-add' class="btn btn-default btn-lg" href="{% url 'app:revenue_update'%}"  role="button" name='new_payment'>
+                <img class="button-pic" src="/app/static/img/add.png" alt="New transaction"/>
+            </a>
+            <div class="btn-group" role="group">
+                <button type="submit" name="export" class="btn btn-default btn-lg">Export</button>
+            </div>
+        </div>
 
 </form>
 
@@ -19,18 +23,18 @@
 
     <table class="table">
     <thead>
-        <td>Transaction ID</td>
+        <td>ID</td>
         <td>Amount</td>
         <td>Employee</td>
-        <td>Customer</td>
-        <td>Total Revenue</td>
+        <td class="non-mobile">Customer</td>
+        <td>Total</td>
         <td>Date</td>
     </thead>
 
     {% for update in revenue_updates %}
         <tr>
             {% if update.transaction != None %}
-                <td><a href="{% url 'app:detail_complete' update.transaction.id 'balance' %}">{{ update.transaction.id }}</a></td>
+                <td><a href="{% url 'app:detail_1' 'balance' update.transaction.id %}">{{ update.transaction.id }}</a></td>
             {% else %}
                 <td><a href="javascript:return false;">-</a></td>
             {% endif %}
@@ -42,10 +46,10 @@
                 {% endif %}
             </td>
             <td>{{ update.employee }}</td>
-            <td>{{ update.transaction.first_name }} {{ update.transaction.last_name }}</td>
+            <td class="non-mobile">{{ update.transaction.first_name }} {{ update.transaction.last_name }}</td>
 
             <td>${{ update.new_total_revenue }}</td>
-            <td>{{ update.date_submitted|date:"M d, Y" }}</td>
+            <td>{{ update.date_submitted|date:"n/j/y" }}</td>
         </tr>
     {% endfor %}
     </table>

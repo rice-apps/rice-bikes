@@ -2,7 +2,7 @@
     float:right;
 }
 
-.buttonpic {
+.button-pic {
   width: 25px;
   height: 25px;
   align-self: center;
@@ -24,11 +24,11 @@
     width: 100%
 }
 
-.topbar {
+.top-bar {
     text-align: center;
 }
 
-.topbar img {
+.top-bar img {
     width: 50%;
     height: auto;
 }
@@ -38,6 +38,19 @@
     padding-left: 5px;
 }
 
-.table.trans_table tr{
+.table.trans-table tr{
     font-size: 16px;
+}
+
+#btn-balance-add.btn {
+    padding: 0px 0px;
+}
+
+@media
+only screen and (max-device-width: 480px){
+      /* some CSS here */
+    .non-mobile {
+        display:none;
+    }
+
 }
