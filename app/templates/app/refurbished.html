@@ -2,10 +2,10 @@
 
 {% block content %}
 
-<center>
-<a href="{% url 'app:new_refurbished' %}" class="btn btn-default btn-xlarge" role="button" name='new_refurbished'>Add Bike</a>
-<a class="btn btn-default btn-xlarge" href="{% url 'app:index' %}" role="button">Transactions</a>
-</center>
+<div class="btn-group btn-group-justified" role="group" aria-label="...">
+    <a href="{% url 'app:new_refurbished' %}" class="btn btn-default btn-lg" role="button" name='new_refurbished'>Add Bike</a>
+    <a class="btn btn-default btn-lg" href="{% url 'app:index' %}" role="button">Transactions</a>
+</div>
 
 {% if refurbished_list %}
     <h3>Refurbished Bikes</h3>
