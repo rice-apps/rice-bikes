@@ -32,23 +32,30 @@
 
     <div id="part_categories_container">
         {% for part_category_form in part_category_form_list %}
-            {% with x=forloop.counter0 %}
-            <div class="controls form-inline" id={{x}}>
-                {% for field in part_category_form %}
-                    {% if field.name == 'was_used' %}
-                        {% if field.value == True %}
-                            <input class="form-control" id="was_used_show_{{x}}" type="checkbox" value="True" name="was_used" checked="checked">
-                        {% else %}
-                            <input class="form-control" id="was_used_show_{{x}}" type="checkbox" value="True" name="was_used">
-                        {% endif %}
-                        <input id="was_used_hidden_{{x}}" type="hidden" value="False" name="was_used">
-                    {% else %}
-                        {{ field | bootstrap}}
-                    {% endif %}
-                {% endfor %}
-                <input type="hidden" name="id" value="{{ part_category_form.instance.id }}">
+            <div class="panel panel-success">
+                <div class="panel-body new-part-panel">
+                    <div class="controls form-inline">
+                        {% for field in part_category_form %}
+                            {% if field.name == 'was_used' or field.name == 'description' %}
+                                <div class="form-group col-xs-6">
+                                    {% if field.name == 'was_used' %}
+                                    <label class="control-label">Installed</label>
+                                    <input class="form-control was_used_show" type="checkbox" value="True" name="was_used"
+                                           {% if field.value == True %} checked="checked" {% endif %}>
+                                    <input class="form-control was_used_hidden" type="hidden" value="False" name="was_used">
+                                    {% else %}
+                                        {{ field | bootstrap }}
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                <div class="form-group col-xs-6">
+                                    {{ field | bootstrap }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
-            {% endwith %}
         {% endfor %}
     </div>
 
