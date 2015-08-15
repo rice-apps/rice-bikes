@@ -41,18 +41,18 @@ urlpatterns = patterns(
         name='mark_as_completed_2'),
 
     # assign_tasks
-    url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_tasks/$', views.update,
+    url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_tasks/$', views.assign_tasks,
         {'num_parent_args': 1},
         name='assign_tasks_1'),
-    url(r'^(?P<bike_pk>\d+)/(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_tasks/$', views.update,
+    url(r'^(?P<bike_pk>\d+)/(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_tasks/$', views.assign_tasks,
         {'num_parent_args': 2},
         name='assign_tasks_2'),
 
     # assign_parts
-    url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_parts/$', views.update,
+    url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_parts/$', views.assign_parts,
         {'num_parent_args': 1},
         name='assign_parts_1'),
-    url(r'^(?P<bike_pk>\d+)/(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_parts/$', views.update,
+    url(r'^(?P<bike_pk>\d+)/(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_parts/$', views.assign_parts,
         {'num_parent_args': 2},
         name='assign_parts_2'),
 

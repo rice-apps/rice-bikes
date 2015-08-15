@@ -1,28 +1,34 @@
 {% extends "app/detail_base.html" %}
 
 {% block detail %}
-
+<br>
 {% if num_parent_args == 1 %}
-<a class="btn btn-default"
-   href="{% url 'app:mark_as_completed_1' parent_url transaction.id %}"
-   role="button">Mark as completed</a>
-<a class="btn btn-default"
-   href="{% url 'app:assign_tasks_1' parent_url transaction.id %}"
-   role="button">Assign Tasks</a>
-<a class="btn btn-default"
-   href="{% url 'app:assign_parts_1' parent_url transaction.id %}"
-   role="button">Assign Parts</a>
+   <div class="btn-group btn-group-justified" role="group" aria-label="...">
+
+      <a class="btn btn-default"
+         href="{% url 'app:mark_as_completed_1' parent_url transaction.id %}"
+         role="button">Complete</a>
+      <a class="btn btn-default"
+         href="{% url 'app:assign_tasks_1' parent_url transaction.id %}"
+         role="button">Assign Tasks</a>
+      <a class="btn btn-default"
+         href="{% url 'app:assign_parts_1' parent_url transaction.id %}"
+         role="button">Assign Parts</a>
+   </div>
 
 {% elif num_parent_args == 2 %}
-<a class="btn btn-default"
-   href="{% url 'app:mark_as_completed_2' bike_pk parent_url transaction.id %}"
-   role="button">Mark as completed</a>
-<a class="btn btn-default"
-   href="{% url 'app:assign_tasks_2' bike_pk parent_url transaction.id %}"
-   role="button">Assign Tasks</a>
-<a class="btn btn-default"
-   href="{% url 'app:assign_parts_2' bike_pk parent_url transaction.id %}"
-   role="button">Assign Parts</a>
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+
+      <a class="btn btn-default"
+         href="{% url 'app:mark_as_completed_2' bike_pk parent_url transaction.id %}"
+         role="button">Complete</a>
+      <a class="btn btn-default"
+         href="{% url 'app:assign_tasks_2' bike_pk parent_url transaction.id %}"
+         role="button">Assign Tasks</a>
+      <a class="btn btn-default"
+         href="{% url 'app:assign_parts_2' bike_pk parent_url transaction.id %}"
+         role="button">Assign Parts</a>
+   </div>
 {% endif %}
 
 

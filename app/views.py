@@ -434,12 +434,16 @@ def process_transaction(form_data):
 
     new_transaction.save()
 
+
 def create_transaction(request):
     if request.method == 'POST':
         form = CustomerForm(request.POST)
         if form.is_valid():
             process_transaction(form.cleaned_data)
-            return render_to_response('app/confirm.html', {"text": "You successfully created the new transaction!"})
+            return render_to_response('app/confirm.html',
+                                      {"text": "You successfully created the new transaction!",
+                                       "absolute_url": "/",
+                                      })
     else:
         form = CustomerForm()
 
@@ -493,7 +497,7 @@ def process_task_form(form_data, transaction):
 
 def assign_tasks(request, **kwargs):
 
-    transaction = Transaction.objects.filter(id=kwargs['pk']).first()
+    transaction = Transaction.objects.filter(id=kwargs['trans_pk']).first()
 
     if request.method == 'POST':
 
@@ -542,7 +546,7 @@ def assign_tasks(request, **kwargs):
 
 
 def assign_parts(request, **kwargs):
-    transaction = Transaction.objects.filter(id=kwargs['pk']).first()
+    transaction = Transaction.objects.filter(id=kwargs['trans_pk']).first()
 
     if request.method == 'POST':
         num_parent_args = kwargs['num_parent_args']

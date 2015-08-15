@@ -88,19 +88,23 @@
 </table>
 
 {% if num_parent_args == 1 %}
-    <a class="btn btn-default"
-       href="{% url 'app:'|add:parent_url %}"
-       role="button">Back</a>
-    <a class="btn btn-default"
-       href="{% url 'app:edit_1' parent_url transaction.id %}"
-       role="button">Edit</a>
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <a class="btn btn-default"
+           href="{% url 'app:'|add:parent_url %}"
+           role="button">Back</a>
+        <a class="btn btn-default"
+           href="{% url 'app:edit_1' parent_url transaction.id %}"
+           role="button">Edit</a>
+    </div>
 {%  elif num_parent_args == 2 %}
-    <a class="btn btn-default"
-       href="{% url 'app:'|add:parent_url bike_pk %}"
-       role="button">Back</a>
-    <a class="btn btn-default"
-       href="{% url 'app:edit_2' bike_pk parent_url transaction.id %}"
-       role="button">Edit</a>
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <a class="btn btn-default"
+           href="{% url 'app:'|add:parent_url bike_pk %}"
+           role="button">Back</a>
+        <a class="btn btn-default"
+           href="{% url 'app:edit_2' bike_pk parent_url transaction.id %}"
+           role="button">Edit</a>
+    </div>
 {% endif %}
 
 
