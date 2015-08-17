@@ -20,10 +20,9 @@ $(document).ready(function() {
 
         inputs = fields_disabled.find('[class*=form-control]').prop('disabled', 'true');
 
-        $('#all_part_categories').append("<div class='form_pair'></div>");
+        $('#all_part_categories').prepend("<div class='form_pair'></div>");
 
-        num_children = $('#all_part_categories').children().length;
-        new_form_pair_div = $('#all_part_categories').children()[num_children - 1];
+        new_form_pair_div = $('#all_part_categories').children()[0];
 
         $(new_form_pair_div).append(fields_disabled);
         $(new_form_pair_div).append(fields_hidden);

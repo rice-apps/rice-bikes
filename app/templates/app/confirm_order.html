@@ -3,6 +3,6 @@
 {% block content %}
 <body>
 You successfully created an order request!<br><br>
-<a href="/order" class="btn btn-info btn-lg" role="button" name='back_to_order'>Back to Orders</a>
+<a href="{% url 'app:orders' %}" class="btn btn-info btn-lg" role="button" name='back_to_order'>Back to Orders</a>
 </body>
 {% endblock %}

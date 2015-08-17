@@ -11,16 +11,58 @@
 
 {% block content %}
 
+
+        <br>
+        <div class id="new_form" >
+            <div class="panel panel-default">
+                <div class="panel-body new-part-panel">
+                    <div class="controls form-inline">
+                        {% for field in new_form %}
+                            {% if field.name == 'was_used' or field.name == 'description' %}
+                                <div class="form-group col-xs-6">
+                                    {% if field.name == 'was_used' %}
+                                    <label class="control-label">Installed</label>
+                                    <input class="form-control was_used_show" type="checkbox" value="True" name="was_used"
+                                           {% if field.value == True %} checked="checked" {% endif %}>
+                                    <input class="form-control was_used_hidden" type="hidden" value="False" name="was_used">
+                                    {% else %}
+                                        {{ field | bootstrap }}
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                <div class="form-group col-xs-6">
+                                    {{ field | bootstrap }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
     <form action="" method="post">
         {% csrf_token %}
 
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+            <div class="btn-group" role="group">
+                <button id="add_form" class="btn btn-default btn-lg" type="button">
+                    <img class="button-pic" src="/app/static/img/add.png" alt="New transaction"/>
+                </button>
+            </div>
+            <div class="btn-group" role="group">
+                <button type="submit" class="btn btn-default btn-lg">Submit</button>
+            </div>
+            <div class="btn-group" role="group">
+                <button type="submit" name="cancel" class="btn btn-default btn-lg">Cancel</button>
+            </div>
+        </div>
 
         <br>
 
         <div id="all_part_categories">
         {% for form_pair in old_form_pairs %}
             <!--Disabled for greyed out look. Doesn't submit-->
-            <div class="form_pair panel panel-success">
+            <div class="form_pair panel panel-default">
                 <div class="old_form_disabled{{forloop.counter0}}">
                     <div class="panel-body parts-panel">
                         <div class="controls form-inline">
@@ -37,24 +79,26 @@
                         <div class="controls form-inline">
                             {% for field in form_pair.0 %}
                                 {% if field.name == 'was_used' or field.name == 'description' %}
-                                 <div class="form-group col-xs-5">
+                                 <div class="form-group {% if field.name == 'description' %} col-xs-6 {% else %} col-xs-3 {% endif %}">
                                     {% if field.name == 'was_used' %}
                                         <label class="control-label">Installed</label>
-                                        <input class="form-control was_used_show" type="checkbox" value="True" name="was_used"
-                                               {% if field.value == True %} checked="checked" {% endif %} disabled="disabled">
+                                        <input class="form-control was_used_show" style="margin-top:0px" type="text" name="was_used"
+                                               {% if field.value == True %} value="Y" {% else %} value="N" {% endif %} disabled="disabled">
                                         <input class="form-control was_used_hidden" type="hidden" value="False" name="was_used" disabled="disabled">
                                         {% else %}
-                                            {{ field | bootstrap }}
+                                            <label class="control-label">Description</label>
+                                            <input id="id_description" name="description" class="form-control" type="text" disabled="disabled">
                                     {% endif %}
                                  </div>
                                 {% endif %}
                             {% endfor %}
-
-                            <button class="remove_form btn btn-tight btn-default form-group col-xs-2" type="button">
-                                <font color="#CC0000" size="5"><b>X</b></font>
+                            <button class="remove_form btn btn-tight btn-lg btn-danger form-group col-xs-3 assign-parts-delete-button" type="button">
+                                <font color="#FFFFFF" size="4"><b>Delete</b></font>
                             </button>
                         </div>
-                    </div>
+                    </div>`
+
+
                 </div>
 
 
@@ -82,46 +126,8 @@
         {% endfor %}
         </div>
 
-        <div class="btn-group btn-group-justified" role="group" aria-label="...">
-            <div class="btn-group" role="group">
-                <button id="add_form" class="btn btn-default btn-lg" type="button">
-                    <img class="button-pic" src="/app/static/img/add.png" alt="New transaction"/>
-                </button>
-            </div>
-            <div class="btn-group" role="group">
-                <button type="submit" class="btn btn-default btn-lg">Submit</button>
-            </div>
-            <div class="btn-group" role="group">
-                <button type="submit" name="cancel" class="btn btn-default btn-lg">Cancel</button>
-            </div>
-        </div>
+
     </form>
 
-    <div class id="new_form" >
-        <div class="panel panel-success">
-            <div class="panel-body new-part-panel">
-                <div class="controls form-inline">
-                    {% for field in new_form %}
-                        {% if field.name == 'was_used' or field.name == 'description' %}
-                            <div class="form-group col-xs-6">
-                                {% if field.name == 'was_used' %}
-                                <label class="control-label">Installed</label>
-                                <input class="form-control was_used_show" type="checkbox" value="True" name="was_used"
-                                       {% if field.value == True %} checked="checked" {% endif %}>
-                                <input class="form-control was_used_hidden" type="hidden" value="False" name="was_used">
-                                {% else %}
-                                    {{ field | bootstrap }}
-                                {% endif %}
-                            </div>
-                        {% else %}
-                            <div class="form-group col-xs-6">
-                                {{ field | bootstrap }}
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
 
 {% endblock %}

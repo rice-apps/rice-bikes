@@ -19,8 +19,10 @@ urlpatterns = patterns(
     url(r'^new_refurbished/$', views.new_refurbished, name='new_refurbished'),
     url(r'^balance/$', views.balance, name='balance'),
     url(r'^revenue_update/$', views.revenue_update, name='revenue_update'),
-    url(r'^orders/$', views.order, name='orders'),
+    url(r'^orders/$', views.orders, name='orders'),
     url(r'^make_order/$', views.make_order, name='make_order'),
+    url(r'^(?P<parent_url>\w+)/(?P<order_id>\d+)/edit_order/$', views.edit_order, name='edit_order'),
+    url(r'^delete_order/(?P<order_id>\d+)', views.delete_order, name='delete_order'),
     url(r'^installed_parts', views.used_parts, name='used_parts'),
 
     # sub-urls of detail
@@ -62,6 +64,8 @@ urlpatterns = patterns(
         name='detail_1'),
     url(r'^(?P<bike_pk>\d+)/(?P<parent_url>\w+)/(?P<trans_pk>\d+)/detail/$', views.detail, {'num_parent_args': 2},
         name='detail_2'),
+
+    url(r'^about/$', views.about, name='about'),
 
 
 )

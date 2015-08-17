@@ -1,4 +1,6 @@
+
 <!DOCTYPE html>
+{% load staticfiles %}
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
         <link rel="icon" type="image/png" href="../static/graphics/favicon.ico">
@@ -17,26 +19,18 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 
-        <!--Pace.js and associated stylesheet-->
-        <script src="../static/js/pace.min.js"></script>
-        <link rel="stylesheet" href="../static/css/pace.css">
-        <script src="../static/js/splash-fade.js"></script>
-		
 		<!--Google Analytics-->
-		<script src="static/js/analytics.js"></script>
-
-        <!--Automatic year updater-->
-        <script src="../static/js/year.js"></script>
+		<script src="{% static 'js/analytics.js' %}"></script>
 
         <!--Date Time Picker-->
-        <link rel="stylesheet" href="http://eonasdan.github.io/bootstrap-datetimepicker/content/bootstrap-datetimepicker.css">
         <script type="text/javascript" src="http://momentjs.com/downloads/moment.js"></script>
-        <script type="text/javascript" src="../static/js/bootstrap-datetimepicker.min.js"></script>
+        <script type="text/javascript" src="{% static 'js/bootstrap-datetimepicker.min.js' %}"></script>
 
 		<!--Roommate Finder stylesheet-->
-		<link type="text/css" rel="stylesheet" href="../static/stylesheet.css">
+		<link type="text/css" rel="stylesheet" href="{% static 'css/about_styles.css' %}">
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" media="screen">
 
-        <title>about | roommate finder | rice university</title>
+        <title>about | rice bikes | rice university</title>
 
         <!--Override some CSS properties-->
 		<style type="text/css">
@@ -71,7 +65,7 @@
                 padding-bottom: 150px;
                 margin-right: 10%;
             }
-            #bio {
+            .bio {
                 margin-left: 5%;
                 margin-right: 10%;
                 width: 100%;
@@ -97,7 +91,7 @@
                 font-family: 'Oxygen', sans-serif;
 				font-weight: 300;
 				letter-spacing: 1px;
-				font-size: 15px;
+				font-size: 22px;
 				color: #171717;
             }
             p.name {
@@ -137,139 +131,87 @@
 				font-size: 10px;
 				color: #171717;
             }
+            p.links {
+                font-size: 30px;
+            }
         </style>
 	</head>
 
 	<body>
-        <div id="splash" class="visible">
-            <div id="splashlogo">
-                <img src="../static/graphics/logo_text_invert.png" width="600px" height="120px" />
-            </div>
-        </div>
 
-		<div id="headercontainer">
-            <table width="100%" height="60px">
+        <div class="top-bar">
+            <table>
                 <tr>
-                    <td width="10%"></td>
-                    <td width="30%" valign="middle">
-                        <a href="../"><img src="../static/graphics/logo.png" width="300px" height="60px" border="0" /></a>
+                    <td align="left" height=100%><img class="button-pic" src="/app/static/img/RiceBikesLogo.png" alt="Logo"/></td>
+                    <td align="left" width="25%">
+                        <p class="links"><a href="/" >HOME</a> | <a href="/login">LOGIN</a></p>
                     </td>
-                    <td width="50%" valign="bottom">
-                        
-                            <div id="links"><p align="right"><a href="../">HOME</a> | <a href="about">ABOUT</a> | <a href="login">LOGIN WITH RICE NETID</a></p></div>
-                        
-                    </td>
-                    <td width="10%"></td>
                 </tr>
+
             </table>
-		</div>
-
-        <div id="titlecontainer">
-            <div id="title">
-                <p align="right" class="heading">ABOUT</p>
-                <br/>
-                <p align="right" class="subheading">Meet the developers</p>
-            </div>
         </div>
-        <div id="textcontainer">
-            <div id="text">
-                <div id="darklink">
-                    <p class="textheaderalt">Roommate Finder is an app designed to make your life easier.</p>
-                    <p class="text">Forget about making public Facebook and social media posts to fill your apartment with roommates. Nor do you have to go through the logistics hassle of advertising your need for a space to live. Roommate Finder is designed to solve the problem of finding off-campus roommates by providing Rice students with a centralized and simple way to communicate to the entire Rice community their interest in finding new roommates. This application allows you to search for existing listings and create your own apartment listing.</p><br/>
 
-					<br/><br/>
 
-                    <p class="textheaderalt">The development team.</p>
-                    <p class="text">Roommate Finder is a project of <a href="http://riceapps.org">Rice Apps</a>, a student-led organization dedicated to making students' lives better through technology. We're completely <a href="https://github.com/rice-apps/roommate-finder">open-source</a>, and built on Python (Flask), SQLite, PHP, Bootstrap CSS, and a ton of fantastic JS libraries including jQuery, AngularJS, and PaceJS.</p><br/>
-                    <br/>
+        <div id="text">
+            <div id="darklink">
+                <p class="textheaderalt">Rice Bikes is an app designed to facilitate the internal processes of the Rice Bike Shop.</p>
+                <p class="text"></p><br/>
 
-                    <!--Alex-->
-                    <table width="100%">
-                        <tr>
-                            <td width="200px" valign="top">
-                                <img class="profileimage" src="http://i.imgur.com/2eBtdUA.png"/>
-                            </td>
-                            <td valign="top">
-                                <div id="bio">
-                                    <p class="name">Alex Tran, MTEC '16</p>
-                                    <p class="position">PROJECT LEAD</p><br/>
-                                    <p class="text">Alex is the project lead for the Roommate Finder app of Rice Apps. Outside of Rice Apps, Alex loves to drink boba tea and listen to music.</p>
-									<p class="text"><a href="mailto:aqt1@rice.edu">aqt1@rice.edu</a></p>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr height="40px"></tr>
-                    </table>
+                <br/><br/>
 
-                    <!--Kevin-->
-                    <table width="100%">
-                        <tr>
-                            <td width="200px" valign="top">
-                                <img class="profileimage" src="http://i.imgur.com/KipGDvZ.png"/>
-                            </td>
-                            <td valign="top">
-                                <div id="bio">
-                                    <p class="name">Kevin Lin, ELEC/CS '18</p>
-                                    <p class="position">DEVELOPMENT LEAD</p><br/>
-                                    <p class="text">Kevin is a bit of a dork. He is also needlessly obsessive over UI/UX design.</p>
-									<p class="text"><a href="mailto:kevinlin@rice.edu">kevinlin@rice.edu</a></p>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr height="40px"></tr>
-                    </table>
+                <p class="textheaderalt">The development team.</p>
+                <p class="text">Rice Bikes is a project of <a href="http://riceapps.org">Rice Apps</a>, a student-led organization dedicated to making students' lives better through technology. We're completely <a href="https://github.com/rice-apps/rice-bikes">open-source</a>, and built on Python (Django), SQLite, Bootstrap CSS, and a ton of fantastic JS libraries including jQuery, AngularJS, and PaceJS.</p><br/>
+                <br/>
 
-                    <!--Filip-->
-                    <table width="100%">
-                        <tr>
-                            <td width="200px" valign="top">
-                                <img class="profileimage" src="http://i.imgur.com/1nvWhF8.png"/>
-                            </td>
-                            <td valign="top">
-                                <div id="bio">
-                                    <p class="name">Filip Drozdowski, CS '16</p>
-                                    <p class="position">BACKEND DEVELOPER</p><br/>
-                                    <p class="text">Filip writes "behind-the-scenes" code but he can appreciate pretty things too. He is an alleged expert on CAS (Rice NetID) authentication, a coffee beans grinding enthusiast, and a milk frothing practitioner.</p>
-									<p class="text"><a href="mailto:fgd1@rice.edu">fgd1@rice.edu</a></p>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr height="40px"></tr>
-                    </table>
+                <!--Jonathan-->
+                <table width="100%">
+                    <tr>
+                        <td width="200px" valign="top">
+                            <img class="profileimage" src="http://i.imgur.com/dCmOJ7l.png"/>
+                        </td>
+                        <td valign="top">
+                            <div class="bio">
+                                <p class="name">Jonathan Wilson, CS '15</p>
+                                <p class="position">LEAD DEVELOPER</p><br/>
+                                <p class="text">Jonathan is the lead developer for the Rice Bikes app of Rice Apps. Outside of coding web apps, you can find him bouncing on trampolines and sprung floors.</p>
+                                <p class="text"><a href="mailto:aqt1@rice.edu">jdw172@gmail.com</a></p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr height="40px"></tr>
+                </table>
 
-                    <!--Anant-->
-                    <table width="100%">
-                        <tr>
-                            <td width="200px" valign="top">
-                                <img class="profileimage" src="http://i.imgur.com/SFkMJRd.png"/>
-                            </td>
-                            <td valign="top">
-                                <div id="bio">
-                                    <p class="name">Anant Tibrewal, CS '18</p>
-                                    <p class="position">FRONTEND DEVELOPER</p><br/>
-                                    <p class="text">Anant is passionate about web development, cricket, rice cooking, and spending long hours on Netflix. He is also intent on finding the spider he believes lives in his dorm.</p>
-									<p class="text"><a href="mailto:avt3@rice.edu">avt3@rice.edu</a></p>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+                <!--Eddie-->
+                <table width="100%">
+                    <tr>
+                        <td width="200px" valign="top">
+                            <img class="profileimage" src="http://i.imgur.com/KipGDvZ.png"/>
+                        </td>
+                        <td valign="top">
+                            <div class="bio">
+                                <p class="name">Eddie Dugan, ELEC/CS '18</p>
+                                <p class="position">DEVELOPER</p><br/>
+                                <p class="text">Kevin is a bit of a dork. He is also needlessly obsessive over UI/UX design.</p>
+                                <p class="text"><a href="mailto:kevinlin@rice.edu">kevinlin@rice.edu</a></p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr height="40px"></tr>
+                </table>
+
             </div>
         </div>
 
         <div id="footercontainer">
-			<div id="footer">
-            	<table width="100%">
-                	<tr>
-                    	<td>
-                        	<p id="riceapps" class="footer">A PROJECT OF RICE APPS, 2014</p>
-                        </td>
+            <div id="footer">
+                <table width="100%">
+                    <tr>
                         <td>
-                        	<p class="footer" align="right"><a href="/about">ABOUT ROOMMATE FINDER</a> | <a href="/privacy_policy">PRIVACY POLICY</a> | <a href="https://github.com/rice-apps/roommate-finder">GITHUB SOURCE</a> | <a href="http://riceapps.org">RICE APPS</a> | <a href="http://www.rice.edu">RICE UNIVERSITY</a></p>
+                            <p class="footer" align="center"><a href="/about">ABOUT THE APP</a> | <a href="https://github.com/rice-apps/rice-bikes">GITHUB SOURCE</a> | <a href="http://riceapps.org">RICE APPS</a> | <a href="http://www.rice.edu">RICE UNIVERSITY</a></p>
                         </td>
                     </tr>
                 </table>
-			</div>
-		</div>
+            </div>
+        </div>
 	</body>
 </html>

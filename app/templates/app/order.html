@@ -6,12 +6,15 @@
 <form class="form-inline" method="post">
     {% csrf_token %}
     <div class="btn-group btn-group-justified" role="group" aria-label="...">
-        <a class="btn btn-default btn-lg" href="{% url 'app:make_order' %}"  role="button" name='new_payment'>Make Order</a>
-        <a class="btn btn-default btn-lg" href="{% url 'app:used_parts' %}" role="button">Installed Parts</a>
-        <a class="btn btn-default btn-lg" href="{% url 'app:index' %}" role="button">Transactions</a>
+        <a class="btn btn-default btn-lg" href="{% url 'app:make_order' %}"  role="button" name='new_payment'>
+                <img class="button-pic" src="/app/static/img/add.png" alt="New transaction"/>
+        </a>
+        <a class="btn btn-default btn-lg" href="{% url 'app:used_parts' %}" role="button">Used</a>
+        <div class="btn-group" role="group">
+                <button type="submit" name="export_orders" class="btn btn-default btn-lg">Export</button>
+        </div>
     </div>
     <br>
-    <input class="btn btn-default btn-lg" type="submit" value='Export' name="export_orders">
 
 </form>
 
@@ -25,14 +28,16 @@
             <td>Category</td>
             <td>Price</td>
             <td>Date</td>
+            <td>Delete</td>
         </thead>
 
         {% for order in orders %}
             <tr>
-                <td> {{ order.name }} </td>
-                <td> {{ order.category }} </td>
-                <td> {{ order.price }} </td>
-                <td> {{ order.date_submitted|date:"M d, Y" }} </td>
+                <td><p {% if order.was_ordered %} class="order-submitted-link" {% endif %}><a href="{% url 'app:edit_order' 'orders' order.id %}">{{ order.name }}</a></p></td>
+                <td><p {% if order.was_ordered %} class="order-submitted-text" {% endif %}>{{ order.category }}</p></td>
+                <td><p {% if order.was_ordered %} class="order-submitted-text" {% endif %}> {{ order.price }} </p></td>
+                <td><p {% if order.was_ordered %} class="order-submitted-text" {% endif %}> {{ order.date_submitted|date:"n/j" }} </p></td>
+                <td><a href="{% url 'app:delete_order' order.id %}">X</a></td>
             </tr>
         {% endfor %}
 

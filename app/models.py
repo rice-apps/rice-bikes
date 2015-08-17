@@ -88,22 +88,6 @@ class Task(models.Model):
         return "Task " + str(self.menu_item.name)
 
 
-class RevenueUpdate(models.Model):
-    amount = models.IntegerField()
-    employee = models.CharField(max_length=100, blank=True)
-    transaction = models.ForeignKey(Transaction, blank=True, null=True)
-    new_total_revenue = models.IntegerField(blank=True)
-
-    #Auto-generated fields
-    date_submitted = models.DateTimeField(default=datetime.now, blank=True)
-
-    def __str__(self):
-        return str(self.description)
-
-
-class TotalRevenue(models.Model):
-    total_revenue = models.IntegerField()
-
 CATEGORY_CHOICES = (
     ('0', 'Headset'),
     ('1', 'Bottom bracket'),
@@ -118,6 +102,40 @@ CATEGORY_CHOICES = (
 )
 
 
+class PartOrder(models.Model):
+    name = models.CharField(max_length=50)
+    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES, blank=True, null=True)
+    was_ordered = models.BooleanField(default=False)
+    price = models.IntegerField(default='0', blank=True, null=True)
+    description = models.CharField(max_length=200, blank=True, null=True)
+
+    # Auto-generated fields
+    date_submitted = models.DateTimeField(default=datetime.now, blank=True)
+
+    def __str__(self):
+        return str(self.name)
+
+
+class RevenueUpdate(models.Model):
+    amount = models.IntegerField()
+    employee = models.CharField(max_length=100, blank=True)
+    transaction = models.ForeignKey(Transaction, blank=True, null=True)
+    order = models.ForeignKey(PartOrder, blank=True, null=True)
+    new_total_revenue = models.IntegerField(blank=True)
+
+    #Auto-generated fields
+    date_submitted = models.DateTimeField(default=datetime.now, blank=True)
+
+    def __str__(self):
+        return "Total: $" + str(self.new_total_revenue)
+
+
+class TotalRevenue(models.Model):
+    total_revenue = models.IntegerField()
+
+
+
+
 class PartCategory(models.Model):
     category = models.CharField(max_length=100, choices=CATEGORY_CHOICES, blank=True, null=True)
     price = models.IntegerField(default='0', blank=True, null=True)
@@ -128,13 +146,3 @@ class PartCategory(models.Model):
     # Auto-generated fields
     date_submitted = models.DateTimeField(default=datetime.now, blank=True)
 
-
-class PartOrder(models.Model):
-    name = models.CharField(max_length=50, blank=True, null=True)
-    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES, blank=True, null=True)
-    was_ordered = models.BooleanField(default=False)
-    price = models.IntegerField(default='0', blank=True, null=True)
-    description = models.CharField(max_length=200, blank=True, null=True)
-
-    # Auto-generated fields
-    date_submitted = models.DateTimeField(default=datetime.now, blank=True)

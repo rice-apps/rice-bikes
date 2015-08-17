@@ -41,8 +41,8 @@
 .btn.btn-tight{
     padding-right: 2px;
     padding-left: 2px;
-    padding-top: 2px;
-    padding-bottom: 2px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .table.trans-table tr{
@@ -54,11 +54,17 @@
 }
 
 .panel-body.parts-panel {
-    background:#666699;
+    background:#EEEEEE;
 }
 
 .panel-body.new-part-panel {
-    background:#FFCC99;
+    background:#F4F4F4;
+}
+
+body{
+    max-width: 95%;
+    margin: 0 auto 15% !important;
+    float: top !important;
 }
 
 @media
@@ -68,4 +74,66 @@ only screen and (max-device-width: 480px){
         display:none;
     }
 
+}
+
+.form-horizontal .control-label{
+/* text-align:right; */
+text-align:left;
+}
+
+
+#footercontainer {
+    width: 95%;
+    height: 5%;
+    position: fixed;
+    bottom: 0;
+    background: #F0F0F0;
+}
+
+#footer {
+    margin-top: 7px;
+    margin-bottom: 7px;
+    margin-left: 6%;
+    margin-right: 6%;
+}
+
+#footer a:link {
+    color: #171717;
+    text-decoration: none;
+}
+
+#footer a:hover {
+    color: #171717;
+    text-decoration: none;
+    border-bottom: 2px solid #171717;
+}
+
+#footer a:visited {
+    color: #171717;
+    text-decoration: none;
+}
+
+#footer a:active {
+    color: #171717;
+    text-decoration: none;
+}
+
+.footer {
+    font-size: 8px;
+}
+
+html, body {
+    overflow-x: hidden;
+}
+
+p.order-submitted-text {
+    color: #00AA00;
+}
+
+p.order-submitted-link a{
+    color: #66CC99;
+}
+
+.assign-parts-delete-button {
+    margin-top: 23px;
 }

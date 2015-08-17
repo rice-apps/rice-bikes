@@ -59,7 +59,7 @@ def mark_as_completed(request, **kwargs):
 def send_completion_email(transaction):
     email_address = transaction.email
     subject_line = "[Rice Bikes] Ready For Pickup"
-    tasks = [str(task.menu_item.name) for task in transaction.task_set.all()]
+    tasks = [str(task.menu_item.name) for task in transaction.task_set_rev.all()]
     task_string = "\n".join(tasks)
     body = "%s,\n\n" \
            " Your bike is ready for pickup! The following repairs were completed:\n" \
@@ -85,7 +85,7 @@ class LoggedInMixin(object):
     def dispatch(self, *args, **kwargs):
         return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
-
+@login_required
 def detail(request, **kwargs):
 
     transaction = Transaction.objects.filter(pk=kwargs['trans_pk']).first()
@@ -110,7 +110,6 @@ def detail(request, **kwargs):
         'num_parent_args': num_parent_args,
         'bike_pk': bike_pk,
         })
-
 
 
 def process_transaction_edit(form_data, transaction, request):
@@ -203,7 +202,7 @@ def get_url(num_parent_args, kwargs):
 
     return url
 
-
+@login_required
 def update(request, **kwargs):
     # model = Transaction
     # template_name = "app/edit.html"
@@ -262,12 +261,12 @@ def update(request, **kwargs):
                                                 'transaction_form': transaction_form},
                               context_instance=RequestContext(request))
 
-
+@login_required
 def rental(request):
     rentals = RentalBike.objects.all().order_by('date_submitted').reverse
     return render(request, "app/rental.html", {'rentals': rentals})
 
-
+@login_required
 def refurbished(request):
     refurbished_list = RefurbishedBike.objects.all().order_by('date_submitted').reverse
     return render(request, "app/refurbished.html", {'refurbished_list': refurbished_list})
@@ -285,6 +284,10 @@ class RentalDetail(LoggedInMixin, DetailView):
         context['bike_pk'] = self.kwargs['pk']
         return context
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(RentalDetail, self).dispatch(*args, **kwargs)
+
 
 class RefurbishedDetail(LoggedInMixin, DetailView):
     model = RefurbishedBike
@@ -298,6 +301,10 @@ class RefurbishedDetail(LoggedInMixin, DetailView):
         context['bike_pk'] = self.kwargs['pk']
         return context
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(RefurbishedDetail, self).dispatch(*args, **kwargs)
+
 
 def process_rental(form_data):
     rental_bike = RentalBike(
@@ -306,6 +313,7 @@ def process_rental(form_data):
     rental_bike.save()
 
 
+@login_required
 def new_rental(request):
     if request.method == 'POST':
         form = RentalForm(request.POST)
@@ -327,6 +335,7 @@ def process_refurbished(form_data):
     refurbished_bike.save()
 
 
+@login_required
 def new_refurbished(request):
     if request.method == 'POST':
         form = RefurbishedForm(request.POST)
@@ -435,6 +444,7 @@ def process_transaction(form_data):
     new_transaction.save()
 
 
+@login_required
 def create_transaction(request):
     if request.method == 'POST':
         form = CustomerForm(request.POST)
@@ -495,6 +505,7 @@ def process_task_form(form_data, transaction):
     transaction.save()
 
 
+@login_required
 def assign_tasks(request, **kwargs):
 
     transaction = Transaction.objects.filter(id=kwargs['trans_pk']).first()
@@ -542,6 +553,7 @@ def assign_tasks(request, **kwargs):
     })
 
 
+@login_required
 def assign_parts(request, **kwargs):
     transaction = Transaction.objects.filter(id=kwargs['trans_pk']).first()
 
@@ -580,66 +592,6 @@ def assign_parts(request, **kwargs):
         'old_form_pairs': old_form_pairs,
         'new_form': new_form,
     })
-
-
-class TransactionWizard(SessionWizardView):
-    """
-    Wizard view for creating a new transaction in three steps.
-    """
-    def get_template_names(self):
-        return [NEW_ORDER_TEMPLATES[self.steps.current]]
-
-    def get_context_data(self, form, **kwargs):
-        context = super(TransactionWizard, self).get_context_data(form=form, **kwargs)
-
-        if self.steps.current == '1':
-            items_by_category = get_items_by_category()
-            context.update({'items_by_category': items_by_category})
-        return context
-
-    '''Returns form_data, a list with one element for each form in the wizard'''
-    def done(self, form_input_list, **kwargs):
-        # Process the customer form
-        forms_to_process = list()
-        forms_to_process.append(form_input_list[0].cleaned_data)
-
-        # Process the task form
-        print "form_input_list[1] ="
-        print form_input_list[1].data
-        print "end"
-
-        task_list = process_tasks(form_input_list[1].data)
-
-        print "task_list ="
-        print task_list
-        print "end"
-
-        forms_to_process.append([])
-
-        for field in form_input_list[1].cleaned_data:
-            print str(field)
-            print (form_input_list[1].cleaned_data[field])
-            forms_to_process[0][field] = form_input_list[1].cleaned_data[field]  # move into 0 index
-
-        for field in task_list:
-            forms_to_process[1] = MenuItem.objects.filter(name=field)
-
-        # Process the PartyCategoryForm's. The third element in forms_to_process is a list of form dictionaries
-        print "form_input_list[2] ="
-        print form_input_list[2].data
-        print "end"
-
-        form_list = []
-        forms_to_process.append(form_list)
-        form_2_data = form_input_list[2].data
-
-        if 'skip' not in form_input_list[2].data:
-            process_part_category_forms(form_list, form_2_data, '2-')
-
-        print forms_to_process[2]
-
-        process(forms_to_process)
-        return render_to_response('app/confirm.html', {'forms_to_process': forms_to_process})
 
 
 def user_login(request):
@@ -739,6 +691,7 @@ def make_used_parts_export_file(table_rows, filename):
     return response
 
 
+@login_required
 def balance(request):
     revenue_updates = RevenueUpdate.objects.all().order_by('date_submitted').reverse()
 
@@ -749,6 +702,7 @@ def balance(request):
     return render(request, 'app/balance.html', {'revenue_updates': revenue_updates})
 
 
+@login_required
 def revenue_update(request):
     if request.method == 'POST':
         form = RevenueForm(request.POST)
@@ -763,7 +717,8 @@ def revenue_update(request):
     })
 
 
-def order(request):
+@login_required
+def orders(request):
     orders = PartOrder.objects.all().order_by('date_submitted').reverse()
 
     if request.method == 'POST':
@@ -772,7 +727,35 @@ def order(request):
     return render(request, 'app/order.html', {'orders': orders})
 
 
-def process_order(form_data):
+def make_revenue_update(request, order, amount):
+    if amount != 0:
+        # make revenue update
+        if TotalRevenue.objects.count() == 0:
+            total_revenue = TotalRevenue(
+                total_revenue=0
+            )
+            total_revenue.save()
+        total_revenue = TotalRevenue.objects.first()
+        total_revenue.total_revenue += amount
+        total_revenue.save()
+
+        revenue_update = RevenueUpdate.objects.filter(order=order).first()
+
+        if revenue_update is None:
+            revenue_update = RevenueUpdate(
+                amount=amount,
+                employee=request.user.get_username(),
+                transaction=None,
+                order=order,
+                new_total_revenue=total_revenue.total_revenue,
+            )
+        else:
+            revenue_update.amount = amount
+        revenue_update.save()
+
+
+def process_order(request, form_data):
+
     part_order = PartOrder(
         name=form_data['name'],
         category=form_data['category'],
@@ -782,13 +765,35 @@ def process_order(form_data):
     )
     part_order.save()
 
+    if form_data['was_ordered']:
+        make_revenue_update(request, part_order, form_data['price'])
 
+
+def process_order_edit(request, order, form_data):
+
+    if form_data['was_ordered']:
+        make_revenue_update(request, order, form_data['price'])
+
+    order.name = form_data['name']
+    order.category = form_data['category']
+    order.was_ordered = form_data['was_ordered']
+    order.price = form_data['price']
+    order.description = form_data['description']
+
+    order.save()
+
+
+@login_required
 def make_order(request):
+    absolute_url = "/orders"
     if request.method == 'POST':
+        if "cancel" in request.POST:
+            return HttpResponseRedirect(absolute_url)
         form = PartOrderForm(request.POST)
         if form.is_valid():
-            process_order(form.cleaned_data)
-            return render_to_response('app/confirm_order.html', {})
+            process_order(request, form.cleaned_data)
+            return render_to_response('app/confirm.html', {'absolute_url': absolute_url,
+                                                           'text': "You successfully created an order request!"})
 
     else:
         form = PartOrderForm()
@@ -796,6 +801,43 @@ def make_order(request):
     return render(request, 'app/make_order.html', {'form': form})
 
 
+@login_required
+def edit_order(request, **kwargs):
+    absolute_url = "/" + kwargs['parent_url']
+    print "GOT TO EDIT ORDER PAGE FROM: " + str(absolute_url)
+    order = PartOrder.objects.filter(id=kwargs['order_id']).first()
+    if request.method == 'POST':
+        if "cancel" in request.POST:
+            return HttpResponseRedirect(absolute_url)
+        form = PartOrderForm(request.POST)
+        if form.is_valid():
+            print "BRO. Order = " + str(order)
+            process_order_edit(request, order, form.cleaned_data)
+            return render_to_response('app/confirm.html', {'absolute_url': absolute_url,
+                                                           'text': "You successfully edited the order request!"})
+
+    else:
+        form = PartOrderForm(instance=order)
+
+    return render(request, 'app/make_order.html', {'form': form})
+
+
+def delete_order(request, **kwargs):
+    order_id = kwargs["order_id"]
+    order = PartOrder.objects.filter(id=order_id).first()
+
+    order_rev_updates = order.revenueupdate_set.all()
+    print "ORDER REV UPDATES = "
+    print str(order_rev_updates)
+    for rev_update in order_rev_updates:
+        rev_update.order = None
+        rev_update.save()
+
+    PartOrder.objects.filter(id=order_id).first().delete()
+    return HttpResponseRedirect('/orders')
+
+
+@login_required
 def used_parts(request):
     used_parts = PartCategory.objects.all().order_by('date_submitted').reverse()
 
@@ -805,3 +847,7 @@ def used_parts(request):
             return make_used_parts_export_file(used_parts, 'used_parts_history.csv')
 
     return render(request, 'app/used_parts.html', {'used_parts': used_parts})
+
+
+def about(request):
+    return render(request, 'app/about.html')

@@ -5,9 +5,14 @@
 <br>
 <form class="form-inline" method="post">
     {% csrf_token %}
-    <a class="btn btn-default btn-xlarge" href="{% url 'app:orders' %}" role="button">Orders</a>
-    <a class="btn btn-default btn-xlarge" href="{% url 'app:index' %}" role="button">Transactions</a>
-    <input class="btn btn-default btn-xlarge" type="submit" value='Export' name="export_used">
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+            <a class="btn btn-default btn-lg" href="{% url 'app:orders' %}" role="button">Orders</a>
+
+            <div class="btn-group" role="group">
+                <button type="submit" name="export_used" class="btn btn-default btn-lg">Export</button>
+            </div>
+        </div>
+
 </form>
 
 {% if used_parts %}
