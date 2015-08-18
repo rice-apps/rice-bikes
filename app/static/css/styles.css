@@ -149,3 +149,7 @@ p.order-submitted-link a{
 .assign-parts-delete-button {
     margin-top: 23px;
 }
+
+.assign-parts-category-field select{
+    background-color: #000000 !important;
+}

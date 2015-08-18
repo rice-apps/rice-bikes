@@ -12,11 +12,15 @@ $(document).ready(function() {
         fields_disabled.find('.panel-body').removeClass('new-part-panel').addClass('parts-panel');
         fields_hidden.find('.panel-body').removeClass('new-part-panel').addClass('parts-panel');
 
+        fields_disabled.find('.new-form-category').removeClass('.new-form-category').addClass('assign-parts-category-field');
+
+        fields_disabled.find('.assign-parts-delete-button').show();
+
         category_val = $("#new_form").find("#id_category").val();
         fields_disabled.find("#id_category").val(category_val);
         fields_hidden.find("#id_category").val(category_val);
 
-
+        console.log("CATEGORY VALUE = " + category_val)
 
         inputs = fields_disabled.find('[class*=form-control]').prop('disabled', 'true');
 
