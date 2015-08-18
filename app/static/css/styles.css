@@ -25,13 +25,25 @@
 }
 
 .top-bar {
-    text-align: center;
+    vertical-align: center;
+
 }
 
 .top-bar img {
-    width: 50%;
+    width: 100%;
     height: auto;
 }
+
+.top-bar span {
+    float: right;
+
+}
+
+.top-bar a {
+    float: right;
+    margin-right: 0%;
+}
+
 
 .btn.btn-skinny{
     padding-right: 5px;

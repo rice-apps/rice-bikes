@@ -20,19 +20,28 @@
     {% block head %}
     {% endblock %}
   <body>
-    <div id="login-info" class="bold">
 
-        {% if user.is_anonymous %}
-        You are logged out.
-        <a href="{% url 'app:login' %}">Log In</a>
-        {% else %}
-        {{ user }} |
-        <a href="{% url 'app:logout' %}" class="btn">Log Out</a><br><br>
-        {% endif %}
-    </div>
     <div class="top-bar">
-        <img class="button-pic" src="/app/static/img/RiceBikesLogo.png" alt="Logo"/>
+        <table>
+            <tr>
+                <td width="50%">
+                    <img class="button-pic" src="/app/static/img/RiceBikesLogo.png" alt="Logo"/>
+                </td>
+                <td>
+                    {% if user.is_anonymous %}
+                        <a href="{% url 'app:login' %}">Log In</a>
+                        {% else %}
+                        <a href="{% url 'app:logout' %}" class=".login-text">Log Out</a>
+                        <span class=".login-text">{{ user }} |&nbsp</span>
+                    {% endif %}
+                </td>
+            </tr>
+
+        </table>
+
+
     </div>
+    <br>
     <div class="btn-group btn-group-justified" role="group" aria-label="...">
       {% if home %}
         <a href="/new" class="btn btn-default btn-lg btn-skinny" role="button" name='new_transaction'>
