@@ -1,6 +1,7 @@
-from app.models import Transaction, RentalBike, RefurbishedBike, RevenueUpdate, PartCategory, PartOrder
+from app.models import Transaction, RentalBike, RefurbishedBike, RevenueUpdate, PartCategory, PartOrder, \
+    MiscRevenueUpdate
 from django import forms
-from django.forms import ModelForm, Form
+from django.forms import ModelForm
 from django.contrib.auth.models import User
 
 
@@ -72,3 +73,7 @@ class PartOrderForm(ModelForm):
         model = PartOrder
         exclude = ['date_submitted', ]
 
+
+class MiscRevenueUpdateForm(ModelForm):
+    class Meta:
+        model = MiscRevenueUpdate

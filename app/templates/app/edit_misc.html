@@ -5,9 +5,10 @@
 
     <form actions="." method="post">
         {% csrf_token %}
-        {{ rev_form.amount|bootstrap }}
-        {{ misc_form.description|bootstrap }}
+        {{ misc_form | bootstrap }}
         <input type="submit" value="Submit" class="btn btn-default btn-lg">
+        <input type="submit" name="cancel" value="Cancel" class="btn btn-default btn-lg">
+
     </form>
 
 {% endblock %}

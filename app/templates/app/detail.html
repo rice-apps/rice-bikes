@@ -9,8 +9,8 @@
          href="{% url 'app:mark_as_completed_1' parent_url transaction.id %}"
          role="button">Complete</a>
       <a class="btn btn-default"
-         href="{% url 'app:assign_parts_1' parent_url transaction.id %}"
-         role="button">Assign Parts</a>
+         href="{% url 'app:assign_tasks_1' parent_url transaction.id %}"
+         role="button">Assign Tasks</a>
    </div>
 
 {% elif num_parent_args == 2 %}
@@ -20,8 +20,8 @@
          href="{% url 'app:mark_as_completed_2' bike_pk parent_url transaction.id %}"
          role="button">Complete</a>
       <a class="btn btn-default"
-         href="{% url 'app:assign_parts_2' bike_pk parent_url transaction.id %}"
-         role="button">Assign Parts</a>
+         href="{% url 'app:assign_tasks_2' bike_pk parent_url transaction.id %}"
+         role="button">Assign Tasks</a>
    </div>
 {% endif %}
 

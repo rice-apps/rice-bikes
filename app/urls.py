@@ -25,6 +25,8 @@ urlpatterns = patterns(
     url(r'^delete_order/(?P<order_id>\d+)', views.delete_order, name='delete_order'),
     url(r'^installed_parts', views.used_parts, name='used_parts'),
 
+    url(r'^edit_misc_revenue_update/(?P<misc_id>\d+)', views.edit_misc_revenue_update, name='edit_misc_revenue_update'),
+
     # sub-urls of detail
     # edit
     url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/edit/$', views.update,

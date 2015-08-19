@@ -116,11 +116,16 @@ class PartOrder(models.Model):
         return str(self.name)
 
 
+class MiscRevenueUpdate(models.Model):
+    description = models.TextField()
+
+
 class RevenueUpdate(models.Model):
     amount = models.IntegerField()
     employee = models.CharField(max_length=100, blank=True)
     transaction = models.ForeignKey(Transaction, blank=True, null=True)
     order = models.ForeignKey(PartOrder, blank=True, null=True)
+    misc_revenue_update = models.ForeignKey(MiscRevenueUpdate, blank=True, null=True)
     new_total_revenue = models.IntegerField(blank=True)
 
     #Auto-generated fields
@@ -132,8 +137,6 @@ class RevenueUpdate(models.Model):
 
 class TotalRevenue(models.Model):
     total_revenue = models.IntegerField()
-
-
 
 
 class PartCategory(models.Model):

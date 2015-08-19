@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
 from app.models import Transaction, Task, RentalBike, RefurbishedBike, \
-    RevenueUpdate, TotalRevenue, PartCategory, PartOrder, MenuItem
+    RevenueUpdate, TotalRevenue, PartCategory, PartOrder, MenuItem, MiscRevenueUpdate
 from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic import DetailView
 from django.core.mail import EmailMessage
@@ -11,8 +11,8 @@ from django.contrib.auth import get_user_model
 from django.utils.decorators import method_decorator
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth import authenticate, login, logout
-from app.forms import RentalForm, RefurbishedForm, \
-    RevenueForm, TaskForm, PartCategoryForm, PartOrderForm, CustomerForm, DisabledPartCategoryForm
+from app.forms import RentalForm, RefurbishedForm, RevenueForm, TaskForm, PartCategoryForm, \
+    PartOrderForm, CustomerForm, DisabledPartCategoryForm, MiscRevenueUpdateForm
 from django.template import RequestContext
 from django import forms
 import csv
@@ -114,10 +114,7 @@ def detail(request, **kwargs):
 
 def process_transaction_edit(form_data, transaction, request):
 
-    if transaction is None:
-        payment_difference = form_data['amount']
-    else:
-        payment_difference = form_data['amount_paid'] - transaction.amount_paid
+    payment_difference = form_data['amount_paid'] - transaction.amount_paid
 
     if payment_difference != 0:
         # make revenue update
@@ -143,6 +140,30 @@ def process_transaction_edit(form_data, transaction, request):
         transaction.amount_paid = form_data['amount_paid']
         transaction.cost = form_data['cost']
         transaction.save()
+
+
+def process_misc_trans_update(form_data, misc_update, request):
+
+    payment_difference = form_data['amount']
+
+    if payment_difference != 0:
+        # make revenue update
+        if TotalRevenue.objects.count() == 0:
+            total_revenue = TotalRevenue(
+                total_revenue=0
+            )
+            total_revenue.save()
+        total_revenue = TotalRevenue.objects.first()
+        total_revenue.total_revenue += payment_difference
+        total_revenue.save()
+
+        revenue_update = RevenueUpdate(
+            amount=payment_difference,
+            employee=request.user.get_username(),
+            misc_revenue_update=misc_update,
+            new_total_revenue=total_revenue.total_revenue,
+        )
+        revenue_update.save()
 
 
 def process_part_category_forms(form_input_data, transaction):
@@ -254,10 +275,6 @@ def update(request, **kwargs):
 
     # new form
     new_category_form = PartCategoryForm()
-
-    print "EY BOI! LOOK AT THE tasks!"
-    print tasks
-    print "end"
 
     return render_to_response("app/edit.html", {'part_category_form_list': part_category_form_list, 'tasks': tasks,
                                                 'categories': categories,
@@ -706,18 +723,36 @@ def balance(request):
     return render(request, 'app/balance.html', {'revenue_updates': revenue_updates})
 
 
+def process_misc_create(form_data):
+    print "YO BRO"
+    print form_data['description']
+    misc = MiscRevenueUpdate(
+        description=form_data['description'],
+    )
+    misc.save()
+    return misc
+
 @login_required
 def revenue_update(request):
     if request.method == 'POST':
-        form = RevenueForm(request.POST)
-        if form.is_valid():
-            process_transaction_edit(form.cleaned_data, None, request)
+        rev_form = RevenueForm(request.POST)
+        misc_form = MiscRevenueUpdateForm(request.POST)
+        if rev_form.is_valid() and misc_form.is_valid():
+            print "rev_form.cleaned_data = "
+            print rev_form.cleaned_data
+            print "misc_form.cleaned_data = "
+            print misc_form.cleaned_data
+
+            misc = process_misc_create(misc_form.cleaned_data)
+            process_misc_trans_update(rev_form.cleaned_data, misc, request)
+
             return render_to_response('app/confirm_revenue.html', {})
     else:
-        form = RevenueForm()
-
+        rev_form = RevenueForm()
+        misc_form = MiscRevenueUpdateForm()
     return render(request, 'app/revenue_update.html', {
-        'form': form,
+        'rev_form': rev_form,
+        'misc_form': misc_form,
     })
 
 
@@ -855,3 +890,25 @@ def used_parts(request):
 
 def about(request):
     return render(request, 'app/about.html')
+
+
+def process_misc_edit(form_data, misc):
+    misc.description = form_data['description']
+    misc.save()
+
+
+def edit_misc_revenue_update(request, **kwargs):
+    absolute_url = "/balance"
+    misc = MiscRevenueUpdate.objects.filter(id=kwargs['misc_id']).first()
+    if request.method == 'POST':
+        if "cancel" in request.POST:
+            return HttpResponseRedirect(absolute_url)
+        misc_form = MiscRevenueUpdateForm(request.POST)
+        if misc_form.is_valid():
+            process_misc_edit(misc_form.cleaned_data, misc)
+            return render_to_response('app/confirm.html', {'absolute_url': absolute_url,
+                                                           'text': "You successfully edited the miscellaneous "
+                                                                   "revenue update!"})
+    else:
+        misc_form = MiscRevenueUpdateForm(instance=misc)
+    return render(request, 'app/edit_misc.html', {'misc_form': misc_form})
