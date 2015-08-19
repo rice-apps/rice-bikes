@@ -45,6 +45,23 @@
 }
 
 
+.about-top-bar {
+    vertical-align: center;
+
+}
+
+.about-top-bar img {
+    width: 100%;
+    height: auto;
+}
+
+
+
+
+
+
+
+
 .btn.btn-skinny{
     padding-right: 5px;
     padding-left: 5px;

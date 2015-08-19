@@ -19,6 +19,45 @@
 {% load repairs_form %}
 
 
+<!--New Category to clone and add to form-->
+<div id="new_category_form" style="display:none">
+    <div class="panel panel-success">
+        <div class="panel-body new-part-panel">
+                <div class="controls form-inline">
+                    {% for field in new_category_form %}
+                        {% if field.name == 'price' %}
+                             <div class="form-group col-xs-6">
+                                {{ field | bootstrap }}
+                             </div>
+                        {% elif field.name == 'category' %}
+                             <div class="form-group col-xs-6 new-form-category">
+                                 {{ field | bootstrap }}
+                             </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% for field in new_category_form %}
+                        {% if field.name == 'was_used' or field.name == 'description' %}
+                             <div class="form-group {% if field.name == 'description' %} col-xs-6 {% else %} col-xs-3 {% endif %}">
+                                {% if field.name == 'was_used' %}
+                                    <label class="control-label">Installed</label>
+                                    <input class="form-control was_used_show" style="margin-top:0px" type="checkbox" name="was_used"
+                                           {% if field.value == True %} checked="checked" {% endif %}>
+                                    <input class="form-control was_used_hidden" type="hidden" value="False" name="was_used">
+                                    {% else %}
+                                        <label class="control-label">Details</label>
+                                        <input name="description" class="form-control" type="text">
+                                {% endif %}
+                             </div>
+                        {% endif %}
+                    {% endfor %}
+                    <button class="remove_form btn btn-tight btn-lg btn-danger form-group col-xs-3 assign-parts-delete-button" type="button">
+                        <font color="#FFFFFF" size="4"><b>Delete</b></font>
+                    </button>
+                </div>
+        </div>
+    </div>
+</div>
+
 
 <form action="" method="post">
     {% csrf_token %}
@@ -30,29 +69,44 @@
 
     <h1>Parts</h1>
 
+    <button id="add_category_form" class="btn btn-default btn-lg" type="button">
+        <img class="button-pic" src="/app/static/img/add.png" alt="New transaction"/>
+    </button>
+
     <div id="part_categories_container">
         {% for part_category_form in part_category_form_list %}
             <div class="panel panel-success">
                 <div class="panel-body new-part-panel">
                     <div class="controls form-inline">
                         {% for field in part_category_form %}
-                            {% if field.name == 'was_used' or field.name == 'description' %}
-                                <div class="form-group col-xs-6">
-                                    {% if field.name == 'was_used' %}
-                                    <label class="control-label">Installed</label>
-                                    <input class="form-control was_used_show" type="checkbox" value="True" name="was_used"
-                                           {% if field.value == True %} checked="checked" {% endif %}>
-                                    <input class="form-control was_used_hidden" type="hidden" value="False" name="was_used">
-                                    {% else %}
-                                        {{ field | bootstrap }}
-                                    {% endif %}
-                                </div>
-                            {% else %}
-                                <div class="form-group col-xs-6">
+                            {% if field.name == 'price' %}
+                                 <div class="form-group col-xs-6">
                                     {{ field | bootstrap }}
-                                </div>
+                                 </div>
+                            {% elif field.name == 'category' %}
+                                 <div class="form-group col-xs-6 new-form-category">
+                                     {{ field | bootstrap }}
+                                 </div>
                             {% endif %}
                         {% endfor %}
+                        {% for field in part_category_form %}
+                            {% if field.name == 'was_used' or field.name == 'description' %}
+                                 <div class="form-group {% if field.name == 'description' %} col-xs-6 {% else %} col-xs-3 {% endif %}">
+                                    {% if field.name == 'was_used' %}
+                                        <label class="control-label">Installed</label>
+                                        <input class="form-control was_used_show" style="margin-top:0px" type="checkbox" name="was_used"
+                                               {% if field.value == True %} checked="checked" {% endif %}>
+                                        <input class="form-control was_used_hidden" type="hidden" value="False" name="was_used">
+                                        {% else %}
+                                            <label class="control-label">Details</label>
+                                            <input name="description" class="form-control" type="text">
+                                    {% endif %}
+                                 </div>
+                            {% endif %}
+                        {% endfor %}
+                        <button class="remove_form btn btn-tight btn-lg btn-danger form-group col-xs-3 assign-parts-delete-button" type="button">
+                            <font color="#FFFFFF" size="4"><b>Delete</b></font>
+                        </button>
                     </div>
                 </div>
             </div>

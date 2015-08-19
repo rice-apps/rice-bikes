@@ -59,7 +59,7 @@ def mark_as_completed(request, **kwargs):
 def send_completion_email(transaction):
     email_address = transaction.email
     subject_line = "[Rice Bikes] Ready For Pickup"
-    tasks = [str(task.menu_item.name) for task in transaction.task_set_rev.all()]
+    tasks = [str(task.menu_item.name) for task in transaction.task_set.all()]
     task_string = "\n".join(tasks)
     body = "%s,\n\n" \
            " Your bike is ready for pickup! The following repairs were completed:\n" \
@@ -252,13 +252,17 @@ def update(request, **kwargs):
         print dir(part_category_form)
         part_category_form_list.append(part_category_form)
 
+    # new form
+    new_category_form = PartCategoryForm()
+
     print "EY BOI! LOOK AT THE tasks!"
     print tasks
     print "end"
 
     return render_to_response("app/edit.html", {'part_category_form_list': part_category_form_list, 'tasks': tasks,
                                                 'categories': categories,
-                                                'transaction_form': transaction_form},
+                                                'transaction_form': transaction_form,
+                                                'new_category_form': new_category_form},
                               context_instance=RequestContext(request))
 
 @login_required

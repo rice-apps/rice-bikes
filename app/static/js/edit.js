@@ -15,4 +15,16 @@ $(document).ready(function() {
 
     categories = $('#part_categories_container').children();
 
+    //Add listener for category forms
+    $('#add_category_form').click(function(){
+        form_to_add = $('#new_category_form').find('.panel').clone(true);
+        form_to_add.show();
+
+        $('#part_categories_container').prepend(form_to_add);
+    });
+
+    $('.remove_form').click(function(){
+        $(this).closest('.panel').remove();
+    });
+
 });
