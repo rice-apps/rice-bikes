@@ -34,10 +34,15 @@ class RentalBike(models.Model):
     vin = models.IntegerField(unique=True, null=False, blank=False)
     date_submitted = models.DateTimeField(default=datetime.now, blank=True)
 
+    def __str__(self):
+        return str(self.vin)
 
 class RefurbishedBike(models.Model):
     vin = models.IntegerField(unique=True, null=False, blank=False)
     date_submitted = models.DateTimeField(default=datetime.now, blank=True)
+
+    def __str__(self):
+        return str(self.vin)
 
 
 class Transaction(models.Model):
@@ -85,7 +90,7 @@ class Task(models.Model):
     menu_item = models.ForeignKey(MenuItem)
 
     def __str__(self):
-        return "Task " + str(self.menu_item.name)
+        return "Task " + str(self.id) + ", " + str(self.menu_item.name)
 
 
 CATEGORY_CHOICES = (
@@ -149,3 +154,7 @@ class PartCategory(models.Model):
     # Auto-generated fields
     date_submitted = models.DateTimeField(default=datetime.now, blank=True)
 
+    def __str__(self):
+        return str(CATEGORY_CHOICES[int(self.category)][1]) + " for " + str(self.transaction.first_name + " "
+                                                                         + self.transaction.last_name + ", ID "
+                                                                         + str(self.transaction.id))

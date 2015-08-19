@@ -52,13 +52,13 @@ urlpatterns = patterns(
         {'num_parent_args': 2},
         name='assign_tasks_2'),
 
-    # assign_parts
-    url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_parts/$', views.assign_parts,
-        {'num_parent_args': 1},
-        name='assign_parts_1'),
-    url(r'^(?P<bike_pk>\d+)/(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_parts/$', views.assign_parts,
-        {'num_parent_args': 2},
-        name='assign_parts_2'),
+    # # assign_parts
+    # url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_parts/$', views.assign_parts,
+    #     {'num_parent_args': 1},
+    #     name='assign_parts_1'),
+    # url(r'^(?P<bike_pk>\d+)/(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_parts/$', views.assign_parts,
+    #     {'num_parent_args': 2},
+    #     name='assign_parts_2'),
 
 
     # detail paths
