@@ -645,14 +645,25 @@ def user_logout(request):
 
 
 def make_revenue_export_file(table_rows, filename):
+
+    # Item Type-ID, Amount, Employee, Customer, Total, Date
+
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="%s"' % filename
 
     writer = csv.writer(response)
+
+    writer.writerow(["Item", "Amount", "Employee", "Customer",
+                     "Total", "Date"])
+
     for update in table_rows:
         update_list = []
         if update.transaction:
-            update_list.append(update.transaction.id)
+            update_list.append("T-" + str(update.transaction.id))
+        elif update.order:
+            update_list.append("P-" + str(update.order.id))
+        elif update.misc_revenue_update:
+            update_list.append("M-" + str(update.misc_revenue_update.id))
         else:
             update_list.append(None)
         update_list.append(update.amount)
@@ -669,19 +680,25 @@ def make_revenue_export_file(table_rows, filename):
 
 
 def make_order_export_file(table_rows, filename):
+
+    # ID, Name, Installed, Price, Date
+
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="%s"' % filename
 
     writer = csv.writer(response)
-    for update in table_rows:
-        update_list = list()
-        update_list.append(update.name)
-        update_list.append(update.category)
-        update_list.append(update.was_ordered)
-        update_list.append(update.price)
-        update_list.append(update.description)
-        update_list.append(update.date_submitted.date())
-        writer.writerow(update_list)
+
+    writer.writerow(["ID", "Name", "Category", "Installed", "Price", "Date"])
+
+    for order in table_rows:
+        order_list = list()
+        order_list.append(order.id)
+        order_list.append(order.name)
+        order_list.append(order.get_category_display())
+        order_list.append(order.was_ordered)
+        order_list.append(order.price)
+        order_list.append(order.date_submitted.date())
+        writer.writerow(order_list)
     return response
 
 
@@ -689,26 +706,29 @@ def make_used_parts_export_file(table_rows, filename):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="%s"' % filename
 
+    # Transaction ID, Category, Price, Installed, Date
 
-    print "Hey man!"
     choices = PartCategory._meta.get_field('category').choices
 
     writer = csv.writer(response)
-    for update in table_rows:
-        update_list = list()
-        if update.category:
-            update_list.append(choices[int(update.category)][1])
+
+    writer.writerow(["Transaction ID", "Category", "Price", "Installed", "Date"])
+
+    for part in table_rows:
+        parts_list = list()
+        if part.transaction:
+            parts_list.append(part.transaction.id)
         else:
-            update_list.append(None)
-        update_list.append(update.was_used)
-        update_list.append(update.price)
-        update_list.append(update.description)
-        update_list.append(update.date_submitted.date())
-        if update.transaction:
-            update_list.append(update.transaction.id)
+            parts_list.append(None)
+        if part.category:
+            parts_list.append(part.get_category_display())
         else:
-            update_list.append(None)
-        writer.writerow(update_list)
+            parts_list.append(None)
+        parts_list.append(part.price)
+        parts_list.append(part.was_used)
+        parts_list.append(part.date_submitted.date())
+
+        writer.writerow(parts_list)
     return response
 
 

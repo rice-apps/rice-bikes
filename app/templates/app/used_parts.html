@@ -16,30 +16,30 @@
 </form>
 
 {% if used_parts %}
-    <h3>Order History</h3>
+    <h3>Used Parts</h3>
 
     <!--was_ordered is shown by red/green for true/false-->
     <table class="table">
         <thead>
+            <td>Transaction ID</td>
             <td>Category</td>
             <td>Price</td>
-            <td>Was Installed</td>
-            <td>Description</td>
-            <td>Transaction ID</td>
+            <td>Installed</td>
+            <td>Details</td>
             <td>Date</td>
         </thead>
 
         {% for part_category in used_parts %}
             <tr>
+                {% if part_category.transaction %}
+                    <td><a href="{% url 'app:detail_1' 'used_parts' part_category.transaction.id %}">{{ part_category.transaction.id }}</a></td>
+                {% else %}
+                    <td><a href="javascript:return false;">-</a></td>
+                {% endif %}
                 <td> {{ part_category.get_category_display }} </td>
                 <td> {{ part_category.price }} </td>
                 <td> {{ part_category.was_used }} </td>
                 <td> {{ part_category.description }} </td>
-                {% if part_category.transaction %}
-                    <td> {{ part_category.transaction.id }} </td>
-                {% else %}
-                    <td> - </td>
-                {% endif %}
                 <td> {{ part_category.date_submitted|date:"M d, Y" }} </td>
             </tr>
         {% endfor %}

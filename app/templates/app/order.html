@@ -6,10 +6,10 @@
 <form class="form-inline" method="post">
     {% csrf_token %}
     <div class="btn-group btn-group-justified" role="group" aria-label="...">
-        <a class="btn btn-default btn-lg" href="{% url 'app:make_order' %}"  role="button" name='new_payment'>
+        <a class="btn btn-default" href="{% url 'app:make_order' %}"  role="button" name='new_payment'>
                 <img class="button-pic" src="/app/static/img/add.png" alt="New transaction"/>
         </a>
-        <a class="btn btn-default btn-lg" href="{% url 'app:used_parts' %}" role="button">Used</a>
+        <a class="btn btn-default" href="{% url 'app:used_parts' %}" role="button" style="font-size:18">Used</a>
         <div class="btn-group" role="group">
                 <button type="submit" name="export_orders" class="btn btn-default btn-lg">Export</button>
         </div>
