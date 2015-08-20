@@ -55,8 +55,9 @@
     height: auto;
 }
 
-
-
+.btn.btn-no-padding {
+    padding: 0px;
+}
 
 
 
@@ -170,3 +171,27 @@ p.order-submitted-link a{
 .assign-parts-category-field select{
     background-color: #000000 !important;
 }
+
+.btn.btn-fat {
+    width: 100%;
+}
+
+.panel-body.panel-body-center {
+    margin: 0px;
+    padding: 0px;
+}
+
+.panel-body.panel-body-blue {
+    background-color: #337ab7;
+}
+
+.form-group.form-group-center {
+    margin-bottom: 0px;
+    padding: 5px;
+}
+
+.panel-heading.panel-heading-tight h3{
+    margin: auto;
+}
+
+

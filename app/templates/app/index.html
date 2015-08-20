@@ -5,7 +5,7 @@
 <div class="btn-group btn-group-justified" role="group" aria-label="...">
     <a href="/rental" class="btn btn-default btn-lg btn-skinny" role="button" name='rental'>Rental</a>
     <a href="/refurbished" class="btn btn-default btn-lg btn-skinny" role="button" name='refurbished'>Refurb</a>
-    <a href="/orders" class="btn btn-default btn-lg btn-skinny" role="button" name="orders">Orders</a>
+    <a href="{% url 'app:used_parts' %}" class="btn btn-default btn-lg btn-skinny" role="button" name="parts">Parts</a>
 </div>
 {% if transactions_list %}
     <h3>Active Customers</h3>

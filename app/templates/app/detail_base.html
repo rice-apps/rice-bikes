@@ -4,112 +4,138 @@
 {% load repairs_form %}
 
 {% block content %}
+<br>
+<div class="panel panel-primary">
+    <div class="panel-heading panel-heading-tight">
+        <h3>Customer: {{ transaction.first_name }} {{ transaction.last_name }}</h3>
+    </div>
 
-<h2><b>Customer name: {{ transaction.first_name }} {{ transaction.last_name }}<b/></h2>
+    <div class="panel-body parts-panel">
 
-
-<table class="table table-striped">
-    <thead>
-        <td class="col-sm-1"></td>
-        <td class="col-sm-1"></td>
-    </thead>
-    <tr>
-        <td><b>Email</b></td>
-        <td>{{ transaction.email }}</td>
-    </tr>
-    <tr>
-        <td><b>Affiliation</b></td>
-        <td>{{ transaction.get_affiliation_display }}</td>
-    </tr>
-    <tr>
-        <td><b>Service Description</b></td>
-        <td>{{ transaction.service_description }} </td>
-    </tr>
-    <tr>
-        <td><b>Date Submitted</b></td>
-        <td>{{ transaction.date_submitted }}</td>
-    </tr>
-    <tr>
-        <td><b>Completed</b></td>
-        <td>{{ transaction.completed }}</td>
-    </tr>
-    <tr>
-        <td><b>Cost</b></td>
-        <td>{{ transaction.cost }} </td>
-    </tr>
-    <tr>
-        <td><b>Amount Paid</b></td>
-        <td>{{ transaction.amount_paid }} </td>
-    </tr>
-    {% if transaction.rental_bike %}
-    <tr>
-        <td><b>Rental VIN</b></td>
-        <td>{{ transaction.rental_bike.vin }} </td>
-    </tr>
-    {% elif transaction.refurbished_bike %}
-    <tr>
-        <td><b>Refurbished VIN</b></td>
-        <td>{{ transaction.refurbished_bike.vin }} </td>
-    </tr>
-    {% endif %}
-    </table>
-    <br>
-    <h3><b>Categories:</b></h3>
-
-    <table class="table table-striped">
-        <thead>
-            <td class="col-sm-3"><b>Category</b></td>
-            <td class="col-sm-1"><b>Price</b></td>
-            <td class="col-sm-1"><b>Installed</b></td>
-            <td class="col-sm-1"><b>Details</b></td>
-        </thead>
-    {% for part_category in part_categories %}
-        <tr>
-            <td>{{ part_category.get_category_display }}</td>
-            <td> ${{ part_category.price }} </td>
-            <td> {{ part_category.was_used }} </td>
-            <td>{{ part_category.description }}</td>
-        </tr>
-    {% endfor %}
-    </table>
-
-    <br>
-    <h3><b>Tasks:</b></h3>
-    <table class="table table-striped">
-        <thead>
-            <td class="col-sm-1"><b>Task</b></td>
-            <td class="col-sm-1"><b>Completion Status</b></td>
-        </thead>
-        {% for task in tasks %}
+        <table class="table table-striped">
+            <thead>
+                <td class="col-sm-1"></td>
+                <td class="col-sm-1"></td>
+            </thead>
             <tr>
-                <td>{{ task.menu_item.name|place_whitespace }} </td>
-                <td>{{ task.completed }}</td>
+                <td><b>Email</b></td>
+                <td>{{ transaction.email }}</td>
+            </tr>
+            <tr>
+                <td><b>Affiliation</b></td>
+                <td>{{ transaction.get_affiliation_display }}</td>
+            </tr>
+            <tr>
+                <td><b>Service Description</b></td>
+                <td>{{ transaction.service_description }} </td>
+            </tr>
+            <tr>
+                <td><b>Date Submitted</b></td>
+                <td>{{ transaction.date_submitted }}</td>
+            </tr>
+            <tr>
+                <td><b>Completed</b></td>
+                <td>{{ transaction.completed }}</td>
+            </tr>
+            <tr>
+                <td><b>Cost</b></td>
+                <td>{{ transaction.cost }} </td>
+            </tr>
+            <tr>
+                <td><b>Amount Paid</b></td>
+                <td>{{ transaction.amount_paid }} </td>
+            </tr>
+            {% if transaction.rental_bike %}
+            <tr>
+                <td><b>Rental VIN</b></td>
+                <td>{{ transaction.rental_bike.vin }} </td>
+            </tr>
+            {% elif transaction.refurbished_bike %}
+            <tr>
+                <td><b>Refurbished VIN</b></td>
+                <td>{{ transaction.refurbished_bike.vin }} </td>
+            </tr>
+            {% endif %}
+        </table>
+    </div>
+</div>
+
+<div class="panel panel-primary">
+    <div class="panel-heading panel-heading-tight">
+        <h3>Categories</h3>
+    </div>
+
+    <div class="panel-body parts-panel">
+
+        <table class="table table-striped">
+            <thead>
+                <td class="col-sm-3"><b>Category</b></td>
+                <td class="col-sm-1"><b>Price</b></td>
+                <td class="col-sm-1"><b>Installed</b></td>
+                <td class="col-sm-1"><b>Details</b></td>
+            </thead>
+        {% for part_category in part_categories %}
+            <tr>
+                <td>{{ part_category.get_category_display }}</td>
+                <td> ${{ part_category.price }} </td>
+                <td> {{ part_category.was_used }} </td>
+                <td>{{ part_category.description }}</td>
             </tr>
         {% endfor %}
-</table>
+        </table>
+    </div>
+</div>
 
-{% if num_parent_args == 1 %}
-    <div class="btn-group btn-group-justified" role="group" aria-label="...">
-        <a class="btn btn-default"
-           href="{% url 'app:'|add:parent_url %}"
-           role="button">Back</a>
-        <a class="btn btn-default"
-           href="{% url 'app:edit_1' parent_url transaction.id %}"
-           role="button">Edit</a>
+<div class="panel panel-primary">
+    <div class="panel-heading panel-heading-tight">
+        <h3>Tasks</h3>
     </div>
-{%  elif num_parent_args == 2 %}
-    <div class="btn-group btn-group-justified" role="group" aria-label="...">
-        <a class="btn btn-default"
-           href="{% url 'app:'|add:parent_url bike_pk %}"
-           role="button">Back</a>
-        <a class="btn btn-default"
-           href="{% url 'app:edit_2' bike_pk parent_url transaction.id %}"
-           role="button">Edit</a>
+
+    <div class="panel-body parts-panel">
+        <table class="table table-striped">
+            <thead>
+                <td class="col-sm-1"><b>Task</b></td>
+                <td class="col-sm-1"><b>Completion Status</b></td>
+            </thead>
+            {% for task in tasks %}
+                <tr>
+                    <td>{{ task.menu_item.name|place_whitespace }} </td>
+                    <td>{{ task.completed }}</td>
+                </tr>
+            {% endfor %}
+        </table>
     </div>
-{% endif %}
+</div>
+
+<div class="panel panel-primary">
+    <div class="panel-body parts-panel">
+        {% if num_parent_args == 1 %}
+
+
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                <a class="btn btn-default btn-pad"
+                   href="{% url 'app:'|add:parent_url %}"
+                   role="button">Back</a>
+                <a class="btn btn-default btn-pad"
+                   href="{% url 'app:edit_1' parent_url transaction.id %}"
+                   role="button">Edit</a>
+            </div>
+        {%  elif num_parent_args == 2 %}
+            <div class="btn-group btn-group-justified blocks" role="group" aria-label="...">
+                <a class="btn btn-default"
+                   href="{% url 'app:'|add:parent_url bike_pk %}"
+                   role="button">Back</a>
+                <a class="btn btn-default"
+                   href="{% url 'app:edit_2' bike_pk parent_url transaction.id %}"
+                   role="button">Edit</a>
+            </div>
+        {% endif %}
+
 
 
 {% endblock %}
 
-{% block detail %}
-{% endblock %}
+        {% block detail %}
+        {% endblock %}
+    </div>
+</div>

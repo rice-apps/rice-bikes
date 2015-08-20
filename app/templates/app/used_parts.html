@@ -24,8 +24,8 @@
             <td>Transaction ID</td>
             <td>Category</td>
             <td>Price</td>
-            <td>Installed</td>
-            <td>Details</td>
+            <td class="non-mobile">Installed</td>
+            <td class="non-mobile">Details</td>
             <td>Date</td>
         </thead>
 
@@ -38,9 +38,9 @@
                 {% endif %}
                 <td> {{ part_category.get_category_display }} </td>
                 <td> {{ part_category.price }} </td>
-                <td> {{ part_category.was_used }} </td>
-                <td> {{ part_category.description }} </td>
-                <td> {{ part_category.date_submitted|date:"M d, Y" }} </td>
+                <td class="non-mobile"> {{ part_category.was_used }} </td>
+                <td class="non-mobile"> {{ part_category.description }} </td>
+                <td> {{ part_category.date_submitted|date:"n/j" }} </td>
             </tr>
         {% endfor %}
 
