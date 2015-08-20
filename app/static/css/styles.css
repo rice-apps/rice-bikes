@@ -113,9 +113,8 @@ text-align:left;
 
 
 #footercontainer {
-    width: 95%;
+    width: 100%;
     height: 5%;
-    position: fixed;
     bottom: 0;
     background: #F0F0F0;
 }
@@ -193,5 +192,3 @@ p.order-submitted-link a{
 .panel-heading.panel-heading-tight h3{
     margin: auto;
 }
-
-
