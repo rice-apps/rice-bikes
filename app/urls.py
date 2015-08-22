@@ -48,6 +48,15 @@ urlpatterns = patterns(
         {'num_parent_args': 2},
         name='mark_as_completed_2'),
 
+    # assign_items
+    url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_items/$', views.assign_items,
+        {'num_parent_args': 1},
+        name='assign_items_1'),
+    url(r'^(?P<bike_pk>\d+)/(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_items/$', views.assign_items,
+        {'num_parent_args': 2},
+        name='assign_items_2'),
+
+
     # assign_tasks
     url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_tasks/$', views.assign_tasks,
         {'num_parent_args': 1},
@@ -55,6 +64,10 @@ urlpatterns = patterns(
     url(r'^(?P<bike_pk>\d+)/(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_tasks/$', views.assign_tasks,
         {'num_parent_args': 2},
         name='assign_tasks_2'),
+
+
+
+
 
     # detail paths
     url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/detail/$', views.detail, {'num_parent_args': 1},

@@ -1,7 +1,8 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
 from app.models import Transaction, Task, RentalBike, RefurbishedBike, \
-    RevenueUpdate, TotalRevenue, PartCategory, PartOrder, TaskMenuItem, MiscRevenueUpdate
+    RevenueUpdate, TotalRevenue, PartCategory, PartOrder, TaskMenuItem, MiscRevenueUpdate, \
+    AccessoryMenuItem, PartMenuItem
 from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic import DetailView
 from django.core.mail import EmailMessage
@@ -484,38 +485,46 @@ def create_transaction(request):
 
 
 def get_tasks(form_data):
-    task_list = list()
+    task_dict= dict() # maps selected tasks to number
     for field in form_data:
-        if form_data[field] == 'on':
-            print "Got a checked task field: " + str(field)
-            task_list.append(field[2:].replace("_", " "))
+        # check for task field
+        if field.startswith('task-'):
+            task_name = field[5:]
+            # check that task was selected
+            if form_data.getlist(field)[0] == 'on':
+                print "Got a checked task field: " + str(task_name)
+                task_dict[task_name.replace("_", " ")] = form_data.getlist(field)[1]
 
-    return task_list
+    return task_dict
 
 
 def process_tasks(form_data, transaction):
     # gets all checkbox fields and returns this as the checked task fields
-    task_list = get_tasks(form_data)
+    task_dict = get_tasks(form_data)
 
-    menu_items = list()
-    for field in task_list:
-        menu_items.append(TaskMenuItem.objects.filter(name=field).first())
+    # menu_items = list()
+    # for field in task_dict:
+    #     menu_items.append(TaskMenuItem.objects.filter(name=field).first())
 
     task_set_names = [task.menu_item.name for task in list(transaction.task_set.all())]
 
+    print [task.name for task in TaskMenuItem.objects.all()]
+
     # add new tasks
-    for task_name in task_list:
+    for task_name in task_dict:
         if task_name not in task_set_names:
+            print task_name, "number", task_dict[task_name]
             task = Task(
                 completed=False,
                 transaction=transaction,
                 menu_item=TaskMenuItem.objects.filter(name=task_name).first(),
+                number=task_dict[task_name]
             )
             task.save()
 
     # delete removed tasks
     for task in transaction.task_set.all():
-        if task.menu_item.name not in task_list:
+        if task.menu_item.name not in task_dict:
             task.delete()
 
 
@@ -568,10 +577,66 @@ def assign_tasks(request, **kwargs):
             else:
                 items[i] = (items[i], False)
 
+
+
     return render(request, 'app/assign_tasks.html', {
         'form': form,
         'items_by_category': items_by_category,
     })
+
+
+@login_required
+def assign_items(request, **kwargs):
+
+    transaction = Transaction.objects.filter(id=kwargs['trans_pk']).first()
+
+    if request.method == 'POST':
+
+        num_parent_args = kwargs['num_parent_args']
+
+        url = get_url(num_parent_args, kwargs)
+
+        if "cancel" in request.POST:
+            return HttpResponseRedirect(url)
+
+        form = TaskForm(request.POST)
+
+        # save tasks assigned to the transaction
+        print "PROCESS TASKS now.."
+        process_tasks(form.data, transaction)
+
+        if form.is_valid():
+            # save fields assigned to the transaction
+            process_task_form(form.cleaned_data, transaction)
+            return render_to_response('app/confirm.html',
+                                      {"text": "You successfully assigned tasks!",
+                                       "absolute_url": url,
+                                       },
+                                      )
+
+    else:
+        form = TaskForm(instance=transaction)
+
+    items_by_category = get_items_by_category()
+
+    # modify items_by_category to map to list of tuples with an assigned-bool
+    task_set_names = [task.menu_item.name for task in transaction.task_set.all()]
+    for items in items_by_category.values():
+        for i in xrange(len(items)):
+            if items[i].name in task_set_names:
+                items[i] = (items[i], True)
+            else:
+                items[i] = (items[i], False)
+
+    accessory_items = AccessoryMenuItem.objects.all()
+
+
+    return render(request, 'app/assign_items.html', {
+        'form': form,
+        'items_by_category': items_by_category,
+        'accessory_items': accessory_items,
+    })
+
 
 
 @login_required

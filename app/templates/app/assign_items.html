@@ -1,0 +1,93 @@
+{% extends "app/base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block head %}
+<script src="/app/static/js/assign_items.js"
+        type="text/javascript"
+        charset="utf-8" async defer></script>
+<link href="{% static 'css/assign_items.css' %}" rel='stylesheet' media='screen'>
+{% endblock %}
+
+{% block content %}
+<form action="" method="post">{% csrf_token %}
+    <table>
+    {% load bootstrap %}
+
+    {% load repairs_form %}
+
+    <br>
+    <div class="category" category="task_category">
+        <div class="btn-group btn-group-justified">
+            <a class="btn btn-primary btn-xlarge" role="button">Tasks</a>
+        </div>
+    </div>
+    {% for category_item_pair in items_by_category.iteritems %}
+    <div class="task_category" style="display:none">
+        <div class="sub_category" category="{{category_item_pair.0|join_whitespace}}">
+            <div class="btn-group btn-group-justified">
+                <a class="btn btn-default btn-xlarge" role="button" name='new_transaction'>{{ category_item_pair.0 }}</a>
+            </div>
+        </div>
+        <div class="{{ category_item_pair.0|join_whitespace }}" style="display:none">
+        {% for item_and_bool in category_item_pair.1 %}
+            {% with item=item_and_bool.0 %}
+                {% with bool=item_and_bool.1 %}
+                    <div class="fieldWrapper">
+                        <div class="form-group">
+                            <label class="control-label  " for="id_1-{{ item.name|join_whitespace }}">(${{ item.price }})  {{ item.name }}</label>
+                            <div class=" ">
+                                <input class="form-control" id="id_1-{{ item.name|join_whitespace }}" name="task-{{item.name|join_whitespace}}" type="checkbox"
+                                       {% if bool %} checked="checked "{% endif %}/>
+                            </div>
+                            <label class="control-label  " for="id_1-{{ item.number|join_whitespace }}">Number</label>
+                            <div>
+                                <input class="form-control" id="id_1-{{ item.number|join_whitespace }}" name="task-{{item.name|join_whitespace}}" type="text"
+                                        {% if bool %} checked="checked "{% endif %}/>
+                            </div>
+                        </div>
+                    </div>
+                {% endwith %}
+            {% endwith %}
+        {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+    <div class="category" category="part_category">
+        <div class="btn-group btn-group-justified">
+            <a class="btn btn-primary btn-xlarge" role="button">Parts</a>
+        </div>
+    </div>
+    <div class="category" category="accessory_category">
+        <div class="btn-group btn-group-justified">
+            <a class="btn btn-primary btn-xlarge" role="button">Accessories</a>
+        </div>
+    </div>
+    {% for accessory_item in accessory_items %}
+        <div class="accessory_category" style="display:none">
+            <div class="form-group">
+                {{ accessory_item.name }}
+                <!--<label class="control-label  " for="id_1-{{ accessory_item.name|join_whitespace }}">(${{ accessory_item.price }})  {{ accessory_item.name }}</label>-->
+                <!--<div class=" ">-->
+                    <!--<input class="form-control" id="id_1-{{ accessory_item.name|join_whitespace }}" name="1-{{accessory_item.name|join_whitespace}}" type="checkbox"-->
+                           <!--{% if bool %} checked="checked "{% endif %}/>-->
+                <!--</div>-->
+            </div>
+        </div>
+    {% endfor %}
+
+    <br>
+
+    {% for field in form %}
+        <div class="fieldWrapper">
+            {{field | bootstrap}}
+        </div>
+    {% endfor %}
+
+
+    </table>
+
+    <input type="submit" value='{% trans "Submit" %}' class="btn btn-default btn-lg"/>
+    <input type="submit" value='{% trans "Cancel" %}' name="cancel" class="btn btn-default btn-lg"/>
+</form>
+{% endblock %}
