@@ -59,7 +59,7 @@ pk = 0
 
 for key in info_dict:
     item = dict()
-    item["model"] = "app.MenuItem"
+    item["model"] = "app.TaskMenuItem"
     item["pk"] = pk
 
     fields = dict()

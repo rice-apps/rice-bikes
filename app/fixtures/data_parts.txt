@@ -1,0 +1,40 @@
+!Tubes (Schrader)
+16"x1.75/2.125
+18"x1.75/2.125
+20"x1.75/2.125
+24"x1.9/2.125
+26"x1/1.5
+26"x1-3/8
+26"x1.5/1.75
+26"x1.9/2.125
+26"x2.1/2.3
+700x23/25c
+700x28/32c
+700x35/43c
+29x1.9/2.3
+!Tubes (Presta)
+650x23c
+26x1.5/2
+26x1.9/2.125
+700x18/23c
+700x23/25c
+700x28/32c
+700X35/43c
+29x1.9/2.3
+!Chain
+Single
+6 Speed
+7 Speed
+8 Speed
+9 Speed
+10 Speed
+!Brake Pads
+Caliper
+V-Brakes
+Cantilever
+!Bottom Bracket
+Sealed
+Axel
+Cone and Axel
+!Other
+Other Part

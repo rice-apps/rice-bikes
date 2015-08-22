@@ -1,0 +1,12 @@
+T-Shirt, 10
+U-Lock, 20
+Helmet, 0
+Grips, 0
+Tape, 0
+Lights (Large), 0
+Lights (Small), 0
+Handlebars, 0
+Pedals, 0
+Sticker, 1
+Tire Lever (2), 4
+Tire Lever (3), 5

@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
 from app.models import Transaction, Task, RentalBike, RefurbishedBike, \
-    RevenueUpdate, TotalRevenue, PartCategory, PartOrder, MenuItem, MiscRevenueUpdate
+    RevenueUpdate, TotalRevenue, PartCategory, PartOrder, TaskMenuItem, MiscRevenueUpdate
 from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic import DetailView
 from django.core.mail import EmailMessage
@@ -206,11 +206,11 @@ def process_part_category_forms(form_input_data, transaction):
 
 
 def get_items_by_category():
-    category_tuples = MenuItem.objects.values_list('category').distinct()
+    category_tuples = TaskMenuItem.objects.values_list('category').distinct()
     items_by_category = dict()
     for category_tuple in category_tuples:
         category = category_tuple[0]
-        items_by_category[category] = list(MenuItem.objects.filter(category=category))
+        items_by_category[category] = list(TaskMenuItem.objects.filter(category=category))
 
     return items_by_category
 
@@ -262,7 +262,7 @@ def update(request, **kwargs):
             return HttpResponseRedirect(url)
 
     # get list of all unique categories
-    category_tuples = MenuItem.objects.values_list('category').distinct()
+    category_tuples = TaskMenuItem.objects.values_list('category').distinct()
     categories = [tup[0] for tup in category_tuples]
 
     transaction_form = TaskForm(instance=transaction)
@@ -499,7 +499,7 @@ def process_tasks(form_data, transaction):
 
     menu_items = list()
     for field in task_list:
-        menu_items.append(MenuItem.objects.filter(name=field).first())
+        menu_items.append(TaskMenuItem.objects.filter(name=field).first())
 
     task_set_names = [task.menu_item.name for task in list(transaction.task_set.all())]
 
@@ -509,7 +509,7 @@ def process_tasks(form_data, transaction):
             task = Task(
                 completed=False,
                 transaction=transaction,
-                menu_item=MenuItem.objects.filter(name=task_name).first(),
+                menu_item=TaskMenuItem.objects.filter(name=task_name).first(),
             )
             task.save()
 
@@ -932,3 +932,15 @@ def edit_misc_revenue_update(request, **kwargs):
     else:
         misc_form = MiscRevenueUpdateForm(instance=misc)
     return render(request, 'app/edit_misc.html', {'misc_form': misc_form})
+
+
+def bike_inventory(request):
+    return render(request, 'app/bike_inventory.html')
+
+
+def sold_items(request):
+    return render(request, 'app/sold_items.html')
+
+
+def buy_backs(request):
+    return render(request, 'app/buy_backs.html')

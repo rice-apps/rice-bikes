@@ -15,6 +15,7 @@ urlpatterns = patterns(
     url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^rental/$', views.rental, name='rental'),
     url(r'^refurbished/$', views.refurbished, name='refurbished'),
+    url(r'^buy_backs/$', views.buy_backs, name='buy_backs'),
     url(r'^new_rental/$', views.new_rental, name='new_rental'),
     url(r'^new_refurbished/$', views.new_refurbished, name='new_refurbished'),
     url(r'^balance/$', views.balance, name='balance'),
@@ -26,6 +27,9 @@ urlpatterns = patterns(
     url(r'^installed_parts', views.used_parts, name='used_parts'),
 
     url(r'^edit_misc_revenue_update/(?P<misc_id>\d+)', views.edit_misc_revenue_update, name='edit_misc_revenue_update'),
+
+    url(r'^bike_inventory/$', views.bike_inventory, name='bike_inventory'),
+    url(r'^sold_items/$', views.sold_items, name='sold_items'),
 
     # sub-urls of detail
     # edit
@@ -51,15 +55,6 @@ urlpatterns = patterns(
     url(r'^(?P<bike_pk>\d+)/(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_tasks/$', views.assign_tasks,
         {'num_parent_args': 2},
         name='assign_tasks_2'),
-
-    # # assign_parts
-    # url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_parts/$', views.assign_parts,
-    #     {'num_parent_args': 1},
-    #     name='assign_parts_1'),
-    # url(r'^(?P<bike_pk>\d+)/(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_parts/$', views.assign_parts,
-    #     {'num_parent_args': 2},
-    #     name='assign_parts_2'),
-
 
     # detail paths
     url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/detail/$', views.detail, {'num_parent_args': 1},

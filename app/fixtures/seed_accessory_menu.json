@@ -1,0 +1,98 @@
+[
+    {
+        "fields": {
+            "name": "T-Shirt",
+            "price": "10\n"
+        },
+        "model": "app.AccessoryMenuItem",
+        "pk": 0
+    },
+    {
+        "fields": {
+            "name": "U-Lock",
+            "price": "20\n"
+        },
+        "model": "app.AccessoryMenuItem",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "name": "Helmet",
+            "price": "0\n"
+        },
+        "model": "app.AccessoryMenuItem",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "name": "Grips",
+            "price": "0\n"
+        },
+        "model": "app.AccessoryMenuItem",
+        "pk": 3
+    },
+    {
+        "fields": {
+            "name": "Tape",
+            "price": "0\n"
+        },
+        "model": "app.AccessoryMenuItem",
+        "pk": 4
+    },
+    {
+        "fields": {
+            "name": "Lights (Large)",
+            "price": "0\n"
+        },
+        "model": "app.AccessoryMenuItem",
+        "pk": 5
+    },
+    {
+        "fields": {
+            "name": "Lights (Small)",
+            "price": "0\n"
+        },
+        "model": "app.AccessoryMenuItem",
+        "pk": 6
+    },
+    {
+        "fields": {
+            "name": "Handlebars",
+            "price": "0\n"
+        },
+        "model": "app.AccessoryMenuItem",
+        "pk": 7
+    },
+    {
+        "fields": {
+            "name": "Pedals",
+            "price": "0\n"
+        },
+        "model": "app.AccessoryMenuItem",
+        "pk": 8
+    },
+    {
+        "fields": {
+            "name": "Sticker",
+            "price": "1\n"
+        },
+        "model": "app.AccessoryMenuItem",
+        "pk": 9
+    },
+    {
+        "fields": {
+            "name": "Tire Lever (2)",
+            "price": "4\n"
+        },
+        "model": "app.AccessoryMenuItem",
+        "pk": 10
+    },
+    {
+        "fields": {
+            "name": "Tire Lever (3)",
+            "price": "5"
+        },
+        "model": "app.AccessoryMenuItem",
+        "pk": 11
+    }
+]

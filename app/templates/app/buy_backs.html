@@ -1,15 +1,14 @@
 {% extends "app/base.html" %}
 
 {% block content %}
-
 <br>
 <div class="btn-group btn-group-justified" role="group" aria-label="...">
-    <a href="{% url 'app:new_refurbished' %}" class="btn btn-default btn-lg" role="button" name='new_refurbished'>Add Bike</a>
+    <a href="{% url 'app:new_rental' %}" class="btn btn-default btn-lg" role="button" >Add Bike</a>
     <a class="btn btn-default btn-lg" href="{% url 'app:bike_inventory' %}" role="button">Our Bikes</a>
 </div>
 
-{% if refurbished_list %}
-    <h3>Refurbished Bikes</h3>
+{% if rentals %}
+    <h3>Rental Bikes</h3>
 
     <table class="table">
     <thead>
@@ -17,10 +16,10 @@
         <td>VIN Number</td>
     </thead>
 
-    {% for refurbished in refurbished_list %}
+    {% for rental in rentals %}
         <tr>
-            <td>{{ refurbished.id }}</td>
-            <td><a href="{% url 'app:refurbished_detail' refurbished.id %}">{{ refurbished.vin}}</a></td>
+            <td>{{ rental.id }}</td>
+            <td><a href="{% url 'app:rental_detail' rental.id %}">{{ rental.vin }}</a></td>
         </tr>
     {% endfor %}
     </table>

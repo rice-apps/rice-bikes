@@ -15,4 +15,6 @@ Execute the following shell commands.
 
 3. python manage.py loaddata seed_menu.json
 
-4. python manage.py runserver
+4. source venv/bin/activate
+
+5. python manage.py runserver

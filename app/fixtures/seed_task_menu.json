@@ -5,7 +5,7 @@
             "name": "Replace pedals",
             "price": 5
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 0
     },
     {
@@ -14,7 +14,7 @@
             "name": "Install brake or lever",
             "price": 12
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 1
     },
     {
@@ -23,7 +23,7 @@
             "name": "Install freewheel",
             "price": 7
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 2
     },
     {
@@ -32,7 +32,7 @@
             "name": "Basic clean",
             "price": 5
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 3
     },
     {
@@ -41,7 +41,7 @@
             "name": "Adjust bearings",
             "price": 9
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 4
     },
     {
@@ -50,7 +50,7 @@
             "name": "Replace chain",
             "price": 9
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 5
     },
     {
@@ -59,7 +59,7 @@
             "name": "Replace or install one tire",
             "price": 7
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 6
     },
     {
@@ -68,7 +68,7 @@
             "name": "Adjust rim brake",
             "price": 8
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 7
     },
     {
@@ -77,7 +77,7 @@
             "name": "Front hub overhaul",
             "price": 16
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 8
     },
     {
@@ -86,7 +86,7 @@
             "name": "Replace crankset",
             "price": 7
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 9
     },
     {
@@ -95,7 +95,7 @@
             "name": "Clean and lube train",
             "price": 3
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 10
     },
     {
@@ -104,7 +104,7 @@
             "name": "Install shifter",
             "price": 11
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 11
     },
     {
@@ -113,7 +113,7 @@
             "name": "Adjust bearings rw",
             "price": 6
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 12
     },
     {
@@ -122,7 +122,7 @@
             "name": "Install threadless",
             "price": 5
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 13
     },
     {
@@ -131,7 +131,7 @@
             "name": "Install front basket",
             "price": 7
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 14
     },
     {
@@ -140,7 +140,7 @@
             "name": "Install threaded",
             "price": 5
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 15
     },
     {
@@ -149,7 +149,7 @@
             "name": "Install seatpost and saddle",
             "price": 7
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 16
     },
     {
@@ -158,7 +158,7 @@
             "name": "Seat adjust",
             "price": 3
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 17
     },
     {
@@ -167,7 +167,7 @@
             "name": "Install shifter cable",
             "price": 14
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 18
     },
     {
@@ -176,7 +176,7 @@
             "name": "Bearing overhaul",
             "price": 11
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 19
     },
     {
@@ -185,7 +185,7 @@
             "name": "Align derailleur hanger",
             "price": 7
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 20
     },
     {
@@ -194,7 +194,7 @@
             "name": "Adjust bearings bb",
             "price": 5
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 21
     },
     {
@@ -203,7 +203,7 @@
             "name": "Install cup and spindle bb",
             "price": 12
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 22
     },
     {
@@ -212,7 +212,7 @@
             "name": "Adjust disk brake",
             "price": 9
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 23
     },
     {
@@ -221,7 +221,7 @@
             "name": "Install rear rack",
             "price": 12
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 24
     },
     {
@@ -230,7 +230,7 @@
             "name": "Wheel true",
             "price": 14
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 25
     },
     {
@@ -239,7 +239,7 @@
             "name": "Install cartridge bb",
             "price": 10
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 26
     },
     {
@@ -248,7 +248,7 @@
             "name": "Adjust bearings fh bb hs",
             "price": 5
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 27
     },
     {
@@ -257,7 +257,7 @@
             "name": "Install brake cable",
             "price": 14
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 28
     },
     {
@@ -266,7 +266,7 @@
             "name": "Adjust bearings fw",
             "price": 5
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 29
     },
     {
@@ -275,7 +275,7 @@
             "name": "Wrap handlebars",
             "price": 9
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 30
     },
     {
@@ -284,7 +284,7 @@
             "name": "Replace one tube",
             "price": 7
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 31
     },
     {
@@ -293,7 +293,7 @@
             "name": "Install wheel",
             "price": 12
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 32
     },
     {
@@ -302,7 +302,7 @@
             "name": "Install seatpost without saddle",
             "price": 3
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 33
     },
     {
@@ -311,7 +311,7 @@
             "name": "Coaster hub overhaul",
             "price": 20
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 34
     },
     {
@@ -320,7 +320,7 @@
             "name": "Install derailleur",
             "price": 11
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 35
     },
     {
@@ -329,7 +329,7 @@
             "name": "Rear hub overhaul",
             "price": 18
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 36
     },
     {
@@ -338,7 +338,7 @@
             "name": "Overhaul cup and spindle",
             "price": 16
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 37
     },
     {
@@ -347,7 +347,7 @@
             "name": "Install grips",
             "price": 3
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 38
     },
     {
@@ -356,7 +356,7 @@
             "name": "Install one piece bb",
             "price": 10
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 39
     },
     {
@@ -365,7 +365,7 @@
             "name": "Install saddle",
             "price": 5
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 40
     },
     {
@@ -374,7 +374,7 @@
             "name": "Wheel adjust",
             "price": 3
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 41
     },
     {
@@ -383,7 +383,7 @@
             "name": "Adjust derailleur",
             "price": 7
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 42
     },
     {
@@ -392,7 +392,7 @@
             "name": "Replace two tubes",
             "price": 14
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 43
     },
     {
@@ -401,7 +401,7 @@
             "name": "Overhaul one piece bb",
             "price": 17
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 44
     },
     {
@@ -410,7 +410,7 @@
             "name": "Clean gears",
             "price": 3
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 45
     },
     {
@@ -419,7 +419,7 @@
             "name": "Replace or install two tires",
             "price": 14
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 46
     },
     {
@@ -428,7 +428,7 @@
             "name": "Install cassette",
             "price": 9
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 47
     },
     {
@@ -437,7 +437,7 @@
             "name": "Major clean",
             "price": 15
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 48
     },
     {
@@ -446,7 +446,7 @@
             "name": "Install handlebars",
             "price": 5
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 49
     },
     {
@@ -455,7 +455,7 @@
             "name": "Bike build",
             "price": 25
         },
-        "model": "app.MenuItem",
+        "model": "app.TaskMenuItem",
         "pk": 50
     }
 ]

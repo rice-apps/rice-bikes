@@ -1,15 +1,17 @@
 from django.contrib import admin
 from app.models import Transaction, Task, RentalBike,\
-    RefurbishedBike, RevenueUpdate, TotalRevenue, PartCategory, PartOrder, MenuItem
+    RefurbishedBike, RevenueUpdate, TotalRevenue, PartCategory, PartOrder, \
+    TaskMenuItem, AccessoryMenuItem, PartMenuItem, BuyBackBike
 
 admin.site.register(Transaction)
-admin.site.register(Task)
 admin.site.register(RentalBike)
 admin.site.register(RefurbishedBike)
+admin.site.register(BuyBackBike)
 admin.site.register(RevenueUpdate)
-admin.site.register(PartCategory)
-admin.site.register(PartOrder)
-admin.site.register(MenuItem)
+admin.site.register(TaskMenuItem)
+admin.site.register(AccessoryMenuItem)
+admin.site.register(PartMenuItem)
+
 
 class TotalRevenueAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):

@@ -37,12 +37,23 @@ class RentalBike(models.Model):
     def __str__(self):
         return str(self.vin)
 
+    class Meta:
+        verbose_name = "Bike Rental"
+        verbose_name_plural = "Bike Rentals"
+
+
 class RefurbishedBike(models.Model):
     vin = models.IntegerField(unique=True, null=False, blank=False)
+    color = models.TextField()
+    model = models.TextField()
     date_submitted = models.DateTimeField(default=datetime.now, blank=True)
 
     def __str__(self):
         return str(self.vin)
+
+    class Meta:
+        verbose_name = "Bike Refurbished"
+        verbose_name_plural = "Bike Refurbished"
 
 
 class Transaction(models.Model):
@@ -75,7 +86,7 @@ class Transaction(models.Model):
         return self.first_name + " " + self.last_name
 
 
-class MenuItem(models.Model):
+class TaskMenuItem(models.Model):
     name = models.CharField(max_length=100)
     category = models.CharField(max_length=100)
     price = models.IntegerField(default='0')
@@ -83,14 +94,81 @@ class MenuItem(models.Model):
     def __str__(self):
         return str(self.category) + ": " + str(self.name)
 
+    class Meta:
+        verbose_name = "Menu Task Item"
+        verbose_name_plural = "Menu Task Items"
+
+
+class AccessoryMenuItem(models.Model):
+    name = models.CharField(max_length=100)
+    price = models.IntegerField(default='0')
+
+    def __str__(self):
+        return str(self.name)
+
+    class Meta:
+        verbose_name = "Menu Accessory Item"
+        verbose_name_plural = "Menu Accessory Items"
+
+
+class PartMenuItem(models.Model):
+    name = models.CharField(max_length=100)
+    category = models.CharField(max_length=100)
+
+    def __str__(self):
+        return str(self.category) + ": " + str(self.name)
+
+    class Meta:
+        verbose_name = "Menu Part Item"
+        verbose_name_plural = "Menu Part Items"
+
+
+class BuyBackBike(models.Model):
+    vin = models.IntegerField(unique=True, null=False, blank=False)
+    color = models.TextField()
+    model = models.TextField()
+    date_submitted = models.DateTimeField(default=datetime.now, blank=True)
+
+    def __str__(self):
+        return str(self.vin)
+
+    class Meta:
+        verbose_name = "Bike Buy Back"
+        verbose_name_plural = "Bike Buy Backs"
+
 
 class Task(models.Model):
     completed = models.BooleanField(default=False)
+    number = models.IntegerField(null=False, blank=False)
     transaction = models.ForeignKey(Transaction)
-    menu_item = models.ForeignKey(MenuItem)
+    menu_item = models.ForeignKey(TaskMenuItem)
 
     def __str__(self):
-        return "Task " + str(self.id) + ", " + str(self.menu_item.name)
+        return str(self.id) + ", " + str(self.menu_item.name)
+
+
+class Accessory(models.Model):
+    completed = models.BooleanField(default=False)
+    number = models.IntegerField(null=False, blank=False)
+    transaction = models.ForeignKey(Transaction)
+    menu_item = models.ForeignKey(AccessoryMenuItem)
+
+    def __str__(self):
+        return str(self.id) + ", " + str(self.menu_item.name)
+
+
+class Part(models.Model):
+    completed = models.BooleanField(default=False)
+    number = models.IntegerField(null=False, blank=False)
+    price = models.IntegerField(default='0')
+    transaction = models.ForeignKey(Transaction)
+    menu_item = models.ForeignKey(PartMenuItem)
+
+    def __str__(self):
+        return str(self.id) + ", " + str(self.menu_item.name)
+
+
+
 
 
 CATEGORY_CHOICES = (
@@ -142,6 +220,10 @@ class RevenueUpdate(models.Model):
 
 class TotalRevenue(models.Model):
     total_revenue = models.IntegerField()
+
+    class Meta:
+        verbose_name = "Total Revenue"
+        verbose_name_plural = "Total Revenue"
 
 
 class PartCategory(models.Model):
