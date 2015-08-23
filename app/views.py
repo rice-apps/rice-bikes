@@ -13,7 +13,7 @@ from django.utils.decorators import method_decorator
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth import authenticate, login, logout
 from app.forms import RentalForm, RefurbishedForm, RevenueForm, TaskForm, PartCategoryForm, \
-    PartOrderForm, CustomerForm, DisabledPartCategoryForm, MiscRevenueUpdateForm
+    PartOrderForm, CustomerForm, DisabledPartCategoryForm, MiscRevenueUpdateForm, SingleNumber
 from django.template import RequestContext
 from django import forms
 import csv
@@ -206,14 +206,24 @@ def process_part_category_forms(form_input_data, transaction):
         new_part_category.save()
 
 
-def get_items_by_category():
+def get_tasks_by_category():
     category_tuples = TaskMenuItem.objects.values_list('category').distinct()
-    items_by_category = dict()
+    tasks_by_category = dict()
     for category_tuple in category_tuples:
         category = category_tuple[0]
-        items_by_category[category] = list(TaskMenuItem.objects.filter(category=category))
+        tasks_by_category[category] = list(TaskMenuItem.objects.filter(category=category))
 
-    return items_by_category
+    return tasks_by_category
+
+
+def get_parts_by_category():
+    category_tuples = PartMenuItem.objects.values_list('category').distinct()
+    parts_by_category = dict()
+    for category_tuple in category_tuples:
+        category = category_tuple[0]
+        parts_by_category[category] = list(PartMenuItem.objects.filter(category=category))
+
+    return parts_by_category
 
 
 def get_url(num_parent_args, kwargs):
@@ -566,22 +576,20 @@ def assign_tasks(request, **kwargs):
     else:
         form = TaskForm(instance=transaction)
 
-    items_by_category = get_items_by_category()
+    tasks_by_category = get_tasks_by_category()
 
-    # modify items_by_category to map to list of tuples with an assigned-bool
+    # modify tasks_by_category to map to list of tuples with an assigned-bool
     task_set_names = [task.menu_item.name for task in transaction.task_set.all()]
-    for items in items_by_category.values():
+    for items in tasks_by_category.values():
         for i in xrange(len(items)):
             if items[i].name in task_set_names:
                 items[i] = (items[i], True)
             else:
                 items[i] = (items[i], False)
 
-
-
     return render(request, 'app/assign_tasks.html', {
         'form': form,
-        'items_by_category': items_by_category,
+        'tasks_by_category': tasks_by_category,
     })
 
 
@@ -617,23 +625,46 @@ def assign_items(request, **kwargs):
     else:
         form = TaskForm(instance=transaction)
 
-    items_by_category = get_items_by_category()
 
-    # modify items_by_category to map to list of tuples with an assigned-bool
+    # GET TASK DATA
+    tasks_by_category = get_tasks_by_category()
+
+    # modify tasks_by_category to map to list of tuples with an assigned-bool
     task_set_names = [task.menu_item.name for task in transaction.task_set.all()]
-    for items in items_by_category.values():
+    for items in tasks_by_category.values():
         for i in xrange(len(items)):
             if items[i].name in task_set_names:
                 items[i] = (items[i], True)
             else:
                 items[i] = (items[i], False)
 
-    accessory_items = AccessoryMenuItem.objects.all()
+    # GET PART DATA
+    parts_by_category = get_parts_by_category()
 
+    # modify parts_by_category to map to list of tuples with an assigned-bool
+    part_set_names = [part.menu_item.name for part in transaction.part_set.all()]
+    for items in parts_by_category.values():
+        for i in xrange(len(items)):
+            if items[i].name in part_set_names:
+                items[i] = (items[i], True)
+            else:
+                items[i] = (items[i], False)
+    
+    # GET ACCESSORY DATA
+    accessory_items = list(AccessoryMenuItem.objects.all())
+
+    accessory_set_names = [accessory.menu_item.name for accessory in transaction.accessory_set.all()]
+    for i in xrange(len(accessory_items)):
+        item = accessory_items[i]
+        if item.name in accessory_set_names:
+            accessory_items[i] = (item, True)
+        else:
+            accessory_items[i] = (item, False)
 
     return render(request, 'app/assign_items.html', {
         'form': form,
-        'items_by_category': items_by_category,
+        'tasks_by_category': tasks_by_category,
+        'parts_by_category': parts_by_category,
         'accessory_items': accessory_items,
     })
 

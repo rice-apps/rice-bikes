@@ -13,7 +13,7 @@
     {% load bootstrap %}
 
     {% load repairs_form %}
-    {% for category_item_pair in items_by_category.iteritems %}
+    {% for category_item_pair in tasks_by_category.iteritems %}
             <div class="category" category="{{category_item_pair.0|join_whitespace}}">
                 <div class="btn-group btn-group-justified">
                     <a class="btn btn-default btn-xlarge" role="button" name='new_transaction'>{{ category_item_pair.0 }}</a>

@@ -1,7 +1,7 @@
 from app.models import Transaction, RentalBike, RefurbishedBike, RevenueUpdate, PartCategory, PartOrder, \
     MiscRevenueUpdate
 from django import forms
-from django.forms import ModelForm
+from django.forms import Form, ModelForm
 from django.contrib.auth.models import User
 
 
@@ -77,3 +77,7 @@ class PartOrderForm(ModelForm):
 class MiscRevenueUpdateForm(ModelForm):
     class Meta:
         model = MiscRevenueUpdate
+
+
+class SingleNumber(Form):
+    number = forms.IntegerField(label='Number', initial=1)

@@ -22,7 +22,7 @@
             <a class="btn btn-primary btn-xlarge" role="button">Tasks</a>
         </div>
     </div>
-    {% for category_item_pair in items_by_category.iteritems %}
+    {% for category_item_pair in tasks_by_category.iteritems %}
     <div class="task_category" style="display:none">
         <div class="sub_category" category="{{category_item_pair.0|join_whitespace}}">
             <div class="btn-group btn-group-justified">
@@ -42,8 +42,7 @@
                             </div>
                             <label class="control-label  " for="id_1-{{ item.number|join_whitespace }}">Number</label>
                             <div>
-                                <input class="form-control" id="id_1-{{ item.number|join_whitespace }}" name="task-{{item.name|join_whitespace}}" type="text"
-                                        {% if bool %} checked="checked "{% endif %}/>
+                                <input class="form-control" id="id_1-{{ item.number|join_whitespace }}" name="task-{{item.name|join_whitespace}}" type="number"/>
                             </div>
                         </div>
                     </div>
@@ -53,26 +52,69 @@
         </div>
     </div>
     {% endfor %}
+
+
     <div class="category" category="part_category">
         <div class="btn-group btn-group-justified">
             <a class="btn btn-primary btn-xlarge" role="button">Parts</a>
         </div>
     </div>
-    <div class="category" category="accessory_category">
+    {% for category_item_pair in parts_by_category.iteritems %}
+    <div class="part_category" style="display:none">
+        <div class="sub_category" category="{{category_item_pair.0|join_whitespace}}">
+            <div class="btn-group btn-group-justified">
+                <a class="btn btn-default btn-xlarge" role="button">{{ category_item_pair.0 }}</a>
+            </div>
+        </div>
+        <div class="{{ category_item_pair.0|join_whitespace }}" style="display:none">
+        {% for item_and_bool in category_item_pair.1 %}
+            {% with part_item=item_and_bool.0 %}
+                {% with bool=item_and_bool.1 %}
+                    <div class="fieldWrapper">
+                        <div class="form-group">
+                            <label class="control-label  " for="id_1-{{ part_item.name|join_whitespace }}">(${{ part_item.price }})  {{ part_item.name }}</label>
+                            <div class=" ">
+                                <input class="form-control" id="id_1-{{ part_item.name|join_whitespace }}" name="part-{{part_item.name|join_whitespace}}" type="checkbox"
+                                       {% if bool %} checked="checked "{% endif %}/>
+                            </div>
+                            <label class="control-label  " for="id_1-{{ part_item.number|join_whitespace }}">Number</label>
+                            <div>
+                                <input class="form-control" id="id_1-{{ part_item.number|join_whitespace }}" name="part-{{part_item.name|join_whitespace}}" type="number"/>
+                            </div>
+                        </div>
+                    </div>
+                {% endwith %}
+            {% endwith %}
+        {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+
+    <div class="category" category="accessory">
         <div class="btn-group btn-group-justified">
             <a class="btn btn-primary btn-xlarge" role="button">Accessories</a>
         </div>
     </div>
-    {% for accessory_item in accessory_items %}
-        <div class="accessory_category" style="display:none">
-            <div class="form-group">
-                {{ accessory_item.name }}
-                <!--<label class="control-label  " for="id_1-{{ accessory_item.name|join_whitespace }}">(${{ accessory_item.price }})  {{ accessory_item.name }}</label>-->
-                <!--<div class=" ">-->
-                    <!--<input class="form-control" id="id_1-{{ accessory_item.name|join_whitespace }}" name="1-{{accessory_item.name|join_whitespace}}" type="checkbox"-->
-                           <!--{% if bool %} checked="checked "{% endif %}/>-->
-                <!--</div>-->
-            </div>
+    {% for accessory_item_pair in accessory_items %}
+        <div class="accessory" style="display:none">
+            {% with accessory_item=accessory_item_pair.0 %}
+                {% with bool=accessory_item.1 %}
+                <div class="form-group">
+                    <label class="control-label  " for="id_1-{{ accessory_item.name|join_whitespace }}">
+                        {% if accessory_item.price != 0  %} (${{ accessory_item.price }}) {% endif %}
+                        {{ accessory_item.name }}</label>
+                    <div class=" ">
+                        <input class="form-control" id="id_1-{{ accessory_item.name|join_whitespace }}" name="accessory-{{accessory_item.name|join_whitespace}}" type="checkbox"
+                               {% if bool %} checked="checked "{% endif %}/>
+                    </div>
+                    <label class="control-label  " for="id_1-{{ accessory_item.number|join_whitespace }}">
+                        Number
+                    </label>
+                    <input class="form-control" id="id_1-{{ accessory_item.number|join_whitespace }}" name="part-{{item.name|join_whitespace}}" type="number"/>
+
+                </div>
+                {% endwith %}
+            {% endwith %}
         </div>
     {% endfor %}
 
