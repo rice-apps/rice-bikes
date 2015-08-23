@@ -3,9 +3,12 @@
 {% load staticfiles %}
 
 {% block head %}
-<script src="/app/static/js/assign_items.js"
+<script src="{% static 'js/process_string.js' %}"
         type="text/javascript"
-        charset="utf-8" async defer></script>
+        charset="utf-8" defer></script>
+<script src="{% static 'js/assign_items.js' %}"
+        type="text/javascript"
+        charset="utf-8" defer></script>
 <link href="{% static 'css/assign_items.css' %}" rel='stylesheet' media='screen'>
 {% endblock %}
 

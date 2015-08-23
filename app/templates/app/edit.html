@@ -1,9 +1,13 @@
 {% extends "app/base.html" %}
+{% load staticfiles %}
 
 {% block head %}
+<script src="{% static 'js/process_string.js' %}"
+        type="text/javascript"
+        charset="utf-8" defer></script>
 <script src="/app/static/js/edit.js"
         type="text/javascript"
-        charset="utf-8" async defer></script>
+        charset="utf-8" defer></script>
 <script src="/app/static/js/checkbox.js"
         type="text/javascript"
         charset="utf-8" async defer></script>
@@ -17,46 +21,6 @@
 
 {% load bootstrap %}
 {% load repairs_form %}
-
-
-<!--New Category to clone and add to form-->
-<div id="new_category_form" style="display:none">
-    <div class="panel panel-success">
-        <div class="panel-body new-part-panel">
-                <div class="controls form-inline">
-                    {% for field in new_category_form %}
-                        {% if field.name == 'price' %}
-                             <div class="form-group col-xs-6">
-                                {{ field | bootstrap }}
-                             </div>
-                        {% elif field.name == 'category' %}
-                             <div class="form-group col-xs-6 new-form-category">
-                                 {{ field | bootstrap }}
-                             </div>
-                        {% endif %}
-                    {% endfor %}
-                    {% for field in new_category_form %}
-                        {% if field.name == 'was_used' or field.name == 'description' %}
-                             <div class="form-group {% if field.name == 'description' %} col-xs-6 {% else %} col-xs-3 {% endif %}">
-                                {% if field.name == 'was_used' %}
-                                    <label class="control-label">Installed</label>
-                                    <input class="form-control was_used_show" style="margin-top:0px" type="checkbox" name="was_used"
-                                           {% if field.value == True %} checked="checked" {% endif %}>
-                                    <input class="form-control was_used_hidden" type="hidden" value="False" name="was_used">
-                                    {% else %}
-                                        <label class="control-label">Details</label>
-                                        <input name="description" class="form-control" type="text">
-                                {% endif %}
-                             </div>
-                        {% endif %}
-                    {% endfor %}
-                    <button class="remove_form btn btn-tight btn-lg btn-danger form-group col-xs-3 assign-parts-delete-button" type="button">
-                        <font color="#FFFFFF" size="4"><b>Delete</b></font>
-                    </button>
-                </div>
-        </div>
-    </div>
-</div>
 
 <br>
 
@@ -73,86 +37,85 @@
         </div>
 
     <div class="panel panel-primary">
+        <div class="panel-heading panel-heading-tight"><h3>Tasks</h3></div>
+
+        <div class="panel-body parts-panel">
+
+            {% for task_category in task_categories %}
+            <div id = {{task_category|join_whitespace}} style="display:none">
+                <h3>{{ task_category }}</h3>
+            </div>
+            {% endfor %}
+
+
+            <div id="task_container" style="display:none">
+            {% for task in tasks %}
+                    <div id="{{task.menu_item.name|join_whitespace}}" category="{{ task.menu_item.category|join_whitespace }}">
+                        <div class="fieldWrapper">
+
+                            <em><strong>{{ task.menu_item.name|place_whitespace }}</strong></em>
+                            <input class="form-control" id="id_{{task.menu_item.name| join_whitespace}}" name={{task.menu_item.name| join_whitespace}} type="checkbox"
+                                   {% if task.completed %} checked="checked" {% endif %} style="text-align:center"/>
+                            <br>
+                            <input class="form-control" name={{task.menu_item.name| join_whitespace}} type="number" value="{{ task.number }}"/>
+
+                        </div>
+                    </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-primary">
         <div class="panel-heading panel-heading-tight"><h3>Parts</h3></div>
 
         <div class="panel-body parts-panel">
 
-            <button id="add_category_form" class="form-control btn btn-default btn-lg btn-no-padding" type="button">
-                <img class="button-pic" src="/app/static/img/add.png" alt="New transaction"/>
-            </button>
-            <br><br>
+            {% for part_category in part_categories %}
+            <div id = {{part_category|join_whitespace}} style="display:none">
+                <h3>{{ part_category }}</h3>
+            </div>
+            {% endfor %}
 
 
-            <div id="part_categories_container">
-                {% for part_category_form in part_category_form_list %}
-                    <div class="panel panel-success">
-                        <div class="panel-body new-part-panel">
-                            <div class="controls form-inline">
-                                {% for field in part_category_form %}
-                                    {% if field.name == 'price' %}
-                                         <div class="form-group col-xs-6">
-                                            {{ field | bootstrap }}
-                                         </div>
-                                    {% elif field.name == 'category' %}
-                                         <div class="form-group col-xs-6 new-form-category">
-                                             {{ field | bootstrap }}
-                                         </div>
-                                    {% endif %}
-                                {% endfor %}
-                                {% for field in part_category_form %}
-                                    {% if field.name == 'was_used' or field.name == 'description' %}
-                                         <div class="form-group {% if field.name == 'description' %} col-xs-6 {% else %} col-xs-3 {% endif %}">
-                                            {% if field.name == 'was_used' %}
-                                                <label class="control-label">Installed</label>
-                                                <input class="form-control was_used_show" style="margin-top:0px" type="checkbox" name="was_used"
-                                                       {% if field.value == True %} checked="checked" {% endif %}>
-                                                <input class="form-control was_used_hidden" type="hidden" value="False" name="was_used">
-                                                {% else %}
-                                                    <label class="control-label">Details</label>
-                                                    <input name="description" class="form-control" type="text">
-                                            {% endif %}
-                                         </div>
-                                    {% endif %}
-                                {% endfor %}
-                                <button class="remove_form btn btn-tight btn-lg btn-danger form-group col-xs-3 assign-parts-delete-button" type="button">
-                                    <font color="#FFFFFF" size="4"><b>Delete</b></font>
-                                </button>
-                            </div>
+            <div id="part_container" style="display:none">
+            {% for part in parts %}
+                    <div id="{{part.menu_item.name|join_whitespace}}" category="{{ part.menu_item.category|join_whitespace }}">
+                        <div class="fieldWrapper">
+
+                            <em><strong>{{ part.menu_item.name|place_whitespace }}</strong></em>
+                            <input class="form-control" id="id_{{part.menu_item.name| join_whitespace}}" name={{part.menu_item.name| join_whitespace}} type="checkbox"
+                                   {% if part.completed %} checked="checked" {% endif %} style="text-align:center"/>
+                            <br>
+                            <input class="form-control" name={{part.menu_item.name| join_whitespace}} type="number" value="{{ part.number }}"/>
+
                         </div>
                     </div>
-                {% endfor %}
+            {% endfor %}
             </div>
         </div>
     </div>
 
-        <div class="panel panel-primary">
-            <div class="panel-heading panel-heading-tight"><h3>Tasks</h3></div>
 
-            <div class="panel-body parts-panel">
+    <div class="panel panel-primary">
+        <div class="panel-heading panel-heading-tight"><h3>Accessories</h3></div>
+        <div class="panel-body parts-panel">
+            <div id="accessory_container">
+            {% for accessory in accessories %}
+                    <div id="{{accessory.menu_item.name|join_whitespace}}" category="{{ accessory.menu_item.category|join_whitespace }}">
+                        <div class="fieldWrapper">
 
-        {% for category in categories %}
-            <div id = {{category|join_whitespace}} style="display:none">
-                <h3>{{ category }}</h3>
-            </div>
-        {% endfor %}
+                            <em><strong>{{ accessory.menu_item.name|place_whitespace }}</strong></em>
+                            <input class="form-control" id="id_{{accessory.menu_item.name| join_whitespace}}" name={{accessory.menu_item.name| join_whitespace}} type="checkbox"
+                                   {% if accessory.completed %} checked="checked" {% endif %} style="text-align:center"/>
+                            <br>
+                            <input class="form-control" name={{accessory.menu_item.name| join_whitespace}} type="number" value="{{ accessory.number }}"/>
 
-
-        <div id="task_container" style="display:none">
-        {% for task in tasks %}
-                <div id="{{task.menu_item.name|join_whitespace}}" category="{{ task.menu_item.category|join_whitespace }}">
-                    <div class="fieldWrapper">
-                        {% if not task.completed %}
-                        <em><strong>{{ task.menu_item.name|place_whitespace }}</strong></em>
-                        <input class="form-control" id="id_{{task.menu_item.name| join_whitespace}}" name={{task.menu_item.name| join_whitespace}} type="checkbox"/>
-                        {% else %}
-                        <em><strong>{{ task.menu_item.name|place_whitespace }}</strong></em>
-                        <input class="form-control" id="id_{{task.menu_item.name| join_whitespace}}" name={{task.menu_item.name| join_whitespace}} checked="checked" type="checkbox"/>
-                        {% endif %}
+                        </div>
                     </div>
-                </div>
-        {% endfor %}
+            {% endfor %}
+            </div>
         </div>
-    </div>
     </div>
 
     <div class="panel panel-primary">

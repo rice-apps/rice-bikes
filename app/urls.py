@@ -56,19 +56,6 @@ urlpatterns = patterns(
         {'num_parent_args': 2},
         name='assign_items_2'),
 
-
-    # assign_tasks
-    url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_tasks/$', views.assign_tasks,
-        {'num_parent_args': 1},
-        name='assign_tasks_1'),
-    url(r'^(?P<bike_pk>\d+)/(?P<parent_url>\w+)/(?P<trans_pk>\d+)/assign_tasks/$', views.assign_tasks,
-        {'num_parent_args': 2},
-        name='assign_tasks_2'),
-
-
-
-
-
     # detail paths
     url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/detail/$', views.detail, {'num_parent_args': 1},
         name='detail_1'),

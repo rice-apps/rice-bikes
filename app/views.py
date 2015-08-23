@@ -247,7 +247,8 @@ def update(request, **kwargs):
 
     transaction = Transaction.objects.filter(pk=kwargs['trans_pk']).first()
     tasks = transaction.task_set.all()
-    part_categories = transaction.partcategory_set.all()
+    parts = transaction.part_set.all()
+    accessories = transaction.accessory_set.all()
 
     if request.method == 'POST':
         num_parent_args = kwargs['num_parent_args']
@@ -255,7 +256,6 @@ def update(request, **kwargs):
         if "cancel" in request.POST:
             return HttpResponseRedirect(url)
         else:
-            print request.POST
 
             posted_strings = [str(key) for key in request.POST]
             print posted_strings
@@ -278,25 +278,26 @@ def update(request, **kwargs):
                 task.save()
             return HttpResponseRedirect(url)
 
-    # get list of all unique categories
-    category_tuples = TaskMenuItem.objects.values_list('category').distinct()
-    categories = [tup[0] for tup in category_tuples]
+    # get list of all unique task categories
+    task_category_tuples = TaskMenuItem.objects.values_list('category').distinct()
+    task_categories = [tup[0] for tup in task_category_tuples]
+
+    # get list of all unique part categories
+    part_category_tuples = PartMenuItem.objects.values_list('category').distinct()
+    part_categories = [tup[0] for tup in part_category_tuples]
 
     transaction_form = TaskForm(instance=transaction)
-
-    part_category_form_list = []
-    for part_category in part_categories:
-        part_category_form = PartCategoryForm(instance=part_category)
-        print dir(part_category_form)
-        part_category_form_list.append(part_category_form)
 
     # new form
     new_category_form = PartCategoryForm()
 
-    return render_to_response("app/edit.html", {'part_category_form_list': part_category_form_list, 'tasks': tasks,
-                                                'categories': categories,
-                                                'transaction_form': transaction_form,
-                                                'new_category_form': new_category_form},
+    return render_to_response("app/edit.html", {'tasks': tasks,
+                                                'parts': parts,
+                                                'accessories': accessories,
+                                                'task_categories': task_categories,
+                                                'part_categories': part_categories,
+                                                'transaction_form': transaction_form
+                                                },
                               context_instance=RequestContext(request))
 
 @login_required
@@ -585,54 +586,6 @@ def process_task_form(form_data, transaction):
     transaction.save()
 
 
-@login_required
-def assign_tasks(request, **kwargs):
-
-    transaction = Transaction.objects.filter(id=kwargs['trans_pk']).first()
-
-    if request.method == 'POST':
-
-        num_parent_args = kwargs['num_parent_args']
-
-        url = get_url(num_parent_args, kwargs)
-
-        if "cancel" in request.POST:
-            return HttpResponseRedirect(url)
-
-        form = TaskForm(request.POST)
-
-        # save tasks assigned to the transaction
-        process_tasks(form.data, transaction)
-
-        if form.is_valid():
-            # save fields assigned to the transaction
-            process_task_form(form.cleaned_data, transaction)
-            return render_to_response('app/confirm.html',
-                                      {"text": "You successfully assigned tasks!",
-                                       "absolute_url": url,
-                                       },
-                                      )
-
-    else:
-        form = TaskForm(instance=transaction)
-
-    tasks_by_category = get_tasks_by_category()
-
-    # modify tasks_by_category to map to list of tuples with an assigned-bool
-    task_set_names = [task.menu_item.name for task in transaction.task_set.all()]
-    for items in tasks_by_category.values():
-        for i in xrange(len(items)):
-            if items[i].name in task_set_names:
-                items[i] = (items[i], True)
-            else:
-                items[i] = (items[i], False)
-
-    return render(request, 'app/assign_tasks.html', {
-        'form': form,
-        'tasks_by_category': tasks_by_category,
-    })
-
-
 def get_task_number_from_name(name, transaction):
     for task in transaction.task_set.all():
         if name == task.menu_item.name:
@@ -758,59 +711,12 @@ def assign_items(request, **kwargs):
         else:
             accessory_items[i] = (item, False, single_number_form)
 
-
-
-
-
-
     return render(request, 'app/assign_items.html', {
         'form': form,
         # 'single_number_formset': single_number_formset,
         'tasks_by_category': tasks_by_category,
         'parts_by_category': parts_by_category,
         'accessory_items': accessory_items,
-    })
-
-
-
-@login_required
-def assign_parts(request, **kwargs):
-    transaction = Transaction.objects.filter(id=kwargs['trans_pk']).first()
-
-    if request.method == 'POST':
-        num_parent_args = kwargs['num_parent_args']
-        url = get_url(num_parent_args, kwargs)
-
-        if 'cancel' in request.POST:
-            return HttpResponseRedirect(url)
-
-        form = DisabledPartCategoryForm(request.POST)
-
-        print "Part Category Form data"
-        print form.data
-        print "end"
-
-        process_part_category_forms(form.data, transaction)
-
-        # if form.is_valid():
-        #     process_transaction(form.cleaned_data)
-        return render_to_response('app/confirm.html', {
-            "text": "You successfully assigned categories!",
-            "absolute_url": url,
-        })
-    else:
-        if transaction.partcategory_set.all():
-            old_form_pairs = [(DisabledPartCategoryForm(instance=part_category),
-                                PartCategoryForm(instance=part_category))
-                               for part_category in transaction.partcategory_set.all()]
-            new_form = PartCategoryForm()
-        else:
-            old_form_pairs = []
-            new_form = PartCategoryForm()
-
-    return render(request, 'app/assign_parts.html', {
-        'old_form_pairs': old_form_pairs,
-        'new_form': new_form,
     })
 
 

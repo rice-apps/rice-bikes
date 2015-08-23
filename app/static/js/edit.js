@@ -7,11 +7,26 @@ $(document).ready(function() {
     for (i=0; i<tasks.length; i++){
         task = tasks[i]
         category = $(task).attr('category');
+        category = process_string(category);
         new_div = $(task).clone().prop('id', $(task).attr('id') + '_sorted');
         $("#" + category).append(new_div);
         $("#" + category).show();
         $(task).remove();
     }
+
+    // sort parts into part categories
+
+    parts = $("#part_container").children()
+    for (i=0; i<parts.length; i++){
+        part = parts[i]
+        category = $(part).attr('category');
+        category = process_string(category);
+        new_div = $(part).clone().prop('id', $(part).attr('id') + '_sorted');
+        $("#" + category).append(new_div);
+        $("#" + category).show();
+        $(part).remove();
+    }
+
 
     categories = $('#part_categories_container').children();
 
