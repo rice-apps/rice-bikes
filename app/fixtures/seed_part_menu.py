@@ -12,7 +12,9 @@ if __name__ == '__main__':
 
     for line in file:
 
-        if line == "\n":
+        line.strip("\n")
+
+        if line == "":
             exit()
 
         if "!" in line:
@@ -20,7 +22,6 @@ if __name__ == '__main__':
             continue
 
         if not category:
-            print line
             exit("Category cannot be null!")
 
         if not line:

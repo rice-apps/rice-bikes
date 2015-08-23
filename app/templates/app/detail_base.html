@@ -73,7 +73,7 @@
             <thead>
                 <td class="col-sm-1"><b>Task</b></td>
                 <td class="col-sm-1"><b>Number</b></td>
-                <td class="col-sm-1"><b>Completion Status</b></td>
+                <td class="col-sm-1"><b>Completed</b></td>
             </thead>
             {% for task in tasks %}
                 <tr>
@@ -92,19 +92,21 @@
 
 <div class="panel panel-primary">
     <div class="panel-heading panel-heading-tight">
-        <h3>Products</h3>
+        <h3>Parts</h3>
     </div>
 
     <div class="panel-body parts-panel">
         <table class="table table-striped">
             <thead>
-                <td class="col-sm-1"><b>Task</b></td>
-                <td class="col-sm-1"><b>Completion Status</b></td>
+                <td class="col-sm-1"><b>Part</b></td>
+                <td class="col-sm-1"><b>Number</b></td>
+                <td class="col-sm-1"><b>Completed</b></td>
             </thead>
             {% for part in parts %}
                 <tr>
-                    <td>{{ bla }} </td>
-                    <td>{{ bla }}</td>
+                    <td>{{ part.menu_item.category }}: {{ part.menu_item.name }}</td>
+                    <td>{{ part.number}}</td>
+                    <td>{{ part.completed }}</td>
                 </tr>
             {% endfor %}
         </table>
@@ -116,19 +118,21 @@
 
 <div class="panel panel-primary">
     <div class="panel-heading panel-heading-tight">
-        <h3>Products</h3>
+        <h3>Accessories</h3>
     </div>
 
     <div class="panel-body parts-panel">
         <table class="table table-striped">
             <thead>
-                <td class="col-sm-1"><b>Task</b></td>
-                <td class="col-sm-1"><b>Completion Status</b></td>
+                <td class="col-sm-1"><b>Accessory</b></td>
+                <td class="col-sm-1"><b>Number</b></td>
+                <td class="col-sm-1"><b>Completed</b></td>
             </thead>
             {% for accessory in accessories %}
                 <tr>
-                    <td>{{ bla }} </td>
-                    <td>{{ bla }}</td>
+                    <td>{{ accessory.menu_item.name }} </td>
+                    <td>{{ accessory.number }} </td>
+                    <td>{{ accessory.completed }}</td>
                 </tr>
             {% endfor %}
         </table>

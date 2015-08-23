@@ -26,12 +26,39 @@ $(document).ready(function() {
         }
     });
 
+    String.prototype.splice = function( idx, rem, s ) {
+        return (this.slice(0,idx) + s + this.slice(idx + Math.abs(rem)));
+    };
+
+    process_string = function(string){
+        var processed_string = string;
+        var offset = 0;
+
+        for (i in string){
+            i = parseInt(i);
+            char = string[i];
+            if (char == '(' || char == ')'){
+                processed_string = processed_string.splice(i + offset, 0, "\\");
+                offset += 1;
+            }
+        }
+        return processed_string;
+    }
+
+
     $('.sub_category').click(function() {
-        $("." + $(this).attr('category')).toggle()
+        var string = $(this).attr('category');
+        var processed_string = process_string(string);
+
+        $("." + processed_string).toggle();
+
     })
 
     $('.category').click(function() {
-        $("." + $(this).attr('category')).toggle()
+        var string = $(this).attr('category');
+        var processed_string = process_string(string);
+
+        $("." + processed_string).toggle();
     })
 
 });
