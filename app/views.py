@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
-from app.models import Transaction, Task, RentalBike, RefurbishedBike, \
+from app.models import Transaction, Task, Part, Accessory, RentalBike, RefurbishedBike, \
     RevenueUpdate, TotalRevenue, PartCategory, PartOrder, TaskMenuItem, MiscRevenueUpdate, \
     AccessoryMenuItem, PartMenuItem
 from django.views.generic.edit import UpdateView, CreateView
@@ -91,7 +91,8 @@ def detail(request, **kwargs):
 
     transaction = Transaction.objects.filter(pk=kwargs['trans_pk']).first()
     tasks = transaction.task_set.all()
-    part_categories = transaction.partcategory_set.all()
+    parts = transaction.part_set.all()
+    accessories = transaction.accessory_set.all()
     parent_url = kwargs['parent_url']
     num_parent_args = kwargs['num_parent_args']
     bike_pk = None
@@ -103,11 +104,16 @@ def detail(request, **kwargs):
     else:
         detail_page = 'detail.html'
 
+    print "Banana Anna! Parts = "
+    print parts
+    print "END"
+
     return render_to_response("app/" + detail_page, {
-        'transaction':transaction,
-        'part_categories': part_categories,
+        'transaction': transaction,
         'parent_url': parent_url,
         'tasks': tasks,
+        'parts': parts,
+        'accessories': accessories,
         'num_parent_args': num_parent_args,
         'bike_pk': bike_pk,
         })
@@ -494,50 +500,82 @@ def create_transaction(request):
     })
 
 
-def get_tasks(form_data):
-    task_dict = dict() # maps selected tasks to number
-    # print form_data
-    for field in form_data:
-        # check for task field
-        if field.startswith('task_'):
-            task_name = field[5:]
-            # check that task was selected
-            if form_data.getlist(field)[0] == 'on':
-                print "Got a checked task field: " + str(task_name)
-                print form_data.getlist(field)
-                task_dict[task_name.replace("_", " ")] = form_data.getlist(field)[1]
-
-    return task_dict
-
-
 def process_tasks(form_data, transaction):
     # gets all checkbox fields and returns this as the checked task fields
-    task_dict = get_tasks(form_data)
+    task_dict = get_items(form_data, "task_")
 
-    # menu_items = list()
-    # for field in task_dict:
-    #     menu_items.append(TaskMenuItem.objects.filter(name=field).first())
-
-    task_set_names = [task.menu_item.name for task in list(transaction.task_set.all())]
-
-    print [task.name for task in TaskMenuItem.objects.all()]
-
-    # add new tasks
-    for task_name in task_dict:
-        if task_name not in task_set_names:
-            print task_name, "number", task_dict[task_name]
-            task = Task(
-                completed=False,
-                transaction=transaction,
-                menu_item=TaskMenuItem.objects.filter(name=task_name).first(),
-                number=task_dict[task_name]
-            )
-            task.save()
-
-    # delete removed tasks
+    # delete all tasks
     for task in transaction.task_set.all():
-        if task.menu_item.name not in task_dict:
             task.delete()
+
+    # add all marked tasks
+    for task_name in task_dict:
+        print task_name, "number", task_dict[task_name]
+        task = Task(
+            completed=False,
+            transaction=transaction,
+            menu_item=TaskMenuItem.objects.filter(name=task_name).first(),
+            number=task_dict[task_name]
+        )
+        task.save()
+
+
+def get_items(form_data, prefix):
+    part_dict = dict() # maps selected parts to number
+    # print form_data
+    prefix_len = len(prefix)
+    for field in form_data:
+        # check for part field
+
+        if field.startswith(prefix):
+            part_name = field[prefix_len:]
+            # check that part was selected
+            if form_data.getlist(field)[0] == 'on':
+                print "Got a checked part field: " + str(part_name)
+                print form_data.getlist(field)
+                part_dict[part_name.replace("_", " ")] = form_data.getlist(field)[1]
+
+    return part_dict
+
+
+def process_parts(form_data, transaction):
+    # gets all checkbox fields and returns this as the checked part fields
+    part_dict = get_items(form_data, "part_")
+
+    # delete all parts
+    for part in transaction.part_set.all():
+            part.delete()
+
+    # add all marked parts
+    for part_name in part_dict:
+        print part_name, "number", part_dict[part_name]
+        part = Part(
+            completed=False,
+            transaction=transaction,
+            menu_item=PartMenuItem.objects.filter(name=part_name).first(),
+            number=part_dict[part_name]
+        )
+        part.save()
+
+
+def process_accessories(form_data, transaction):
+    # gets all checkbox fields and returns this as the checked accessory fields
+    accessory_dict = get_items(form_data, "accessory_")
+
+    # delete all accessorys
+    for accessory in transaction.accessory_set.all():
+            accessory.delete()
+
+    # add all marked accessorys
+    for accessory_name in accessory_dict:
+        print accessory_name, "number", accessory_dict[accessory_name]
+        accessory = Accessory(
+            completed=False,
+            transaction=transaction,
+            menu_item=AccessoryMenuItem.objects.filter(name=accessory_name).first(),
+            number=accessory_dict[accessory_name]
+        )
+        accessory.save()
 
 
 def process_task_form(form_data, transaction):
@@ -595,6 +633,26 @@ def assign_tasks(request, **kwargs):
     })
 
 
+def get_task_number_from_name(name, transaction):
+    for task in transaction.task_set.all():
+        if name == task.menu_item.name:
+            return task.number
+    return 1
+
+
+def get_part_number_from_name(name, transaction):
+    for part in transaction.part_set.all():
+        if name == part.menu_item.name:
+            return part.number
+    return 1
+
+
+def get_accessory_number_from_name(name, transaction):
+    for accessory in transaction.accessory_set.all():
+        if name == accessory.menu_item.name:
+            return accessory.number
+    return 1
+
 @login_required
 def assign_items(request, **kwargs):
 
@@ -611,9 +669,17 @@ def assign_items(request, **kwargs):
 
         form = TaskForm(request.POST)
 
-        # save tasks assigned to the transaction
+        # save tasks
         print "PROCESS TASKS now.."
         process_tasks(form.data, transaction)
+
+        # save parts
+        print "PROCESS PARTS now.."
+        process_parts(form.data, transaction)
+
+        # save accessories
+        print "PROCESS Accessories now.."
+        process_accessories(form.data, transaction)
 
         if form.is_valid():
             # save fields assigned to the transaction
@@ -646,8 +712,9 @@ def assign_items(request, **kwargs):
             del single_number_form.fields['number']
 
             if items[i].name in task_set_names:
+                task_number = get_task_number_from_name(items[i].name, transaction)
+                single_number_form.initial = {"task_" + item_id: task_number}
                 items[i] = (items[i], True, single_number_form)
-
             else:
                 items[i] = (items[i], False, single_number_form)
 
@@ -656,23 +723,40 @@ def assign_items(request, **kwargs):
 
     # modify parts_by_category to map to list of tuples with an assigned-bool
     part_set_names = [part.menu_item.name for part in transaction.part_set.all()]
-    for items in parts_by_category.values():
+    for category in parts_by_category:
+        category_id = str(category).replace(" ", "_")
+        items = parts_by_category[category]
         for i in xrange(len(items)):
+            item = items[i]
+            item_id = str(item.name).replace(" ", "_")
+            single_number_form = SingleNumberForm(auto_id='part_' + category_id + "_%s")
+            single_number_form.fields["part_" + item_id] = single_number_form.fields['number']
+            del single_number_form.fields['number']
             if items[i].name in part_set_names:
-                items[i] = (items[i], True)
+                part_number = get_part_number_from_name(items[i].name, transaction)
+                single_number_form.initial = {"part_" + item_id: part_number}
+                items[i] = (items[i], True, single_number_form)
             else:
-                items[i] = (items[i], False)
-    
+                items[i] = (items[i], False, single_number_form)
+
+
     # GET ACCESSORY DATA
     accessory_items = list(AccessoryMenuItem.objects.all())
 
     accessory_set_names = [accessory.menu_item.name for accessory in transaction.accessory_set.all()]
     for i in xrange(len(accessory_items)):
         item = accessory_items[i]
+        item_id = str(item.name).replace(" ", "_")
+        single_number_form = SingleNumberForm(auto_id='accessory_' + "_%s")
+        single_number_form.fields["accessory_" + item_id] = single_number_form.fields['number']
+        del single_number_form.fields['number']
+
         if item.name in accessory_set_names:
-            accessory_items[i] = (item, True)
+            accessory_number = get_accessory_number_from_name(item.name, transaction)
+            single_number_form.initial = {"accessory_" + item_id: accessory_number}
+            accessory_items[i] = (item, True, single_number_form)
         else:
-            accessory_items[i] = (item, False)
+            accessory_items[i] = (item, False, single_number_form)
 
 
 
@@ -859,7 +943,6 @@ def balance(request):
 
 
 def process_misc_create(form_data):
-    print "YO BRO"
     print form_data['description']
     misc = MiscRevenueUpdate(
         description=form_data['description'],

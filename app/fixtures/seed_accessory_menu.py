@@ -8,7 +8,7 @@ if __name__ == '__main__':
 
     file = open('data_accessories.txt', 'r')
     for line in file:
-        item = line.split(", ")
+        item = line.split(", ").strip("\n")
 
         json_item = dict()
         json_item["model"] = "app.AccessoryMenuItem"

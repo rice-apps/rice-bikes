@@ -65,20 +65,17 @@
             </div>
         </div>
         <div class="{{ category_item_pair.0|join_whitespace }}" style="display:none">
-        {% for item_and_bool in category_item_pair.1 %}
-            {% with part_item=item_and_bool.0 %}
-                {% with bool=item_and_bool.1 %}
+        {% for tuple in category_item_pair.1 %}
+            {% with part_item=tuple.0 %}
+                {% with bool=tuple.1 %}
                     <div class="fieldWrapper">
                         <div class="form-group">
                             <label class="control-label  " for="id_1-{{ part_item.name|join_whitespace }}">(${{ part_item.price }})  {{ part_item.name }}</label>
                             <div class=" ">
-                                <input class="form-control" id="id_1-{{ part_item.name|join_whitespace }}" name="part-{{part_item.name|join_whitespace}}" type="checkbox"
+                                <input class="form-control" id="id_1-{{ part_item.name|join_whitespace }}" name="part_{{part_item.name|join_whitespace}}" type="checkbox"
                                        {% if bool %} checked="checked "{% endif %}/>
                             </div>
-                            <label class="control-label  " for="id_1-{{ part_item.number|join_whitespace }}">Number</label>
-                            <div>
-                                <input class="form-control" id="id_1-{{ part_item.number|join_whitespace }}" name="part-{{part_item.name|join_whitespace}}" type="number"/>
-                            </div>
+                            {{ tuple.2 | bootstrap }}
                         </div>
                     </div>
                 {% endwith %}
@@ -93,23 +90,19 @@
             <a class="btn btn-primary btn-xlarge" role="button">Accessories</a>
         </div>
     </div>
-    {% for accessory_item_pair in accessory_items %}
+    {% for tuple in accessory_items %}
         <div class="accessory" style="display:none">
-            {% with accessory_item=accessory_item_pair.0 %}
-                {% with bool=accessory_item.1 %}
+            {% with accessory_item=tuple.0 %}
+                {% with bool=tuple.1 %}
                 <div class="form-group">
                     <label class="control-label  " for="id_1-{{ accessory_item.name|join_whitespace }}">
                         {% if accessory_item.price != 0  %} (${{ accessory_item.price }}) {% endif %}
                         {{ accessory_item.name }}</label>
                     <div class=" ">
-                        <input class="form-control" id="id_1-{{ accessory_item.name|join_whitespace }}" name="accessory-{{accessory_item.name|join_whitespace}}" type="checkbox"
+                        <input class="form-control" id="id_1-{{ accessory_item.name|join_whitespace }}" name="accessory_{{accessory_item.name|join_whitespace}}" type="checkbox"
                                {% if bool %} checked="checked "{% endif %}/>
                     </div>
-                    <label class="control-label  " for="id_1-{{ accessory_item.number|join_whitespace }}">
-                        Number
-                    </label>
-                    <input class="form-control" id="id_1-{{ accessory_item.number|join_whitespace }}" name="part-{{item.name|join_whitespace}}" type="number"/>
-
+                    {{ tuple.2 | bootstrap }}
                 </div>
                 {% endwith %}
             {% endwith %}

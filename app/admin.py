@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app.models import Transaction, Task, RentalBike,\
+from app.models import Transaction, Task, Part, Accessory, RentalBike,\
     RefurbishedBike, RevenueUpdate, TotalRevenue, PartCategory, PartOrder, \
     TaskMenuItem, AccessoryMenuItem, PartMenuItem, BuyBackBike
 
@@ -11,6 +11,9 @@ admin.site.register(RevenueUpdate)
 admin.site.register(TaskMenuItem)
 admin.site.register(AccessoryMenuItem)
 admin.site.register(PartMenuItem)
+admin.site.register(Task)
+admin.site.register(Part)
+admin.site.register(Accessory)
 
 
 class TotalRevenueAdmin(admin.ModelAdmin):
