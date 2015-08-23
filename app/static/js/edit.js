@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-    console.log("The document is in fact ready!");
-
     // sort tasks into category divs and reveal the category divs
     tasks = $("#task_container").children()
     num_tasks = tasks.length
@@ -13,7 +11,6 @@ $(document).ready(function() {
         $("#" + category).append(new_div);
         $("#" + category).show();
         $(task).remove();
-        console.log("Did you think you knew how to write a for loop, Mr. " + i + "?");
     }
 
     // sort parts into part categories

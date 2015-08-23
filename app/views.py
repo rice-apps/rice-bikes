@@ -248,7 +248,6 @@ def update(request, **kwargs):
     transaction = Transaction.objects.filter(pk=kwargs['trans_pk']).first()
     tasks = transaction.task_set.all()
     parts = transaction.part_set.all()
-
     accessories = transaction.accessory_set.all()
 
     if request.method == 'POST':
@@ -258,25 +257,23 @@ def update(request, **kwargs):
             return HttpResponseRedirect(url)
         else:
 
-            posted_strings = [str(key) for key in request.POST]
-            print posted_strings
+            print
 
             form = TaskForm(request.POST)
             if form.is_valid():
                 process_transaction_edit(form.cleaned_data, transaction, request)
 
-            form = PartCategoryForm(request.POST)
-            if form.is_valid():
-                process_part_category_forms(form.data, transaction)
+            # save tasks
+            process_items_edit(form.data, "task_", transaction.task_set.all())
 
-            for task in tasks:
-                task_name = task.menu_item.name
-                if task_name.replace(" ", "_") in posted_strings:
-                    print task_name + " in posted_strings"
-                    task.completed = True
-                else:
-                    task.completed = False
-                task.save()
+            # save parts
+            process_items_edit(form.data, "part_", transaction.part_set.all())
+
+            # save accessories
+            process_items_edit(form.data, "accessory_", transaction.accessory_set.all())
+
+
+
             return HttpResponseRedirect(url)
 
     # get list of all unique task categories
@@ -520,6 +517,23 @@ def process_tasks(form_data, transaction):
             number=task_dict[task_name]
         )
         task.save()
+
+
+def process_items_edit(form_data, prefix, queryset):
+
+    # update all items
+    for item in queryset:
+
+        item_data = form_data.getlist(prefix + str(item.menu_item.name).replace(" ", "_"))
+
+        if len(item_data) == 1:
+            item.completed = False
+            item.number = item_data[0]
+        elif len(item_data) == 2:
+            item.completed = True
+            item.number = item_data[1]
+
+        item.save()
 
 
 def get_items(form_data, prefix):

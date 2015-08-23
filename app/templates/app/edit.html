@@ -54,10 +54,11 @@
                         <div class="fieldWrapper">
 
                             <em><strong>{{ task.menu_item.name|place_whitespace }}</strong></em>
-                            <input class="form-control" id="id_{{task.menu_item.name| join_whitespace}}" name={{task.menu_item.name| join_whitespace}} type="checkbox"
+                            <input class="form-control" id="id_{{task.menu_item.name| join_whitespace}}" name="task_{{task.menu_item.name| join_whitespace}}" type="checkbox"
                                    {% if task.completed %} checked="checked" {% endif %} style="text-align:center"/>
                             <br>
-                            <input class="form-control" name={{task.menu_item.name| join_whitespace}} type="number" value="{{ task.number }}"/>
+                            <b>Number</b>
+                            <input class="form-control" name="task_{{task.menu_item.name| join_whitespace}}" type="number" value="{{ task.number }}"/>
 
                         </div>
                     </div>
@@ -84,10 +85,11 @@
                         <div class="fieldWrapper">
 
                             <em><strong>{{ part.menu_item.name|place_whitespace }}</strong></em>
-                            <input class="form-control" id="id_{{part.menu_item.name| join_whitespace}}" name={{part.menu_item.name| join_whitespace}} type="checkbox"
+                            <input class="form-control" id="id_{{part.menu_item.name| join_whitespace}}" name="part_{{part.menu_item.name| join_whitespace}}" type="checkbox"
                                    {% if part.completed %} checked="checked" {% endif %} style="text-align:center"/>
                             <br>
-                            <input class="form-control" name={{part.menu_item.name| join_whitespace}} type="number" value="{{ part.number }}"/>
+                            <b>Number</b>
+                            <input class="form-control" name="part_{{part.menu_item.name| join_whitespace}}" type="number" value="{{ part.number }}"/>
 
                         </div>
                     </div>
@@ -106,10 +108,11 @@
                         <div class="fieldWrapper">
 
                             <em><strong>{{ accessory.menu_item.name|place_whitespace }}</strong></em>
-                            <input class="form-control" id="id_{{accessory.menu_item.name| join_whitespace}}" name={{accessory.menu_item.name| join_whitespace}} type="checkbox"
+                            <input class="form-control" id="id_{{accessory.menu_item.name| join_whitespace}}" name="accessory_{{accessory.menu_item.name| join_whitespace}}" type="checkbox"
                                    {% if accessory.completed %} checked="checked" {% endif %} style="text-align:center"/>
                             <br>
-                            <input class="form-control" name={{accessory.menu_item.name| join_whitespace}} type="number" value="{{ accessory.number }}"/>
+                            <b>Number</b>
+                            <input class="form-control" name="accessory_{{accessory.menu_item.name| join_whitespace}}" type="number" value="{{ accessory.number }}"/>
 
                         </div>
                     </div>
