@@ -10,7 +10,7 @@
         charset="utf-8" defer></script>
 <script src="/app/static/js/checkbox.js"
         type="text/javascript"
-        charset="utf-8" async defer></script>
+        charset="utf-8" defer></script>
 {% endblock %}
 
 
@@ -48,7 +48,7 @@
             {% endfor %}
 
 
-            <div id="task_container" style="display:none">
+            <div id="task_container" style="display:block">
             {% for task in tasks %}
                     <div id="{{task.menu_item.name|join_whitespace}}" category="{{ task.menu_item.category|join_whitespace }}">
                         <div class="fieldWrapper">

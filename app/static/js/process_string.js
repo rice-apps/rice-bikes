@@ -8,8 +8,8 @@ $(document).ready(function() {
         var processed_string = string;
         var offset = 0;
 
-        for (i in string){
-            i = parseInt(i);
+        for (var i in string){
+            var i = parseInt(i);
             char = string[i];
             if (char == '(' || char == ')'){
                 processed_string = processed_string.splice(i + offset, 0, "\\");

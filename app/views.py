@@ -248,6 +248,7 @@ def update(request, **kwargs):
     transaction = Transaction.objects.filter(pk=kwargs['trans_pk']).first()
     tasks = transaction.task_set.all()
     parts = transaction.part_set.all()
+
     accessories = transaction.accessory_set.all()
 
     if request.method == 'POST':

@@ -4,7 +4,8 @@ $(document).ready(function() {
 
     // sort tasks into category divs and reveal the category divs
     tasks = $("#task_container").children()
-    for (i=0; i<tasks.length; i++){
+    num_tasks = tasks.length
+    for (var i=0; i<num_tasks; i++){
         task = tasks[i]
         category = $(task).attr('category');
         category = process_string(category);
@@ -12,12 +13,13 @@ $(document).ready(function() {
         $("#" + category).append(new_div);
         $("#" + category).show();
         $(task).remove();
+        console.log("Did you think you knew how to write a for loop, Mr. " + i + "?");
     }
 
     // sort parts into part categories
 
     parts = $("#part_container").children()
-    for (i=0; i<parts.length; i++){
+    for (var i=0; i<parts.length; i++){
         part = parts[i]
         category = $(part).attr('category');
         category = process_string(category);
