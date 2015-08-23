@@ -13,9 +13,9 @@ from django.utils.decorators import method_decorator
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth import authenticate, login, logout
 from app.forms import RentalForm, RefurbishedForm, RevenueForm, TaskForm, PartCategoryForm, \
-    PartOrderForm, CustomerForm, DisabledPartCategoryForm, MiscRevenueUpdateForm, SingleNumber
+    PartOrderForm, CustomerForm, DisabledPartCategoryForm, MiscRevenueUpdateForm, SingleNumberForm
 from django.template import RequestContext
-from django import forms
+from django.forms.formsets import formset_factory
 import csv
 
 NEW_ORDER_TEMPLATES = {'0': 'app/create_transaction.html', '1': 'app/create_transaction.html',
@@ -495,14 +495,16 @@ def create_transaction(request):
 
 
 def get_tasks(form_data):
-    task_dict= dict() # maps selected tasks to number
+    task_dict = dict() # maps selected tasks to number
+    # print form_data
     for field in form_data:
         # check for task field
-        if field.startswith('task-'):
+        if field.startswith('task_'):
             task_name = field[5:]
             # check that task was selected
             if form_data.getlist(field)[0] == 'on':
                 print "Got a checked task field: " + str(task_name)
+                print form_data.getlist(field)
                 task_dict[task_name.replace("_", " ")] = form_data.getlist(field)[1]
 
     return task_dict
@@ -631,12 +633,23 @@ def assign_items(request, **kwargs):
 
     # modify tasks_by_category to map to list of tuples with an assigned-bool
     task_set_names = [task.menu_item.name for task in transaction.task_set.all()]
-    for items in tasks_by_category.values():
+
+    for category in tasks_by_category:
+        category_id = str(category).replace(" ", "_")
+        items = tasks_by_category[category]
+        print tasks_by_category[category]
         for i in xrange(len(items)):
+            item = items[i]
+            item_id = str(item.name).replace(" ", "_")
+            single_number_form = SingleNumberForm(auto_id='task_' + category_id + "_%s")
+            single_number_form.fields["task_" + item_id] = single_number_form.fields['number']
+            del single_number_form.fields['number']
+
             if items[i].name in task_set_names:
-                items[i] = (items[i], True)
+                items[i] = (items[i], True, single_number_form)
+
             else:
-                items[i] = (items[i], False)
+                items[i] = (items[i], False, single_number_form)
 
     # GET PART DATA
     parts_by_category = get_parts_by_category()
@@ -661,8 +674,14 @@ def assign_items(request, **kwargs):
         else:
             accessory_items[i] = (item, False)
 
+
+
+
+
+
     return render(request, 'app/assign_items.html', {
         'form': form,
+        # 'single_number_formset': single_number_formset,
         'tasks_by_category': tasks_by_category,
         'parts_by_category': parts_by_category,
         'accessory_items': accessory_items,

@@ -22,28 +22,26 @@
             <a class="btn btn-primary btn-xlarge" role="button">Tasks</a>
         </div>
     </div>
-    {% for category_item_pair in tasks_by_category.iteritems %}
+    {% for category_item_tuple in tasks_by_category.iteritems %}
     <div class="task_category" style="display:none">
-        <div class="sub_category" category="{{category_item_pair.0|join_whitespace}}">
+        <div class="sub_category" category="{{category_item_tuple.0|join_whitespace}}">
             <div class="btn-group btn-group-justified">
-                <a class="btn btn-default btn-xlarge" role="button" name='new_transaction'>{{ category_item_pair.0 }}</a>
+                <a class="btn btn-default btn-xlarge" role="button" name='new_transaction'>{{ category_item_tuple.0 }}</a>
             </div>
         </div>
-        <div class="{{ category_item_pair.0|join_whitespace }}" style="display:none">
-        {% for item_and_bool in category_item_pair.1 %}
-            {% with item=item_and_bool.0 %}
-                {% with bool=item_and_bool.1 %}
+        <div class="{{ category_item_tuple.0|join_whitespace }}" style="display:none">
+        {% for tuple in category_item_tuple.1 %}
+            {% with item=tuple.0 %}
+                {% with bool=tuple.1 %}
                     <div class="fieldWrapper">
                         <div class="form-group">
-                            <label class="control-label  " for="id_1-{{ item.name|join_whitespace }}">(${{ item.price }})  {{ item.name }}</label>
+                            <label class="control-label  " for="{{ item.name|join_whitespace }}">(${{ item.price }})  {{ item.name }}</label>
                             <div class=" ">
-                                <input class="form-control" id="id_1-{{ item.name|join_whitespace }}" name="task-{{item.name|join_whitespace}}" type="checkbox"
+                                <input class="form-control" id="{{ item.name|join_whitespace }}" name="task_{{item.name|join_whitespace}}" type="checkbox"
                                        {% if bool %} checked="checked "{% endif %}/>
                             </div>
-                            <label class="control-label  " for="id_1-{{ item.number|join_whitespace }}">Number</label>
-                            <div>
-                                <input class="form-control" id="id_1-{{ item.number|join_whitespace }}" name="task-{{item.name|join_whitespace}}" type="number"/>
-                            </div>
+
+                            {{ tuple.2 | bootstrap }}
                         </div>
                     </div>
                 {% endwith %}

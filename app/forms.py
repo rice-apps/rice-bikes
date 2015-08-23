@@ -79,5 +79,5 @@ class MiscRevenueUpdateForm(ModelForm):
         model = MiscRevenueUpdate
 
 
-class SingleNumber(Form):
+class SingleNumberForm(Form):
     number = forms.IntegerField(label='Number', initial=1)
