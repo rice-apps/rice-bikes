@@ -112,6 +112,29 @@
         </div>
     {% endfor %}
 
+    <div class="category" category="buy_back">
+        <div class="btn-group btn-group-justified">
+            <a class="btn btn-primary btn-xlarge" role="button">Buy Back</a>
+        </div>
+    </div>
+
+    {% for tuple in buy_back_items %}
+        <div class="buy_back" style="display:none">
+            {% with buy_back_item=tuple.0 %}
+                {% with bool=tuple.1 %}
+                <div class="form-group">
+                    <label class="control-label  " for="id_1-{{ buy_back_item.vin }}">
+                        VIN# {{ buy_back_item.vin }}</label>
+                    <div class=" ">
+                        <input class="form-control" id="id_1-{{ buy_back_item.vin }}" name="buy_back_{{buy_back_item.vin}}" type="checkbox"
+                               {% if bool %} checked="checked "{% endif %}/>
+                    </div>
+                </div>
+                {% endwith %}
+            {% endwith %}
+        </div>
+    {% endfor %}
+
     <br>
 
     {% for field in form %}

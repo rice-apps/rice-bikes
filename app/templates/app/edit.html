@@ -122,6 +122,24 @@
     </div>
 
     <div class="panel panel-primary">
+        <div class="panel-heading panel-heading-tight"><h3>Buy Backs</h3></div>
+        <div class="panel-body parts-panel">
+            <div id="buy_back_container">
+            {% for buy_back in  buy_backs %}
+                    <div id="{{buy_back.menu_item.name|join_whitespace}}" category="{{ buy_back.menu_item.category}}">
+                        <div class="fieldWrapper">
+                            <em><strong>{{ buy_back.vin }}</strong></em>
+                            <input class="form-control" id="id_{{buy_back.vin}}" name="buy_back_{{buy_back.vin}}" type="checkbox"
+                                   {% if buy_back.completed %} checked="checked" {% endif %}/>
+                            <br>
+                        </div>
+                    </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-primary">
         <div class="panel-body panel-body-center panel-body-blue parts-panel">
             <div class="controls form-inline">
                 <div class="form-group form-group-center col-xs-6">

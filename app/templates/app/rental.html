@@ -12,13 +12,11 @@
 
     <table class="table">
     <thead>
-        <td>ID</td>
         <td>VIN Number</td>
     </thead>
 
     {% for rental in rentals %}
         <tr>
-            <td>{{ rental.id }}</td>
             <td><a href="{% url 'app:rental_detail' rental.id %}">{{ rental.vin }}</a></td>
         </tr>
     {% endfor %}

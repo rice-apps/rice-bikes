@@ -144,19 +144,19 @@
 
 <div class="panel panel-primary">
     <div class="panel-heading panel-heading-tight">
-        <h3>Products</h3>
+        <h3>Buy Backs</h3>
     </div>
 
     <div class="panel-body parts-panel">
         <table class="table table-striped">
             <thead>
-                <td class="col-sm-1"><b>Task</b></td>
-                <td class="col-sm-1"><b>Completion Status</b></td>
+                <td class="col-sm-1"><b>VIN</b></td>
+                <td class="col-sm-1"><b>Completed</b></td>
             </thead>
             {% for buy_back in buy_backs %}
                 <tr>
-                    <td>{{ bla }} </td>
-                    <td>{{ bla }}</td>
+                    <td>{{ buy_back.vin }} </td>
+                    <td>{{ buy_back.completed }}</td>
                 </tr>
             {% endfor %}
         </table>

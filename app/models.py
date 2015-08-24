@@ -125,8 +125,10 @@ class PartMenuItem(models.Model):
 
 class BuyBackBike(models.Model):
     vin = models.IntegerField(unique=True, null=False, blank=False)
-    color = models.TextField()
-    model = models.TextField()
+    completed = models.BooleanField(default=False)
+    transaction = models.ForeignKey(Transaction, null=True, blank=True)
+    color = models.TextField(null=True, blank=True)
+    model = models.TextField(null=True, blank=True)
     date_submitted = models.DateTimeField(default=datetime.now, blank=True)
 
     def __str__(self):

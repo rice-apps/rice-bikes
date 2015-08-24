@@ -1,5 +1,5 @@
 from app.models import Transaction, RentalBike, RefurbishedBike, RevenueUpdate, PartCategory, PartOrder, \
-    MiscRevenueUpdate
+    MiscRevenueUpdate, BuyBackBike
 from django import forms
 from django.forms import Form, ModelForm
 from django.contrib.auth.models import User
@@ -42,6 +42,12 @@ class RentalForm(ModelForm):
 class RefurbishedForm(ModelForm):
     class Meta:
         model = RefurbishedBike
+        fields = ('vin',)
+
+
+class BuyBackForm(ModelForm):
+    class Meta:
+        model = BuyBackBike
         fields = ('vin',)
 
 

@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
 from app.models import Transaction, Task, Part, Accessory, RentalBike, RefurbishedBike, \
     RevenueUpdate, TotalRevenue, PartCategory, PartOrder, TaskMenuItem, MiscRevenueUpdate, \
-    AccessoryMenuItem, PartMenuItem
+    AccessoryMenuItem, PartMenuItem, BuyBackBike
 from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic import DetailView
 from django.core.mail import EmailMessage
@@ -13,7 +13,8 @@ from django.utils.decorators import method_decorator
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth import authenticate, login, logout
 from app.forms import RentalForm, RefurbishedForm, RevenueForm, TaskForm, PartCategoryForm, \
-    PartOrderForm, CustomerForm, DisabledPartCategoryForm, MiscRevenueUpdateForm, SingleNumberForm
+    PartOrderForm, CustomerForm, DisabledPartCategoryForm, MiscRevenueUpdateForm, SingleNumberForm, \
+    BuyBackForm
 from django.template import RequestContext
 from django.forms.formsets import formset_factory
 import csv
@@ -93,6 +94,8 @@ def detail(request, **kwargs):
     tasks = transaction.task_set.all()
     parts = transaction.part_set.all()
     accessories = transaction.accessory_set.all()
+    buy_backs = transaction.buybackbike_set.all()
+
     parent_url = kwargs['parent_url']
     num_parent_args = kwargs['num_parent_args']
     bike_pk = None
@@ -114,6 +117,7 @@ def detail(request, **kwargs):
         'tasks': tasks,
         'parts': parts,
         'accessories': accessories,
+        'buy_backs': buy_backs,
         'num_parent_args': num_parent_args,
         'bike_pk': bike_pk,
         })
@@ -240,6 +244,24 @@ def get_url(num_parent_args, kwargs):
 
     return url
 
+
+def process_buy_backs_edit(form_data, prefix, queryset):
+
+    print form_data
+    print queryset
+
+    # update all items
+    for item in queryset:
+        item_name = prefix + str(item.vin)
+
+        if item_name in form_data:
+            item.completed = True
+        else:
+            item.completed = False
+
+        item.save()
+
+
 @login_required
 def update(request, **kwargs):
     # model = Transaction
@@ -249,6 +271,7 @@ def update(request, **kwargs):
     tasks = transaction.task_set.all()
     parts = transaction.part_set.all()
     accessories = transaction.accessory_set.all()
+    buy_backs = transaction.buybackbike_set.all()
 
     if request.method == 'POST':
         num_parent_args = kwargs['num_parent_args']
@@ -256,8 +279,6 @@ def update(request, **kwargs):
         if "cancel" in request.POST:
             return HttpResponseRedirect(url)
         else:
-
-            print
 
             form = TaskForm(request.POST)
             if form.is_valid():
@@ -272,7 +293,8 @@ def update(request, **kwargs):
             # save accessories
             process_items_edit(form.data, "accessory_", transaction.accessory_set.all())
 
-
+            # save buy_backs
+            process_buy_backs_edit(form.data, "buy_back_", transaction.buybackbike_set.all())
 
             return HttpResponseRedirect(url)
 
@@ -292,6 +314,7 @@ def update(request, **kwargs):
     return render_to_response("app/edit.html", {'tasks': tasks,
                                                 'parts': parts,
                                                 'accessories': accessories,
+                                                'buy_backs': buy_backs,
                                                 'task_categories': task_categories,
                                                 'part_categories': part_categories,
                                                 'transaction_form': transaction_form
@@ -343,6 +366,24 @@ class RefurbishedDetail(LoggedInMixin, DetailView):
         return super(RefurbishedDetail, self).dispatch(*args, **kwargs)
 
 
+class BuyBackDetail(LoggedInMixin, DetailView):
+    model = BuyBackBike
+    template_name = "app/buy_back_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(BuyBackDetail, self).get_context_data(**kwargs)
+        print "buy-back kwargs: " + str(self.kwargs)
+        print BuyBackBike.objects.filter(pk=self.kwargs['pk']).first()
+        context['vin'] = BuyBackBike.objects.filter(pk=self.kwargs['pk']).first().vin
+        context['transactions'] = BuyBackBike.objects.filter(pk=self.kwargs['pk']).first().transaction_set.all()
+        context['bike_pk'] = self.kwargs['pk']
+        return context
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(BuyBackDetail, self).dispatch(*args, **kwargs)
+
+
 def process_rental(form_data):
     rental_bike = RentalBike(
         vin=form_data['vin']
@@ -356,11 +397,39 @@ def new_rental(request):
         form = RentalForm(request.POST)
         if form.is_valid():
             process_rental(form.cleaned_data)
-            return render_to_response('app/confirm_rental.html', {})
+            return render_to_response('app/confirm.html',
+                                      {"text": "You successfully submitted the new rental bike!",
+                                       "absolute_url": "/rental",
+                                       })
     else:
         form = RentalForm()
 
     return render(request, 'app/new_rental.html', {
+        'form': form,
+    })
+
+
+def process_buy_back(form_data):
+    buy_back_bike = BuyBackBike(
+        vin=form_data['vin']
+    )
+    buy_back_bike.save()
+
+
+@login_required
+def new_buy_back(request):
+    if request.method == 'POST':
+        form = BuyBackForm(request.POST)
+        if form.is_valid():
+            process_buy_back(form.cleaned_data)
+            return render_to_response('app/confirm.html',
+                                      {"text": "You successfully submitted the new buy-back bike!",
+                                       "absolute_url": "/buy_back",
+                                      })
+    else:
+        form = BuyBackForm()
+
+    return render(request, 'app/new_buy_back.html', {
         'form': form,
     })
 
@@ -378,7 +447,10 @@ def new_refurbished(request):
         form = RefurbishedForm(request.POST)
         if form.is_valid():
             process_refurbished(form.cleaned_data)
-            return render_to_response('app/confirm_refurbished.html', {})
+            return render_to_response('app/confirm',
+                                      {"text": "You successfully submitted the new refurbished bike!",
+                                       "absolute_url": "/",
+                                       })
     else:
         form = RefurbishedForm()
 
@@ -537,21 +609,21 @@ def process_items_edit(form_data, prefix, queryset):
 
 
 def get_items(form_data, prefix):
-    part_dict = dict() # maps selected parts to number
+    item_dict = dict() # maps selected items to number
     # print form_data
     prefix_len = len(prefix)
     for field in form_data:
-        # check for part field
+        # check for item field
 
         if field.startswith(prefix):
-            part_name = field[prefix_len:]
-            # check that part was selected
+            item_name = field[prefix_len:]
+            # check that item was selected
             if form_data.getlist(field)[0] == 'on':
-                print "Got a checked part field: " + str(part_name)
+                print "Got a checked item field: " + str(item_name)
                 print form_data.getlist(field)
-                part_dict[part_name.replace("_", " ")] = form_data.getlist(field)[1]
+                item_dict[item_name.replace("_", " ")] = form_data.getlist(field)[1]
 
-    return part_dict
+    return item_dict
 
 
 def process_parts(form_data, transaction):
@@ -592,6 +664,41 @@ def process_accessories(form_data, transaction):
             number=accessory_dict[accessory_name]
         )
         accessory.save()
+
+
+def get_buy_backs(form_data, prefix):
+    item_list = list() # maps selected items to number
+    # print form_data
+    prefix_len = len(prefix)
+    for field in form_data:
+        # check for item field
+
+        if field.startswith(prefix):
+            item_vin = field[prefix_len:]
+            # check that item was selected
+            if form_data.getlist(field)[0] == 'on':
+                print "Got a checked item field: " + str(item_vin)
+                print form_data.getlist(field)
+                item_list.append(item_vin)
+
+    return item_list
+
+
+def process_buy_backs(form_data, transaction):
+    # gets all checkbox fields and returns this as the checked accessory fields
+    buy_back_list = get_buy_backs(form_data, "buy_back_")
+
+    # delete all buy_back to transaction mappings
+    for buy_back in transaction.buybackbike_set.all():
+            buy_back.transaction = None
+            buy_back.save()
+
+    # add all buy_back to transaction mappings
+    for buy_back_vin in buy_back_list:
+        print buy_back_vin
+        buy_back = BuyBackBike.objects.filter(vin=buy_back_vin).first()
+        buy_back.transaction = transaction
+        buy_back.save()
 
 
 def process_task_form(form_data, transaction):
@@ -648,6 +755,10 @@ def assign_items(request, **kwargs):
         # save accessories
         print "PROCESS Accessories now.."
         process_accessories(form.data, transaction)
+
+        # save buy-backs
+        process_buy_backs(form.data, transaction)
+
 
         if form.is_valid():
             # save fields assigned to the transaction
@@ -726,12 +837,24 @@ def assign_items(request, **kwargs):
         else:
             accessory_items[i] = (item, False, single_number_form)
 
+    # GET BUY-BACK DATA
+    buy_back_items = list(BuyBackBike.objects.all())
+
+    buy_back_set_vins = [buy_back.vin for buy_back in transaction.buybackbike_set.all()]
+    for i in xrange(len(buy_back_items)):
+        item = buy_back_items[i]
+        if item.vin in buy_back_set_vins:
+            buy_back_items[i] = (item, True)
+        else:
+            buy_back_items[i] = (item, False)
+
     return render(request, 'app/assign_items.html', {
         'form': form,
         # 'single_number_formset': single_number_formset,
         'tasks_by_category': tasks_by_category,
         'parts_by_category': parts_by_category,
         'accessory_items': accessory_items,
+        'buy_back_items': buy_back_items,
     })
 
 
@@ -1061,5 +1184,7 @@ def sold_items(request):
     return render(request, 'app/sold_items.html')
 
 
-def buy_backs(request):
-    return render(request, 'app/buy_backs.html')
+def buy_back(request):
+    buy_backs = BuyBackBike.objects.all().order_by('date_submitted').reverse
+    print buy_backs()
+    return render(request, 'app/buy_back.html', {'buy_backs': buy_backs})

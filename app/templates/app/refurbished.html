@@ -13,13 +13,11 @@
 
     <table class="table">
     <thead>
-        <td>ID</td>
         <td>VIN Number</td>
     </thead>
 
     {% for refurbished in refurbished_list %}
         <tr>
-            <td>{{ refurbished.id }}</td>
             <td><a href="{% url 'app:refurbished_detail' refurbished.id %}">{{ refurbished.vin}}</a></td>
         </tr>
     {% endfor %}
