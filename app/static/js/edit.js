@@ -26,19 +26,18 @@ $(document).ready(function() {
         $(part).remove();
     }
 
+    // change cost based on number
+    $(".number").on("change", function(){
+        console.log("Before, " +  $(this).parent().find('.old_number').attr('old_value'));
 
-    categories = $('#part_categories_container').children();
+        var price = $(this).parent().find('.price').val();
+        var cost_change = price * ($(this).val() - $(this).parent().find('.old_number').attr('old_value'));
+        var new_cost = parseInt($("#id_cost").val()) + cost_change;
+        $("#id_cost").val(new_cost);
+        $(this).parent().find('.old_number').attr('old_value', $(this).val());
 
-    //Add listener for category forms
-    $('#add_category_form').click(function(){
-        form_to_add = $('#new_category_form').find('.panel').clone(true);
-        form_to_add.show();
+        console.log("After, " +  $(this).parent().find('.old_number').attr('old_value'));
 
-        $('#part_categories_container').prepend(form_to_add);
-    });
-
-    $('.remove_form').click(function(){
-        $(this).closest('.panel').remove();
     });
 
 });

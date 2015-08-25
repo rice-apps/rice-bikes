@@ -296,6 +296,8 @@ def update(request, **kwargs):
             # save buy_backs
             process_buy_backs_edit(form.data, "buy_back_", transaction.buybackbike_set.all())
 
+            transaction.save()
+
             return HttpResponseRedirect(url)
 
     # get list of all unique task categories

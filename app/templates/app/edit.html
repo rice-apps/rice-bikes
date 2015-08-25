@@ -8,9 +8,6 @@
 <script src="/app/static/js/edit.js"
         type="text/javascript"
         charset="utf-8" defer></script>
-<script src="/app/static/js/checkbox.js"
-        type="text/javascript"
-        charset="utf-8" defer></script>
 {% endblock %}
 
 
@@ -31,8 +28,12 @@
         <div class="panel-heading panel-heading-tight"><h3>Customer Info</h3></div>
         <div class="panel-body parts-panel">
 
+        {{ transaction_form.service_description | bootstrap}}
+        <label class="control-label  " for="id_cost">Cost</label>
+        <input class=" form-control" id="id_cost" maxlength="500"
+                  name="cost" type="number" disabled="true" value="{{transaction_form.cost.value }}">
+        {{ transaction_form.amount_paid | bootstrap }}
 
-        {{ transaction_form | bootstrap}}
     </div>
         </div>
 
@@ -58,8 +59,12 @@
                                    {% if task.completed %} checked="checked" {% endif %} style="text-align:center"/>
                             <br>
                             <b>Number</b>
-                            <input class="form-control" name="task_{{task.menu_item.name| join_whitespace}}" type="number" value="{{ task.number }}"/>
-
+                            <input class="form-control number" name="task_{{task.menu_item.name| join_whitespace}}"
+                                   type="number" value="{{ task.number }}"/>
+                            <div class="old_number" style="display:none" old_value="{{task.number}}"></div>
+                            <b>Price Each</b>
+                            <input class="form-control price" name="task_{{task.menu_item.name| join_whitespace}}"
+                                   type="number" value="{{ task.menu_item.price }}" disabled="true"/>
                         </div>
                     </div>
             {% endfor %}
@@ -89,8 +94,11 @@
                                    {% if part.completed %} checked="checked" {% endif %} style="text-align:center"/>
                             <br>
                             <b>Number</b>
-                            <input class="form-control" name="part_{{part.menu_item.name| join_whitespace}}" type="number" value="{{ part.number }}"/>
-
+                            <input class="form-control number" name="part_{{part.menu_item.name| join_whitespace}}" type="number" value="{{ part.number }}"/>
+                            <div class="old_number" style="display:none" old_value="{{part.number}}"></div>
+                            <b>Price Each</b>
+                            <input class="form-control price" name="part_{{task.menu_item.name| join_whitespace}}"
+                                   type="number" value="{{ part.price }}"/>
                         </div>
                     </div>
             {% endfor %}
@@ -112,8 +120,11 @@
                                    {% if accessory.completed %} checked="checked" {% endif %} style="text-align:center"/>
                             <br>
                             <b>Number</b>
-                            <input class="form-control" name="accessory_{{accessory.menu_item.name| join_whitespace}}" type="number" value="{{ accessory.number }}"/>
-
+                            <input class="form-control number" name="accessory_{{accessory.menu_item.name| join_whitespace}}" type="number" value="{{ accessory.number }}"/>
+                            <div class="old_number" style="display:none" old_value="{{accessory.number}}"></div>
+                            <b>Price Each</b>
+                            <input class="form-control price" name="accessory_{{accessory.menu_item.name| join_whitespace}}"
+                                   type="number" value="{{ accessory.menu_item.price }}" disabled="true"/>
                         </div>
                     </div>
             {% endfor %}
@@ -132,6 +143,9 @@
                             <input class="form-control" id="id_{{buy_back.vin}}" name="buy_back_{{buy_back.vin}}" type="checkbox"
                                    {% if buy_back.completed %} checked="checked" {% endif %}/>
                             <br>
+                            <b>Price</b>
+                            <input class="form-control price" name="buy_back_{{buy_back.vin}}"
+                                   type="number" value="{{ buy_back.menu_item.price }}"/>
                         </div>
                     </div>
             {% endfor %}
