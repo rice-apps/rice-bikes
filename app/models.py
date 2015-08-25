@@ -127,9 +127,10 @@ class BuyBackBike(models.Model):
     vin = models.IntegerField(unique=True, null=False, blank=False)
     completed = models.BooleanField(default=False)
     transaction = models.ForeignKey(Transaction, null=True, blank=True)
-    color = models.TextField(null=True, blank=True)
-    model = models.TextField(null=True, blank=True)
+    color = models.TextField()
+    model = models.TextField()
     date_submitted = models.DateTimeField(default=datetime.now, blank=True)
+    price = models.IntegerField(default=0)
 
     def __str__(self):
         return str(self.vin)

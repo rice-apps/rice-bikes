@@ -332,6 +332,13 @@ def refurbished(request):
     return render(request, "app/refurbished.html", {'refurbished_list': refurbished_list})
 
 
+@login_required
+def buy_back(request):
+    buy_backs = BuyBackBike.objects.all().order_by('date_submitted').reverse
+    print buy_backs()
+    return render(request, 'app/buy_back.html', {'buy_backs': buy_backs})
+
+
 class RentalDetail(LoggedInMixin, DetailView):
     model = RentalBike
     template_name = "app/rental_detail.html"
@@ -1184,7 +1191,33 @@ def sold_items(request):
     return render(request, 'app/sold_items.html')
 
 
-def buy_back(request):
-    buy_backs = BuyBackBike.objects.all().order_by('date_submitted').reverse
-    print buy_backs()
-    return render(request, 'app/buy_back.html', {'buy_backs': buy_backs})
+def sold_tasks(request):
+    tasks_sold = list(Task.objects.filter(completed=True))
+    tasks_sold = sorted(tasks_sold, key=lambda x: x.transaction.date_submitted, reverse=True)
+    return render(request, 'app/sold_tasks.html', {
+        'items_sold': tasks_sold,
+    })
+
+
+def sold_parts(request):
+    parts_sold = Part.objects.filter(completed=True)
+    parts_sold = sorted(parts_sold, key=lambda x: x.transaction.date_submitted, reverse=True)
+    return render(request, 'app/sold_parts.html', {
+        'items_sold': parts_sold,
+    })
+
+
+def sold_accessories(request):
+    accessories_sold = Accessory.objects.filter(completed=True)
+    accessories_sold = sorted(accessories_sold, key=lambda x: x.transaction.date_submitted, reverse=True)
+    return render(request, 'app/sold_accessories.html', {
+        'items_sold': accessories_sold,
+    })
+
+
+def sold_buy_backs(request):
+    buy_backs_sold = BuyBackBike.objects.filter(completed=True)
+    buy_backs_sold = sorted(buy_backs_sold, key=lambda x: x.transaction.date_submitted, reverse=True)
+    return render(request, 'app/sold_buy_backs.html', {
+        'items_sold': buy_backs_sold,
+    })

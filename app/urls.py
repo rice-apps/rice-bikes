@@ -31,7 +31,6 @@ urlpatterns = patterns(
     url(r'^edit_misc_revenue_update/(?P<misc_id>\d+)', views.edit_misc_revenue_update, name='edit_misc_revenue_update'),
 
     url(r'^bike_inventory/$', views.bike_inventory, name='bike_inventory'),
-    url(r'^sold_items/$', views.sold_items, name='sold_items'),
 
     # sub-urls of detail
     # edit
@@ -66,6 +65,13 @@ urlpatterns = patterns(
 
     url(r'^about/$', views.about, name='about'),
 
+
+    # sold items
+    url(r'^sold_items/$', views.sold_items, name='sold_items'),
+    url(r'^sold_tasks/$', views.sold_tasks, name='sold_tasks'),
+    url(r'^sold_parts/$', views.sold_parts, name='sold_parts'),
+    url(r'^sold_accessories/$', views.sold_accessories, name='sold_accessories'),
+    url(r'^sold_buy_backs/$', views.sold_buy_backs, name='sold_buy_backs'),
 
 )
 

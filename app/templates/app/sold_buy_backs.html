@@ -12,4 +12,25 @@
     <a href="{% url 'app:sold_buy_backs' %}" class="btn btn-default btn-lg btn-skinny" role="button">Buy Backs</a>
 </div>
 
+<br>
+<table class="table">
+    <thead>
+        <td>VIN#</td>
+        <td>Price</td>
+        <td>Color</td>
+        <td>Model</td>
+        <td>Date</td>
+    </thead>
+
+    {% for item in items_sold %}
+        <tr>
+            <td>{{ item.vin }}</td>
+            <td>${{ item.price }}</td>
+            <td>{{ item.color }}</td>
+            <td>{{ item.model }}</td>
+            <td>{{ item.transaction.date_submitted|date:"n/j" }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
 {% endblock %}

@@ -73,7 +73,7 @@
                 {% with bool=tuple.1 %}
                     <div class="fieldWrapper">
                         <div class="form-group">
-                            <label class="control-label  " for="id_1-{{ part_item.name|join_whitespace }}">(${{ part_item.price }})  {{ part_item.name }}</label>
+                            <label class="control-label  " for="id_1-{{ part_item.name|join_whitespace }}">{{ part_item.name }}</label>
                             <div class=" ">
                                 <input class="form-control" id="id_1-{{ part_item.name|join_whitespace }}" name="part_{{part_item.name|join_whitespace}}" type="checkbox"
                                        {% if bool %} checked="checked "{% endif %}/>
