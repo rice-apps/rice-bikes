@@ -50,6 +50,23 @@ def mark_as_completed(request, **kwargs):
     transaction.completed = True
     transaction.save()
 
+    for task in transaction.task_set.all():
+        task.sold = True
+        task.completed = True
+        task.save()
+    for part in transaction.part_set.all():
+        part.sold = True
+        part.completed = True
+        part.save()
+    for accessory in transaction.accessory_set.all():
+        accessory.sold = True
+        accessory.completed = True
+        accessory.save()
+    for buy_back in transaction.buybackbike_set.all():
+        buy_back.sold = True
+        buy_back.completed = True
+        buy_back.save()
+
     # send email
     send_completion_email(transaction)
 
@@ -1223,7 +1240,7 @@ def sold_items(request):
 
 
 def sold_tasks(request):
-    tasks_sold = list(Task.objects.filter(completed=True))
+    tasks_sold = list(Task.objects.filter(sold=True))
     tasks_sold = sorted(tasks_sold, key=lambda x: x.transaction.date_submitted, reverse=True)
     return render(request, 'app/sold_tasks.html', {
         'items_sold': tasks_sold,
@@ -1231,7 +1248,7 @@ def sold_tasks(request):
 
 
 def sold_parts(request):
-    parts_sold = Part.objects.filter(completed=True)
+    parts_sold = Part.objects.filter(sold=True)
     parts_sold = sorted(parts_sold, key=lambda x: x.transaction.date_submitted, reverse=True)
     return render(request, 'app/sold_parts.html', {
         'items_sold': parts_sold,
@@ -1239,7 +1256,7 @@ def sold_parts(request):
 
 
 def sold_accessories(request):
-    accessories_sold = Accessory.objects.filter(completed=True)
+    accessories_sold = Accessory.objects.filter(sold=True)
     accessories_sold = sorted(accessories_sold, key=lambda x: x.transaction.date_submitted, reverse=True)
     return render(request, 'app/sold_accessories.html', {
         'items_sold': accessories_sold,
@@ -1247,7 +1264,7 @@ def sold_accessories(request):
 
 
 def sold_buy_backs(request):
-    buy_backs_sold = BuyBackBike.objects.filter(completed=True)
+    buy_backs_sold = BuyBackBike.objects.filter(sold=True)
     buy_backs_sold = sorted(buy_backs_sold, key=lambda x: x.transaction.date_submitted, reverse=True)
     return render(request, 'app/sold_buy_backs.html', {
         'items_sold': buy_backs_sold,
