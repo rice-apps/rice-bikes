@@ -65,6 +65,7 @@
                             <b>Price Each</b>
                             <input class="form-control price" name="task_{{task.menu_item.name| join_whitespace}}"
                                    type="number" value="{{ task.menu_item.price }}" disabled="true"/>
+                            <div class="old_price" style="display:none" old_value="{{task.menu_item.price}}"></div>
                         </div>
                     </div>
             {% endfor %}
@@ -97,8 +98,9 @@
                             <input class="form-control number" name="part_{{part.menu_item.name| join_whitespace}}" type="number" value="{{ part.number }}"/>
                             <div class="old_number" style="display:none" old_value="{{part.number}}"></div>
                             <b>Price Each</b>
-                            <input class="form-control price" name="part_{{task.menu_item.name| join_whitespace}}"
+                            <input class="form-control price" name="part_{{part.menu_item.name| join_whitespace}}"
                                    type="number" value="{{ part.price }}"/>
+                            <div class="old_price" style="display:none" old_value="{{part.price}}"></div>
                         </div>
                     </div>
             {% endfor %}
@@ -125,6 +127,7 @@
                             <b>Price Each</b>
                             <input class="form-control price" name="accessory_{{accessory.menu_item.name| join_whitespace}}"
                                    type="number" value="{{ accessory.menu_item.price }}" disabled="true"/>
+                            <div class="old_price" style="display:none" old_value="{{accessory.menu_item.price}}"></div>
                         </div>
                     </div>
             {% endfor %}
@@ -146,6 +149,7 @@
                             <b>Price</b>
                             <input class="form-control price" name="buy_back_{{buy_back.vin}}"
                                    type="number" value="{{ buy_back.menu_item.price }}"/>
+                            <div class="old_price" style="display:none" old_value="{{buy_back.menu_item.price}}"></div>
                         </div>
                     </div>
             {% endfor %}
