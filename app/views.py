@@ -259,6 +259,8 @@ def process_buy_backs_edit(form_data, prefix, queryset):
         else:
             item.completed = False
 
+        item.price = form_data[item_name]
+
         item.save()
 
 
@@ -266,15 +268,17 @@ def process_buy_backs_edit(form_data, prefix, queryset):
 def update(request, **kwargs):
     # model = Transaction
     # template_name = "app/edit.html"
+    trans_pk = kwargs['trans_pk']
+    num_parent_args = kwargs['num_parent_args']
 
-    transaction = Transaction.objects.filter(pk=kwargs['trans_pk']).first()
+    transaction = Transaction.objects.filter(pk=trans_pk).first()
     tasks = transaction.task_set.all()
     parts = transaction.part_set.all()
     accessories = transaction.accessory_set.all()
     buy_backs = transaction.buybackbike_set.all()
 
     if request.method == 'POST':
-        num_parent_args = kwargs['num_parent_args']
+        num_parent_args = num_parent_args
         url = get_url(num_parent_args, kwargs)
         if "cancel" in request.POST:
             return HttpResponseRedirect(url)
@@ -288,7 +292,7 @@ def update(request, **kwargs):
             process_items_edit(form.data, "task_", transaction.task_set.all())
 
             # save parts
-            process_items_edit(form.data, "part_", transaction.part_set.all())
+            process_parts_edit(form.data, "part_", transaction.part_set.all())
 
             # save accessories
             process_items_edit(form.data, "accessory_", transaction.accessory_set.all())
@@ -420,7 +424,7 @@ def new_rental(request):
 
 def process_buy_back(form_data):
     buy_back_bike = BuyBackBike(
-        vin=form_data['vin']
+        vin=form_data['vin'],
     )
     buy_back_bike.save()
 
@@ -599,6 +603,9 @@ def process_tasks(form_data, transaction):
         )
         task.save()
 
+        transaction.cost += int(task.number) * int(task.menu_item.price)
+        transaction.save()
+
 
 def process_items_edit(form_data, prefix, queryset):
 
@@ -607,12 +614,36 @@ def process_items_edit(form_data, prefix, queryset):
 
         item_data = form_data.getlist(prefix + str(item.menu_item.name).replace(" ", "_"))
 
+        print "EY!"
+        print item_data
+
         if len(item_data) == 1:
             item.completed = False
             item.number = item_data[0]
         elif len(item_data) == 2:
             item.completed = True
             item.number = item_data[1]
+
+        item.save()
+
+
+def process_parts_edit(form_data, prefix, queryset):
+
+    # update all items
+    for item in queryset:
+
+        item_data = form_data.getlist(prefix + str(item.menu_item.name).replace(" ", "_"))
+
+        print item_data
+
+        if len(item_data) == 2:
+            item.completed = False
+            item.number = item_data[0]
+            item.price = item_data[1]
+        elif len(item_data) == 3:
+            item.completed = True
+            item.number = item_data[1]
+            item.price = item_data[2]
 
         item.save()
 
@@ -673,6 +704,9 @@ def process_accessories(form_data, transaction):
             number=accessory_dict[accessory_name]
         )
         accessory.save()
+
+        transaction.cost += int(accessory.number) * int(accessory.menu_item.price)
+        transaction.save()
 
 
 def get_buy_backs(form_data, prefix):
@@ -753,6 +787,9 @@ def assign_items(request, **kwargs):
 
         form = TaskForm(request.POST)
 
+        transaction.cost = 0
+        transaction.save()
+
         # save tasks
         print "PROCESS TASKS now.."
         process_tasks(form.data, transaction)
@@ -769,18 +806,12 @@ def assign_items(request, **kwargs):
         process_buy_backs(form.data, transaction)
 
 
-        if form.is_valid():
-            # save fields assigned to the transaction
-            process_task_form(form.cleaned_data, transaction)
-            return render_to_response('app/confirm.html',
-                                      {"text": "You successfully assigned tasks!",
-                                       "absolute_url": url,
-                                       },
-                                      )
-
-    else:
-        form = TaskForm(instance=transaction)
-
+        # save fields assigned to the transaction
+        return render_to_response('app/confirm.html',
+                                  {"text": "You successfully assigned tasks!",
+                                   "absolute_url": url,
+                                   },
+                                  )
 
     # GET TASK DATA
     tasks_by_category = get_tasks_by_category()
@@ -858,8 +889,6 @@ def assign_items(request, **kwargs):
             buy_back_items[i] = (item, False)
 
     return render(request, 'app/assign_items.html', {
-        'form': form,
-        # 'single_number_formset': single_number_formset,
         'tasks_by_category': tasks_by_category,
         'parts_by_category': parts_by_category,
         'accessory_items': accessory_items,

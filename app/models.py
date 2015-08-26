@@ -131,6 +131,7 @@ class BuyBackBike(models.Model):
     model = models.TextField()
     date_submitted = models.DateTimeField(default=datetime.now, blank=True)
     price = models.IntegerField(default=0)
+    sold = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.vin)
@@ -145,6 +146,7 @@ class Task(models.Model):
     number = models.IntegerField(null=False, blank=False)
     transaction = models.ForeignKey(Transaction)
     menu_item = models.ForeignKey(TaskMenuItem)
+    sold = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.id) + ", " + str(self.menu_item.name)
@@ -155,6 +157,7 @@ class Accessory(models.Model):
     number = models.IntegerField(null=False, blank=False)
     transaction = models.ForeignKey(Transaction)
     menu_item = models.ForeignKey(AccessoryMenuItem)
+    sold = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.id) + ", " + str(self.menu_item.name)
@@ -166,6 +169,7 @@ class Part(models.Model):
     price = models.IntegerField(default='0')
     transaction = models.ForeignKey(Transaction)
     menu_item = models.ForeignKey(PartMenuItem)
+    sold = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.id) + ", " + str(self.menu_item.name)

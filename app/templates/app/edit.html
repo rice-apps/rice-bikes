@@ -31,7 +31,7 @@
         {{ transaction_form.service_description | bootstrap}}
         <label class="control-label  " for="id_cost">Cost</label>
         <input class=" form-control" id="id_cost" maxlength="500"
-                  name="cost" type="number" disabled="true" value="{{transaction_form.cost.value }}">
+                  name="cost" type="number" value="{{transaction_form.cost.value }}">
         {{ transaction_form.amount_paid | bootstrap }}
 
     </div>
@@ -147,9 +147,9 @@
                                    {% if buy_back.completed %} checked="checked" {% endif %}/>
                             <br>
                             <b>Price</b>
-                            <input class="form-control price" name="buy_back_{{buy_back.vin}}"
-                                   type="number" value="{{ buy_back.menu_item.price }}"/>
-                            <div class="old_price" style="display:none" old_value="{{buy_back.menu_item.price}}"></div>
+                            <input class="form-control buy_back_price" name="buy_back_{{buy_back.vin}}"
+                                   type="number" value="{{ buy_back.price }}"/>
+                            <div class="old_price" style="display:none" old_value="{{buy_back.price}}"></div>
                         </div>
                     </div>
             {% endfor %}

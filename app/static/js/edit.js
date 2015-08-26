@@ -72,4 +72,21 @@ $(document).ready(function() {
     });
 
 
+    $(".buy_back_price").on("change", function(){
+        var old_value = $(this).parent().find('.old_price').attr('old_value')
+        var cost_change = $(this).val() - old_value;
+
+        var new_cost = parseInt($("#id_cost").val()) + cost_change;
+        $("#id_cost").val(new_cost);
+
+        $(this).parent().find('.old_price').attr('old_value', $(this).val());
+
+    });
+
+
+//    $('form').submit(function(){
+//        $("#id_cost").prop("disabled", false);
+//    });
+
+
 });
