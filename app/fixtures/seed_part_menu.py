@@ -12,8 +12,6 @@ if __name__ == '__main__':
 
     for line in file:
 
-        line.strip("\n")
-
         if line == "":
             exit()
 
