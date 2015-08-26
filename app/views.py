@@ -50,22 +50,23 @@ def mark_as_completed(request, **kwargs):
     transaction.completed = True
     transaction.save()
 
-    for task in transaction.task_set.all():
-        task.sold = True
-        task.completed = True
-        task.save()
-    for part in transaction.part_set.all():
-        part.sold = True
-        part.completed = True
-        part.save()
-    for accessory in transaction.accessory_set.all():
-        accessory.sold = True
-        accessory.completed = True
-        accessory.save()
-    for buy_back in transaction.buybackbike_set.all():
-        buy_back.sold = True
-        buy_back.completed = True
-        buy_back.save()
+    if not transaction.refurbished_bike:
+        for task in transaction.task_set.all():
+            task.sold = True
+            task.completed = True
+            task.save()
+        for part in transaction.part_set.all():
+            part.sold = True
+            part.completed = True
+            part.save()
+        for accessory in transaction.accessory_set.all():
+            accessory.sold = True
+            accessory.completed = True
+            accessory.save()
+        for buy_back in transaction.buybackbike_set.all():
+            buy_back.sold = True
+            buy_back.completed = True
+            buy_back.save()
 
     # send email
     send_completion_email(transaction)
@@ -81,16 +82,26 @@ def send_completion_email(transaction):
     tasks = [str(task.menu_item.name) for task in transaction.task_set.all()]
     task_string = "\n".join(tasks)
     body = "%s,\n\n" \
-           " Your bike is ready for pickup! The following repairs were completed:\n" \
-           "%s\n\n" \
-           "Total: $%d\n\n" \
-           "Please pick up your bicycle during our regular business hours (Monday -" \
-           "Friday, 2-5pm) within the next 2 business days to avoid a $5 per day storage" \
-           " fee. At this time we only accept cash or check payments, but there is an ATM" \
-           " machine around the corner from our shop. We hope to see you soon." \
-           "\n\n" \
-           "-The Rice Bikes Team" \
-           % (transaction.first_name, task_string, transaction.cost)
+       "Your bike is ready for pickup!" \
+       "Please pick up your bicycle during our regular business hours (Monday -" \
+       "Friday, 2-5pm) within the next 2 business days to avoid a $5 per day storage" \
+       " fee. At this time we only accept cash or check payments, but there is an ATM" \
+       " machine around the corner from our shop. We hope to see you soon." \
+       "\n\n" \
+       "-The Rice Bikes Team" \
+       % transaction.first_name
+
+    # body = "%s,\n\n" \
+    #        " Your bike is ready for pickup! The following repairs were completed:\n" \
+    #        "%s\n\n" \
+    #        "Total: $%d\n\n" \
+    #        "Please pick up your bicycle during our regular business hours (Monday -" \
+    #        "Friday, 2-5pm) within the next 2 business days to avoid a $5 per day storage" \
+    #        " fee. At this time we only accept cash or check payments, but there is an ATM" \
+    #        " machine around the corner from our shop. We hope to see you soon." \
+    #        "\n\n" \
+    #        "-The Rice Bikes Team" \
+    #        % (transaction.first_name, task_string, transaction.cost)
 
     email = EmailMessage(subject_line, body, to=[email_address])
     email.send(fail_silently=False)
@@ -477,7 +488,7 @@ def new_refurbished(request):
         form = RefurbishedForm(request.POST)
         if form.is_valid():
             process_refurbished(form.cleaned_data)
-            return render_to_response('app/confirm',
+            return render_to_response('app/confirm.html',
                                       {"text": "You successfully submitted the new refurbished bike!",
                                        "absolute_url": "/",
                                        })

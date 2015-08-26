@@ -1,271 +1,271 @@
 [
     {
         "fields": {
-            "category": "Tubes (Schrader)\n",
-            "name": "16\"x1.75/2.125\n"
+            "category": "Tubes (Schrader)",
+            "name": "16\"x1.75/2.125"
         },
         "model": "app.PartMenuItem",
         "pk": 0
     },
     {
         "fields": {
-            "category": "Tubes (Schrader)\n",
-            "name": "18\"x1.75/2.125\n"
+            "category": "Tubes (Schrader)",
+            "name": "18\"x1.75/2.125"
         },
         "model": "app.PartMenuItem",
         "pk": 1
     },
     {
         "fields": {
-            "category": "Tubes (Schrader)\n",
-            "name": "20\"x1.75/2.125\n"
+            "category": "Tubes (Schrader)",
+            "name": "20\"x1.75/2.125"
         },
         "model": "app.PartMenuItem",
         "pk": 2
     },
     {
         "fields": {
-            "category": "Tubes (Schrader)\n",
-            "name": "24\"x1.9/2.125\n"
+            "category": "Tubes (Schrader)",
+            "name": "24\"x1.9/2.125"
         },
         "model": "app.PartMenuItem",
         "pk": 3
     },
     {
         "fields": {
-            "category": "Tubes (Schrader)\n",
-            "name": "26\"x1/1.5\n"
+            "category": "Tubes (Schrader)",
+            "name": "26\"x1/1.5"
         },
         "model": "app.PartMenuItem",
         "pk": 4
     },
     {
         "fields": {
-            "category": "Tubes (Schrader)\n",
-            "name": "26\"x1-3/8\n"
+            "category": "Tubes (Schrader)",
+            "name": "26\"x1-3/8"
         },
         "model": "app.PartMenuItem",
         "pk": 5
     },
     {
         "fields": {
-            "category": "Tubes (Schrader)\n",
-            "name": "26\"x1.5/1.75\n"
+            "category": "Tubes (Schrader)",
+            "name": "26\"x1.5/1.75"
         },
         "model": "app.PartMenuItem",
         "pk": 6
     },
     {
         "fields": {
-            "category": "Tubes (Schrader)\n",
-            "name": "26\"x1.9/2.125\n"
+            "category": "Tubes (Schrader)",
+            "name": "26\"x1.9/2.125"
         },
         "model": "app.PartMenuItem",
         "pk": 7
     },
     {
         "fields": {
-            "category": "Tubes (Schrader)\n",
-            "name": "26\"x2.1/2.3\n"
+            "category": "Tubes (Schrader)",
+            "name": "26\"x2.1/2.3"
         },
         "model": "app.PartMenuItem",
         "pk": 8
     },
     {
         "fields": {
-            "category": "Tubes (Schrader)\n",
-            "name": "700x23/25c\n"
+            "category": "Tubes (Schrader)",
+            "name": "700x23/25c"
         },
         "model": "app.PartMenuItem",
         "pk": 9
     },
     {
         "fields": {
-            "category": "Tubes (Schrader)\n",
-            "name": "700x28/32c\n"
+            "category": "Tubes (Schrader)",
+            "name": "700x28/32c"
         },
         "model": "app.PartMenuItem",
         "pk": 10
     },
     {
         "fields": {
-            "category": "Tubes (Schrader)\n",
-            "name": "700x35/43c\n"
+            "category": "Tubes (Schrader)",
+            "name": "700x35/43c"
         },
         "model": "app.PartMenuItem",
         "pk": 11
     },
     {
         "fields": {
-            "category": "Tubes (Schrader)\n",
-            "name": "29x1.9/2.3\n"
+            "category": "Tubes (Schrader)",
+            "name": "29x1.9/2.3"
         },
         "model": "app.PartMenuItem",
         "pk": 12
     },
     {
         "fields": {
-            "category": "Tubes (Presta)\n",
-            "name": "650x23c\n"
+            "category": "Tubes (Presta)",
+            "name": "650x23c"
         },
         "model": "app.PartMenuItem",
         "pk": 13
     },
     {
         "fields": {
-            "category": "Tubes (Presta)\n",
-            "name": "26x1.5/2\n"
+            "category": "Tubes (Presta)",
+            "name": "26x1.5/2"
         },
         "model": "app.PartMenuItem",
         "pk": 14
     },
     {
         "fields": {
-            "category": "Tubes (Presta)\n",
-            "name": "26x1.9/2.125\n"
+            "category": "Tubes (Presta)",
+            "name": "26x1.9/2.125"
         },
         "model": "app.PartMenuItem",
         "pk": 15
     },
     {
         "fields": {
-            "category": "Tubes (Presta)\n",
-            "name": "700x18/23c\n"
+            "category": "Tubes (Presta)",
+            "name": "700x18/23c"
         },
         "model": "app.PartMenuItem",
         "pk": 16
     },
     {
         "fields": {
-            "category": "Tubes (Presta)\n",
-            "name": "700x23/25c\n"
+            "category": "Tubes (Presta)",
+            "name": "700x23/25c"
         },
         "model": "app.PartMenuItem",
         "pk": 17
     },
     {
         "fields": {
-            "category": "Tubes (Presta)\n",
-            "name": "700x28/32c\n"
+            "category": "Tubes (Presta)",
+            "name": "700x28/32c"
         },
         "model": "app.PartMenuItem",
         "pk": 18
     },
     {
         "fields": {
-            "category": "Tubes (Presta)\n",
-            "name": "700X35/43c\n"
+            "category": "Tubes (Presta)",
+            "name": "700X35/43c"
         },
         "model": "app.PartMenuItem",
         "pk": 19
     },
     {
         "fields": {
-            "category": "Tubes (Presta)\n",
-            "name": "29x1.9/2.3\n"
+            "category": "Tubes (Presta)",
+            "name": "29x1.9/2.3"
         },
         "model": "app.PartMenuItem",
         "pk": 20
     },
     {
         "fields": {
-            "category": "Chain\n",
-            "name": "Single\n"
+            "category": "Chain",
+            "name": "Single"
         },
         "model": "app.PartMenuItem",
         "pk": 21
     },
     {
         "fields": {
-            "category": "Chain\n",
-            "name": "6 Speed\n"
+            "category": "Chain",
+            "name": "6 Speed"
         },
         "model": "app.PartMenuItem",
         "pk": 22
     },
     {
         "fields": {
-            "category": "Chain\n",
-            "name": "7 Speed\n"
+            "category": "Chain",
+            "name": "7 Speed"
         },
         "model": "app.PartMenuItem",
         "pk": 23
     },
     {
         "fields": {
-            "category": "Chain\n",
-            "name": "8 Speed\n"
+            "category": "Chain",
+            "name": "8 Speed"
         },
         "model": "app.PartMenuItem",
         "pk": 24
     },
     {
         "fields": {
-            "category": "Chain\n",
-            "name": "9 Speed\n"
+            "category": "Chain",
+            "name": "9 Speed"
         },
         "model": "app.PartMenuItem",
         "pk": 25
     },
     {
         "fields": {
-            "category": "Chain\n",
-            "name": "10 Speed\n"
+            "category": "Chain",
+            "name": "10 Speed"
         },
         "model": "app.PartMenuItem",
         "pk": 26
     },
     {
         "fields": {
-            "category": "Brake Pads\n",
-            "name": "Caliper\n"
+            "category": "Brake Pads",
+            "name": "Caliper"
         },
         "model": "app.PartMenuItem",
         "pk": 27
     },
     {
         "fields": {
-            "category": "Brake Pads\n",
-            "name": "V-Brakes\n"
+            "category": "Brake Pads",
+            "name": "V-Brakes"
         },
         "model": "app.PartMenuItem",
         "pk": 28
     },
     {
         "fields": {
-            "category": "Brake Pads\n",
-            "name": "Cantilever\n"
+            "category": "Brake Pads",
+            "name": "Cantilever"
         },
         "model": "app.PartMenuItem",
         "pk": 29
     },
     {
         "fields": {
-            "category": "Bottom Bracket\n",
-            "name": "Sealed\n"
+            "category": "Bottom Bracket",
+            "name": "Sealed"
         },
         "model": "app.PartMenuItem",
         "pk": 30
     },
     {
         "fields": {
-            "category": "Bottom Bracket\n",
-            "name": "Axel\n"
+            "category": "Bottom Bracket",
+            "name": "Axel"
         },
         "model": "app.PartMenuItem",
         "pk": 31
     },
     {
         "fields": {
-            "category": "Bottom Bracket\n",
-            "name": "Cone and Axel\n"
+            "category": "Bottom Bracket",
+            "name": "Cone and Axel"
         },
         "model": "app.PartMenuItem",
         "pk": 32
     },
     {
         "fields": {
-            "category": "Other\n",
+            "category": "Other",
             "name": "Other Part"
         },
         "model": "app.PartMenuItem",
