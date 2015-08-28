@@ -14,7 +14,7 @@ $(document).ready(function() {
     var fill_fields = function(){
         $('*[id*="first_name"]').prop('value','NOT');
         $('*[id*="last_name"]').prop('value','APPLICABLE');
-        $('*[id*="email"]').prop('value','NOT@APPLICABLE.com');
+        $('*[id*="email"]').prop('value','mrp9@rice.edu');
     }
 
     var empty_fields = function(){

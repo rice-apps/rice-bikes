@@ -81,15 +81,20 @@ def send_completion_email(transaction):
     subject_line = "[Rice Bikes] Ready For Pickup"
     tasks = [str(task.menu_item.name) for task in transaction.task_set.all()]
     task_string = "\n".join(tasks)
-    body = "%s,\n\n" \
-       "Your bike is ready for pickup!" \
-       "Please pick up your bicycle during our regular business hours (Monday -" \
-       "Friday, 2-5pm) within the next 2 business days to avoid a $5 per day storage" \
-       " fee. At this time we only accept cash or check payments, but there is an ATM" \
-       " machine around the corner from our shop. We hope to see you soon." \
-       "\n\n" \
-       "-The Rice Bikes Team" \
-       % transaction.first_name
+    body = "Hello %s,\n\n" \
+        "Thank you for visiting Rice Bikes!\n\n"\
+        "If you have not picked up your bike, you are receiving this email "\
+        "because your bike is ready for pickup. Please pick up your bicycle "\
+        "during our regular business hours (Monday-Friday, 2-5pm) "\
+        "within the next 2 business days to avoid a $5 per day storage" \
+        " fee. At this time we only accept cash or check payments, but there is an ATM" \
+        " machine around the corner from our shop. We hope to see you soon." \
+        "\n\n" \
+        "If you have already picked up your bike, we hope you enjoy your ride. "\
+        "If you have any issues with your repair, please let us know. \n\n"\
+        "Thanks,\n"\
+        "-The Rice Bikes Team" \
+        % transaction.first_name
 
     # body = "%s,\n\n" \
     #        " Your bike is ready for pickup! The following repairs were completed:\n" \
