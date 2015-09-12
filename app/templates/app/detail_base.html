@@ -55,6 +55,11 @@
                 <td><b>Refurbished VIN</b></td>
                 <td>{{ transaction.refurbished_bike.vin }} </td>
             </tr>
+            {% elif transaction.buy_back_bike %}
+            <tr>
+                <td><b>Buy Back VIN</b></td>
+                <td>{{ transaction.buy_back_bike.vin }} </td>
+            </tr>
             {% endif %}
         </table>
     </div>
@@ -140,7 +145,7 @@
 </div>
 {% endif %}
 
-{% if buy_backs %}
+{% if buy_back %}
 
 <div class="panel panel-primary">
     <div class="panel-heading panel-heading-tight">
@@ -153,12 +158,12 @@
                 <td class="col-sm-1"><b>VIN</b></td>
                 <td class="col-sm-1"><b>Completed</b></td>
             </thead>
-            {% for buy_back in buy_backs %}
-                <tr>
-                    <td>{{ buy_back.vin }} </td>
-                    <td>{{ buy_back.completed }}</td>
-                </tr>
-            {% endfor %}
+
+            <tr>
+                <td>{{ buy_back.vin }} </td>
+                <td>{{ buy_back.completed }}</td>
+            </tr>
+
         </table>
     </div>
 </div>

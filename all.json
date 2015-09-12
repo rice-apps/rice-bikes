@@ -1,0 +1,2424 @@
+[
+{
+  "fields": {
+    "model": "logentry",
+    "name": "log entry",
+    "app_label": "admin"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 1
+},
+{
+  "fields": {
+    "model": "permission",
+    "name": "permission",
+    "app_label": "auth"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 2
+},
+{
+  "fields": {
+    "model": "group",
+    "name": "group",
+    "app_label": "auth"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 3
+},
+{
+  "fields": {
+    "model": "user",
+    "name": "user",
+    "app_label": "auth"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 4
+},
+{
+  "fields": {
+    "model": "contenttype",
+    "name": "content type",
+    "app_label": "contenttypes"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 5
+},
+{
+  "fields": {
+    "model": "session",
+    "name": "session",
+    "app_label": "sessions"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 6
+},
+{
+  "fields": {
+    "model": "employee",
+    "name": "employee",
+    "app_label": "app"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 7
+},
+{
+  "fields": {
+    "model": "rentalbike",
+    "name": "Bike Rental",
+    "app_label": "app"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 8
+},
+{
+  "fields": {
+    "model": "refurbishedbike",
+    "name": "Bike Refurbished",
+    "app_label": "app"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 9
+},
+{
+  "fields": {
+    "model": "transaction",
+    "name": "transaction",
+    "app_label": "app"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 10
+},
+{
+  "fields": {
+    "model": "taskmenuitem",
+    "name": "Menu Task Item",
+    "app_label": "app"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 11
+},
+{
+  "fields": {
+    "model": "accessorymenuitem",
+    "name": "Menu Accessory Item",
+    "app_label": "app"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 12
+},
+{
+  "fields": {
+    "model": "partmenuitem",
+    "name": "Menu Part Item",
+    "app_label": "app"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 13
+},
+{
+  "fields": {
+    "model": "buybackbike",
+    "name": "Bike Buy Back",
+    "app_label": "app"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 14
+},
+{
+  "fields": {
+    "model": "task",
+    "name": "task",
+    "app_label": "app"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 15
+},
+{
+  "fields": {
+    "model": "accessory",
+    "name": "accessory",
+    "app_label": "app"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 16
+},
+{
+  "fields": {
+    "model": "part",
+    "name": "part",
+    "app_label": "app"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 17
+},
+{
+  "fields": {
+    "model": "partorder",
+    "name": "part order",
+    "app_label": "app"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 18
+},
+{
+  "fields": {
+    "model": "miscrevenueupdate",
+    "name": "misc revenue update",
+    "app_label": "app"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 19
+},
+{
+  "fields": {
+    "model": "revenueupdate",
+    "name": "revenue update",
+    "app_label": "app"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 20
+},
+{
+  "fields": {
+    "model": "totalrevenue",
+    "name": "Total Revenue",
+    "app_label": "app"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 21
+},
+{
+  "fields": {
+    "model": "partcategory",
+    "name": "part category",
+    "app_label": "app"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 22
+},
+{
+  "fields": {
+    "expire_date": "2015-09-09T02:45:10.318Z",
+    "session_data": "YzcwOWZhOGI0ZmUzY2U0Y2Q0ZjBhM2Y5M2U0ZmJhZWRlOGU2Yjc4ODp7Il9hdXRoX3VzZXJfaGFzaCI6IjNmMTM5M2ViMDE5YWM1MzA4ODMyM2I5YjIxN2Q1MWQ2NjcxOTY0ZDgiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjF9"
+  },
+  "model": "sessions.session",
+  "pk": "lw0sjwbntkbeoe4ruwg2h1gete1wnrfg"
+},
+{
+  "fields": {
+    "first_name": "John",
+    "last_name": "Smith",
+    "date_submitted": "2015-08-26T02:45:23.536Z",
+    "amount_paid": 0,
+    "completed": true,
+    "affiliation": "0",
+    "cost": 27,
+    "service_description": "",
+    "email": "jdw172@gmail.com"
+  },
+  "model": "app.transaction",
+  "pk": 1
+},
+{
+  "fields": {
+    "first_name": "c",
+    "last_name": "c",
+    "date_submitted": "2015-08-26T02:51:00.972Z",
+    "amount_paid": 0,
+    "completed": true,
+    "affiliation": "0",
+    "cost": 14,
+    "service_description": "",
+    "email": "asr4@rice.edu"
+  },
+  "model": "app.transaction",
+  "pk": 2
+},
+{
+  "fields": {
+    "first_name": "sally",
+    "last_name": "joe",
+    "date_submitted": "2015-08-26T02:53:56.881Z",
+    "amount_paid": 0,
+    "completed": true,
+    "affiliation": "0",
+    "cost": 90,
+    "service_description": "",
+    "email": "asas@gmail.com"
+  },
+  "model": "app.transaction",
+  "pk": 3
+},
+{
+  "fields": {
+    "first_name": "i",
+    "last_name": "jk",
+    "date_submitted": "2015-08-26T02:58:09.506Z",
+    "amount_paid": 0,
+    "completed": false,
+    "affiliation": "0",
+    "cost": 0,
+    "service_description": null,
+    "email": "ldkfj@gmail.com"
+  },
+  "model": "app.transaction",
+  "pk": 4
+},
+{
+  "fields": {
+    "first_name": "NOT",
+    "last_name": "APPLICABLE",
+    "date_submitted": "2015-08-26T03:03:23.522Z",
+    "amount_paid": 0,
+    "completed": false,
+    "affiliation": "0",
+    "cost": 0,
+    "service_description": null,
+    "email": "NOT@APPLICABLE.com"
+  },
+  "model": "app.transaction",
+  "pk": 5
+},
+{
+  "fields": {
+    "first_name": "Black",
+    "last_name": "sCHWINN",
+    "date_submitted": "2015-08-26T03:04:39.465Z",
+    "amount_paid": 0,
+    "completed": true,
+    "affiliation": "0",
+    "cost": 23,
+    "service_description": "",
+    "email": "NOT@APPLICABLE.com"
+  },
+  "model": "app.transaction",
+  "pk": 6
+},
+{
+  "fields": {
+    "first_name": "B",
+    "last_name": "B",
+    "date_submitted": "2015-08-26T03:15:42.892Z",
+    "amount_paid": 0,
+    "completed": false,
+    "affiliation": "0",
+    "cost": 0,
+    "service_description": null,
+    "email": "BB@RICE.EDU"
+  },
+  "model": "app.transaction",
+  "pk": 7
+},
+{
+  "fields": {
+    "first_name": "Jonathan",
+    "last_name": "Wilson",
+    "date_submitted": "2015-08-26T03:24:23.133Z",
+    "amount_paid": 9,
+    "completed": true,
+    "affiliation": "0",
+    "cost": 9,
+    "service_description": "",
+    "email": "jdw172@gmail.com"
+  },
+  "model": "app.transaction",
+  "pk": 8
+},
+{
+  "fields": {
+    "first_name": "NOT",
+    "last_name": "APPLICABLE",
+    "date_submitted": "2015-08-26T03:40:58.366Z",
+    "amount_paid": 0,
+    "completed": false,
+    "affiliation": "0",
+    "cost": 0,
+    "service_description": null,
+    "email": "NOT@APPLICABLE.com"
+  },
+  "model": "app.transaction",
+  "pk": 9
+},
+{
+  "fields": {
+    "first_name": "Red",
+    "last_name": "Scwinn",
+    "date_submitted": "2015-08-26T03:41:36.900Z",
+    "amount_paid": 0,
+    "completed": true,
+    "affiliation": "0",
+    "cost": 20,
+    "service_description": null,
+    "email": "NOT@APPLICABLE.com"
+  },
+  "model": "app.transaction",
+  "pk": 10
+},
+{
+  "fields": {
+    "first_name": "Blue",
+    "last_name": "Huffy",
+    "date_submitted": "2015-08-26T03:49:12.580Z",
+    "amount_paid": 0,
+    "completed": true,
+    "affiliation": "0",
+    "cost": 30,
+    "service_description": "",
+    "email": "NOT@APPLICABLE.com"
+  },
+  "model": "app.transaction",
+  "pk": 11
+},
+{
+  "fields": {
+    "first_name": "Purple",
+    "last_name": "Scwinn",
+    "date_submitted": "2015-08-26T03:53:50.985Z",
+    "amount_paid": 200,
+    "completed": true,
+    "affiliation": "0",
+    "cost": 155,
+    "service_description": "",
+    "email": "NOT@APPLICABLE.com"
+  },
+  "model": "app.transaction",
+  "pk": 12
+},
+{
+  "fields": {
+    "first_name": "a",
+    "last_name": "b",
+    "date_submitted": "2015-08-26T04:00:49.985Z",
+    "amount_paid": 0,
+    "completed": false,
+    "affiliation": "0",
+    "cost": 0,
+    "service_description": null,
+    "email": "arunixr@gmail.com"
+  },
+  "model": "app.transaction",
+  "pk": 13
+},
+{
+  "fields": {
+    "first_name": "jon",
+    "last_name": "w",
+    "date_submitted": "2015-08-26T04:06:35.477Z",
+    "amount_paid": 0,
+    "completed": true,
+    "affiliation": "0",
+    "cost": 0,
+    "service_description": null,
+    "email": "jdw172@gmail.com"
+  },
+  "model": "app.transaction",
+  "pk": 14
+},
+{
+  "fields": {
+    "first_name": "y",
+    "last_name": "z",
+    "date_submitted": "2015-08-26T04:12:01.126Z",
+    "amount_paid": 0,
+    "completed": true,
+    "affiliation": "0",
+    "cost": 7,
+    "service_description": "",
+    "email": "asr4@rice.edu"
+  },
+  "model": "app.transaction",
+  "pk": 15
+},
+{
+  "fields": {
+    "first_name": "greg",
+    "last_name": "greg",
+    "date_submitted": "2015-08-26T04:14:07.475Z",
+    "amount_paid": 0,
+    "completed": false,
+    "affiliation": "0",
+    "cost": 0,
+    "service_description": null,
+    "email": "asr4@rice.edu"
+  },
+  "model": "app.transaction",
+  "pk": 16
+},
+{
+  "fields": {
+    "first_name": "NOT",
+    "last_name": "APPLICABLE",
+    "date_submitted": "2015-08-28T03:59:31.224Z",
+    "amount_paid": 0,
+    "completed": true,
+    "affiliation": "0",
+    "cost": 0,
+    "service_description": null,
+    "email": "jdw172@gmail.com"
+  },
+  "model": "app.transaction",
+  "pk": 17
+},
+{
+  "fields": {
+    "first_name": "",
+    "last_name": "",
+    "date_submitted": "2015-09-02T03:29:44.795Z",
+    "amount_paid": 0,
+    "completed": false,
+    "affiliation": "",
+    "cost": 0,
+    "service_description": null,
+    "email": "mrp9@rice.edu"
+  },
+  "model": "app.transaction",
+  "pk": 18
+},
+{
+  "fields": {
+    "first_name": "",
+    "last_name": "",
+    "date_submitted": "2015-09-02T03:29:45.532Z",
+    "amount_paid": 0,
+    "completed": false,
+    "affiliation": "",
+    "cost": 0,
+    "service_description": null,
+    "email": "mrp9@rice.edu"
+  },
+  "model": "app.transaction",
+  "pk": 19
+},
+{
+  "fields": {
+    "first_name": "",
+    "last_name": "",
+    "date_submitted": "2015-09-02T03:29:46.256Z",
+    "amount_paid": 0,
+    "completed": false,
+    "affiliation": "",
+    "cost": 0,
+    "service_description": null,
+    "email": "mrp9@rice.edu"
+  },
+  "model": "app.transaction",
+  "pk": 20
+},
+{
+  "fields": {
+    "first_name": "",
+    "last_name": "",
+    "date_submitted": "2015-09-02T03:29:46.979Z",
+    "amount_paid": 0,
+    "completed": false,
+    "affiliation": "",
+    "cost": 0,
+    "service_description": null,
+    "email": "mrp9@rice.edu"
+  },
+  "model": "app.transaction",
+  "pk": 21
+},
+{
+  "fields": {
+    "first_name": "",
+    "last_name": "",
+    "date_submitted": "2015-09-02T03:29:47.703Z",
+    "amount_paid": 0,
+    "completed": false,
+    "affiliation": "",
+    "cost": 0,
+    "service_description": null,
+    "email": "mrp9@rice.edu"
+  },
+  "model": "app.transaction",
+  "pk": 22
+},
+{
+  "fields": {
+    "first_name": "",
+    "last_name": "",
+    "date_submitted": "2015-09-02T03:29:48.651Z",
+    "amount_paid": 0,
+    "completed": false,
+    "affiliation": "",
+    "cost": 0,
+    "service_description": null,
+    "email": "mrp9@rice.edu"
+  },
+  "model": "app.transaction",
+  "pk": 23
+},
+{
+  "fields": {
+    "first_name": "",
+    "last_name": "",
+    "date_submitted": "2015-09-02T03:29:49.443Z",
+    "amount_paid": 0,
+    "completed": false,
+    "affiliation": "",
+    "cost": 0,
+    "service_description": null,
+    "email": "mrp9@rice.edu"
+  },
+  "model": "app.transaction",
+  "pk": 24
+},
+{
+  "fields": {
+    "color": "",
+    "date_submitted": "2015-08-26T02:59:52.480Z",
+    "model": "",
+    "transaction": 18,
+    "vin": 9999
+  },
+  "model": "app.refurbishedbike",
+  "pk": 1
+},
+{
+  "fields": {
+    "color": "",
+    "date_submitted": "2015-08-26T03:00:06.563Z",
+    "model": "",
+    "transaction": 19,
+    "vin": 9998
+  },
+  "model": "app.refurbishedbike",
+  "pk": 2
+},
+{
+  "fields": {
+    "color": "",
+    "date_submitted": "2015-08-26T03:00:44.234Z",
+    "model": "",
+    "transaction": 20,
+    "vin": 9997
+  },
+  "model": "app.refurbishedbike",
+  "pk": 3
+},
+{
+  "fields": {
+    "color": "",
+    "date_submitted": "2015-08-26T03:04:39.466Z",
+    "model": "",
+    "transaction": 21,
+    "vin": 8989
+  },
+  "model": "app.refurbishedbike",
+  "pk": 4
+},
+{
+  "fields": {
+    "color": "",
+    "date_submitted": "2015-08-26T03:41:36.902Z",
+    "model": "",
+    "transaction": 22,
+    "vin": 667
+  },
+  "model": "app.refurbishedbike",
+  "pk": 5
+},
+{
+  "fields": {
+    "color": "",
+    "date_submitted": "2015-08-26T03:49:12.582Z",
+    "model": "",
+    "transaction": 23,
+    "vin": 456
+  },
+  "model": "app.refurbishedbike",
+  "pk": 6
+},
+{
+  "fields": {
+    "color": "",
+    "date_submitted": "2015-08-26T03:53:50.987Z",
+    "model": "",
+    "transaction": 24,
+    "vin": 324
+  },
+  "model": "app.refurbishedbike",
+  "pk": 7
+},
+{
+  "fields": {
+    "category": "Drive Train",
+    "price": 5,
+    "name": "Replace pedals"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 0
+},
+{
+  "fields": {
+    "category": "Brakes",
+    "price": 12,
+    "name": "Install brake or lever"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 1
+},
+{
+  "fields": {
+    "category": "Drive Train",
+    "price": 7,
+    "name": "Install freewheel"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 2
+},
+{
+  "fields": {
+    "category": "Frame and alignment",
+    "price": 5,
+    "name": "Basic clean"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 3
+},
+{
+  "fields": {
+    "category": "Headset",
+    "price": 9,
+    "name": "Adjust bearings"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 4
+},
+{
+  "fields": {
+    "category": "Drive Train",
+    "price": 9,
+    "name": "Replace chain"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 5
+},
+{
+  "fields": {
+    "category": "Wheels",
+    "price": 7,
+    "name": "Replace or install one tire"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 6
+},
+{
+  "fields": {
+    "category": "Brakes",
+    "price": 8,
+    "name": "Adjust rim brake"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 7
+},
+{
+  "fields": {
+    "category": "Wheels",
+    "price": 16,
+    "name": "Front hub overhaul"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 8
+},
+{
+  "fields": {
+    "category": "Drive Train",
+    "price": 7,
+    "name": "Replace crankset"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 9
+},
+{
+  "fields": {
+    "category": "Drive Train",
+    "price": 3,
+    "name": "Clean and lube train"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 10
+},
+{
+  "fields": {
+    "category": "Shifters derailleurs",
+    "price": 11,
+    "name": "Install shifter"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 11
+},
+{
+  "fields": {
+    "category": "Wheels",
+    "price": 6,
+    "name": "Adjust bearings rw"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 12
+},
+{
+  "fields": {
+    "category": "Stem",
+    "price": 5,
+    "name": "Install threadless"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 13
+},
+{
+  "fields": {
+    "category": "Frame and alignment",
+    "price": 7,
+    "name": "Install front basket"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 14
+},
+{
+  "fields": {
+    "category": "Stem",
+    "price": 5,
+    "name": "Install threaded"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 15
+},
+{
+  "fields": {
+    "category": "Saddle seatpost",
+    "price": 7,
+    "name": "Install seatpost and saddle"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 16
+},
+{
+  "fields": {
+    "category": "Saddle seatpost",
+    "price": 3,
+    "name": "Seat adjust"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 17
+},
+{
+  "fields": {
+    "category": "Shifters derailleurs",
+    "price": 14,
+    "name": "Install shifter cable"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 18
+},
+{
+  "fields": {
+    "category": "Headset",
+    "price": 11,
+    "name": "Bearing overhaul"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 19
+},
+{
+  "fields": {
+    "category": "Frame and alignment",
+    "price": 7,
+    "name": "Align derailleur hanger"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 20
+},
+{
+  "fields": {
+    "category": "Bottom bracket",
+    "price": 5,
+    "name": "Adjust bearings bb"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 21
+},
+{
+  "fields": {
+    "category": "Bottom bracket",
+    "price": 12,
+    "name": "Install cup and spindle bb"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 22
+},
+{
+  "fields": {
+    "category": "Brakes",
+    "price": 9,
+    "name": "Adjust disk brake"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 23
+},
+{
+  "fields": {
+    "category": "Frame and alignment",
+    "price": 12,
+    "name": "Install rear rack"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 24
+},
+{
+  "fields": {
+    "category": "Wheels",
+    "price": 14,
+    "name": "Wheel true"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 25
+},
+{
+  "fields": {
+    "category": "Bottom bracket",
+    "price": 10,
+    "name": "Install cartridge bb"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 26
+},
+{
+  "fields": {
+    "category": "Headset",
+    "price": 5,
+    "name": "Adjust bearings fh bb hs"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 27
+},
+{
+  "fields": {
+    "category": "Brakes",
+    "price": 14,
+    "name": "Install brake cable"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 28
+},
+{
+  "fields": {
+    "category": "Wheels",
+    "price": 5,
+    "name": "Adjust bearings fw"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 29
+},
+{
+  "fields": {
+    "category": "Handlebars",
+    "price": 9,
+    "name": "Wrap handlebars"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 30
+},
+{
+  "fields": {
+    "category": "Wheels",
+    "price": 7,
+    "name": "Replace one tube"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 31
+},
+{
+  "fields": {
+    "category": "Wheels",
+    "price": 12,
+    "name": "Install wheel"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 32
+},
+{
+  "fields": {
+    "category": "Saddle seatpost",
+    "price": 3,
+    "name": "Install seatpost without saddle"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 33
+},
+{
+  "fields": {
+    "category": "Wheels",
+    "price": 20,
+    "name": "Coaster hub overhaul"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 34
+},
+{
+  "fields": {
+    "category": "Shifters derailleurs",
+    "price": 11,
+    "name": "Install derailleur"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 35
+},
+{
+  "fields": {
+    "category": "Wheels",
+    "price": 18,
+    "name": "Rear hub overhaul"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 36
+},
+{
+  "fields": {
+    "category": "Bottom bracket",
+    "price": 16,
+    "name": "Overhaul cup and spindle"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 37
+},
+{
+  "fields": {
+    "category": "Handlebars",
+    "price": 3,
+    "name": "Install grips"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 38
+},
+{
+  "fields": {
+    "category": "Bottom bracket",
+    "price": 10,
+    "name": "Install one piece bb"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 39
+},
+{
+  "fields": {
+    "category": "Saddle seatpost",
+    "price": 5,
+    "name": "Install saddle"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 40
+},
+{
+  "fields": {
+    "category": "Wheels",
+    "price": 3,
+    "name": "Wheel adjust"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 41
+},
+{
+  "fields": {
+    "category": "Shifters derailleurs",
+    "price": 7,
+    "name": "Adjust derailleur"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 42
+},
+{
+  "fields": {
+    "category": "Wheels",
+    "price": 14,
+    "name": "Replace two tubes"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 43
+},
+{
+  "fields": {
+    "category": "Bottom bracket",
+    "price": 17,
+    "name": "Overhaul one piece bb"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 44
+},
+{
+  "fields": {
+    "category": "Drive Train",
+    "price": 3,
+    "name": "Clean gears"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 45
+},
+{
+  "fields": {
+    "category": "Wheels",
+    "price": 14,
+    "name": "Replace or install two tires"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 46
+},
+{
+  "fields": {
+    "category": "Drive Train",
+    "price": 9,
+    "name": "Install cassette"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 47
+},
+{
+  "fields": {
+    "category": "Frame and alignment",
+    "price": 15,
+    "name": "Major clean"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 48
+},
+{
+  "fields": {
+    "category": "Handlebars",
+    "price": 5,
+    "name": "Install handlebars"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 49
+},
+{
+  "fields": {
+    "category": "Frame and alignment",
+    "price": 25,
+    "name": "Bike build"
+  },
+  "model": "app.taskmenuitem",
+  "pk": 50
+},
+{
+  "fields": {
+    "price": 10,
+    "name": "T-Shirt"
+  },
+  "model": "app.accessorymenuitem",
+  "pk": 0
+},
+{
+  "fields": {
+    "price": 20,
+    "name": "U-Lock"
+  },
+  "model": "app.accessorymenuitem",
+  "pk": 1
+},
+{
+  "fields": {
+    "price": 0,
+    "name": "Helmet"
+  },
+  "model": "app.accessorymenuitem",
+  "pk": 2
+},
+{
+  "fields": {
+    "price": 0,
+    "name": "Grips"
+  },
+  "model": "app.accessorymenuitem",
+  "pk": 3
+},
+{
+  "fields": {
+    "price": 0,
+    "name": "Tape"
+  },
+  "model": "app.accessorymenuitem",
+  "pk": 4
+},
+{
+  "fields": {
+    "price": 0,
+    "name": "Lights (Large)"
+  },
+  "model": "app.accessorymenuitem",
+  "pk": 5
+},
+{
+  "fields": {
+    "price": 0,
+    "name": "Lights (Small)"
+  },
+  "model": "app.accessorymenuitem",
+  "pk": 6
+},
+{
+  "fields": {
+    "price": 0,
+    "name": "Handlebars"
+  },
+  "model": "app.accessorymenuitem",
+  "pk": 7
+},
+{
+  "fields": {
+    "price": 0,
+    "name": "Pedals"
+  },
+  "model": "app.accessorymenuitem",
+  "pk": 8
+},
+{
+  "fields": {
+    "price": 1,
+    "name": "Sticker"
+  },
+  "model": "app.accessorymenuitem",
+  "pk": 9
+},
+{
+  "fields": {
+    "price": 4,
+    "name": "Tire Lever (2)"
+  },
+  "model": "app.accessorymenuitem",
+  "pk": 10
+},
+{
+  "fields": {
+    "price": 5,
+    "name": "Tire Lever (3)"
+  },
+  "model": "app.accessorymenuitem",
+  "pk": 11
+},
+{
+  "fields": {
+    "category": "Tubes (Schrader)",
+    "name": "16\"x1.75/2.125"
+  },
+  "model": "app.partmenuitem",
+  "pk": 0
+},
+{
+  "fields": {
+    "category": "Tubes (Schrader)",
+    "name": "18\"x1.75/2.125"
+  },
+  "model": "app.partmenuitem",
+  "pk": 1
+},
+{
+  "fields": {
+    "category": "Tubes (Schrader)",
+    "name": "20\"x1.75/2.125"
+  },
+  "model": "app.partmenuitem",
+  "pk": 2
+},
+{
+  "fields": {
+    "category": "Tubes (Schrader)",
+    "name": "24\"x1.9/2.125"
+  },
+  "model": "app.partmenuitem",
+  "pk": 3
+},
+{
+  "fields": {
+    "category": "Tubes (Schrader)",
+    "name": "26\"x1/1.5"
+  },
+  "model": "app.partmenuitem",
+  "pk": 4
+},
+{
+  "fields": {
+    "category": "Tubes (Schrader)",
+    "name": "26\"x1-3/8"
+  },
+  "model": "app.partmenuitem",
+  "pk": 5
+},
+{
+  "fields": {
+    "category": "Tubes (Schrader)",
+    "name": "26\"x1.5/1.75"
+  },
+  "model": "app.partmenuitem",
+  "pk": 6
+},
+{
+  "fields": {
+    "category": "Tubes (Schrader)",
+    "name": "26\"x1.9/2.125"
+  },
+  "model": "app.partmenuitem",
+  "pk": 7
+},
+{
+  "fields": {
+    "category": "Tubes (Schrader)",
+    "name": "26\"x2.1/2.3"
+  },
+  "model": "app.partmenuitem",
+  "pk": 8
+},
+{
+  "fields": {
+    "category": "Tubes (Schrader)",
+    "name": "700x23/25c"
+  },
+  "model": "app.partmenuitem",
+  "pk": 9
+},
+{
+  "fields": {
+    "category": "Tubes (Schrader)",
+    "name": "700x28/32c"
+  },
+  "model": "app.partmenuitem",
+  "pk": 10
+},
+{
+  "fields": {
+    "category": "Tubes (Schrader)",
+    "name": "700x35/43c"
+  },
+  "model": "app.partmenuitem",
+  "pk": 11
+},
+{
+  "fields": {
+    "category": "Tubes (Schrader)",
+    "name": "29x1.9/2.3"
+  },
+  "model": "app.partmenuitem",
+  "pk": 12
+},
+{
+  "fields": {
+    "category": "Tubes (Presta)",
+    "name": "650x23c"
+  },
+  "model": "app.partmenuitem",
+  "pk": 13
+},
+{
+  "fields": {
+    "category": "Tubes (Presta)",
+    "name": "26x1.5/2"
+  },
+  "model": "app.partmenuitem",
+  "pk": 14
+},
+{
+  "fields": {
+    "category": "Tubes (Presta)",
+    "name": "26x1.9/2.125"
+  },
+  "model": "app.partmenuitem",
+  "pk": 15
+},
+{
+  "fields": {
+    "category": "Tubes (Presta)",
+    "name": "700x18/23c"
+  },
+  "model": "app.partmenuitem",
+  "pk": 16
+},
+{
+  "fields": {
+    "category": "Tubes (Presta)",
+    "name": "700x23/25c"
+  },
+  "model": "app.partmenuitem",
+  "pk": 17
+},
+{
+  "fields": {
+    "category": "Tubes (Presta)",
+    "name": "700x28/32c"
+  },
+  "model": "app.partmenuitem",
+  "pk": 18
+},
+{
+  "fields": {
+    "category": "Tubes (Presta)",
+    "name": "700X35/43c"
+  },
+  "model": "app.partmenuitem",
+  "pk": 19
+},
+{
+  "fields": {
+    "category": "Tubes (Presta)",
+    "name": "29x1.9/2.3"
+  },
+  "model": "app.partmenuitem",
+  "pk": 20
+},
+{
+  "fields": {
+    "category": "Chain",
+    "name": "Single"
+  },
+  "model": "app.partmenuitem",
+  "pk": 21
+},
+{
+  "fields": {
+    "category": "Chain",
+    "name": "6 Speed"
+  },
+  "model": "app.partmenuitem",
+  "pk": 22
+},
+{
+  "fields": {
+    "category": "Chain",
+    "name": "7 Speed"
+  },
+  "model": "app.partmenuitem",
+  "pk": 23
+},
+{
+  "fields": {
+    "category": "Chain",
+    "name": "8 Speed"
+  },
+  "model": "app.partmenuitem",
+  "pk": 24
+},
+{
+  "fields": {
+    "category": "Chain",
+    "name": "9 Speed"
+  },
+  "model": "app.partmenuitem",
+  "pk": 25
+},
+{
+  "fields": {
+    "category": "Chain",
+    "name": "10 Speed"
+  },
+  "model": "app.partmenuitem",
+  "pk": 26
+},
+{
+  "fields": {
+    "category": "Brake Pads",
+    "name": "Caliper"
+  },
+  "model": "app.partmenuitem",
+  "pk": 27
+},
+{
+  "fields": {
+    "category": "Brake Pads",
+    "name": "V-Brakes"
+  },
+  "model": "app.partmenuitem",
+  "pk": 28
+},
+{
+  "fields": {
+    "category": "Brake Pads",
+    "name": "Cantilever"
+  },
+  "model": "app.partmenuitem",
+  "pk": 29
+},
+{
+  "fields": {
+    "category": "Bottom Bracket",
+    "name": "Sealed"
+  },
+  "model": "app.partmenuitem",
+  "pk": 30
+},
+{
+  "fields": {
+    "category": "Bottom Bracket",
+    "name": "Axel"
+  },
+  "model": "app.partmenuitem",
+  "pk": 31
+},
+{
+  "fields": {
+    "category": "Bottom Bracket",
+    "name": "Cone and Axel"
+  },
+  "model": "app.partmenuitem",
+  "pk": 32
+},
+{
+  "fields": {
+    "category": "Other",
+    "name": "Other Part"
+  },
+  "model": "app.partmenuitem",
+  "pk": 33
+},
+{
+  "fields": {
+    "transaction": 8,
+    "color": "",
+    "vin": 980,
+    "completed": true,
+    "date_submitted": "2015-08-26T02:53:30.271Z",
+    "sold": true,
+    "model": "",
+    "price": 90
+  },
+  "model": "app.buybackbike",
+  "pk": 1
+},
+{
+  "fields": {
+    "sold": true,
+    "completed": true,
+    "transaction": 1,
+    "menu_item": 30,
+    "number": 1
+  },
+  "model": "app.task",
+  "pk": 1
+},
+{
+  "fields": {
+    "sold": true,
+    "completed": true,
+    "transaction": 1,
+    "menu_item": 38,
+    "number": 1
+  },
+  "model": "app.task",
+  "pk": 2
+},
+{
+  "fields": {
+    "sold": true,
+    "completed": true,
+    "transaction": 2,
+    "menu_item": 4,
+    "number": 1
+  },
+  "model": "app.task",
+  "pk": 3
+},
+{
+  "fields": {
+    "sold": true,
+    "completed": true,
+    "transaction": 6,
+    "menu_item": 4,
+    "number": 1
+  },
+  "model": "app.task",
+  "pk": 10
+},
+{
+  "fields": {
+    "sold": true,
+    "completed": true,
+    "transaction": 6,
+    "menu_item": 30,
+    "number": 1
+  },
+  "model": "app.task",
+  "pk": 11
+},
+{
+  "fields": {
+    "sold": true,
+    "completed": true,
+    "transaction": 8,
+    "menu_item": 4,
+    "number": 1
+  },
+  "model": "app.task",
+  "pk": 12
+},
+{
+  "fields": {
+    "sold": true,
+    "completed": true,
+    "transaction": 10,
+    "menu_item": 4,
+    "number": 1
+  },
+  "model": "app.task",
+  "pk": 13
+},
+{
+  "fields": {
+    "sold": true,
+    "completed": true,
+    "transaction": 10,
+    "menu_item": 19,
+    "number": 1
+  },
+  "model": "app.task",
+  "pk": 14
+},
+{
+  "fields": {
+    "sold": true,
+    "completed": true,
+    "transaction": 11,
+    "menu_item": 4,
+    "number": 1
+  },
+  "model": "app.task",
+  "pk": 15
+},
+{
+  "fields": {
+    "sold": true,
+    "completed": true,
+    "transaction": 11,
+    "menu_item": 19,
+    "number": 1
+  },
+  "model": "app.task",
+  "pk": 16
+},
+{
+  "fields": {
+    "sold": false,
+    "completed": true,
+    "transaction": 12,
+    "menu_item": 30,
+    "number": 13
+  },
+  "model": "app.task",
+  "pk": 17
+},
+{
+  "fields": {
+    "sold": false,
+    "completed": true,
+    "transaction": 12,
+    "menu_item": 38,
+    "number": 1
+  },
+  "model": "app.task",
+  "pk": 18
+},
+{
+  "fields": {
+    "sold": true,
+    "completed": true,
+    "transaction": 15,
+    "menu_item": 31,
+    "number": 1
+  },
+  "model": "app.task",
+  "pk": 19
+},
+{
+  "fields": {
+    "sold": false,
+    "completed": true,
+    "transaction": 12,
+    "menu_item": 0,
+    "number": 1
+  },
+  "model": "app.accessory",
+  "pk": 1
+},
+{
+  "fields": {
+    "sold": false,
+    "completed": true,
+    "transaction": 12,
+    "menu_item": 1,
+    "number": 1
+  },
+  "model": "app.accessory",
+  "pk": 2
+},
+{
+  "fields": {
+    "transaction": 1,
+    "menu_item": 11,
+    "price": 5,
+    "number": 1,
+    "sold": true,
+    "completed": true
+  },
+  "model": "app.part",
+  "pk": 2
+},
+{
+  "fields": {
+    "transaction": 1,
+    "menu_item": 4,
+    "price": 5,
+    "number": 1,
+    "sold": true,
+    "completed": true
+  },
+  "model": "app.part",
+  "pk": 3
+},
+{
+  "fields": {
+    "transaction": 1,
+    "menu_item": 0,
+    "price": 5,
+    "number": 1,
+    "sold": true,
+    "completed": true
+  },
+  "model": "app.part",
+  "pk": 4
+},
+{
+  "fields": {
+    "transaction": 2,
+    "menu_item": 13,
+    "price": 5,
+    "number": 1,
+    "sold": true,
+    "completed": true
+  },
+  "model": "app.part",
+  "pk": 5
+},
+{
+  "fields": {
+    "transaction": 6,
+    "menu_item": 13,
+    "price": 5,
+    "number": 1,
+    "sold": true,
+    "completed": true
+  },
+  "model": "app.part",
+  "pk": 10
+},
+{
+  "fields": {
+    "transaction": 11,
+    "menu_item": 14,
+    "price": 5,
+    "number": 1,
+    "sold": true,
+    "completed": true
+  },
+  "model": "app.part",
+  "pk": 11
+},
+{
+  "fields": {
+    "transaction": 11,
+    "menu_item": 13,
+    "price": 5,
+    "number": 1,
+    "sold": true,
+    "completed": true
+  },
+  "model": "app.part",
+  "pk": 12
+},
+{
+  "fields": {
+    "transaction": 12,
+    "menu_item": 13,
+    "price": 5,
+    "number": 1,
+    "sold": false,
+    "completed": true
+  },
+  "model": "app.part",
+  "pk": 13
+},
+{
+  "fields": {
+    "transaction": 15,
+    "menu_item": 0,
+    "price": 5,
+    "number": 1,
+    "sold": true,
+    "completed": true
+  },
+  "model": "app.part",
+  "pk": 14
+},
+{
+  "fields": {
+    "description": "DISCOUNT"
+  },
+  "model": "app.miscrevenueupdate",
+  "pk": 1
+},
+{
+  "fields": {
+    "transaction": 8,
+    "new_total_revenue": 9,
+    "date_submitted": "2015-08-26T03:30:28.293Z",
+    "misc_revenue_update": null,
+    "amount": 9,
+    "employee": "Aruni",
+    "order": null
+  },
+  "model": "app.revenueupdate",
+  "pk": 1
+},
+{
+  "fields": {
+    "transaction": null,
+    "new_total_revenue": 4,
+    "date_submitted": "2015-08-26T03:35:51.538Z",
+    "misc_revenue_update": 1,
+    "amount": -5,
+    "employee": "Aruni",
+    "order": null
+  },
+  "model": "app.revenueupdate",
+  "pk": 2
+},
+{
+  "fields": {
+    "transaction": 12,
+    "new_total_revenue": 204,
+    "date_submitted": "2015-08-26T03:58:35.524Z",
+    "misc_revenue_update": null,
+    "amount": 200,
+    "employee": "Aruni",
+    "order": null
+  },
+  "model": "app.revenueupdate",
+  "pk": 3
+},
+{
+  "fields": {
+    "total_revenue": 204
+  },
+  "model": "app.totalrevenue",
+  "pk": 1
+},
+{
+  "fields": {
+    "codename": "add_logentry",
+    "name": "Can add log entry",
+    "content_type": 1
+  },
+  "model": "auth.permission",
+  "pk": 1
+},
+{
+  "fields": {
+    "codename": "change_logentry",
+    "name": "Can change log entry",
+    "content_type": 1
+  },
+  "model": "auth.permission",
+  "pk": 2
+},
+{
+  "fields": {
+    "codename": "delete_logentry",
+    "name": "Can delete log entry",
+    "content_type": 1
+  },
+  "model": "auth.permission",
+  "pk": 3
+},
+{
+  "fields": {
+    "codename": "add_permission",
+    "name": "Can add permission",
+    "content_type": 2
+  },
+  "model": "auth.permission",
+  "pk": 4
+},
+{
+  "fields": {
+    "codename": "change_permission",
+    "name": "Can change permission",
+    "content_type": 2
+  },
+  "model": "auth.permission",
+  "pk": 5
+},
+{
+  "fields": {
+    "codename": "delete_permission",
+    "name": "Can delete permission",
+    "content_type": 2
+  },
+  "model": "auth.permission",
+  "pk": 6
+},
+{
+  "fields": {
+    "codename": "add_group",
+    "name": "Can add group",
+    "content_type": 3
+  },
+  "model": "auth.permission",
+  "pk": 7
+},
+{
+  "fields": {
+    "codename": "change_group",
+    "name": "Can change group",
+    "content_type": 3
+  },
+  "model": "auth.permission",
+  "pk": 8
+},
+{
+  "fields": {
+    "codename": "delete_group",
+    "name": "Can delete group",
+    "content_type": 3
+  },
+  "model": "auth.permission",
+  "pk": 9
+},
+{
+  "fields": {
+    "codename": "add_user",
+    "name": "Can add user",
+    "content_type": 4
+  },
+  "model": "auth.permission",
+  "pk": 10
+},
+{
+  "fields": {
+    "codename": "change_user",
+    "name": "Can change user",
+    "content_type": 4
+  },
+  "model": "auth.permission",
+  "pk": 11
+},
+{
+  "fields": {
+    "codename": "delete_user",
+    "name": "Can delete user",
+    "content_type": 4
+  },
+  "model": "auth.permission",
+  "pk": 12
+},
+{
+  "fields": {
+    "codename": "add_contenttype",
+    "name": "Can add content type",
+    "content_type": 5
+  },
+  "model": "auth.permission",
+  "pk": 13
+},
+{
+  "fields": {
+    "codename": "change_contenttype",
+    "name": "Can change content type",
+    "content_type": 5
+  },
+  "model": "auth.permission",
+  "pk": 14
+},
+{
+  "fields": {
+    "codename": "delete_contenttype",
+    "name": "Can delete content type",
+    "content_type": 5
+  },
+  "model": "auth.permission",
+  "pk": 15
+},
+{
+  "fields": {
+    "codename": "add_session",
+    "name": "Can add session",
+    "content_type": 6
+  },
+  "model": "auth.permission",
+  "pk": 16
+},
+{
+  "fields": {
+    "codename": "change_session",
+    "name": "Can change session",
+    "content_type": 6
+  },
+  "model": "auth.permission",
+  "pk": 17
+},
+{
+  "fields": {
+    "codename": "delete_session",
+    "name": "Can delete session",
+    "content_type": 6
+  },
+  "model": "auth.permission",
+  "pk": 18
+},
+{
+  "fields": {
+    "codename": "add_employee",
+    "name": "Can add employee",
+    "content_type": 7
+  },
+  "model": "auth.permission",
+  "pk": 19
+},
+{
+  "fields": {
+    "codename": "change_employee",
+    "name": "Can change employee",
+    "content_type": 7
+  },
+  "model": "auth.permission",
+  "pk": 20
+},
+{
+  "fields": {
+    "codename": "delete_employee",
+    "name": "Can delete employee",
+    "content_type": 7
+  },
+  "model": "auth.permission",
+  "pk": 21
+},
+{
+  "fields": {
+    "codename": "add_rentalbike",
+    "name": "Can add Bike Rental",
+    "content_type": 8
+  },
+  "model": "auth.permission",
+  "pk": 22
+},
+{
+  "fields": {
+    "codename": "change_rentalbike",
+    "name": "Can change Bike Rental",
+    "content_type": 8
+  },
+  "model": "auth.permission",
+  "pk": 23
+},
+{
+  "fields": {
+    "codename": "delete_rentalbike",
+    "name": "Can delete Bike Rental",
+    "content_type": 8
+  },
+  "model": "auth.permission",
+  "pk": 24
+},
+{
+  "fields": {
+    "codename": "add_refurbishedbike",
+    "name": "Can add Bike Refurbished",
+    "content_type": 9
+  },
+  "model": "auth.permission",
+  "pk": 25
+},
+{
+  "fields": {
+    "codename": "change_refurbishedbike",
+    "name": "Can change Bike Refurbished",
+    "content_type": 9
+  },
+  "model": "auth.permission",
+  "pk": 26
+},
+{
+  "fields": {
+    "codename": "delete_refurbishedbike",
+    "name": "Can delete Bike Refurbished",
+    "content_type": 9
+  },
+  "model": "auth.permission",
+  "pk": 27
+},
+{
+  "fields": {
+    "codename": "add_transaction",
+    "name": "Can add transaction",
+    "content_type": 10
+  },
+  "model": "auth.permission",
+  "pk": 28
+},
+{
+  "fields": {
+    "codename": "change_transaction",
+    "name": "Can change transaction",
+    "content_type": 10
+  },
+  "model": "auth.permission",
+  "pk": 29
+},
+{
+  "fields": {
+    "codename": "delete_transaction",
+    "name": "Can delete transaction",
+    "content_type": 10
+  },
+  "model": "auth.permission",
+  "pk": 30
+},
+{
+  "fields": {
+    "codename": "add_taskmenuitem",
+    "name": "Can add Menu Task Item",
+    "content_type": 11
+  },
+  "model": "auth.permission",
+  "pk": 31
+},
+{
+  "fields": {
+    "codename": "change_taskmenuitem",
+    "name": "Can change Menu Task Item",
+    "content_type": 11
+  },
+  "model": "auth.permission",
+  "pk": 32
+},
+{
+  "fields": {
+    "codename": "delete_taskmenuitem",
+    "name": "Can delete Menu Task Item",
+    "content_type": 11
+  },
+  "model": "auth.permission",
+  "pk": 33
+},
+{
+  "fields": {
+    "codename": "add_accessorymenuitem",
+    "name": "Can add Menu Accessory Item",
+    "content_type": 12
+  },
+  "model": "auth.permission",
+  "pk": 34
+},
+{
+  "fields": {
+    "codename": "change_accessorymenuitem",
+    "name": "Can change Menu Accessory Item",
+    "content_type": 12
+  },
+  "model": "auth.permission",
+  "pk": 35
+},
+{
+  "fields": {
+    "codename": "delete_accessorymenuitem",
+    "name": "Can delete Menu Accessory Item",
+    "content_type": 12
+  },
+  "model": "auth.permission",
+  "pk": 36
+},
+{
+  "fields": {
+    "codename": "add_partmenuitem",
+    "name": "Can add Menu Part Item",
+    "content_type": 13
+  },
+  "model": "auth.permission",
+  "pk": 37
+},
+{
+  "fields": {
+    "codename": "change_partmenuitem",
+    "name": "Can change Menu Part Item",
+    "content_type": 13
+  },
+  "model": "auth.permission",
+  "pk": 38
+},
+{
+  "fields": {
+    "codename": "delete_partmenuitem",
+    "name": "Can delete Menu Part Item",
+    "content_type": 13
+  },
+  "model": "auth.permission",
+  "pk": 39
+},
+{
+  "fields": {
+    "codename": "add_buybackbike",
+    "name": "Can add Bike Buy Back",
+    "content_type": 14
+  },
+  "model": "auth.permission",
+  "pk": 40
+},
+{
+  "fields": {
+    "codename": "change_buybackbike",
+    "name": "Can change Bike Buy Back",
+    "content_type": 14
+  },
+  "model": "auth.permission",
+  "pk": 41
+},
+{
+  "fields": {
+    "codename": "delete_buybackbike",
+    "name": "Can delete Bike Buy Back",
+    "content_type": 14
+  },
+  "model": "auth.permission",
+  "pk": 42
+},
+{
+  "fields": {
+    "codename": "add_task",
+    "name": "Can add task",
+    "content_type": 15
+  },
+  "model": "auth.permission",
+  "pk": 43
+},
+{
+  "fields": {
+    "codename": "change_task",
+    "name": "Can change task",
+    "content_type": 15
+  },
+  "model": "auth.permission",
+  "pk": 44
+},
+{
+  "fields": {
+    "codename": "delete_task",
+    "name": "Can delete task",
+    "content_type": 15
+  },
+  "model": "auth.permission",
+  "pk": 45
+},
+{
+  "fields": {
+    "codename": "add_accessory",
+    "name": "Can add accessory",
+    "content_type": 16
+  },
+  "model": "auth.permission",
+  "pk": 46
+},
+{
+  "fields": {
+    "codename": "change_accessory",
+    "name": "Can change accessory",
+    "content_type": 16
+  },
+  "model": "auth.permission",
+  "pk": 47
+},
+{
+  "fields": {
+    "codename": "delete_accessory",
+    "name": "Can delete accessory",
+    "content_type": 16
+  },
+  "model": "auth.permission",
+  "pk": 48
+},
+{
+  "fields": {
+    "codename": "add_part",
+    "name": "Can add part",
+    "content_type": 17
+  },
+  "model": "auth.permission",
+  "pk": 49
+},
+{
+  "fields": {
+    "codename": "change_part",
+    "name": "Can change part",
+    "content_type": 17
+  },
+  "model": "auth.permission",
+  "pk": 50
+},
+{
+  "fields": {
+    "codename": "delete_part",
+    "name": "Can delete part",
+    "content_type": 17
+  },
+  "model": "auth.permission",
+  "pk": 51
+},
+{
+  "fields": {
+    "codename": "add_partorder",
+    "name": "Can add part order",
+    "content_type": 18
+  },
+  "model": "auth.permission",
+  "pk": 52
+},
+{
+  "fields": {
+    "codename": "change_partorder",
+    "name": "Can change part order",
+    "content_type": 18
+  },
+  "model": "auth.permission",
+  "pk": 53
+},
+{
+  "fields": {
+    "codename": "delete_partorder",
+    "name": "Can delete part order",
+    "content_type": 18
+  },
+  "model": "auth.permission",
+  "pk": 54
+},
+{
+  "fields": {
+    "codename": "add_miscrevenueupdate",
+    "name": "Can add misc revenue update",
+    "content_type": 19
+  },
+  "model": "auth.permission",
+  "pk": 55
+},
+{
+  "fields": {
+    "codename": "change_miscrevenueupdate",
+    "name": "Can change misc revenue update",
+    "content_type": 19
+  },
+  "model": "auth.permission",
+  "pk": 56
+},
+{
+  "fields": {
+    "codename": "delete_miscrevenueupdate",
+    "name": "Can delete misc revenue update",
+    "content_type": 19
+  },
+  "model": "auth.permission",
+  "pk": 57
+},
+{
+  "fields": {
+    "codename": "add_revenueupdate",
+    "name": "Can add revenue update",
+    "content_type": 20
+  },
+  "model": "auth.permission",
+  "pk": 58
+},
+{
+  "fields": {
+    "codename": "change_revenueupdate",
+    "name": "Can change revenue update",
+    "content_type": 20
+  },
+  "model": "auth.permission",
+  "pk": 59
+},
+{
+  "fields": {
+    "codename": "delete_revenueupdate",
+    "name": "Can delete revenue update",
+    "content_type": 20
+  },
+  "model": "auth.permission",
+  "pk": 60
+},
+{
+  "fields": {
+    "codename": "add_totalrevenue",
+    "name": "Can add Total Revenue",
+    "content_type": 21
+  },
+  "model": "auth.permission",
+  "pk": 61
+},
+{
+  "fields": {
+    "codename": "change_totalrevenue",
+    "name": "Can change Total Revenue",
+    "content_type": 21
+  },
+  "model": "auth.permission",
+  "pk": 62
+},
+{
+  "fields": {
+    "codename": "delete_totalrevenue",
+    "name": "Can delete Total Revenue",
+    "content_type": 21
+  },
+  "model": "auth.permission",
+  "pk": 63
+},
+{
+  "fields": {
+    "codename": "add_partcategory",
+    "name": "Can add part category",
+    "content_type": 22
+  },
+  "model": "auth.permission",
+  "pk": 64
+},
+{
+  "fields": {
+    "codename": "change_partcategory",
+    "name": "Can change part category",
+    "content_type": 22
+  },
+  "model": "auth.permission",
+  "pk": 65
+},
+{
+  "fields": {
+    "codename": "delete_partcategory",
+    "name": "Can delete part category",
+    "content_type": 22
+  },
+  "model": "auth.permission",
+  "pk": 66
+},
+{
+  "fields": {
+    "username": "Aruni",
+    "first_name": "",
+    "last_name": "",
+    "is_active": true,
+    "is_superuser": true,
+    "is_staff": true,
+    "last_login": "2015-08-26T02:45:09.960Z",
+    "groups": [],
+    "user_permissions": [],
+    "password": "pbkdf2_sha256$12000$fkXcv1ffKZL7$v6qVYgzVZFi8UAhmwUjLBMDYXGVbCBvmRr+t/DGmioU=",
+    "email": "asr4@rice.edu",
+    "date_joined": "2015-08-26T02:44:55.165Z"
+  },
+  "model": "auth.user",
+  "pk": 1
+}
+]

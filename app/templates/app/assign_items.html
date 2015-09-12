@@ -88,6 +88,8 @@
     </div>
     {% endfor %}
 
+
+    {% if not transaction.rental_bike and not transaction.refurbished_bike and not transaction.buy_back_bike %}
     <div class="category" category="accessory">
         <div class="btn-group btn-group-justified">
             <a class="btn btn-primary btn-xlarge" role="button">Accessories</a>
@@ -114,26 +116,25 @@
 
     <div class="category" category="buy_back">
         <div class="btn-group btn-group-justified">
-            <a class="btn btn-primary btn-xlarge" role="button">Buy Back</a>
+            <a class="btn btn-primary btn-xlarge" role="button">Buy Backs</a>
         </div>
     </div>
 
-    {% for tuple in buy_back_items %}
-        <div class="buy_back" style="display:none">
-            {% with buy_back_item=tuple.0 %}
-                {% with bool=tuple.1 %}
-                <div class="form-group">
-                    <label class="control-label  " for="id_1-{{ buy_back_item.vin }}">
-                        VIN# {{ buy_back_item.vin }}</label>
-                    <div class=" ">
-                        <input class="form-control" id="id_1-{{ buy_back_item.vin }}" name="buy_back_{{buy_back_item.vin}}" type="checkbox"
-                               {% if bool %} checked="checked "{% endif %}/>
-                    </div>
-                </div>
-                {% endwith %}
-            {% endwith %}
-        </div>
-    {% endfor %}
+    <br>
+    <div class="buy_back" style="display:none">
+        <form>
+            <select name="buy_back_bike" class="form-control">
+                <option value="{{buy_back_vin}}">{{buy_back_vin}}</option>
+                {% for buy_back in buy_back_items %}
+                    {% if buy_back.vin != buy_back_vin %}
+                        <option value="{{buy_back.vin}}">{{buy_back.vin}}</option>
+                    {% endif%}
+                {% endfor %}
+            </select>
+        </form>
+        <br>
+    </div>
+    {% endif %}
 
     <br>
 

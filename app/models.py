@@ -44,9 +44,10 @@ class RentalBike(models.Model):
 
 class RefurbishedBike(models.Model):
     vin = models.IntegerField(unique=True, null=False, blank=False)
-    color = models.TextField()
-    model = models.TextField()
+    color = models.TextField(null=True, blank=True)
+    model = models.TextField(null=True, blank=True)
     date_submitted = models.DateTimeField(default=datetime.now, blank=True)
+    sold = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.vin)
@@ -54,6 +55,23 @@ class RefurbishedBike(models.Model):
     class Meta:
         verbose_name = "Bike Refurbished"
         verbose_name_plural = "Bike Refurbished"
+
+
+class BuyBackBike(models.Model):
+    vin = models.IntegerField(unique=True, null=False, blank=False)
+    completed = models.BooleanField(default=False)
+    color = models.TextField(null=True, blank=True)
+    model = models.TextField(null=True, blank=True)
+    date_submitted = models.DateTimeField(default=datetime.now, blank=True)
+    price = models.IntegerField(default=0)
+    sold = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.vin)
+
+    class Meta:
+        verbose_name = "Bike Buy Back"
+        verbose_name_plural = "Bike Buy Backs"
 
 
 class Transaction(models.Model):
@@ -77,6 +95,7 @@ class Transaction(models.Model):
     # ForeignKeys to RentalBike and RefurbishedBike
     rental_bike = models.ForeignKey(RentalBike, null=True, blank=True)
     refurbished_bike = models.ForeignKey(RefurbishedBike, null=True, blank=True)
+    buy_back_bike = models.ForeignKey(BuyBackBike, null=True, blank=True)
 
     # Auto-generated fields
     completed = models.BooleanField(default=False)
@@ -121,24 +140,6 @@ class PartMenuItem(models.Model):
     class Meta:
         verbose_name = "Menu Part Item"
         verbose_name_plural = "Menu Part Items"
-
-
-class BuyBackBike(models.Model):
-    vin = models.IntegerField(unique=True, null=False, blank=False)
-    completed = models.BooleanField(default=False)
-    transaction = models.ForeignKey(Transaction, null=True, blank=True)
-    color = models.TextField()
-    model = models.TextField()
-    date_submitted = models.DateTimeField(default=datetime.now, blank=True)
-    price = models.IntegerField(default=0)
-    sold = models.BooleanField(default=False)
-
-    def __str__(self):
-        return str(self.vin)
-
-    class Meta:
-        verbose_name = "Bike Buy Back"
-        verbose_name_plural = "Bike Buy Backs"
 
 
 class Task(models.Model):

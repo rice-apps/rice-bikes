@@ -26,22 +26,28 @@ $(document).ready(function() {
     // selection event
     $('#bike_type').change(function() {
         selection = $(this).prop('value');
-        rental_bike = $("[id*="+'rental_vin'+"]").closest('.fieldWrapper');
-        refurbished_bike = $("[id*="+'refurbished_vin'+"]").closest('.fieldWrapper');
+        rental_bike = $("[id*="+'rental'+"]").closest('.fieldWrapper');
+        refurbished_bike = $("[id*="+'refurbished'+"]").closest('.fieldWrapper');
+        buy_back_bike = $("[id*="+'buy_back'+"]").closest('.fieldWrapper');
+
+        $(rental_bike).hide();
+        $(refurbished_bike).hide();
+        $(buy_back_bike).hide();
+
         if (selection == 'customer_bike'){
-            $(rental_bike).hide();
-            $(refurbished_bike).hide();
             empty_fields();
         }
         else if (selection == 'rental_bike'){
             $(rental_bike).show();
-            $(refurbished_bike).hide();
             empty_fields();
         }
         else if (selection == 'refurbished_bike') {
             $(refurbished_bike).show();
-            $(rental_bike).hide();
             fill_fields();
+        }
+        else if (selection == 'buy_back_bike') {
+            $(buy_back_bike).show();
+            empty_fields();
         }
     })
 

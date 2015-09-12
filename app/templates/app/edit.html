@@ -139,20 +139,22 @@
         <div class="panel-heading panel-heading-tight"><h3>Buy Backs</h3></div>
         <div class="panel-body parts-panel">
             <div id="buy_back_container">
-            {% for buy_back in  buy_backs %}
+
                     <div id="{{buy_back.menu_item.name|join_whitespace}}" category="{{ buy_back.menu_item.category}}">
-                        <div class="fieldWrapper">
-                            <em><strong>{{ buy_back.vin }}</strong></em>
-                            <input class="form-control" id="id_{{buy_back.vin}}" name="buy_back_{{buy_back.vin}}" type="checkbox"
-                                   {% if buy_back.completed %} checked="checked" {% endif %}/>
-                            <br>
-                            <b>Price</b>
-                            <input class="form-control buy_back_price" name="buy_back_{{buy_back.vin}}"
-                                   type="number" value="{{ buy_back.price }}"/>
-                            <div class="old_price" style="display:none" old_value="{{buy_back.price}}"></div>
-                        </div>
+                        <b>VIN</b>
+                        <select name="buy_back_bike" class="form-control">
+                            <option value="{{buy_back.vin}}">{{buy_back.vin}}</option>
+                            {% for buy_back_item in buy_back_items %}
+                                {% if buy_back_item.vin != buy_back.vin %}
+                                    <option value="{{buy_back_item.vin}}">{{buy_back_item.vin}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <b>Price</b>
+                        <input class="form-control buy_back_price" name="buy_back_{{buy_back.vin}}"
+                               type="number" value="{{ buy_back.price }}"/>
+                        <div class="old_price" style="display:none" old_value="{{buy_back.price}}"></div>
                     </div>
-            {% endfor %}
             </div>
         </div>
     </div>

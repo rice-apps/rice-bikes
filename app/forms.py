@@ -14,6 +14,7 @@ class RepairsForm(ModelForm):
 class CustomerForm(ModelForm):
     rental_vin = forms.IntegerField(required=False)
     refurbished_vin = forms.IntegerField(required=False)
+    buy_back_vin = forms.IntegerField(required=False)
 
     class Meta:
         model = Transaction
@@ -87,3 +88,12 @@ class MiscRevenueUpdateForm(ModelForm):
 
 class SingleNumberForm(Form):
     number = forms.IntegerField(label='Number', initial=1)
+
+
+class BuyBackSelectForm(ModelForm):
+    class Meta:
+        model = BuyBackBike
+        include = ['vin', ]
+        widgets = {
+            'vin': forms.Select()
+        }
