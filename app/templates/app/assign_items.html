@@ -89,7 +89,7 @@
     {% endfor %}
 
 
-    {% if not transaction.rental_bike and not transaction.refurbished_bike and not transaction.buy_back_bike %}
+    {% if not transaction.is_for_bike %}
     <div class="category" category="accessory">
         <div class="btn-group btn-group-justified">
             <a class="btn btn-primary btn-xlarge" role="button">Accessories</a>
@@ -120,14 +120,34 @@
         </div>
     </div>
 
-    <br>
     <div class="buy_back" style="display:none">
-        <form>
+        <br>
             <select name="buy_back_bike" class="form-control">
                 <option value="{{buy_back_vin}}">{{buy_back_vin}}</option>
                 {% for buy_back in buy_back_items %}
                     {% if buy_back.vin != buy_back_vin %}
                         <option value="{{buy_back.vin}}">{{buy_back.vin}}</option>
+                    {% endif%}
+                {% endfor %}
+            </select>
+        <br>
+    </div>
+
+
+
+    <div class="category" category="refurbished_bike">
+        <div class="btn-group btn-group-justified">
+            <a class="btn btn-primary btn-xlarge" role="button">Refurbished Bikes</a>
+        </div>
+    </div>
+
+    <div class="refurbished_bike" style="display:none">
+        <form>
+            <select name="refurbished_bike" class="form-control">
+                <option value="{{refurbished_bike_vin}}">{{refurbished_bike_vin}}</option>
+                {% for refurbished_bike in refurbished_bikes %}
+                    {% if refurbished_bike.vin != refurbished_bike_vin %}
+                        <option value="{{refurbished_bike.vin}}">{{refurbished_bike.vin}}</option>
                     {% endif%}
                 {% endfor %}
             </select>

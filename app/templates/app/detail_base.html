@@ -45,21 +45,23 @@
                 <td><b>Amount Paid</b></td>
                 <td>{{ transaction.amount_paid }} </td>
             </tr>
-            {% if transaction.rental_bike %}
-            <tr>
-                <td><b>Rental VIN</b></td>
-                <td>{{ transaction.rental_bike.vin }} </td>
-            </tr>
-            {% elif transaction.refurbished_bike %}
-            <tr>
-                <td><b>Refurbished VIN</b></td>
-                <td>{{ transaction.refurbished_bike.vin }} </td>
-            </tr>
-            {% elif transaction.buy_back_bike %}
-            <tr>
-                <td><b>Buy Back VIN</b></td>
-                <td>{{ transaction.buy_back_bike.vin }} </td>
-            </tr>
+            {% if transaction.is_for_bike %}
+                {% if transaction.rental_bike %}
+                <tr>
+                    <td><b>Rental VIN</b></td>
+                    <td>{{ transaction.rental_bike.vin }} </td>
+                </tr>
+                {% elif transaction.refurbished_bike %}
+                <tr>
+                    <td><b>Refurbished VIN</b></td>
+                    <td>{{ transaction.refurbished_bike.vin }} </td>
+                </tr>
+                {% elif transaction.buy_back_bike %}
+                <tr>
+                    <td><b>Buy Back VIN</b></td>
+                    <td>{{ transaction.buy_back_bike.vin }} </td>
+                </tr>
+                {% endif %}
             {% endif %}
         </table>
     </div>
@@ -119,54 +121,83 @@
 </div>
 {% endif %}
 
-{% if accessories %}
+{% if not transaction.is_for_bike %}
 
-<div class="panel panel-primary">
-    <div class="panel-heading panel-heading-tight">
-        <h3>Accessories</h3>
+    {% if accessories %}
+
+    <div class="panel panel-primary">
+        <div class="panel-heading panel-heading-tight">
+            <h3>Accessories</h3>
+        </div>
+
+        <div class="panel-body parts-panel">
+            <table class="table table-striped">
+                <thead>
+                    <td class="col-xs-10"><b>Accessory</b></td>
+                    <td class="col-sm-1"><b>#</b></td>
+                    <td class="col-sm-1"><b>Completed</b></td>
+                </thead>
+                {% for accessory in accessories %}
+                    <tr>
+                        <td>{{ accessory.menu_item.name }} </td>
+                        <td>{{ accessory.number }} </td>
+                        <td>{{ accessory.completed }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
     </div>
+    {% endif %}
 
-    <div class="panel-body parts-panel">
-        <table class="table table-striped">
-            <thead>
-                <td class="col-xs-10"><b>Accessory</b></td>
-                <td class="col-sm-1"><b>#</b></td>
-                <td class="col-sm-1"><b>Completed</b></td>
-            </thead>
-            {% for accessory in accessories %}
+    {% if buy_back %}
+
+    <div class="panel panel-primary">
+        <div class="panel-heading panel-heading-tight">
+            <h3>Buy-Back Bike</h3>
+        </div>
+
+        <div class="panel-body parts-panel">
+            <table class="table table-striped">
+                <thead>
+                    <td class="col-sm-1"><b>VIN</b></td>
+                    <!--<td class="col-sm-1"><b>Completed</b></td>-->
+                </thead>
+
                 <tr>
-                    <td>{{ accessory.menu_item.name }} </td>
-                    <td>{{ accessory.number }} </td>
-                    <td>{{ accessory.completed }}</td>
+                    <td>{{ buy_back.vin }} </td>
+                    <!--<td>{{ buy_back.completed }}</td>-->
                 </tr>
-            {% endfor %}
-        </table>
+
+            </table>
+        </div>
     </div>
-</div>
-{% endif %}
+    {% endif %}
 
-{% if buy_back %}
 
-<div class="panel panel-primary">
-    <div class="panel-heading panel-heading-tight">
-        <h3>Buy Backs</h3>
+    {% if transaction.refurbished_bike %}
+
+    <div class="panel panel-primary">
+        <div class="panel-heading panel-heading-tight">
+            <h3>Refurbished Bike</h3>
+        </div>
+
+        <div class="panel-body parts-panel">
+            <table class="table table-striped">
+                <thead>
+                    <td class="col-sm-1"><b>VIN</b></td>
+                    <!--<td class="col-sm-1"><b>Completed</b></td>-->
+                </thead>
+
+                <tr>
+                    <td>{{ transaction.refurbished_bike.vin }} </td>
+                    <!--<td>{{ transaction.refurbished_bike.completed }}</td>-->
+                </tr>
+
+            </table>
+        </div>
     </div>
+    {% endif %}
 
-    <div class="panel-body parts-panel">
-        <table class="table table-striped">
-            <thead>
-                <td class="col-sm-1"><b>VIN</b></td>
-                <td class="col-sm-1"><b>Completed</b></td>
-            </thead>
-
-            <tr>
-                <td>{{ buy_back.vin }} </td>
-                <td>{{ buy_back.completed }}</td>
-            </tr>
-
-        </table>
-    </div>
-</div>
 {% endif %}
 
 <div class="panel panel-primary">

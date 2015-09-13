@@ -277,23 +277,40 @@ def get_url(num_parent_args, kwargs):
     return url
 
 
-def process_buy_backs_edit(form_data, prefix, buy_back):
+def process_buy_back_edit(form_data, prefix, transaction):
 
-    # print form_data
+    item_name = prefix
 
-    # update all items
+    try:
+        vin = form_data[item_name]
+        price = form_data[item_name + "_price"]
+        if int(vin) != int(transaction.buy_back_bike.vin):
+            transaction.buy_back_bike = BuyBackBike.objects.filter(vin=vin).first()
+            transaction.save()
 
-    item_name = prefix + str(buy_back.vin)
+        transaction.buy_back_bike.price = price
+        transaction.buy_back_bike.save()
 
-    if item_name in form_data:
-        buy_back.completed = True
-    else:
-        buy_back.completed = False
+    except ValueError:
+        pass
 
-    buy_back.price = form_data[item_name]
 
-    buy_back.save()
+def process_refurbished_bike_edit(form_data, prefix, transaction):
 
+    item_name = prefix
+
+    try:
+        vin = form_data[item_name]
+        price = form_data[item_name + "_price"]
+        if int(vin) != int(transaction.refurbished_bike.vin):
+            transaction.refurbished_bike = RefurbishedBike.objects.filter(vin=vin).first()
+            transaction.save()
+
+        transaction.refurbished_bike.price = price
+        transaction.refurbished_bike.save()
+
+    except ValueError:
+        pass
 
 @login_required
 def update(request, **kwargs):
@@ -306,8 +323,10 @@ def update(request, **kwargs):
     tasks = transaction.task_set.all()
     parts = transaction.part_set.all()
     accessories = transaction.accessory_set.all()
-    buy_backs = BuyBackBike.objects.all()
+    buy_back_items = BuyBackBike.objects.all()
     buy_back = transaction.buy_back_bike
+    refurbished_bikes = RefurbishedBike.objects.all()
+    refurbished_bike = transaction.refurbished_bike
 
     if request.method == 'POST':
         num_parent_args = num_parent_args
@@ -330,7 +349,10 @@ def update(request, **kwargs):
             process_items_edit(form.data, "accessory_", accessories)
 
             # save buy_backs
-            process_buy_backs_edit(form.data, "buy_back_", buy_back)
+            process_buy_back_edit(form.data, "buy_back_bike", transaction)
+
+            # save refurbished bikes
+            process_refurbished_bike_edit(form.data, "refurbished_bike", transaction)
 
             transaction.save()
 
@@ -352,11 +374,14 @@ def update(request, **kwargs):
     return render_to_response("app/edit.html", {'tasks': tasks,
                                                 'parts': parts,
                                                 'accessories': accessories,
-                                                'buy_backs': buy_backs,
+                                                'buy_back_items': buy_back_items,
                                                 'buy_back': buy_back,
+                                                'refurbished_bikes': refurbished_bikes,
+                                                'refurbished_bike': refurbished_bike,
                                                 'task_categories': task_categories,
                                                 'part_categories': part_categories,
-                                                'transaction_form': transaction_form
+                                                'transaction_form': transaction_form,
+                                                'transaction': transaction,
                                                 },
                               context_instance=RequestContext(request))
 
@@ -576,12 +601,14 @@ def process_transaction(form_data):
         cost=0,
     )
 
-    print form_data
+    # print form_data
 
     # map transaction to rental/refurbished bike
     rental_vin = form_data['rental_vin']
     refurbished_vin = form_data['refurbished_vin']
     buy_back_vin = form_data['buy_back_vin']
+
+    new_transaction.is_for_bike = True
 
     if rental_vin:
         rental_bike = RentalBike.objects.filter(vin=rental_vin).first()
@@ -607,6 +634,8 @@ def process_transaction(form_data):
             )
             buy_back_bike.save()
         new_transaction.buy_back_bike = buy_back_bike
+    else:
+        new_transaction.is_for_bike = False
 
     new_transaction.save()
 
@@ -764,8 +793,23 @@ def process_buy_backs(form_data, transaction):
     # gets all checkbox fields and returns this as the checked accessory fields
     buy_back_vin = form_data["buy_back_bike"]
 
-    transaction.buy_back_bike = BuyBackBike.objects.filter(vin=buy_back_vin).first()
-    transaction.save()
+    try:
+        transaction.buy_back_bike = BuyBackBike.objects.filter(vin=buy_back_vin).first()
+        transaction.save()
+    except ValueError:
+        pass
+
+
+def process_assigned_refurbished(form_data, transaction):
+    # gets all checkbox fields and returns this as the checked accessory fields
+
+    refurbished_bike_vin = form_data["refurbished_bike"]
+
+    try:
+        transaction.refurbished_bike = RefurbishedBike.objects.filter(vin=refurbished_bike_vin).first()
+        transaction.save()
+    except ValueError:
+        pass
 
 def process_task_form(form_data, transaction):
     for key, value in form_data.iteritems():
@@ -801,6 +845,9 @@ def assign_items(request, **kwargs):
 
     if request.method == 'POST':
 
+        print
+        print "WAAAAA????"
+        print
         for item in request.POST:
             print item
 
@@ -828,8 +875,11 @@ def assign_items(request, **kwargs):
         print "PROCESS Accessories now.."
         process_accessories(form.data, transaction)
 
-        # save buy-backs
+        # save buy-back
         process_buy_backs(form.data, transaction)
+
+        # save refurbished bike
+        process_assigned_refurbished(form.data, transaction)
 
         # save fields assigned to the transaction
         return render_to_response('app/confirm.html',
@@ -909,12 +959,20 @@ def assign_items(request, **kwargs):
     if transaction.buy_back_bike:
         buy_back_vin = transaction.buy_back_bike.vin
 
+    # Get REFURBISHED DATA
+    refurbished_bikes = list(RefurbishedBike.objects.all())
+    refurbished_bike_vin = None
+    if transaction.refurbished_bike:
+        refurbished_bike_vin = transaction.refurbished_bike.vin
+
     return render(request, 'app/assign_items.html', {
         'tasks_by_category': tasks_by_category,
         'parts_by_category': parts_by_category,
         'accessory_items': accessory_items,
         'buy_back_items': buy_back_items,
         'buy_back_vin': buy_back_vin,
+        'refurbished_bikes': refurbished_bikes,
+        'refurbished_bike_vin': refurbished_bike_vin,
         'transaction': transaction,
     })
 

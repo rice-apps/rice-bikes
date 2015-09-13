@@ -108,7 +108,7 @@
         </div>
     </div>
 
-
+    {% if not transaction.is_for_bike %}
     <div class="panel panel-primary">
         <div class="panel-heading panel-heading-tight"><h3>Accessories</h3></div>
         <div class="panel-body parts-panel">
@@ -139,25 +139,49 @@
         <div class="panel-heading panel-heading-tight"><h3>Buy Backs</h3></div>
         <div class="panel-body parts-panel">
             <div id="buy_back_container">
+                <div id="{{buy_back.menu_item.name|join_whitespace}}" category="{{ buy_back.menu_item.category}}">
+                    <b>VIN</b>
+                    <select name="buy_back_bike" class="form-control">
+                        <option value="{{buy_back.vin}}">{{buy_back.vin}}</option>
+                        {% for buy_back_item in buy_back_items %}
+                            {% if buy_back_item.vin != buy_back.vin %}
+                                <option value="{{buy_back_item.vin}}">{{buy_back_item.vin}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <b>Price</b>
+                    <input class="form-control buy_back_bike_price" name="buy_back_bike_price"
+                           type="number" value="{{ buy_back.price }}"/>
+                    <div class="old_price" style="display:none" old_value="{{buy_back.price}}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    <div id="{{buy_back.menu_item.name|join_whitespace}}" category="{{ buy_back.menu_item.category}}">
+    <div class="panel panel-primary">
+        <div class="panel-heading panel-heading-tight"><h3>Refurbished Bikes</h3></div>
+        <div class="panel-body parts-panel">
+            <div id="refurbished_bike_container">
+
+                    <div id="{{refurbished_bike.menu_item.name|join_whitespace}}" category="{{ refurbished_bike.menu_item.category}}">
                         <b>VIN</b>
-                        <select name="buy_back_bike" class="form-control">
-                            <option value="{{buy_back.vin}}">{{buy_back.vin}}</option>
-                            {% for buy_back_item in buy_back_items %}
-                                {% if buy_back_item.vin != buy_back.vin %}
-                                    <option value="{{buy_back_item.vin}}">{{buy_back_item.vin}}</option>
+                        <select name="refurbished_bike" class="form-control">
+                            <option value="{{refurbished_bike.vin}}">{{refurbished_bike.vin}}</option>
+                            {% for refurbished_bike_item in refurbished_bikes %}
+                                {% if refurbished_bike_item.vin != refurbished_bike.vin %}
+                                    <option value="{{refurbished_bike_item.vin}}">{{refurbished_bike_item.vin}}</option>
                                 {% endif %}
                             {% endfor %}
                         </select>
                         <b>Price</b>
-                        <input class="form-control buy_back_price" name="buy_back_{{buy_back.vin}}"
-                               type="number" value="{{ buy_back.price }}"/>
-                        <div class="old_price" style="display:none" old_value="{{buy_back.price}}"></div>
+                        <input class="form-control refurbished_bike_price" name="refurbished_bike_price"
+                               type="number" value="{{ refurbished_bike.price }}"/>
+                        <div class="old_price" style="display:none" old_value="{{refurbished_bike.price}}"></div>
                     </div>
             </div>
         </div>
     </div>
+    {% endif %}
 
     <div class="panel panel-primary">
         <div class="panel-body panel-body-center panel-body-blue parts-panel">

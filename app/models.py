@@ -48,6 +48,8 @@ class RefurbishedBike(models.Model):
     model = models.TextField(null=True, blank=True)
     date_submitted = models.DateTimeField(default=datetime.now, blank=True)
     sold = models.BooleanField(default=False)
+    completed = models.BooleanField(default=False)
+    price = models.IntegerField(default=0)
 
     def __str__(self):
         return str(self.vin)
@@ -100,6 +102,8 @@ class Transaction(models.Model):
     # Auto-generated fields
     completed = models.BooleanField(default=False)
     date_submitted = models.DateTimeField(default=datetime.now, blank=True)
+
+    is_for_bike = models.BooleanField(default=False)
 
     def __str__(self):
         return self.first_name + " " + self.last_name
