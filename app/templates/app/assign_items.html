@@ -38,13 +38,27 @@
                 {% with bool=tuple.1 %}
                     <div class="fieldWrapper">
                         <div class="form-group">
-                            <label class="control-label  " for="{{ item.name|join_whitespace }}">(${{ item.price }})  {{ item.name }}</label>
+                            <label class="control-label  " for="{{ item.name|join_whitespace }}">(${{ item.price }}) {{ item.name }}</label>
                             <div class=" ">
                                 <input class="form-control" id="{{ item.name|join_whitespace }}" name="task_{{item.name|join_whitespace}}" type="checkbox"
                                        {% if bool %} checked="checked "{% endif %}/>
                             </div>
 
                             {{ tuple.2 | bootstrap }}
+                            {% if tuple.3 == True or tuple.3 == False %}
+                                <select name="task_{{item.name|join_whitespace}}" class="form-control">
+                                    {% if tuple.3 == True %}
+                                    <option value="Front">Front</option>
+                                    {% endif %}
+
+                                    <option value="Rear">Rear</option>
+
+                                    {% if tuple.3 == False %}
+                                    <option value="Front">Front</option>
+                                    {% endif %}
+
+                                </select>
+                            {% endif %}
                         </div>
                     </div>
                 {% endwith %}

@@ -83,11 +83,12 @@
                 <td class="col-sm-1"><b>Completed</b></td>
             </thead>
             {% for task in tasks %}
-                <tr>
-                    <td>{{ task.menu_item.name|place_whitespace }} </td>
-                    <td>{{ task.number }}</td>
-                    <td>{{ task.completed }}</td>
-                </tr>
+                    <tr>
+                        <td>{{ task.menu_item.name|place_whitespace }}{% if task.is_front == True %}, Front {% elif task.is_front == False %}, Rear {% endif %}
+                        </td>
+                        <td>{{ task.number }}</td>
+                        <td>{{ task.completed }}</td>
+                    </tr>
             {% endfor %}
         </table>
     </div>

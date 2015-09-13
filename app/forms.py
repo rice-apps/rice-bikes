@@ -1,5 +1,5 @@
 from app.models import Transaction, RentalBike, RefurbishedBike, RevenueUpdate, PartCategory, PartOrder, \
-    MiscRevenueUpdate, BuyBackBike
+    MiscRevenueUpdate, BuyBackBike, PartMenuItem
 from django import forms
 from django.forms import Form, ModelForm
 from django.contrib.auth.models import User
@@ -18,7 +18,7 @@ class CustomerForm(ModelForm):
 
     class Meta:
         model = Transaction
-        fields = ("first_name", "last_name", "email", "affiliation")
+        fields = ("first_name", "last_name", "email", "affiliation", "service_description")
 
     def save(self, commit=True):
         # do something with self.cleaned_data['rental_vin']
@@ -75,10 +75,10 @@ class DisabledPartCategoryForm(PartCategoryForm):
         }
 
 
-class PartOrderForm(ModelForm):
-    class Meta:
-        model = PartOrder
-        exclude = ['date_submitted', ]
+class PartOrderForm(Form):
+    part = forms.ModelChoiceField(queryset=PartMenuItem.objects.all())
+    number = forms.IntegerField()
+    description = forms.CharField(required=False)
 
 
 class MiscRevenueUpdateForm(ModelForm):

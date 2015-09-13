@@ -152,6 +152,8 @@ class Task(models.Model):
     transaction = models.ForeignKey(Transaction)
     menu_item = models.ForeignKey(TaskMenuItem)
     sold = models.BooleanField(default=False)
+    price = models.IntegerField(default='0')
+    is_front = models.NullBooleanField(null=True, blank=True)
 
     def __str__(self):
         return str(self.id) + ", " + str(self.menu_item.name)
@@ -163,6 +165,7 @@ class Accessory(models.Model):
     transaction = models.ForeignKey(Transaction)
     menu_item = models.ForeignKey(AccessoryMenuItem)
     sold = models.BooleanField(default=False)
+    price = models.IntegerField(default='0')
 
     def __str__(self):
         return str(self.id) + ", " + str(self.menu_item.name)

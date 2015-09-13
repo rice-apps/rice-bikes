@@ -58,13 +58,27 @@
                             <input class="form-control" id="id_{{task.menu_item.name| join_whitespace}}" name="task_{{task.menu_item.name| join_whitespace}}" type="checkbox"
                                    {% if task.completed %} checked="checked" {% endif %} style="text-align:center"/>
                             <br>
+                            {% if task.is_front == True or task.is_front == False %}
+                                <b>Wheel</b>
+                                <select name="task_{{task.menu_item.name|join_whitespace}}_wheel" class="form-control">
+                                    {% if task.is_front == True %}
+                                    <option value="Front">Front</option>
+                                    {% endif %}
+
+                                    <option value="Rear">Rear</option>
+
+                                    {% if task.is_front == False %}
+                                    <option value="Front">Front</option>
+                                    {% endif %}
+                                </select>
+                            {% endif %}
                             <b>Number</b>
                             <input class="form-control number" name="task_{{task.menu_item.name| join_whitespace}}"
                                    type="number" value="{{ task.number }}"/>
                             <div class="old_number" style="display:none" old_value="{{task.number}}"></div>
                             <b>Price Each</b>
                             <input class="form-control price" name="task_{{task.menu_item.name| join_whitespace}}"
-                                   type="number" value="{{ task.menu_item.price }}" disabled="true"/>
+                                   type="number" value="{{ task.price }}"/>
                             <div class="old_price" style="display:none" old_value="{{task.menu_item.price}}"></div>
                         </div>
                     </div>
@@ -126,7 +140,7 @@
                             <div class="old_number" style="display:none" old_value="{{accessory.number}}"></div>
                             <b>Price Each</b>
                             <input class="form-control price" name="accessory_{{accessory.menu_item.name| join_whitespace}}"
-                                   type="number" value="{{ accessory.menu_item.price }}" disabled="true"/>
+                                   type="number" value="{{ accessory.price }}" />
                             <div class="old_price" style="display:none" old_value="{{accessory.menu_item.price}}"></div>
                         </div>
                     </div>
@@ -135,6 +149,7 @@
         </div>
     </div>
 
+    {% if transaction.buy_back_bike %}
     <div class="panel panel-primary">
         <div class="panel-heading panel-heading-tight"><h3>Buy Backs</h3></div>
         <div class="panel-body parts-panel">
@@ -157,7 +172,9 @@
             </div>
         </div>
     </div>
+    {% endif %}
 
+    {% if transaction.refurbished_bike %}
     <div class="panel panel-primary">
         <div class="panel-heading panel-heading-tight"><h3>Refurbished Bikes</h3></div>
         <div class="panel-body parts-panel">
@@ -181,6 +198,8 @@
             </div>
         </div>
     </div>
+    {% endif %}
+
     {% endif %}
 
     <div class="panel panel-primary">

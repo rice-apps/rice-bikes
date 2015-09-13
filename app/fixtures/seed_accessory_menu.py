@@ -16,8 +16,8 @@ if __name__ == '__main__':
         json_item["pk"] = pk
 
         fields = dict()
-        fields["name"] = item[0]
-        fields["price"] = item[1]
+        fields["name"] = item[0].strip("\n")
+        fields["price"] = item[1].strip("\n")
 
         json_item["fields"] = fields
 

@@ -5,6 +5,8 @@
 <div class="btn-group btn-group-justified" role="group" aria-label="...">
     <a href="{% url 'app:bike_inventory' %}" class="btn btn-default btn-lg btn-skinny" role="button" >Our Bikes</a>
     <a href="{% url 'app:sold_items' %}" class="btn btn-default btn-lg btn-skinny" role="button" >Sold Items</a>
+    <a href="{% url 'app:make_order' %}" class="btn btn-default btn-lg btn-skinny" role="button" >Order Part</a>
+
 </div>
 {% if transactions_list %}
     <h3>Active Customers</h3>
@@ -18,10 +20,17 @@
 
     {% for transaction in transactions_list %}
         <tr class="legible">
-            <td>{{ transaction.id }}</td>
-            <td><a href="{% url 'app:detail_1' 'index' transaction.id %}">{{ transaction.first_name }} {{ transaction.last_name }}</a></td>
+            <td>{{ transaction.0.id }}</td>
+            <td><a href="{% url 'app:detail_1' 'index' transaction.0.id %}">{{ transaction.0.first_name }} {{ transaction.0.last_name }}</a></td>
             <td>
-                {{ transaction.service_description|slice:":75" }}
+                {{ transaction.0.service_description|slice:":75" }}
+                {% if transaction.1 %}
+                    <br>
+                    <b>Tasks: </b>
+                    {% for task in transaction.1 %}
+                        {{ task.menu_item.name }}{% if forloop.counter != transaction.1|length%},{% endif %}
+                    {% endfor %}
+                {% endif %}
             </td>
         </tr>
     {% endfor %}

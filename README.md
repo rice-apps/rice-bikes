@@ -12,10 +12,12 @@ Execute the following shell commands.
 
 1. source venv/bin/activate
 
-2. python manage.py migrate
+2. python manage.py makemigrations
 
-3. python manage.py createsuperuser
+3. python manage.py migrate
 
-4. ./seed_all_menus.sh
+4. python manage.py createsuperuser
 
-5. python manage.py runserver
+5. ./seed_all_menus.sh
+
+6. python manage.py runserver

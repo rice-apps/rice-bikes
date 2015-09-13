@@ -31,8 +31,8 @@ if __name__ == '__main__':
         json_item["pk"] = pk
 
         fields = dict()
-        fields["name"] = line
-        fields["category"] = category
+        fields["name"] = line.strip("\n")
+        fields["category"] = category.strip("\n")
 
         json_item["fields"] = fields
 
