@@ -30,12 +30,19 @@ $(document).ready(function() {
         refurbished_bike = $("[id*="+'refurbished'+"]").closest('.fieldWrapper');
         buy_back_bike = $("[id*="+'buy_back'+"]").closest('.fieldWrapper');
 
+        names = $("[id*="+'name'+"]")
+
         $(rental_bike).hide();
         $(refurbished_bike).hide();
         $(buy_back_bike).hide();
+        $(names).prop('disabled',true)
+        $(names).closest('.fieldWrapper').hide()
 
         if (selection == 'customer_bike'){
             empty_fields();
+            $(names).prop('disabled',false)
+            $(names).closest('.fieldWrapper').show()
+
         }
         else if (selection == 'rental_bike'){
             $(rental_bike).show();

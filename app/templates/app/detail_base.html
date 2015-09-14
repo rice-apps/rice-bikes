@@ -7,7 +7,22 @@
 <br>
 <div class="panel panel-primary">
     <div class="panel-heading panel-heading-tight">
+        {% if transaction.is_for_bike %}
+            {% if transaction.rental_bike %}
+                <h3>Rental {{transaction.rental_bike.color}} {{transaction.rental_bike.model}}</h3>
+            </tr>
+            {% elif transaction.refurbished_bike %}
+            <tr>
+                <h3>Refurbished {{transaction.refurbished_bike.color}} {{transaction.refurbished_bike.model}}</h3>
+            </tr>
+            {% elif transaction.buy_back_bike %}
+            <tr>
+                <h3>Buy Back {{transaction.buy_back_bike.color}} {{transaction.buy_back_bike.model}}</h3>
+            </tr>
+            {% endif %}
+        {% else %}
         <h3>Customer: {{ transaction.first_name }} {{ transaction.last_name }}</h3>
+        {% endif %}
     </div>
 
     <div class="panel-body parts-panel">
@@ -48,18 +63,18 @@
             {% if transaction.is_for_bike %}
                 {% if transaction.rental_bike %}
                 <tr>
-                    <td><b>Rental VIN</b></td>
-                    <td>{{ transaction.rental_bike.vin }} </td>
+                    <td><b>VIN</b></td>
+                    <td>{{ transaction.rental_bike.vin }}</td>
                 </tr>
                 {% elif transaction.refurbished_bike %}
                 <tr>
-                    <td><b>Refurbished VIN</b></td>
-                    <td>{{ transaction.refurbished_bike.vin }} </td>
+                    <td><b>VIN</b></td>
+                    <td>{{ transaction.refurbished_bike.vin }}</td>
                 </tr>
                 {% elif transaction.buy_back_bike %}
                 <tr>
-                    <td><b>Buy Back VIN</b></td>
-                    <td>{{ transaction.buy_back_bike.vin }} </td>
+                    <td><b>VIN</b></td>
+                    <td>{{ transaction.buy_back_bike.vin }}</td>
                 </tr>
                 {% endif %}
             {% endif %}

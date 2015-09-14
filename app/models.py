@@ -33,6 +33,8 @@ class Employee(models.Model):
 class RentalBike(models.Model):
     vin = models.IntegerField(unique=True, null=False, blank=False)
     date_submitted = models.DateTimeField(default=datetime.now, blank=True)
+    color = models.CharField(max_length=100, null=True, blank=True)
+    model = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
         return str(self.vin)
@@ -44,8 +46,8 @@ class RentalBike(models.Model):
 
 class RefurbishedBike(models.Model):
     vin = models.IntegerField(unique=True, null=False, blank=False)
-    color = models.TextField(null=True, blank=True)
-    model = models.TextField(null=True, blank=True)
+    color = models.CharField(max_length=100, null=True, blank=True)
+    model = models.CharField(max_length=100, null=True, blank=True)
     date_submitted = models.DateTimeField(default=datetime.now, blank=True)
     sold = models.BooleanField(default=False)
     completed = models.BooleanField(default=False)
@@ -62,8 +64,8 @@ class RefurbishedBike(models.Model):
 class BuyBackBike(models.Model):
     vin = models.IntegerField(unique=True, null=False, blank=False)
     completed = models.BooleanField(default=False)
-    color = models.TextField(null=True, blank=True)
-    model = models.TextField(null=True, blank=True)
+    color = models.CharField(max_length=100, null=True, blank=True)
+    model = models.CharField(max_length=100, null=True, blank=True)
     date_submitted = models.DateTimeField(default=datetime.now, blank=True)
     price = models.IntegerField(default=0)
     sold = models.BooleanField(default=False)
@@ -79,8 +81,8 @@ class BuyBackBike(models.Model):
 class Transaction(models.Model):
 
     # CustomerForm
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100, null=True, blank=True)
+    last_name = models.CharField(max_length=100, null=True, blank=True)
     AFFILIATION_CHOICES = (
         ('0', "Undergraduate"),
         ('1', "Graduate"), ('2', "Faculty"),
@@ -106,7 +108,15 @@ class Transaction(models.Model):
     is_for_bike = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.first_name + " " + self.last_name
+        if not self.is_for_bike:
+            return self.first_name + " " + self.last_name
+        else:
+            if self.rental_bike:
+                return "Rental: " + self.rental_bike.color + " " + self.rental_bike.model
+            elif self.refurbished_bike:
+                return "Refurbished: " + self.refurbished_bike.color + " " + self.refurbished_bike.model
+            else:
+                return "Buy Back: " + self.buy_back_bike.color + " " + self.buy_back_bike.model
 
 
 class TaskMenuItem(models.Model):

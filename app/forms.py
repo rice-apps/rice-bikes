@@ -37,19 +37,19 @@ class TaskForm(ModelForm):
 class RentalForm(ModelForm):
     class Meta:
         model = RentalBike
-        fields = ('vin',)
+        fields = ('vin', 'color', 'model')
 
 
 class RefurbishedForm(ModelForm):
     class Meta:
         model = RefurbishedBike
-        fields = ('vin',)
+        fields = ('vin', 'color', 'model')
 
 
 class BuyBackForm(ModelForm):
     class Meta:
         model = BuyBackBike
-        fields = ('vin',)
+        fields = ('vin', 'color', 'model')
 
 
 class RevenueForm(ModelForm):

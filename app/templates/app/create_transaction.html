@@ -29,27 +29,36 @@
                 <select id="refurbished_vin" name="refurbished_vin" class="form-control">
                     <option></option>
                     {% for refurbished_bike in refurbished_bikes %}
-                        <option value="{{refurbished_bike.vin}}">{{refurbished_bike.vin}}</option>
+                        <option value="{{refurbished_bike.vin}}">{{refurbished_bike.vin}}
+                            {% if refurbished_bike.color %} - {{refurbished_bike.color}} {% endif %}
+                            {% if refurbished_bike.model %} - {{refurbished_bike.model}} {% endif %} </option>
                     {% endfor %}
                 </select>
+                <br>
             </div>
             <div class="fieldWrapper">
                 <b>Rental VIN</b>
                 <select id="rental_vin" name="rental_vin" class="form-control">
                     <option></option>
                     {% for rental_bike in rental_bikes %}
-                        <option value="{{rental_bike.vin}}">{{rental_bike.vin}}</option>
+                        <option value="{{rental_bike.vin}}">{{rental_bike.vin}}
+                            {% if rental_bike.color %} - {{rental_bike.color}} {% endif %}
+                            {% if rental_bike.model %} - {{rental_bike.model}} {% endif %} </option>
                     {% endfor %}
                 </select>
+                <br>
             </div>
             <div class="fieldWrapper">
                 <b>Buy-Back VIN</b>
                 <select id="buy_back_vin" name="buy_back_vin" class="form-control">
                     <option></option>
                     {% for buy_back_bike in buy_back_bikes %}
-                        <option value="{{buy_back_bike.vin}}">{{buy_back_bike.vin}}</option>
+                        <option value="{{buy_back_bike.vin}}">{{buy_back_bike.vin}}
+                            {% if buy_back_bike.color %} - {{buy_back_bike.color}} {% endif %}
+                            {% if buy_back_bike.model %} - {{buy_back_bike.model}} {% endif %} </option>
                     {% endfor %}
                 </select>
+                <br>
             </div>
             {% for field in form %}
                 <div class="fieldWrapper">

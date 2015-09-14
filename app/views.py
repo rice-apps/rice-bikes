@@ -354,13 +354,14 @@ def update(request, **kwargs):
             # save accessories
             process_items_edit(form.data, "accessory_", accessories)
 
-            if transaction.buy_back_bike:
-                # save buy_back
-                process_buy_back_edit(form.data, "buy_back_bike", transaction)
+            if not transaction.is_for_bike:
+                if transaction.buy_back_bike:
+                    # save buy_back
+                    process_buy_back_edit(form.data, "buy_back_bike", transaction)
 
-            if transaction.refurbished_bike:
-                # save refurbished bikes
-                process_refurbished_bike_edit(form.data, "refurbished_bike", transaction)
+                if transaction.refurbished_bike:
+                    # save refurbished bikes
+                    process_refurbished_bike_edit(form.data, "refurbished_bike", transaction)
 
             transaction.save()
 
@@ -465,7 +466,9 @@ class BuyBackDetail(LoggedInMixin, DetailView):
 
 def process_rental(form_data):
     rental_bike = RentalBike(
-        vin=form_data['vin']
+        vin=form_data['vin'],
+        color=form_data['color'],
+        model=form_data['model'],
     )
     rental_bike.save()
 
@@ -491,6 +494,8 @@ def new_rental(request):
 def process_buy_back(form_data):
     buy_back_bike = BuyBackBike(
         vin=form_data['vin'],
+        color=form_data['color'],
+        model=form_data['model'],
     )
     buy_back_bike.save()
 
@@ -515,7 +520,9 @@ def new_buy_back(request):
 
 def process_refurbished(form_data):
     refurbished_bike = RefurbishedBike(
-        vin=form_data['vin']
+        vin=form_data['vin'],
+        color=form_data['color'],
+        model=form_data['model'],
     )
     refurbished_bike.save()
 
@@ -811,6 +818,9 @@ def process_accessories(form_data, transaction):
 
 def process_buy_backs(form_data, transaction):
     # gets all checkbox fields and returns this as the checked accessory fields
+    if "buy_back_bike" not in form_data:
+        return
+
     buy_back_vin = form_data["buy_back_bike"]
 
     try:
@@ -822,6 +832,9 @@ def process_buy_backs(form_data, transaction):
 
 def process_assigned_refurbished(form_data, transaction):
     # gets all checkbox fields and returns this as the checked accessory fields
+    if "refurbished_bike" not in form_data:
+        return
+
 
     refurbished_bike_vin = form_data["refurbished_bike"]
 
