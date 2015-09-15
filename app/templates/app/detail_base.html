@@ -8,7 +8,7 @@
 <div class="panel panel-primary">
     <div class="panel-heading panel-heading-tight">
         {% if transaction.is_for_bike %}
-            {% if transaction.rental_bike %}
+            {% if transaction.rental_bike %}./
                 <h3>Rental {{transaction.rental_bike.color}} {{transaction.rental_bike.model}}</h3>
             </tr>
             {% elif transaction.refurbished_bike %}
@@ -41,8 +41,8 @@
                 <td>{{ transaction.get_affiliation_display }}</td>
             </tr>
             <tr>
-                <td><b>Service Description</b></td>
-                <td>{{ transaction.service_description }} </td>
+                <td><b>Bike Description</b></td>
+                <td>{{ transaction.bike_description }} </td>
             </tr>
             <tr>
                 <td><b>Date Submitted</b></td>

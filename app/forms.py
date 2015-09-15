@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 class RepairsForm(ModelForm):
     class Meta:
         model = Transaction
-        fields = ("service_description", "cost",)
+        fields = ("bike_description", "cost",)
 
 
 class CustomerForm(ModelForm):
@@ -18,7 +18,7 @@ class CustomerForm(ModelForm):
 
     class Meta:
         model = Transaction
-        fields = ("first_name", "last_name", "email", "affiliation", "service_description")
+        fields = ("first_name", "last_name", "email", "affiliation", "bike_description")
 
     def save(self, commit=True):
         # do something with self.cleaned_data['rental_vin']
@@ -31,7 +31,7 @@ class CustomerForm(ModelForm):
 class TaskForm(ModelForm):
     class Meta:
         model = Transaction
-        fields = ('service_description', 'cost', 'amount_paid',)
+        fields = ('bike_description', 'cost', 'amount_paid',)
 
 
 class RentalForm(ModelForm):

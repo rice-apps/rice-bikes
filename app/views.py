@@ -182,7 +182,7 @@ def process_transaction_edit(form_data, transaction, request):
         revenue_update.save()
 
     if transaction:
-        transaction.service_description = form_data['service_description']
+        transaction.bike_description = form_data['bike_description']
         transaction.amount_paid = form_data['amount_paid']
         transaction.cost = form_data['cost']
         transaction.save()
@@ -554,7 +554,7 @@ def process(form_data):
         email=form_data[0]['email'],
         affiliation=form_data[0]['affiliation'],
         cost=form_data[0]['cost'],
-        service_description=form_data[0]['service_description'],
+        bike_description=form_data[0]['bike_description'],
     )
 
     # map transaction to rental/refurbished bike
@@ -614,7 +614,7 @@ def process_transaction(form_data):
         email=form_data['email'],
         affiliation=form_data['affiliation'],
         cost=0,
-        service_description=form_data['service_description'],
+        bike_description=form_data['bike_description'],
     )
 
     # print form_data
@@ -666,17 +666,19 @@ def create_transaction(request):
                                       {"text": "You successfully created the new transaction!",
                                        "absolute_url": "/",
                                        })
-    else:
-        form = CustomerForm()
-        refurbished_bikes = RefurbishedBike.objects.all()
-        buy_back_bikes = BuyBackBike.objects.all()
-        rental_bikes = RentalBike.objects.all()
+
+    form = CustomerForm()
+    refurbished_bikes = RefurbishedBike.objects.all()
+    buy_back_bikes = BuyBackBike.objects.all()
+    rental_bikes = RentalBike.objects.all()
 
     return render(request, 'app/create_transaction.html', {
         'form': form,
         'refurbished_bikes': refurbished_bikes,
         'buy_back_bikes': buy_back_bikes,
         'rental_bikes': rental_bikes,
+
+
     })
 
 

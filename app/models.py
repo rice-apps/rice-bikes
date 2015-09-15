@@ -92,7 +92,7 @@ class Transaction(models.Model):
     affiliation = models.CharField(max_length=100, choices=AFFILIATION_CHOICES, default="")
     email = models.CharField(max_length=100, validators=[validate_email])
 
-    service_description = models.CharField(max_length=500, null=True, blank=True)
+    bike_description = models.CharField(max_length=500, null=True, blank=True)
     cost = models.IntegerField(default=0)
     amount_paid = models.IntegerField(default=0)
 

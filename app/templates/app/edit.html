@@ -28,7 +28,7 @@
         <div class="panel-heading panel-heading-tight"><h3>Customer Info</h3></div>
         <div class="panel-body parts-panel">
 
-        {{ transaction_form.service_description | bootstrap}}
+        {{ transaction_form.bike_description | bootstrap}}
         <label class="control-label  " for="id_cost">Cost</label>
         <input class=" form-control" id="id_cost" maxlength="500"
                   name="cost" type="number" value="{{transaction_form.cost.value }}">
