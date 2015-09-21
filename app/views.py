@@ -53,23 +53,30 @@ def mark_as_completed(request, **kwargs):
     transaction.completed = True
     transaction.save()
 
-    if not transaction.refurbished_bike:
-        for task in transaction.task_set.all():
-            task.sold = True
-            task.completed = True
-            task.save()
-        for part in transaction.part_set.all():
-            part.sold = True
-            part.completed = True
-            part.save()
-        for accessory in transaction.accessory_set.all():
-            accessory.sold = True
-            accessory.completed = True
-            accessory.save()
+    for task in transaction.task_set.all():
+        task.sold = True
+        task.completed = True
+        task.save()
+    for part in transaction.part_set.all():
+        part.sold = True
+        part.completed = True
+        part.save()
+    for accessory in transaction.accessory_set.all():
+        accessory.sold = True
+        accessory.completed = True
+        accessory.save()
+
+    if transaction.buy_back_bike:
         buy_back = transaction.buy_back_bike
         buy_back.sold = True
         buy_back.completed = True
         buy_back.save()
+
+    if transaction.refurbished_bike:
+        refurbished_bike = transaction.refurbished_bike
+        refurbished_bike.sold = True
+        refurbished_bike.completed = True
+        refurbished_bike.save()
 
     # send email
     send_completion_email(transaction)
