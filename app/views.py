@@ -1392,7 +1392,7 @@ def sold_accessories(request):
 
 def sold_buy_backs(request):
     buy_backs_sold = BuyBackBike.objects.filter(sold=True)
-    buy_backs_sold = sorted(buy_backs_sold, key=lambda x: x.transaction.date_submitted, reverse=True)
+    buy_backs_sold = sorted(buy_backs_sold, key=lambda x: x.date_submitted, reverse=True)
     return render(request, 'app/sold_buy_backs.html', {
         'items_sold': buy_backs_sold,
     })
