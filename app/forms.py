@@ -89,8 +89,6 @@ class MiscRevenueUpdateForm(ModelForm):
 class SingleNumberForm(Form):
     number = forms.IntegerField(label='Number', initial=1)
 
-class SinglePriceForm(Form):
-    price = forms.IntegerField(label='Price', initial=0)
 
 class BuyBackSelectForm(ModelForm):
     class Meta:
