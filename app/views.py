@@ -769,7 +769,8 @@ def get_items(form_data, prefix):
                 print len(form_data.getlist(field))
                 item_dict[item_name.replace("_", " ")] = {}
                 item_dict[item_name.replace("_", " ")]["number"] = form_data.getlist(field)[1]
-                item_dict[item_name.replace("_", " ")]["price"] = form_data.getlist(field)[2]
+                if len(form_data.getlist(field)) > 2: # for parts with prices
+                    item_dict[item_name.replace("_", " ")]["price"] = form_data.getlist(field)[2]
 
                 if len(form_data.getlist(field)) == 3:
                     print "HEY SUCKA! Wheel selected is : " + form_data.getlist(field)[2]
@@ -801,6 +802,9 @@ def process_parts(form_data, transaction):
             price=part_dict[part_name]["price"]
         )
         part.save()
+
+        transaction.cost += int(part.number) * int(part.price)
+        transaction.save()
 
 
 def process_accessories(form_data, transaction):
