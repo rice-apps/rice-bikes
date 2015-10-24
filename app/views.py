@@ -883,6 +883,11 @@ def get_part_number_from_name(name, transaction):
             return part.number
     return 1
 
+def get_part_price_from_name(name, transaction):
+    for part in transaction.part_set.all():
+        if name == part.menu_item.name:
+            return part.price
+    return 0
 
 def get_accessory_number_from_name(name, transaction):
     for accessory in transaction.accessory_set.all():
@@ -998,7 +1003,8 @@ def assign_items(request, **kwargs):
             if items[i].name in part_set_names:
                 part_number = get_part_number_from_name(items[i].name, transaction)
                 single_number_form.initial = {"part_" + item_id: part_number}
-                single_price_form.initial = {"part_" + item_id: part_number}
+                part_price = get_part_price_from_name(items[i].name, transaction)
+                single_price_form.initial = {"part_" + item_id: part_price}
                 items[i] = (items[i], True, single_number_form, single_price_form)
             else:
                 items[i] = (items[i], False, single_number_form, single_price_form)
