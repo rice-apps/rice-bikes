@@ -14,7 +14,7 @@ from formtools.wizard.views import SessionWizardView
 from django.contrib.auth import authenticate, login, logout
 from app.forms import RentalForm, RefurbishedForm, RevenueForm, TaskForm, PartCategoryForm, \
     PartOrderForm, CustomerForm, DisabledPartCategoryForm, MiscRevenueUpdateForm, SingleNumberForm, \
-    BuyBackForm, BuyBackSelectForm
+    BuyBackForm, BuyBackSelectForm, SinglePriceForm
 from django.template import RequestContext
 from django.forms.formsets import formset_factory
 import csv
@@ -769,6 +769,7 @@ def get_items(form_data, prefix):
                 print len(form_data.getlist(field))
                 item_dict[item_name.replace("_", " ")] = {}
                 item_dict[item_name.replace("_", " ")]["number"] = form_data.getlist(field)[1]
+                item_dict[item_name.replace("_", " ")]["price"] = form_data.getlist(field)[2]
 
                 if len(form_data.getlist(field)) == 3:
                     print "HEY SUCKA! Wheel selected is : " + form_data.getlist(field)[2]
@@ -796,7 +797,8 @@ def process_parts(form_data, transaction):
             completed=False,
             transaction=transaction,
             menu_item=PartMenuItem.objects.filter(name=part_name).first(),
-            number=part_dict[part_name]["number"]
+            number=part_dict[part_name]["number"],
+            price=part_dict[part_name]["price"]
         )
         part.save()
 
@@ -984,15 +986,22 @@ def assign_items(request, **kwargs):
         for i in xrange(len(items)):
             item = items[i]
             item_id = str(item.name).replace(" ", "_")
+
+            ## These are defined in forms.py.
             single_number_form = SingleNumberForm(auto_id='part_' + category_id + "_%s")
             single_number_form.fields["part_" + item_id] = single_number_form.fields['number']
+            single_price_form = SinglePriceForm(auto_id='part_' + category_id + "_%s")
+            single_price_form.fields["part_" + item_id] = single_price_form.fields['price']
+
+            del single_price_form.fields['price']
             del single_number_form.fields['number']
             if items[i].name in part_set_names:
                 part_number = get_part_number_from_name(items[i].name, transaction)
                 single_number_form.initial = {"part_" + item_id: part_number}
-                items[i] = (items[i], True, single_number_form)
+                single_price_form.initial = {"part_" + item_id: part_number}
+                items[i] = (items[i], True, single_number_form, single_price_form)
             else:
-                items[i] = (items[i], False, single_number_form)
+                items[i] = (items[i], False, single_number_form, single_price_form)
 
 
     # GET ACCESSORY DATA
