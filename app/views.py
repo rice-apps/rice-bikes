@@ -4,6 +4,7 @@ from app.models import Transaction, Task, Part, Accessory, RentalBike, Refurbish
     RevenueUpdate, TotalRevenue, PartCategory, PartOrder, TaskMenuItem, MiscRevenueUpdate, \
     AccessoryMenuItem, PartMenuItem, BuyBackBike
 from django.views.generic.edit import UpdateView, CreateView
+from django.db.models import Q, F
 from django.views.generic import DetailView
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
@@ -39,7 +40,14 @@ def index(request):
 
 @login_required
 def history(request):
-    transactions_list = Transaction.objects.filter(completed=True).order_by('date_submitted').reverse
+    # Minus in order_by indicates reverse order of results
+    transactions_queryset = Transaction.objects.filter(completed=True).order_by('-date_submitted')
+    transactions_list = list(transactions_queryset)
+
+    # List of booleans indicating if transaction was paid or not
+    is_paid_list = map(lambda transaction: transaction.amount_paid >= transaction.cost, transactions_list)
+    transactions_list = zip(transactions_list, is_paid_list)
+
     return render(request, 'app/history.html', {'transactions_list': transactions_list, 'complete': True})
 
 
