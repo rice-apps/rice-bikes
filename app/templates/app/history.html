@@ -11,9 +11,10 @@
         <td>ID</td>
         <td>Name</td>
         <td>Description</td>
+        <td>Paid</td>
     </thead>
 
-    {% for transaction in transactions_list %}
+    {% for transaction, is_paid in transactions_list %}
         <tr>
             <td>{{ transaction.id }}</td>
             <td><a href="{% url 'app:detail_1' 'history' transaction.id %}">
@@ -21,6 +22,9 @@
             <td>
                 {{ transaction.bike_description|slice:":75" }}
                 {% if transaction.bike_description|length > 75  %}...{% endif %}
+            </td>
+            <td>
+                {% if is_paid %} Yes {% else %} No {% endif %}
             </td>
         </tr>
     {% endfor %}
