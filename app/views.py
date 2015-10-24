@@ -4,7 +4,6 @@ from app.models import Transaction, Task, Part, Accessory, RentalBike, Refurbish
     RevenueUpdate, TotalRevenue, PartCategory, PartOrder, TaskMenuItem, MiscRevenueUpdate, \
     AccessoryMenuItem, PartMenuItem, BuyBackBike
 from django.views.generic.edit import UpdateView, CreateView
-from django.db.models import Q, F
 from django.views.generic import DetailView
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
