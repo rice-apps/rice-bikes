@@ -776,7 +776,8 @@ def get_items(form_data, prefix):
                 print len(form_data.getlist(field))
                 item_dict[item_name.replace("_", " ")] = {}
                 item_dict[item_name.replace("_", " ")]["number"] = form_data.getlist(field)[1]
-
+                if len(form_data.getlist(field)) > 2: # for parts with prices
+                    item_dict[item_name.replace("_", " ")]["price"] = form_data.getlist(field)[2]
                 if len(form_data.getlist(field)) == 3:
                     print "HEY SUCKA! Wheel selected is : " + form_data.getlist(field)[2]
                     front_text = form_data.getlist(field)[2]
@@ -806,6 +807,9 @@ def process_parts(form_data, transaction):
             number=part_dict[part_name]["number"]
         )
         part.save()
+
+        transaction.cost += int(part.number) * int(part.price)
+        transaction.save()
 
 
 def process_accessories(form_data, transaction):
@@ -888,6 +892,11 @@ def get_part_number_from_name(name, transaction):
             return part.number
     return 1
 
+def get_part_price_from_name(name, transaction):
+    for part in transaction.part_set.all():
+        if name == part.menu_item.name:
+            return part.price
+    return 0
 
 def get_accessory_number_from_name(name, transaction):
     for accessory in transaction.accessory_set.all():
@@ -997,7 +1006,11 @@ def assign_items(request, **kwargs):
             if items[i].name in part_set_names:
                 part_number = get_part_number_from_name(items[i].name, transaction)
                 single_number_form.initial = {"part_" + item_id: part_number}
-                items[i] = (items[i], True, single_number_form)
+
+                part_price = get_part_price_from_name(items[i].name, transaction)
+                single_price_form.initial = {"part_" + item_id: part_price}
+                
+                items[i] = (items[i], True, single_number_form, single_price_form)
             else:
                 items[i] = (items[i], False, single_number_form)
 
