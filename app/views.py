@@ -79,6 +79,8 @@ def mark_as_completed(request, **kwargs):
         refurbished_bike.save()
 
     # send email
+    print transaction.email
+    print transaction.email_address
     send_completion_email(transaction)
 
     url = get_url(num_parent_args, kwargs)
@@ -1025,6 +1027,9 @@ def assign_items(request, **kwargs):
     refurbished_bike_vin = None
     if transaction.refurbished_bike:
         refurbished_bike_vin = transaction.refurbished_bike.vin
+
+    if transaction.email == "none@rice.edu":
+        tasks_by_category = 'None'
 
     return render(request, 'app/assign_items.html', {
         'tasks_by_category': tasks_by_category,

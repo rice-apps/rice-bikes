@@ -23,6 +23,12 @@ $(document).ready(function() {
         $('*[id*="email"]').prop('value','');
     }
 
+    var outpatient_fields = function(){
+        $('*[id*="first_name"]').prop('value','');
+        $('*[id*="last_name"]').prop('value','');
+        $('*[id*="email"]').prop('value','none@rice.edu');
+    }
+
     // selection event
     $('#bike_type').change(function() {
         selection = $(this).prop('value');
@@ -42,7 +48,13 @@ $(document).ready(function() {
             empty_fields();
             $(names).prop('disabled',false)
             $(names).closest('.fieldWrapper').show()
-
+        }
+        else if (selection == 'outpatient'){
+            $(names).prop('disabled',false)
+            $(names).closest('.fieldWrapper').show()
+            $('*[id*="email"]').hide()
+            $("label[for=id_email]").hide()
+            outpatient_fields();
         }
         else if (selection == 'rental_bike'){
             $(rental_bike).show();
