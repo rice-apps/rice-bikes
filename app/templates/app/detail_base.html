@@ -123,12 +123,14 @@
             <thead>
                 <td class="col-xs-10"><b>Part</b></td>
                 <td class="col-sm-1"><b>#</b></td>
+                <td class="col-sm-1"><b>$</b></td>
                 <td class="col-sm-1"><b>Completed</b></td>
             </thead>
             {% for part in parts %}
                 <tr>
                     <td>{{ part.menu_item.category }}: {{ part.menu_item.name }}</td>
                     <td>{{ part.number}}</td>
+                    <td>{{ part.price }}</td>
                     <td>{{ part.completed }}</td>
                 </tr>
             {% endfor %}
