@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, render_to_response
+from django.shortcuts import render, get_object_or_404, render_to_response, redirect
 from app.models import Transaction, Task, Part, Accessory, RentalBike, RefurbishedBike, \
     RevenueUpdate, TotalRevenue, PartCategory, PartOrder, TaskMenuItem, MiscRevenueUpdate, \
     AccessoryMenuItem, PartMenuItem, BuyBackBike
@@ -668,6 +668,7 @@ def process_transaction(form_data):
         new_transaction.is_for_bike = False
 
     new_transaction.save()
+    return new_transaction.id
 
 
 @login_required
@@ -675,11 +676,8 @@ def create_transaction(request):
     if request.method == 'POST':
         form = CustomerForm(request.POST)
         if form.is_valid():
-            process_transaction(form.cleaned_data)
-            return render_to_response('app/confirm.html',
-                                      {"text": "You successfully created the new transaction!",
-                                       "absolute_url": "/",
-                                       })
+            id_number = process_transaction(form.cleaned_data)
+            return HttpResponseRedirect('/index/' + str(id_number) + '/detail')
 
     form = CustomerForm()
     refurbished_bikes = RefurbishedBike.objects.all()
@@ -691,8 +689,6 @@ def create_transaction(request):
         'refurbished_bikes': refurbished_bikes,
         'buy_back_bikes': buy_back_bikes,
         'rental_bikes': rental_bikes,
-
-
     })
 
 
