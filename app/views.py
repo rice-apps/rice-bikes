@@ -4,6 +4,7 @@ from app.models import Transaction, Task, Part, Accessory, RentalBike, Refurbish
     RevenueUpdate, TotalRevenue, PartCategory, PartOrder, TaskMenuItem, MiscRevenueUpdate, \
     AccessoryMenuItem, PartMenuItem, BuyBackBike
 from django.views.generic.edit import UpdateView, CreateView
+from django.db.models import Q
 from django.views.generic import DetailView
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
@@ -1383,10 +1384,18 @@ def bike_inventory(request):
 
 
 def sold_items(request):
+
+    if request.method == 'POST':
+        if 'export' in request.POST:
+            return make_sold_items_export_file(request, 'sold_items.csv')
+
     return render(request, 'app/sold_items.html')
 
 
 def sold_tasks(request):
+    if request.method == 'POST':
+        return sold_items(request)
+
     tasks_sold = list(Task.objects.filter(sold=True))
     tasks_sold = sorted(tasks_sold, key=lambda x: x.transaction.date_submitted, reverse=True)
     return render(request, 'app/sold_tasks.html', {
@@ -1395,6 +1404,9 @@ def sold_tasks(request):
 
 
 def sold_parts(request):
+    if request.method == 'POST':
+        return sold_items(request)
+
     parts_sold = Part.objects.filter(sold=True)
     parts_sold = sorted(parts_sold, key=lambda x: x.transaction.date_submitted, reverse=True)
     return render(request, 'app/sold_parts.html', {
@@ -1403,6 +1415,9 @@ def sold_parts(request):
 
 
 def sold_accessories(request):
+    if request.method == 'POST':
+        return sold_items(request)
+
     accessories_sold = Accessory.objects.filter(sold=True)
     accessories_sold = sorted(accessories_sold, key=lambda x: x.transaction.date_submitted, reverse=True)
     return render(request, 'app/sold_accessories.html', {
@@ -1411,8 +1426,56 @@ def sold_accessories(request):
 
 
 def sold_buy_backs(request):
+    if request.method == 'POST':
+        return sold_items(request)
+
     buy_backs_sold = BuyBackBike.objects.filter(sold=True)
     buy_backs_sold = sorted(buy_backs_sold, key=lambda x: x.date_submitted, reverse=True)
     return render(request, 'app/sold_buy_backs.html', {
         'items_sold': buy_backs_sold,
     })
+
+
+def make_sold_items_export_file(request, filename):
+
+    # Item, Category, Amount, Price, Total, Employee, Customer, Date
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="%s"' % filename
+
+    writer = csv.writer(response)
+    writer.writerow(["Item", "Category", "Amount", "Price", "Total", "Employee", "Customer", "Date"])
+
+    tasks_sold = Task.objects.filter(sold=True).order_by('-transaction__date_submitted')
+    parts_sold = Part.objects.filter(sold=True).order_by('-transaction__date_submitted')
+    accessories_sold = Accessory.objects.filter(sold=True).order_by('-transaction__date_submitted')
+    buy_backs_sold = \
+        Transaction.objects.exclude(buy_back_bike=None).filter(completed=True).order_by('-date_submitted')
+
+    items_sold = [tasks_sold, parts_sold, accessories_sold]
+    # Flatten the list
+    items_sold = [val for inner_list in items_sold for val in inner_list]
+
+    for item in items_sold:
+        sold_items_row = [item.menu_item.name,
+                          type(item).__name__,
+                          item.number,
+                          item.price,
+                          item.number * item.price,
+                          request.user.get_username(),
+                          item.transaction.first_name + " " + item.transaction.last_name,
+                          item.transaction.date_submitted.date()]
+        writer.writerow(sold_items_row)
+
+    # Buy backs have to be processed differently because they don't have a reference to Transaction table
+    for transaction in buy_backs_sold:
+        buy_backs = ["Vin: " + str(transaction.buy_back_bike.vin),
+                     "Buy-Back Bike",
+                     1, # BuyBackBike does not have the number field as other items do
+                     transaction.buy_back_bike.price,
+                     transaction.buy_back_bike.price,
+                     request.user.get_username(),
+                     transaction.first_name + " " + transaction.last_name,
+                     transaction.date_submitted.date()]
+        writer.writerow(buy_backs)
+
+    return response
