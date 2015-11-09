@@ -19,12 +19,15 @@
 
     {% load repairs_form %}
 
+    {% if tasks_by_category != 'None' %}
     <br>
     <div class="category" category="task_category">
         <div class="btn-group btn-group-justified">
             <a class="btn btn-primary btn-xlarge" role="button">Tasks</a>
         </div>
     </div>
+    {% endif %}
+
     {% for category_item_tuple in tasks_by_category.iteritems %}
     <div class="task_category" style="display:none">
         <div class="sub_category" category="{{category_item_tuple.0|join_whitespace}}">
