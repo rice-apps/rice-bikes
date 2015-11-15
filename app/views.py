@@ -1016,6 +1016,8 @@ def assign_items(request, **kwargs):
 
                 items[i] = (items[i], True, single_number_form, single_price_form)
             else:
+                single_price_form.initial = {"part_" + item_id: item.price}
+
                 items[i] = (items[i], False, single_number_form, single_price_form)
 
 
