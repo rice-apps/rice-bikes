@@ -141,12 +141,21 @@
     <div class="buy_back" style="display:none">
         <br>
             <select name="buy_back_bike" class="form-control">
-                <option value="{{buy_back_vin}}">{{buy_back_vin}}</option>
+                {% if not buy_back_vin %}
+                    <option value="None">None</option>
+                {% endif %}
+
+                {% if buy_back_vin %}
+                    <option value="{{buy_back_vin}}">{{buy_back_vin}}</option>
+                {% endif %}
                 {% for buy_back in buy_back_items %}
                     {% if buy_back.vin != buy_back_vin %}
                         <option value="{{buy_back.vin}}">{{buy_back.vin}}</option>
                     {% endif%}
                 {% endfor %}
+                {% if buy_back_vin %}
+                    <option value="None">None</option>
+                {% endif %}
             </select>
         <br>
     </div>
@@ -160,16 +169,24 @@
     </div>
 
     <div class="refurbished_bike" style="display:none">
-        <form>
+        <br>
             <select name="refurbished_bike" class="form-control">
-                <option value="{{refurbished_bike_vin}}">{{refurbished_bike_vin}}</option>
+                {% if not refurbished_bike_vin %}
+                    <option value="None">None</option>
+                {% endif %}
+
+                {% if refurbished_bike_vin %}
+                    <option value="{{refurbished_bike_vin}}">{{refurbished_bike_vin}}</option>
+                {% endif %}
                 {% for refurbished_bike in refurbished_bikes %}
                     {% if refurbished_bike.vin != refurbished_bike_vin %}
                         <option value="{{refurbished_bike.vin}}">{{refurbished_bike.vin}}</option>
                     {% endif%}
                 {% endfor %}
+                {% if refurbished_bike_vin %}
+                    <option value="None">None</option>
+                {% endif %}
             </select>
-        </form>
         <br>
     </div>
     {% endif %}
