@@ -843,9 +843,11 @@ def process_buy_backs(form_data, transaction):
 
     try:
         transaction.buy_back_bike = BuyBackBike.objects.filter(vin=buy_back_vin).first()
-        transaction.save()
     except ValueError:
-        pass
+        transaction.buy_back_bike = None
+    finally:
+        transaction.save()
+
 
 
 def process_assigned_refurbished(form_data, transaction):
@@ -860,8 +862,9 @@ def process_assigned_refurbished(form_data, transaction):
         transaction.refurbished_bike = RefurbishedBike.objects.filter(vin=refurbished_bike_vin).first()
         transaction.save()
     except ValueError:
-        pass
-
+        transaction.refurbished_bike = None
+    finally:
+        transaction.save()
 
 def process_task_form(form_data, transaction):
     for key, value in form_data.iteritems():
