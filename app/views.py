@@ -87,8 +87,6 @@ def mark_as_completed(request, **kwargs):
         refurbished_bike.save()
 
     # send email
-    print transaction.email
-    print transaction.email_address
     send_completion_email(transaction)
 
     url = get_url(num_parent_args, kwargs)
@@ -845,9 +843,11 @@ def process_buy_backs(form_data, transaction):
 
     try:
         transaction.buy_back_bike = BuyBackBike.objects.filter(vin=buy_back_vin).first()
-        transaction.save()
     except ValueError:
-        pass
+        transaction.buy_back_bike = None
+    finally:
+        transaction.save()
+
 
 
 def process_assigned_refurbished(form_data, transaction):
@@ -862,8 +862,9 @@ def process_assigned_refurbished(form_data, transaction):
         transaction.refurbished_bike = RefurbishedBike.objects.filter(vin=refurbished_bike_vin).first()
         transaction.save()
     except ValueError:
-        pass
-
+        transaction.refurbished_bike = None
+    finally:
+        transaction.save()
 
 def process_task_form(form_data, transaction):
     for key, value in form_data.iteritems():
@@ -1016,6 +1017,8 @@ def assign_items(request, **kwargs):
 
                 items[i] = (items[i], True, single_number_form, single_price_form)
             else:
+                single_price_form.initial = {"part_" + item_id: item.price}
+
                 items[i] = (items[i], False, single_number_form, single_price_form)
 
 
