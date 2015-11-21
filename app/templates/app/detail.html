@@ -11,6 +11,9 @@
       <a class="btn btn-default"
          href="{% url 'app:assign_items_1' parent_url transaction.id %}"
          role="button">Assign Items</a>
+     <a class="btn btn-default"
+         onclick="displayAlert()"
+         role="button">Delete</a>
    </div>
 
 {% elif num_parent_args == 2 %}
@@ -22,8 +25,17 @@
       <a class="btn btn-default"
          href="{% url 'app:assign_items_2' bike_pk parent_url transaction.id %}"
          role="button">Assign Items</a>
+      <a class="btn btn-default"
+         onclick="displayAlert()"
+         role="button">Delete</a>
+
    </div>
 {% endif %}
-
+   <script>
+       function displayAlert() {
+           if (confirm('Are you sure you want to delete this transaction?'))
+               location.href = ("{% url 'app:delete_transaction' parent_url transaction.id %}");
+       }
+   </script>
 
 {% endblock %}
