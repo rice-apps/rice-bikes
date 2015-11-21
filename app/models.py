@@ -112,7 +112,7 @@ class Transaction(models.Model):
             return self.first_name + " " + self.last_name
         else:
             if self.rental_bike:
-                return "Rental: " + self.rental_bike.color + " " + self.rental_bike.model
+                return "Rental " + self.rental_bike.vin + ":" + self.rental_bike.color + " " + self.rental_bike.model
             elif self.refurbished_bike:
                 return "Refurbished: " + self.refurbished_bike.color + " " + self.refurbished_bike.model
             else:
