@@ -19,7 +19,7 @@ def validate_phone(phone_string):
     The only validation currently necessary for a phone is that it's 10 digits
     """
     if len(phone_string) != 10:
-        raise ValidationError('%s is not a valid 10-digit phone number' % phone_string)
+        raise ValidationError('%s is not a valid 10-digit phone  number' % phone_string)
 
 
 #########################################
