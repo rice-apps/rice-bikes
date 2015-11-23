@@ -22,18 +22,7 @@
         <tr class="legible">
             <td>{{ transaction.0.id }}</td>
             <td><a href="{% url 'app:detail_1' 'index' transaction.0.id %}">
-                {% if transaction.0.is_for_bike %}
-                    {% if transaction.0.rental_bike %}
-                        Rental: {{transaction.0.rental_bike.color}} {{transaction.0.rental_bike.model}}
-                    {% elif transaction.0.refurbished_bike %}
-                        Refurbished: {{transaction.0.refurbished_bike.color}} {{transaction.0.refurbished_bike.model}}
-                    {% else %}
-                        Buy Back: {{transaction.0.buy_back_bike.color}} {{transaction.0.buy_back_bike.model}}
-                    {% endif %}
-                {% else %}
-                    {{ transaction.0.first_name }} {{ transaction.0.last_name }}
-                {% endif %}
-
+                {{ transaction.0 }}
             </a></td>
             <td>
                 {{ transaction.0.bike_description|slice:":75" }}
