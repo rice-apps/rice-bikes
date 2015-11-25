@@ -24,20 +24,15 @@
     <!--was_ordered is shown by red/green for true/false-->
     <table class="table">
         <thead>
-            <td>Part</td>
-            <td>Category</td>
-            <td>Price</td>
-            <td>Date</td>
-            <td>Delete</td>
+            <td></td>
+            <td>Status</td>
         </thead>
 
         {% for order in orders %}
             <tr>
-                <td><p {% if order.was_ordered %} class="order-submitted-link" {% endif %}><a href="{% url 'app:edit_order' 'orders' order.id %}">{{ order.name }}</a></p></td>
-                <td><p {% if order.was_ordered %} class="order-submitted-text" {% endif %}>{{ order.category }}</p></td>
-                <td><p {% if order.was_ordered %} class="order-submitted-text" {% endif %}> {{ order.price }} </p></td>
-                <td><p {% if order.was_ordered %} class="order-submitted-text" {% endif %}> {{ order.date_submitted|date:"n/j" }} </p></td>
-                <td><a href="{% url 'app:delete_order' order.id %}">X</a></td>
+
+                <td><a href="{% url 'app:detail_1' 'orders' order.transaction.id %}">{{order}}</a></td>
+                <td>{{order.status}}</td>
             </tr>
         {% endfor %}
 

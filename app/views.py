@@ -19,6 +19,7 @@ from app.forms import RentalForm, RefurbishedForm, RevenueForm, TaskForm, PartCa
 from django.template import RequestContext
 from django.forms.formsets import formset_factory
 import csv
+from django.db.models import Q
 
 NEW_ORDER_TEMPLATES = {'0': 'app/create_transaction.html', '1': 'app/create_transaction.html',
                        '2': 'app/create_trans_parts.html'}
@@ -1230,12 +1231,12 @@ def revenue_update(request):
 
 @login_required
 def orders(request):
-    orders = PartOrder.objects.all().order_by('date_submitted').reverse()
+    orders = Part.objects.filter(~Q(status="Availables")).order_by('date_submitted').reverse()
 
     if request.method == 'POST':
         if 'export_orders' in request.POST:
             return make_order_export_file(orders, 'order_history.csv')
-    return render(request, 'app/order.html', {'orders': orders})
+    return render(request, 'app/orders.html', {'orders': orders})
 
 
 def make_revenue_update(request, order, amount):

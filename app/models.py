@@ -189,9 +189,13 @@ class Part(models.Model):
     transaction = models.ForeignKey(Transaction)
     menu_item = models.ForeignKey(PartMenuItem)
     sold = models.BooleanField(default=False)
+    status = models.CharField(max_length=50, default="Available")
+
+    # Auto-generated fields
+    date_submitted = models.DateTimeField(default=datetime.now, blank=True)
 
     def __str__(self):
-        return str(self.id) + ", " + str(self.menu_item.name)
+        return str(self.menu_item.name)
 
 
 
