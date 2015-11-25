@@ -189,7 +189,13 @@ class Part(models.Model):
     transaction = models.ForeignKey(Transaction)
     menu_item = models.ForeignKey(PartMenuItem)
     sold = models.BooleanField(default=False)
-    status = models.CharField(max_length=50, default="Available")
+
+    STATUS_CHOICES = (
+        ('Avail', 'Available'),
+        ('Out', 'Out of Stock'),
+        ('Ordered', 'Ordered'),
+    )
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default="Available")
 
     # Auto-generated fields
     date_submitted = models.DateTimeField(default=datetime.now, blank=True)

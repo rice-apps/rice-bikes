@@ -344,6 +344,7 @@ def update(request, **kwargs):
     transaction = Transaction.objects.filter(pk=trans_pk).first()
     tasks = transaction.task_set.all()
     parts = transaction.part_set.all()
+
     accessories = transaction.accessory_set.all()
     buy_back_items = BuyBackBike.objects.all()
     buy_back = transaction.buy_back_bike
@@ -365,7 +366,7 @@ def update(request, **kwargs):
             process_items_edit(form.data, "task_", tasks)
 
             # save parts
-            process_items_edit(form.data, "part_", parts)
+            process_parts_edit(form.data, "part_", parts)
 
             # save accessories
             process_items_edit(form.data, "accessory_", accessories)
@@ -396,8 +397,11 @@ def update(request, **kwargs):
     # new form
     new_category_form = PartCategoryForm()
 
+    part_status_choices = Part._meta.get_field('status').choices
+
     return render_to_response("app/edit.html", {'tasks': tasks,
                                                 'parts': parts,
+                                                'part_status_choices': part_status_choices,
                                                 'accessories': accessories,
                                                 'buy_back_items': buy_back_items,
                                                 'buy_back': buy_back,
@@ -732,11 +736,15 @@ def process_tasks(form_data, transaction):
 
 def process_items_edit(form_data, prefix, queryset):
 
+    print form_data
+
+
     # update all items
     for item in queryset:
 
         item_data = form_data.getlist(prefix + str(item.menu_item.name).replace(" ", "_"))
 
+        print "HI"
         print item_data
 
         if len(item_data) == 2:
@@ -748,6 +756,7 @@ def process_items_edit(form_data, prefix, queryset):
             item.number = item_data[1]
             item.price = item_data[2]
 
+        # Check if item is for wheel
         if prefix == "task_":
             wheel_field = prefix + str(item.menu_item.name).replace(" ", "_") + "_wheel"
             if wheel_field in form_data:
@@ -755,6 +764,27 @@ def process_items_edit(form_data, prefix, queryset):
                     item.is_front = True
                 else:
                     item.is_front = False
+        item.save()
+
+
+def process_parts_edit(form_data, prefix, queryset):
+
+    # update all items
+    for item in queryset:
+        try:
+            completed = form_data[prefix + str(item.menu_item.name).replace(" ", "_") + "_completed"]
+        except:
+            completed = False
+
+        number = form_data[prefix + str(item.menu_item.name).replace(" ", "_") + "_number"]
+        price = form_data[prefix + str(item.menu_item.name).replace(" ", "_") + "_price"]
+        status = form_data[prefix + str(item.menu_item.name).replace(" ", "_") + "_status"]
+
+        item.completed = completed
+        item.number = number
+        item.price = price
+        item.status = status
+
         item.save()
 
 
@@ -1231,7 +1261,7 @@ def revenue_update(request):
 
 @login_required
 def orders(request):
-    orders = Part.objects.filter(~Q(status="Availables")).order_by('date_submitted').reverse()
+    orders = Part.objects.filter(~Q(status="Available")).order_by('date_submitted').reverse()
 
     if request.method == 'POST':
         if 'export_orders' in request.POST:

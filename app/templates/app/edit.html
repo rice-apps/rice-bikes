@@ -105,16 +105,25 @@
                         <div class="fieldWrapper">
 
                             <em><strong>{{ part.menu_item.name|place_whitespace }}</strong></em>
-                            <input class="form-control" id="id_{{part.menu_item.name| join_whitespace}}" name="part_{{part.menu_item.name| join_whitespace}}" type="checkbox"
+                            <input class="form-control" id="id_{{part.menu_item.name| join_whitespace}}" name="part_{{part.menu_item.name| join_whitespace}}_completed" type="checkbox"
                                    {% if part.completed %} checked="checked" {% endif %} style="text-align:center"/>
                             <br>
                             <b>Number</b>
-                            <input class="form-control number" name="part_{{part.menu_item.name| join_whitespace}}" type="number" value="{{ part.number }}"/>
+                            <input class="form-control number" name="part_{{part.menu_item.name| join_whitespace}}_number" type="number" value="{{ part.number }}"/>
                             <div class="old_number" style="display:none" old_value="{{part.number}}"></div>
                             <b>Price Each</b>
-                            <input class="form-control price" name="part_{{part.menu_item.name| join_whitespace}}"
+                            <input class="form-control price" name="part_{{part.menu_item.name| join_whitespace}}_price"
                                    type="number" value="{{ part.price }}"/>
                             <div class="old_price" style="display:none" old_value="{{part.price}}"></div>
+                            <b>Status</b>
+                            <select name="part_{{part.menu_item.name| join_whitespace}}_status">
+                                <option>{{ part.status }}</option>
+                                {% for status_tup in part_status_choices %}
+                                    {% if status_tup.1 != part.status %}
+                                        <option>{{ status_tup.1 }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
                         </div>
                     </div>
             {% endfor %}
