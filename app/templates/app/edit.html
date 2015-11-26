@@ -116,7 +116,7 @@
                                    type="number" value="{{ part.price }}"/>
                             <div class="old_price" style="display:none" old_value="{{part.price}}"></div>
                             <b>Status</b>
-                            <select name="part_{{part.menu_item.name| join_whitespace}}_status">
+                            <select name="part_{{part.menu_item.name| join_whitespace}}_status" class="form-control">
                                 <option>{{ part.status }}</option>
                                 {% for status_tup in part_status_choices %}
                                     {% if status_tup.1 != part.status %}
