@@ -13,14 +13,12 @@
 
     <table class="table trans-table">
     <thead>
-        <td>ID</td>
         <td>Name</td>
         <td>Description</td>
     </thead>
 
     {% for transaction in transactions_list %}
         <tr class="legible">
-            <td>{{ transaction.0.id }}</td>
             <td><a href="{% url 'app:detail_1' 'index' transaction.0.id %}">
                 {{ transaction.0 }}
             </a></td>

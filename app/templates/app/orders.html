@@ -24,8 +24,9 @@
     <!--was_ordered is shown by red/green for true/false-->
     <table class="table">
         <thead>
-            <td></td>
+            <td>Part</td>
             <td>Status</td>
+            <td>Date</td>
         </thead>
 
         {% for order in orders %}
@@ -33,6 +34,7 @@
 
                 <td><a href="{% url 'app:detail_1' 'orders' order.transaction.id %}">{{order}}</a></td>
                 <td>{{order.status}}</td>
+                <td>{{order.transaction.date_submitted|date:"n/j"}}</td>
             </tr>
         {% endfor %}
 

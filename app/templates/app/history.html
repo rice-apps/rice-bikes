@@ -8,7 +8,6 @@
 
     <table class="table trans-table">
     <thead>
-        <td>ID</td>
         <td>Name</td>
         <td>Description</td>
         <td>Paid</td>
@@ -16,7 +15,6 @@
 
     {% for transaction, is_paid in transactions_list %}
         <tr>
-            <td>{{ transaction.id }}</td>
             <td><a href="{% url 'app:detail_1' 'history' transaction.id %}">
                 {{transaction}}</a></td>
             <td>

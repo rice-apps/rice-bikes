@@ -1293,7 +1293,7 @@ def revenue_update(request):
 
 @login_required
 def orders(request):
-    orders = Part.objects.filter(~Q(status="Available")).order_by('date_submitted').reverse()
+    orders = Part.objects.filter(~Q(status="Available")).order_by('transaction__date_submitted').reverse()
 
     if request.method == 'POST':
         if 'export_orders' in request.POST:
