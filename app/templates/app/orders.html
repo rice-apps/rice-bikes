@@ -7,11 +7,15 @@
     {% csrf_token %}
     <div class="btn-group btn-group-justified" role="group" aria-label="...">
         <a class="btn btn-default" href="#"  role="button" name='new_payment'>
-                <img class="button-pic" src="/app/static/img/add.png" alt="New transaction"/>
+            <img class="button-pic" src="/app/static/img/add.png" alt="New transaction"/>
         </a>
-        <div class="btn-group" role="group">
-                <button type="submit" name="export_orders" class="btn btn-default btn-lg">Export</button>
-        </div>
+
+        <!--<div class="btn-group" role="group">-->
+            <!--<button type="submit" name="export_orders" class="btn btn-default btn-lg">Export</button>-->
+        <!--</div>-->
+        <a class="btn btn-default" href="#"  role="button" name='new_payment' style="font-size:18">
+            Export
+        </a>
     </div>
     <br>
 
