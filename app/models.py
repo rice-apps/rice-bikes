@@ -218,20 +218,6 @@ CATEGORY_CHOICES = (
 )
 
 
-class PartOrder(models.Model):
-    name = models.CharField(max_length=50)
-    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES, blank=True, null=True)
-    was_ordered = models.BooleanField(default=False)
-    price = models.IntegerField(default='0', blank=True, null=True)
-    description = models.CharField(max_length=200, blank=True, null=True)
-
-    # Auto-generated fields
-    date_submitted = models.DateTimeField(default=datetime.now, blank=True)
-
-    def __str__(self):
-        return str(self.name)
-
-
 class MiscRevenueUpdate(models.Model):
     description = models.TextField()
 
@@ -240,7 +226,6 @@ class RevenueUpdate(models.Model):
     amount = models.IntegerField()
     employee = models.CharField(max_length=100, blank=True)
     transaction = models.ForeignKey(Transaction, blank=True, null=True)
-    order = models.ForeignKey(PartOrder, blank=True, null=True)
     misc_revenue_update = models.ForeignKey(MiscRevenueUpdate, blank=True, null=True)
     new_total_revenue = models.IntegerField(blank=True)
 
@@ -258,18 +243,3 @@ class TotalRevenue(models.Model):
         verbose_name = "Total Revenue"
         verbose_name_plural = "Total Revenue"
 
-
-class PartCategory(models.Model):
-    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES, blank=True, null=True)
-    price = models.IntegerField(default='0', blank=True, null=True)
-    description = models.CharField(max_length=200, blank=True, null=True)
-    was_used = models.BooleanField(default=False)
-    transaction = models.ForeignKey(Transaction, blank=True)
-
-    # Auto-generated fields
-    date_submitted = models.DateTimeField(default=datetime.now, blank=True)
-
-    def __str__(self):
-        return str(CATEGORY_CHOICES[int(self.category)][1]) + " for " + str(self.transaction.first_name + " "
-                                                                         + self.transaction.last_name + ", ID "
-                                                                         + str(self.transaction.id))

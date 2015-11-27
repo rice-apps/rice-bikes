@@ -1,6 +1,6 @@
 from django.contrib import admin
 from app.models import Transaction, Task, Part, Accessory, RentalBike,\
-    RefurbishedBike, RevenueUpdate, TotalRevenue, PartCategory, PartOrder, \
+    RefurbishedBike, RevenueUpdate, TotalRevenue, \
     TaskMenuItem, AccessoryMenuItem, PartMenuItem, BuyBackBike
 
 admin.site.register(Transaction)
