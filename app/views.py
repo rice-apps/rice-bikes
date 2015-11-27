@@ -1075,8 +1075,6 @@ def make_revenue_export_file(table_rows, filename):
         update_list = []
         if update.transaction:
             update_list.append("T-" + str(update.transaction.id))
-        elif update.order:
-            update_list.append("P-" + str(update.order.id))
         elif update.misc_revenue_update:
             update_list.append("M-" + str(update.misc_revenue_update.id))
         else:
@@ -1277,21 +1275,34 @@ def make_sold_items_export_file(request, filename):
     response['Content-Disposition'] = 'attachment; filename="%s"' % filename
 
     writer = csv.writer(response)
-    writer.writerow(["Item", "Category", "Amount", "Price", "Total", "Employee", "Customer", "Date"])
+    writer.writerow(["Item", "Category", "Subcategory", "Number", "Price", "Total", "Employee", "Customer", "Date"])
 
     tasks_sold = Task.objects.filter(sold=True).order_by('-transaction__date_submitted')
     parts_sold = Part.objects.filter(sold=True).order_by('-transaction__date_submitted')
     accessories_sold = Accessory.objects.filter(sold=True).order_by('-transaction__date_submitted')
     buy_backs_sold = \
-        Transaction.objects.exclude(buy_back_bike=None).filter(completed=True).order_by('-date_submitted')
+        Transaction.objects.exclude(buy_back_bike=None).filter(buy_back_bike__sold=True).order_by('-date_submitted')
 
-    items_sold = [tasks_sold, parts_sold, accessories_sold]
+    category_items_sold = [tasks_sold, parts_sold]
     # Flatten the list
-    items_sold = [val for inner_list in items_sold for val in inner_list]
+    category_items_sold = [val for inner_list in category_items_sold for val in inner_list]
 
-    for item in items_sold:
+    for item in category_items_sold:
         sold_items_row = [item.menu_item.name,
                           type(item).__name__,
+                          item.menu_item.category,
+                          item.number,
+                          item.price,
+                          item.number * item.price,
+                          request.user.get_username(),
+                          item.transaction.first_name + " " + item.transaction.last_name,
+                          item.transaction.date_submitted.date()]
+        writer.writerow(sold_items_row)
+
+    for item in accessories_sold:
+        sold_items_row = [item.menu_item.name,
+                          type(item).__name__,
+                          None,
                           item.number,
                           item.price,
                           item.number * item.price,
@@ -1304,6 +1315,7 @@ def make_sold_items_export_file(request, filename):
     for transaction in buy_backs_sold:
         buy_backs = ["Vin: " + str(transaction.buy_back_bike.vin),
                      "Buy-Back Bike",
+                     None,
                      1, # BuyBackBike does not have the number field as other items do
                      transaction.buy_back_bike.price,
                      transaction.buy_back_bike.price,

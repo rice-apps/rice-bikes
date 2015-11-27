@@ -34,7 +34,7 @@
             <td>${{ item.price }}</td>
             <td>{{ item.color }}</td>
             <td>{{ item.model }}</td>
-            <td>{{ item.transaction.date_submitted|date:"n/j" }}</td>
+            <td>{{ item.date_submitted|date:"n/j" }}</td>
         </tr>
     {% endfor %}
 </table>
