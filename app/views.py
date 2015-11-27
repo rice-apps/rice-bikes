@@ -15,10 +15,11 @@ from formtools.wizard.views import SessionWizardView
 from django.contrib.auth import authenticate, login, logout
 from app.forms import RentalForm, RefurbishedForm, RevenueForm, TaskForm, PartCategoryForm, \
     PartOrderForm, CustomerForm, DisabledPartCategoryForm, MiscRevenueUpdateForm, SingleNumberForm, \
-    BuyBackForm, BuyBackSelectForm, SinglePriceForm
+    BuyBackForm, SinglePriceForm
 from django.template import RequestContext
 from django.forms.formsets import formset_factory
 import csv
+from django.db.models import Q
 
 NEW_ORDER_TEMPLATES = {'0': 'app/create_transaction.html', '1': 'app/create_transaction.html',
                        '2': 'app/create_trans_parts.html'}
@@ -343,6 +344,7 @@ def update(request, **kwargs):
     transaction = Transaction.objects.filter(pk=trans_pk).first()
     tasks = transaction.task_set.all()
     parts = transaction.part_set.all()
+
     accessories = transaction.accessory_set.all()
     buy_back_items = BuyBackBike.objects.all()
     buy_back = transaction.buy_back_bike
@@ -364,7 +366,7 @@ def update(request, **kwargs):
             process_items_edit(form.data, "task_", tasks)
 
             # save parts
-            process_items_edit(form.data, "part_", parts)
+            process_parts_edit(form.data, "part_", parts)
 
             # save accessories
             process_items_edit(form.data, "accessory_", accessories)
@@ -395,8 +397,11 @@ def update(request, **kwargs):
     # new form
     new_category_form = PartCategoryForm()
 
+    part_status_choices = Part._meta.get_field('status').choices
+
     return render_to_response("app/edit.html", {'tasks': tasks,
                                                 'parts': parts,
+                                                'part_status_choices': part_status_choices,
                                                 'accessories': accessories,
                                                 'buy_back_items': buy_back_items,
                                                 'buy_back': buy_back,
@@ -594,9 +599,6 @@ def process(form_data):
 
     new_transaction.save()
 
-    print "form_data[1] = "
-    print form_data[1]
-
     # map tasks to this transaction
     for menu_item in form_data[1]:
         task = Task(
@@ -697,8 +699,6 @@ def process_tasks(form_data, transaction):
     # gets all checkbox fields and returns this as the checked task fields
     task_dict = get_items(form_data, "task_")
 
-    print task_dict
-
     # delete all tasks
     for task in transaction.task_set.all():
             task.delete()
@@ -713,8 +713,6 @@ def process_tasks(form_data, transaction):
         if "is_front" in task_dict[task_name]:
             is_front = task_dict[task_name]["is_front"]
 
-        print task_name
-        print is_front
         task = Task(
             completed=False,
             transaction=transaction,
@@ -731,11 +729,15 @@ def process_tasks(form_data, transaction):
 
 def process_items_edit(form_data, prefix, queryset):
 
+    print form_data
+
+
     # update all items
     for item in queryset:
 
         item_data = form_data.getlist(prefix + str(item.menu_item.name).replace(" ", "_"))
 
+        print "HI"
         print item_data
 
         if len(item_data) == 2:
@@ -747,6 +749,7 @@ def process_items_edit(form_data, prefix, queryset):
             item.number = item_data[1]
             item.price = item_data[2]
 
+        # Check if item is for wheel
         if prefix == "task_":
             wheel_field = prefix + str(item.menu_item.name).replace(" ", "_") + "_wheel"
             if wheel_field in form_data:
@@ -754,6 +757,27 @@ def process_items_edit(form_data, prefix, queryset):
                     item.is_front = True
                 else:
                     item.is_front = False
+        item.save()
+
+
+def process_parts_edit(form_data, prefix, queryset):
+
+    # update all items
+    for item in queryset:
+        try:
+            completed = form_data[prefix + str(item.menu_item.name).replace(" ", "_") + "_completed"]
+        except:
+            completed = False
+
+        number = form_data[prefix + str(item.menu_item.name).replace(" ", "_") + "_number"]
+        price = form_data[prefix + str(item.menu_item.name).replace(" ", "_") + "_price"]
+        status = form_data[prefix + str(item.menu_item.name).replace(" ", "_") + "_status"]
+
+        item.completed = completed
+        item.number = number
+        item.price = price
+        item.status = status
+
         item.save()
 
 
@@ -768,15 +792,11 @@ def get_items(form_data, prefix):
 
             # check that item was selected
             if form_data.getlist(field)[0] == 'on':
-                print "Got a checked item field: " + str(item_name)
-                print form_data.getlist(field)
-                print len(form_data.getlist(field))
                 item_dict[item_name.replace("_", " ")] = {}
                 item_dict[item_name.replace("_", " ")]["number"] = form_data.getlist(field)[1]
                 if len(form_data.getlist(field)) > 2: # for parts with prices
                     item_dict[item_name.replace("_", " ")]["price"] = form_data.getlist(field)[2]
                 if len(form_data.getlist(field)) == 3:
-                    print "HEY SUCKA! Wheel selected is : " + form_data.getlist(field)[2]
                     front_text = form_data.getlist(field)[2]
                     if front_text == "Front":
                         is_front = True
@@ -787,9 +807,35 @@ def get_items(form_data, prefix):
     return item_dict
 
 
+def get_part_items(form_data, prefix):
+    item_dict = dict()  # maps selected items to number
+    prefix_len = len(prefix)
+    for field in form_data:
+
+
+        # check that field is desired category
+        if field.startswith(prefix):
+            item_name = field[prefix_len:]
+            field_name = item_name.split("_")[-1]
+            core_item_name = item_name[:(-len(field_name) - 1)]
+
+            # check that field was assigned
+            if prefix + core_item_name + "_assigned" in form_data:
+                core_item_name.replace("_"," ")
+
+                if core_item_name not in item_dict:
+                    item_dict[core_item_name] = {}
+
+                item_dict[core_item_name][field_name] = form_data[field]
+
+    return item_dict
+
+
 def process_parts(form_data, transaction):
     # gets all checkbox fields and returns this as the checked part fields
-    part_dict = get_items(form_data, "part_")
+    part_dict = get_part_items(form_data, "part_")
+
+    print part_dict
 
     # delete all parts
     for part in transaction.part_set.all():
@@ -797,17 +843,19 @@ def process_parts(form_data, transaction):
 
     # add all marked parts
     for part_name in part_dict:
-        part = Part(
-            completed=False,
-            transaction=transaction,
-            menu_item=PartMenuItem.objects.filter(name=part_name).first(),
-            number=part_dict[part_name]["number"],
-            price=part_dict[part_name]["price"]
-        )
-        part.save()
+        if "assigned" in part_dict[part_name]:
+            part = Part(
+                completed=False,
+                transaction=transaction,
+                menu_item=PartMenuItem.objects.filter(name=part_name).first(),
+                number=part_dict[part_name]["number"],
+                price=part_dict[part_name]["price"],
+                status=part_dict[part_name]["status"]
+            )
+            part.save()
 
-        transaction.cost += int(part.number) * int(part.price)
-        transaction.save()
+            transaction.cost += int(part.number) * int(part.price)
+            transaction.save()
 
 
 def process_accessories(form_data, transaction):
@@ -899,6 +947,12 @@ def get_part_price_from_name(name, transaction):
             return part.price
     return 0
 
+def get_part_status_from_name(name, transaction):
+    for part in transaction.part_set.all():
+        if name == part.menu_item.name:
+            return part.status
+    return "Available"
+
 def get_accessory_number_from_name(name, transaction):
     for accessory in transaction.accessory_set.all():
         if name == accessory.menu_item.name:
@@ -911,9 +965,6 @@ def assign_items(request, **kwargs):
     transaction = Transaction.objects.filter(id=kwargs['trans_pk']).first()
 
     if request.method == 'POST':
-
-        for item in request.POST:
-            print item
 
         num_parent_args = kwargs['num_parent_args']
 
@@ -961,14 +1012,11 @@ def assign_items(request, **kwargs):
     for category in tasks_by_category:
         category_id = str(category).replace(" ", "_")
         items = tasks_by_category[category]
-        print tasks_by_category[category]
 
-        print "IS THE TASK NULL FRONT OR REAR????"
         for i in xrange(len(items)):
             item = items[i]
             item_id = str(item.name).replace(" ", "_")
             single_number_form = SingleNumberForm(auto_id='task_' + category_id + "_%s")
-            print single_number_form.fields
             single_number_form.fields["task_" + item_id] = single_number_form.fields['number']
             del single_number_form.fields['number']
 
@@ -1003,11 +1051,14 @@ def assign_items(request, **kwargs):
             item_id = str(item.name).replace(" ", "_")
             # These are defined in forms.py
             single_number_form = SingleNumberForm(auto_id='part_' + category_id + "_%s")
-            single_number_form.fields["part_" + item_id] = single_number_form.fields['number']
+            single_number_form.fields["part_" + item_id + "_number"] = single_number_form.fields['number']
             single_price_form = SinglePriceForm(auto_id="part_" + category_id + "_%s")
-            single_price_form.fields["part_" + item_id] = single_price_form.fields['price']
+            single_price_form.fields["part_" + item_id + "_price"] = single_price_form.fields['price']
             del single_price_form.fields['price']
             del single_number_form.fields['number']
+            # initialize part status
+            status = "Available"
+            # initialize part with transaction data
             if items[i].name in part_set_names:
                 part_number = get_part_number_from_name(items[i].name, transaction)
                 single_number_form.initial = {"part_" + item_id: part_number}
@@ -1015,11 +1066,15 @@ def assign_items(request, **kwargs):
                 part_price = get_part_price_from_name(items[i].name, transaction)
                 single_price_form.initial = {"part_" + item_id: part_price}
 
-                items[i] = (items[i], True, single_number_form, single_price_form)
+                status = get_part_status_from_name(items[i].name, transaction)
+
+
+                items[i] = (items[i], True, single_number_form, single_price_form, status)
+            # initialize part with default data
             else:
                 single_price_form.initial = {"part_" + item_id: item.price}
 
-                items[i] = (items[i], False, single_number_form, single_price_form)
+                items[i] = (items[i], False, single_number_form, single_price_form, status)
 
 
     # GET ACCESSORY DATA
@@ -1056,9 +1111,12 @@ def assign_items(request, **kwargs):
     if transaction.email == "none@rice.edu":
         tasks_by_category = 'None'
 
+    part_status_choices = Part._meta.get_field('status').choices
+
     return render(request, 'app/assign_items.html', {
         'tasks_by_category': tasks_by_category,
         'parts_by_category': parts_by_category,
+        'part_status_choices': part_status_choices,
         'accessory_items': accessory_items,
         'buy_back_items': buy_back_items,
         'buy_back_vin': buy_back_vin,
@@ -1235,12 +1293,12 @@ def revenue_update(request):
 
 @login_required
 def orders(request):
-    orders = PartOrder.objects.all().order_by('date_submitted').reverse()
+    orders = Part.objects.filter(~Q(status="Available")).order_by('date_submitted').reverse()
 
     if request.method == 'POST':
         if 'export_orders' in request.POST:
             return make_order_export_file(orders, 'order_history.csv')
-    return render(request, 'app/order.html', {'orders': orders})
+    return render(request, 'app/orders.html', {'orders': orders})
 
 
 def make_revenue_update(request, order, amount):

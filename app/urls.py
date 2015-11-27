@@ -23,12 +23,12 @@ urlpatterns = patterns(
     url(r'^balance/$', views.balance, name='balance'),
     url(r'^revenue_update/$', views.revenue_update, name='revenue_update'),
 
+    url(r'^edit_misc_revenue_update/(?P<misc_id>\d+)', views.edit_misc_revenue_update, name='edit_misc_revenue_update'),
+
+
     url(r'^(?P<parent_url>\w+)/(?P<order_id>\d+)/edit_order/$', views.edit_order, name='edit_order'),
     url(r'^delete_order/(?P<order_id>\d+)', views.delete_order, name='delete_order'),
     url(r'^installed_parts', views.used_parts, name='used_parts'),
-
-    url(r'^edit_misc_revenue_update/(?P<misc_id>\d+)', views.edit_misc_revenue_update, name='edit_misc_revenue_update'),
-
     url(r'^bike_inventory/$', views.bike_inventory, name='bike_inventory'),
     url(r'^make_order/$', views.make_order, name='make_order'),
     url(r'^orders/$', views.orders, name='orders'),

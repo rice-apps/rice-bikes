@@ -1,0 +1,9 @@
+Integrate parts with Request order page
+
+COMPLETE 1. Add "state" field to Part and Accessory models. Defaults to "Available"
+2. Add column for "state" on detail and edit pages.
+    - For edit view, going to add a method for parts that uses different html names.
+    - B/c # of args is different than tasks/ accessories
+
+3. Display "Out Of Stock" and "On the Way" on order page.
+4. Can also add a part to the Orders page

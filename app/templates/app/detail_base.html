@@ -121,9 +121,11 @@
     <div class="panel-body parts-panel">
         <table class="table table-striped">
             <thead>
-                <td class="col-xs-10"><b>Part</b></td>
+                <td class="col-xs-9"><b>Part</b></td>
                 <td class="col-sm-1"><b>#</b></td>
                 <td class="col-sm-1"><b>$</b></td>
+                <td class="col-sm-1"><b>Status</b></td>
+
                 <td class="col-sm-1"><b>Completed</b></td>
             </thead>
             {% for part in parts %}
@@ -131,6 +133,7 @@
                     <td>{{ part.menu_item.category }}: {{ part.menu_item.name }}</td>
                     <td>{{ part.number}}</td>
                     <td>{{ part.price }}</td>
+                    <td>{{ part.status }}</td>
                     <td>{{ part.completed }}</td>
                 </tr>
             {% endfor %}
