@@ -58,6 +58,10 @@ urlpatterns = patterns(
         {'num_parent_args': 2},
         name='assign_items_2'),
 
+    # delete_transaction
+    url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/delete_transactions/$', views.delete_transaction,
+        name='delete_transaction'),
+
     # detail paths
     url(r'^(?P<parent_url>\w+)/(?P<trans_pk>\d+)/detail/$', views.detail, {'num_parent_args': 1},
         name='detail_1'),

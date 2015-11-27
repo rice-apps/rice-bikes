@@ -18,7 +18,7 @@
         <tr>
             <td>{{ transaction.id }}</td>
             <td><a href="{% url 'app:detail_1' 'history' transaction.id %}">
-                {{ transaction.first_name }} {{ transaction.last_name }}</a></td>
+                {{transaction}}</a></td>
             <td>
                 {{ transaction.bike_description|slice:":75" }}
                 {% if transaction.bike_description|length > 75  %}...{% endif %}

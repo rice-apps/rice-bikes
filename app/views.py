@@ -1067,6 +1067,11 @@ def assign_items(request, **kwargs):
         'transaction': transaction,
     })
 
+def delete_transaction(request, **kwargs):
+    transaction = Transaction.objects.filter(id=kwargs['trans_pk']).first()
+    Transaction.delete(transaction)
+
+    return HttpResponseRedirect("/" + kwargs['parent_url'])
 
 def user_login(request):
     context = RequestContext(request)
