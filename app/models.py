@@ -198,7 +198,7 @@ class Part(models.Model):
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default="Available")
 
     def __str__(self):
-        return str(self.menu_item.category) + " " + str(self.menu_item.name)
+        return str(self.menu_item.category) + " -- " + str(self.menu_item.name)
 
 
 

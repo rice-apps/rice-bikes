@@ -31,7 +31,7 @@ class CustomerForm(ModelForm):
 class TaskForm(ModelForm):
     class Meta:
         model = Transaction
-        fields = ('bike_description', 'cost', 'amount_paid',)
+        fields = ('bike_description', 'cost', 'amount_paid', 'email')
 
 
 class RentalForm(ModelForm):

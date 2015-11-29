@@ -162,7 +162,7 @@ def detail(request, **kwargs):
     print parts
     print "END"
 
-    return render_to_response("app/" + detail_page, {
+    return render(request, "app/" + detail_page, {
         'transaction': transaction,
         'parent_url': parent_url,
         'tasks': tasks,
@@ -201,6 +201,7 @@ def process_transaction_edit(form_data, transaction, request):
         transaction.bike_description = form_data['bike_description']
         transaction.amount_paid = form_data['amount_paid']
         transaction.cost = form_data['cost']
+        transaction.email = form_data['email']
         transaction.save()
 
 
@@ -1025,10 +1026,19 @@ def assign_items(request, **kwargs):
     })
 
 def delete_transaction(request, **kwargs):
+
     transaction = Transaction.objects.filter(id=kwargs['trans_pk']).first()
     Transaction.delete(transaction)
 
-    return HttpResponseRedirect("/" + kwargs['parent_url'])
+    # Why doesn't reverse work??
+    # return HttpResponseRedirect(reverse(kwargs['parent_url']))
+
+    url = "/" + kwargs['parent_url']
+    if url == "/index":
+        url = "/"
+
+    return HttpResponseRedirect(url)
+
 
 def user_login(request):
     context = RequestContext(request)
@@ -1281,7 +1291,7 @@ def make_sold_items_export_file(request, filename):
     parts_sold = Part.objects.filter(sold=True).order_by('-transaction__date_submitted')
     accessories_sold = Accessory.objects.filter(sold=True).order_by('-transaction__date_submitted')
     buy_backs_sold = \
-        Transaction.objects.exclude(buy_back_bike=None).filter(buy_back_bike__sold=True).order_by('-date_submitted')
+        Transaction.objects.exclude(buy_back_bike=None).filter(completed=True).order_by('-date_submitted')
 
     category_items_sold = [tasks_sold, parts_sold]
     # Flatten the list
@@ -1295,7 +1305,7 @@ def make_sold_items_export_file(request, filename):
                           item.price,
                           item.number * item.price,
                           request.user.get_username(),
-                          item.transaction.first_name + " " + item.transaction.last_name,
+                          item.transaction,
                           item.transaction.date_submitted.date()]
         writer.writerow(sold_items_row)
 
@@ -1307,7 +1317,7 @@ def make_sold_items_export_file(request, filename):
                           item.price,
                           item.number * item.price,
                           request.user.get_username(),
-                          item.transaction.first_name + " " + item.transaction.last_name,
+                          item.transaction,
                           item.transaction.date_submitted.date()]
         writer.writerow(sold_items_row)
 

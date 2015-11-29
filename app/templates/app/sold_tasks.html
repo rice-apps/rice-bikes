@@ -1,24 +1,10 @@
-{% extends "app/base.html" %}
+{% extends "app/sold_items.html" %}
 
-{% block content %}
-<br>
-<div class="btn-group btn-group-justified" role="group" aria-label="...">
-    <a href="{% url 'app:sold_tasks' %}" class="btn btn-default btn-lg btn-skinny" role="button">Tasks</a>
-    <a href="{% url 'app:sold_parts' %}" class="btn btn-default btn-lg btn-skinny" role="button">Parts</a>
-</div>
-<br>
-<form action="." method="post" role="form">
-    {% csrf_token %}
-    <div class="btn-group btn-group-justified" role="group" aria-label="...">
-        <a href="{% url 'app:sold_accessories' %}" class="btn btn-default btn-lg btn-skinny" role="button">Accessories</a>
-        <a href="{% url 'app:sold_buy_backs' %}" class="btn btn-default btn-lg btn-skinny" role="button">Buy Backs</a>
-        <div class="btn-group" role="group">
-            <button type="submit" name="export" class="btn btn-default btn-lg btn-skinny">Export</button>
-        </div>
-    </div>
-</form>
+{% block specific %}
+<script>
+    $("#tasks")[0].className += " btn-primary";
+</script>
 
-<br>
 <table class="table">
     <thead>
         <td>Name</td>

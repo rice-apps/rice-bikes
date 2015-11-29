@@ -8,6 +8,21 @@
   align-self: center;
 }
 
+#clock-pic {
+    width: 30px;
+    height: 30px;
+}
+
+#add-pic {
+    width: 29px;
+    height: 29px;
+}
+
+#home-pic {
+    width: 29px;
+    height: 29px;
+}
+
 .labels {
     font-weight: bold;
 }

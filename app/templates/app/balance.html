@@ -34,11 +34,11 @@
     {% for update in revenue_updates %}
         <tr>
             {% if update.transaction != None %}
-                <td><a href="{% url 'app:detail_1' 'balance' update.transaction.id %}">T-{{ update.transaction.id }}</a></td>
+                <td><a href="{% url 'app:detail_1' 'balance' update.transaction.id %}">T{{ update.transaction.id }}</a></td>
             {% elif update.order != None %}
                 <td><a href="{% url 'app:edit_order' 'balance' update.order.id %}">P-{{ update.order.id }} </a></td>
             {% elif update.misc_revenue_update != None %}
-                <td><a href="{% url 'app:edit_misc_revenue_update' update.misc_revenue_update.id %}">M-{{ update.misc_revenue_update.id }} </a></td>
+                <td><a href="{% url 'app:edit_misc_revenue_update' update.misc_revenue_update.id %}">M{{ update.misc_revenue_update.id }} </a></td>
             {% else %}
                 <td><a href="javascript:return false;">-</a></td>
             {% endif %}
