@@ -1329,7 +1329,7 @@ def make_revenue_update(request, order, amount):
 
 
 def send_order_email(request, form_data):
-    email_address = "mrf3@rice.edu"  # mrf3@rice.edu
+    email_address = "btr1@rice.edu"  # btr1@rice.edu
     subject_line = "[Rice Bikes] Part Order Request"
     try:
         body = \
