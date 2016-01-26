@@ -104,7 +104,7 @@ def send_completion_email(transaction):
         "Thank you for visiting Rice Bikes!\n\n"\
         "If you have not picked up your bike, you are receiving this email "\
         "because your bike is ready for pickup. Please pick up your bicycle "\
-        "during our regular business hours (Monday-Friday, 2-5pm) "\
+        "during our regular business hours (Monday-Friday, 3-6pm) "\
         "within the next 2 business days to avoid a $5 per day storage" \
         " fee. At this time we only accept cash or check payments, but there is an ATM" \
         " machine around the corner from our shop. We hope to see you soon." \
@@ -120,7 +120,7 @@ def send_completion_email(transaction):
     #        "%s\n\n" \
     #        "Total: $%d\n\n" \
     #        "Please pick up your bicycle during our regular business hours (Monday -" \
-    #        "Friday, 2-5pm) within the next 2 business days to avoid a $5 per day storage" \
+    #        "Friday, 3-6pm) within the next 2 business days to avoid a $5 per day storage" \
     #        " fee. At this time we only accept cash or check payments, but there is an ATM" \
     #        " machine around the corner from our shop. We hope to see you soon." \
     #        "\n\n" \
