@@ -109,6 +109,8 @@ def send_completion_email(transaction):
         " fee. At this time we only accept cash or check payments, but there is an ATM" \
         " machine around the corner from our shop. We hope to see you soon." \
         "\n\n" \
+        "Please leave us some feedback here: https://ricebikes.typeform.com/to/FE3uA3" \
+        "\n\n" \
         "If you have already picked up your bike, we hope you enjoy your ride. "\
         "If you have any issues with your repair, please let us know. \n\n"\
         "Thanks,\n"\
