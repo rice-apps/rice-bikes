@@ -109,7 +109,7 @@ class Transaction(models.Model):
 
     def __str__(self):
         if not self.is_for_bike:
-            return self.first_name + " " + self.last_name
+            return self.first_name.encode('utf8') + " " + self.last_name.encode('utf8')
         else:
             if self.rental_bike:
                 return "Rental: " + self.rental_bike.color + " " + self.rental_bike.model
