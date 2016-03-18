@@ -1376,7 +1376,7 @@
 {
   "fields": {
     "category": "Chain",
-    "name": "6 Speed"
+    "name": "6_Speed"
   },
   "model": "app.partmenuitem",
   "pk": 22
@@ -1384,7 +1384,7 @@
 {
   "fields": {
     "category": "Chain",
-    "name": "7 Speed"
+    "name": "7_Speed"
   },
   "model": "app.partmenuitem",
   "pk": 23
@@ -1392,7 +1392,7 @@
 {
   "fields": {
     "category": "Chain",
-    "name": "8 Speed"
+    "name": "8_Speed"
   },
   "model": "app.partmenuitem",
   "pk": 24
@@ -1400,7 +1400,7 @@
 {
   "fields": {
     "category": "Chain",
-    "name": "9 Speed"
+    "name": "9_Speed"
   },
   "model": "app.partmenuitem",
   "pk": 25
@@ -1408,7 +1408,7 @@
 {
   "fields": {
     "category": "Chain",
-    "name": "10 Speed"
+    "name": "10_Speed"
   },
   "model": "app.partmenuitem",
   "pk": 26
