@@ -55,6 +55,7 @@ class BuyBackForm(ModelForm):
 class RevenueForm(ModelForm):
     class Meta:
         model = RevenueUpdate
+        exclude = '__all__'
 
 
 class PartCategoryForm(ModelForm):
@@ -84,6 +85,7 @@ class PartOrderForm(Form):
 class MiscRevenueUpdateForm(ModelForm):
     class Meta:
         model = MiscRevenueUpdate
+        exclude = '__all__'
 
 
 class SingleNumberForm(Form):

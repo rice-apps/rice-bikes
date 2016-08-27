@@ -1111,7 +1111,7 @@
 },
 {
   "fields": {
-    "price": 20,
+    "price": 25,
     "name": "U-Lock"
   },
   "model": "app.accessorymenuitem",
@@ -1119,7 +1119,7 @@
 },
 {
   "fields": {
-    "price": 0,
+    "price": 20,
     "name": "Helmet"
   },
   "model": "app.accessorymenuitem",
@@ -1127,7 +1127,7 @@
 },
 {
   "fields": {
-    "price": 0,
+    "price": 7,
     "name": "Grips"
   },
   "model": "app.accessorymenuitem",
@@ -1135,7 +1135,7 @@
 },
 {
   "fields": {
-    "price": 0,
+    "price": 9,
     "name": "Tape"
   },
   "model": "app.accessorymenuitem",
@@ -1151,7 +1151,7 @@
 },
 {
   "fields": {
-    "price": 0,
+    "price": 10,
     "name": "Lights (Small)"
   },
   "model": "app.accessorymenuitem",
@@ -1167,7 +1167,7 @@
 },
 {
   "fields": {
-    "price": 0,
+    "price": 12,
     "name": "Pedals"
   },
   "model": "app.accessorymenuitem",
@@ -1416,7 +1416,8 @@
 {
   "fields": {
     "category": "Brake Pads",
-    "name": "Caliper"
+    "name": "Caliper",
+    "price": "6"
   },
   "model": "app.partmenuitem",
   "pk": 27
@@ -1424,7 +1425,8 @@
 {
   "fields": {
     "category": "Brake Pads",
-    "name": "V-Brakes"
+    "name": "V-Brakes",
+    "price": "6"
   },
   "model": "app.partmenuitem",
   "pk": 28
@@ -1432,7 +1434,8 @@
 {
   "fields": {
     "category": "Brake Pads",
-    "name": "Cantilever"
+    "name": "Cantilever",
+    "price": "6"
   },
   "model": "app.partmenuitem",
   "pk": 29
