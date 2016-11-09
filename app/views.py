@@ -106,10 +106,8 @@ def send_completion_email(transaction):
         "because your bike is ready for pickup. Please pick up your bicycle "\
         "during our regular business hours (Monday-Friday, 3-6pm) "\
         "within the next 2 business days to avoid a $5 per day storage" \
-        " fee. At this time we accept cash, check, and Topl. There is an ATM" \
-        " machine around the corner from our shop! We hope to see you soon." \
-        "\n\n" \
-        "Topl is a new payment method created by Rice alumni. For more information, visit https://topl.me/#shopper" \
+        " fee. At this time we only accept cash or check payments, but there is an ATM" \
+        " machine around the corner from our shop. We hope to see you soon." \
         "\n\n" \
         "Please leave us some feedback here: https://ricebikes.typeform.com/to/FE3uA3" \
         "\n\n" \
